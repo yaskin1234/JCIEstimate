@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1">
+        <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="6.375" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorUser" Width="1.5" PointX="0.875" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Eddress" Width="1.5" PointX="4.625" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="JCIEstimateModel.fk_contractor" ManuallyRouted="false" />
+        <AssociationConnector Association="JCIEstimateModel.fk_contractor_user" ManuallyRouted="false" />
+        <AssociationConnector Association="JCIEstimateModel.fk_contractorContact" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="3" PointY="5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="7.375" PointY="1.125" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Location" Width="1.5" PointX="9.375" PointY="1.125" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="11.5" PointY="1.125" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Estimate" Width="1.5" PointX="9.375" PointY="3.5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_category" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

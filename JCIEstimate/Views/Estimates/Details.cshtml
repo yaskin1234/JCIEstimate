@@ -1,0 +1,114 @@
+﻿@model JCIEstimate.Models.Estimate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Estimate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.isActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.materialBid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.materialBid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.laborBid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.laborBid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bondAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bondAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.notes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.notes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.deliveryWeeks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.deliveryWeeks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.installationWeeks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.installationWeeks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.category1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.category1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ECM.ecmNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ECM.ecmNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.location1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.location1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contractor.contractorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contractor.contractorName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.estimateUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

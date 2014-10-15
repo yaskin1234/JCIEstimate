@@ -1,0 +1,51 @@
+﻿@model IEnumerable<JCIEstimate.Models.Contractor>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.contractorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.engScopeCompleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contractorSelected)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.contractorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.engScopeCompleted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contractorSelected)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.contractorUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.contractorUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.contractorUid })
+        </td>
+    </tr>
+}
+
+</table>

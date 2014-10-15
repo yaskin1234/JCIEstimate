@@ -1,0 +1,148 @@
+﻿@model IEnumerable<JCIEstimate.Models.Estimate>
+
+@{
+    ViewBag.Title = "Index";
+    WebGrid grid = new WebGrid(Model, rowsPerPage: 5);
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@grid.GetHtml(
+
+    tableStyle: "table", // applying style on grid
+
+    fillEmptyRows: false,
+        //show empty row when there is only one record on page to it will display all empty rows there.
+    headerStyle: "header", //applying style.
+
+    footerStyle: "grid-footer", //applying style.
+
+    mode: WebGridPagerModes.All, //paging to grid
+    firstText: "<< First",
+    previousText: "< Prev",
+    nextText: "Next >",
+    lastText: "Last >>",
+
+    columns: new[]  // colums in grid
+    {
+        grid.Column("Contractor Name", format:@<span>@item.Contractor.contractorName</span>),        
+        grid.Column("ECM", format:@<span>@item.ECM.ecmNumber - @item.ECM.ecmDescription</span>),
+        grid.Column(header: "",
+            format: @<text>@Html.ActionLink("Edit", "Edit", new { id = item.estimateUid }) |
+            @Html.ActionLink("Details", "Details", new { id = item.estimateUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.estimateUid })</text>)
+   })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Contractor.contractorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.location1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ECM.ecmNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.category1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.materialBid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.laborBid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bondAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.notes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.deliveryWeeks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.installationWeeks)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contractor.contractorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.location1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ECM.ecmNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.category1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.materialBid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.laborBid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.bondAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.total)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.notes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.deliveryWeeks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.installationWeeks)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.estimateUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.estimateUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.estimateUid })
+        </td>
+    </tr>
+}
+
+</table>

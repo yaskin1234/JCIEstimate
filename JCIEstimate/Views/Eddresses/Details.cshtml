@@ -1,0 +1,43 @@
+﻿@model JCIEstimate.Models.Eddress
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Eddress</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.eddress1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.eddress1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isPrimary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isPrimary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractorContact.jobTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractorContact.Contractor.contractorName) - 
+            @Html.DisplayFor(model => model.ContractorContact.jobTitle)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.eddressUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

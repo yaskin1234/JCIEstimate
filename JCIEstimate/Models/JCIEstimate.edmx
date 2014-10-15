@@ -1,0 +1,635 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="JCIEstimateModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AllowableContractors" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="categoryUid" />
+          </Key>
+          <Property Name="categoryUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="category" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="categoryDescription" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="Contractor">
+          <Key>
+            <PropertyRef Name="contractorUid" />
+          </Key>
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="isActive" Type="bit" />
+          <Property Name="engScopeCompleted" Type="datetime" />
+          <Property Name="contractorSelected" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ContractorContact">
+          <Key>
+            <PropertyRef Name="contractorContactUid" />
+          </Key>
+          <Property Name="contractorContactUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="jobTitle" Type="varchar" MaxLength="200" />
+          <Property Name="firstName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ContractorUser">
+          <Key>
+            <PropertyRef Name="contractorUserUid" />
+          </Key>
+          <Property Name="contractorUserUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ECM">
+          <Key>
+            <PropertyRef Name="ecmUid" />
+          </Key>
+          <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ecmNumber" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ecmDescription" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Eddress">
+          <Key>
+            <PropertyRef Name="eddressUid" />
+          </Key>
+          <Property Name="eddressUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorContactUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="eddress" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="isPrimary" Type="bit" />
+        </EntityType>
+        <EntityType Name="Estimate">
+          <Key>
+            <PropertyRef Name="estimateUid" />
+          </Key>
+          <Property Name="estimateUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="locationUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="categoryUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="isActive" Type="bit" />
+          <Property Name="materialBid" Type="money" />
+          <Property Name="laborBid" Type="money" />
+          <Property Name="bondAmount" Type="money" />
+          <Property Name="total" Type="money" StoreGeneratedPattern="Computed" />
+          <Property Name="notes" Type="nvarchar(max)" />
+          <Property Name="deliveryWeeks" Type="int" />
+          <Property Name="installationWeeks" Type="int" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="locationUid" />
+          </Key>
+          <Property Name="locationUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="location" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="locationDescription" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <Association Name="fk_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="ContractorUser" Type="Self.ContractorUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContractorUser">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_contractor">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ContractorContact" Type="Self.ContractorContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorContact">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_contractor_user">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ContractorUser" Type="Self.ContractorUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorUser">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_contractorContact">
+          <End Role="ContractorContact" Type="Self.ContractorContact" Multiplicity="1" />
+          <End Role="Eddress" Type="Self.Eddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorContact">
+              <PropertyRef Name="contractorContactUid" />
+            </Principal>
+            <Dependent Role="Eddress">
+              <PropertyRef Name="contractorContactUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="categoryUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_contractor">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_ecm">
+          <End Role="ECM" Type="Self.ECM" Multiplicity="1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="JCIEstimateModelStoreContainer">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contractor" EntityType="Self.Contractor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorContact" EntityType="Self.ContractorContact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorUser" EntityType="Self.ContractorUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ECM" EntityType="Self.ECM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Eddress" EntityType="Self.Eddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_AspNetUser" Association="Self.fk_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ContractorUser" EntitySet="ContractorUser" />
+          </AssociationSet>
+          <AssociationSet Name="fk_contractor" Association="Self.fk_contractor">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="ContractorContact" EntitySet="ContractorContact" />
+          </AssociationSet>
+          <AssociationSet Name="fk_contractor_user" Association="Self.fk_contractor_user">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="ContractorUser" EntitySet="ContractorUser" />
+          </AssociationSet>
+          <AssociationSet Name="fk_contractorContact" Association="Self.fk_contractorContact">
+            <End Role="ContractorContact" EntitySet="ContractorContact" />
+            <End Role="Eddress" EntitySet="Eddress" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_category" Association="Self.fk_estimate_category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_contractor" Association="Self.fk_estimate_contractor">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_ecm" Association="Self.fk_estimate_ecm">
+            <End Role="ECM" EntitySet="ECM" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_location" Association="Self.fk_estimate_location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JCIEstimateModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Contractor">
+          <Key>
+            <PropertyRef Name="contractorUid" />
+          </Key>
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" />
+          <Property Name="engScopeCompleted" Type="DateTime" Precision="3" />
+          <Property Name="contractorSelected" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ContractorContacts" Relationship="Self.fk_contractor" FromRole="Contractor" ToRole="ContractorContact" />
+          <NavigationProperty Name="ContractorUsers" Relationship="Self.fk_contractor_user" FromRole="Contractor" ToRole="ContractorUser" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Contractor" ToRole="Estimate" />
+        </EntityType>
+        <EntityType Name="ContractorContact">
+          <Key>
+            <PropertyRef Name="contractorContactUid" />
+          </Key>
+          <Property Name="contractorContactUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <Property Name="jobTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="firstName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contractor" Relationship="Self.fk_contractor" FromRole="ContractorContact" ToRole="Contractor" />
+          <NavigationProperty Name="Eddresses" Relationship="Self.fk_contractorContact" FromRole="ContractorContact" ToRole="Eddress" />
+        </EntityType>
+        <EntityType Name="ContractorUser">
+          <Key>
+            <PropertyRef Name="contractorUserUid" />
+          </Key>
+          <Property Name="contractorUserUid" Type="Guid" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Contractor" Relationship="Self.fk_contractor_user" FromRole="ContractorUser" ToRole="Contractor" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser" FromRole="ContractorUser" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="Eddress">
+          <Key>
+            <PropertyRef Name="eddressUid" />
+          </Key>
+          <Property Name="eddressUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorContactUid" Type="Guid" Nullable="false" />
+          <Property Name="eddress1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isPrimary" Type="Boolean" />
+          <NavigationProperty Name="ContractorContact" Relationship="Self.fk_contractorContact" FromRole="Eddress" ToRole="ContractorContact" />
+        </EntityType>
+        <Association Name="fk_contractor">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ContractorContact" Type="Self.ContractorContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorContact">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_contractor_user">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ContractorUser" Type="Self.ContractorUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorUser">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_contractorContact">
+          <End Role="ContractorContact" Type="Self.ContractorContact" Multiplicity="1" />
+          <End Role="Eddress" Type="Self.Eddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorContact">
+              <PropertyRef Name="contractorContactUid" />
+            </Principal>
+            <Dependent Role="Eddress">
+              <PropertyRef Name="contractorContactUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="JCIEstimateEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contractors" EntityType="Self.Contractor" />
+          <EntitySet Name="ContractorContacts" EntityType="Self.ContractorContact" />
+          <EntitySet Name="ContractorUsers" EntityType="Self.ContractorUser" />
+          <EntitySet Name="Eddresses" EntityType="Self.Eddress" />
+          <AssociationSet Name="fk_contractor" Association="Self.fk_contractor">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="ContractorContact" EntitySet="ContractorContacts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_contractor_user" Association="Self.fk_contractor_user">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="ContractorUser" EntitySet="ContractorUsers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_contractorContact" Association="Self.fk_contractorContact">
+            <End Role="ContractorContact" EntitySet="ContractorContacts" />
+            <End Role="Eddress" EntitySet="Eddresses" />
+          </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="JCIEstimateModel.AspNetUser" />
+          <AssociationSet Name="fk_AspNetUser" Association="JCIEstimateModel.fk_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ContractorUser" EntitySet="ContractorUsers" />
+          </AssociationSet>
+          <EntitySet Name="ECMs" EntityType="JCIEstimateModel.ECM" />
+          <EntitySet Name="Locations" EntityType="JCIEstimateModel.Location" />
+          <EntitySet Name="Categories" EntityType="JCIEstimateModel.Category" />
+          <EntitySet Name="Estimates" EntityType="JCIEstimateModel.Estimate" />
+          <AssociationSet Name="fk_estimate_category" Association="JCIEstimateModel.fk_estimate_category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_ecm" Association="JCIEstimateModel.fk_estimate_ecm">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_location" Association="JCIEstimateModel.fk_estimate_location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_contractor" Association="JCIEstimateModel.fk_estimate_contractor">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AllowableContractors" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ContractorUsers" Relationship="JCIEstimateModel.fk_AspNetUser" FromRole="AspNetUser" ToRole="ContractorUser" />
+        </EntityType>
+        <Association Name="fk_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorUser" Role="ContractorUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContractorUser">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ECM">
+          <Key>
+            <PropertyRef Name="ecmUid" />
+          </Key>
+          <Property Name="ecmUid" Type="Guid" Nullable="false" />
+          <Property Name="ecmNumber" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ecmDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="locationUid" />
+          </Key>
+          <Property Name="locationUid" Type="Guid" Nullable="false" />
+          <Property Name="location1" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="locationDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Location" ToRole="Estimate" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="categoryUid" />
+          </Key>
+          <Property Name="categoryUid" Type="Guid" Nullable="false" />
+          <Property Name="category1" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="categoryDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_category" FromRole="Category" ToRole="Estimate" />
+        </EntityType>
+        <EntityType Name="Estimate">
+          <Key>
+            <PropertyRef Name="estimateUid" />
+          </Key>
+          <Property Name="estimateUid" Type="Guid" Nullable="false" />
+          <Property Name="locationUid" Type="Guid" Nullable="false" />
+          <Property Name="ecmUid" Type="Guid" Nullable="false" />
+          <Property Name="categoryUid" Type="Guid" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" />
+          <Property Name="materialBid" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="laborBid" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="bondAmount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="total" Type="Decimal" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="deliveryWeeks" Type="Int32" />
+          <Property Name="installationWeeks" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="JCIEstimateModel.fk_estimate_category" FromRole="Estimate" ToRole="Category" />
+          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="Estimate" ToRole="ECM" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Estimate" ToRole="Location" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Estimate" ToRole="Contractor" />
+        </EntityType>
+        <Association Name="fk_estimate_category">
+          <End Type="JCIEstimateModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="categoryUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_ecm">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_contractor">
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JCIEstimateModelStoreContainer" CdmEntityContainer="JCIEstimateEntities">
+          <EntitySetMapping Name="Contractors">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Contractor">
+              <MappingFragment StoreEntitySet="Contractor">
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
+                <ScalarProperty Name="contractorName" ColumnName="contractorName" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="engScopeCompleted" ColumnName="engScopeCompleted" />
+                <ScalarProperty Name="contractorSelected" ColumnName="contractorSelected" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorContacts">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorContact">
+              <MappingFragment StoreEntitySet="ContractorContact">
+                <ScalarProperty Name="contractorContactUid" ColumnName="contractorContactUid" />
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
+                <ScalarProperty Name="jobTitle" ColumnName="jobTitle" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorUsers">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorUser">
+              <MappingFragment StoreEntitySet="ContractorUser">
+                <ScalarProperty Name="contractorUserUid" ColumnName="contractorUserUid" />
+                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Eddresses">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Eddress">
+              <MappingFragment StoreEntitySet="Eddress">
+                <ScalarProperty Name="eddressUid" ColumnName="eddressUid" />
+                <ScalarProperty Name="contractorContactUid" ColumnName="contractorContactUid" />
+                <ScalarProperty Name="eddress1" ColumnName="eddress" />
+                <ScalarProperty Name="isPrimary" ColumnName="isPrimary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="JCIEstimateModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AllowableContractors" ColumnName="AllowableContractors" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ECMs">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ECM">
+              <MappingFragment StoreEntitySet="ECM">
+                <ScalarProperty Name="ecmDescription" ColumnName="ecmDescription" />
+                <ScalarProperty Name="ecmNumber" ColumnName="ecmNumber" />
+                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="locationDescription" ColumnName="locationDescription" />
+                <ScalarProperty Name="location1" ColumnName="location" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="categoryDescription" ColumnName="categoryDescription" />
+                <ScalarProperty Name="category1" ColumnName="category" />
+                <ScalarProperty Name="categoryUid" ColumnName="categoryUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estimates">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Estimate">
+              <MappingFragment StoreEntitySet="Estimate">
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
+                <ScalarProperty Name="installationWeeks" ColumnName="installationWeeks" />
+                <ScalarProperty Name="deliveryWeeks" ColumnName="deliveryWeeks" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="bondAmount" ColumnName="bondAmount" />
+                <ScalarProperty Name="laborBid" ColumnName="laborBid" />
+                <ScalarProperty Name="materialBid" ColumnName="materialBid" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="categoryUid" ColumnName="categoryUid" />
+                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="estimateUid" ColumnName="estimateUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
