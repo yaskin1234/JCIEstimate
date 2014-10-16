@@ -154,6 +154,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Images\delete-icon.png" />
+    <Content Include="Images\edit.png" />
+    <Content Include="Images\View_Details.png" />
     <Content Include="packages.config" />
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
@@ -186,6 +189,11 @@
     <Content Include="Views\Estimates\Details.cshtml" />
     <Content Include="Views\Estimates\Edit.cshtml" />
     <Content Include="Views\Estimates\Index.cshtml" />
+    <Content Include="Views\EstimateStatus\Create.cshtml" />
+    <Content Include="Views\EstimateStatus\Delete.cshtml" />
+    <Content Include="Views\EstimateStatus\Details.cshtml" />
+    <Content Include="Views\EstimateStatus\Edit.cshtml" />
+    <Content Include="Views\EstimateStatus\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -302,7 +310,9 @@
     <Compile Include="Controllers\ECMsController.cs" />
     <Compile Include="Controllers\EddressesController.cs" />
     <Compile Include="Controllers\EstimatesController.cs" />
+    <Compile Include="Controllers\EstimateStatusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HtmlExtensions.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
@@ -334,6 +344,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Estimate.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstimateStatu.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />

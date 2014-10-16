@@ -85,6 +85,7 @@
           <Property Name="locationUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="categoryUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateStatusUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="isActive" Type="bit" />
           <Property Name="materialBid" Type="money" />
           <Property Name="laborBid" Type="money" />
@@ -93,6 +94,15 @@
           <Property Name="notes" Type="nvarchar(max)" />
           <Property Name="deliveryWeeks" Type="int" />
           <Property Name="installationWeeks" Type="int" />
+        </EntityType>
+        <EntityType Name="EstimateStatus">
+          <Key>
+            <PropertyRef Name="estimateStatusUid" />
+          </Key>
+          <Property Name="estimateStatusUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateStatus" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="estimateStatusDescription" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="behaviorIndicator" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -198,6 +208,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_estimate_status">
+          <End Role="EstimateStatus" Type="Self.EstimateStatus" Multiplicity="1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstimateStatus">
+              <PropertyRef Name="estimateStatusUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="estimateStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="JCIEstimateModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
@@ -207,6 +229,7 @@
           <EntitySet Name="ECM" EntityType="Self.ECM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Eddress" EntityType="Self.Eddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstimateStatus" EntityType="Self.EstimateStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_AspNetUser" Association="Self.fk_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -238,6 +261,10 @@
           </AssociationSet>
           <AssociationSet Name="fk_estimate_location" Association="Self.fk_estimate_location">
             <End Role="Location" EntitySet="Location" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_status" Association="Self.fk_estimate_status">
+            <End Role="EstimateStatus" EntitySet="EstimateStatus" />
             <End Role="Estimate" EntitySet="Estimate" />
           </AssociationSet>
         </EntityContainer>
@@ -368,6 +395,15 @@
             <End Role="Contractor" EntitySet="Contractors" />
             <End Role="Estimate" EntitySet="Estimates" />
           </AssociationSet>
+          <EntitySet Name="EstimateStatus" EntityType="JCIEstimateModel.EstimateStatu" />
+          <AssociationSet Name="fk_estimate_category1" Association="JCIEstimateModel.fk_estimate_category1">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_status" Association="JCIEstimateModel.fk_estimate_status">
+            <End Role="EstimateStatu" EntitySet="EstimateStatus" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AspNetUser">
           <Key>
@@ -448,6 +484,9 @@
           <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Estimate" ToRole="Location" />
           <Property Name="contractorUid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Estimate" ToRole="Contractor" />
+          <Property Name="estimateStatusUid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="ECM1" Relationship="JCIEstimateModel.fk_estimate_category1" FromRole="Estimate" ToRole="ECM" />
+          <NavigationProperty Name="EstimateStatu" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="Estimate" ToRole="EstimateStatu" />
         </EntityType>
         <Association Name="fk_estimate_category">
           <End Type="JCIEstimateModel.Category" Role="Category" Multiplicity="1" />
@@ -494,6 +533,40 @@
             </Principal>
             <Dependent Role="Estimate">
               <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EstimateStatu">
+          <Key>
+            <PropertyRef Name="estimateStatusUid" />
+          </Key>
+          <Property Name="estimateStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateStatus" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="estimateStatusDescription" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="EstimateStatu" ToRole="Estimate" />
+        </EntityType>
+        <Association Name="fk_estimate_category1">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="categoryUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_status">
+          <End Type="JCIEstimateModel.EstimateStatu" Role="EstimateStatu" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstimateStatu">
+              <PropertyRef Name="estimateStatusUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="estimateStatusUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -593,6 +666,7 @@
           <EntitySetMapping Name="Estimates">
             <EntityTypeMapping TypeName="JCIEstimateModel.Estimate">
               <MappingFragment StoreEntitySet="Estimate">
+                <ScalarProperty Name="estimateStatusUid" ColumnName="estimateStatusUid" />
                 <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
                 <ScalarProperty Name="installationWeeks" ColumnName="installationWeeks" />
                 <ScalarProperty Name="deliveryWeeks" ColumnName="deliveryWeeks" />
@@ -606,6 +680,16 @@
                 <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
                 <ScalarProperty Name="locationUid" ColumnName="locationUid" />
                 <ScalarProperty Name="estimateUid" ColumnName="estimateUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstimateStatus">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EstimateStatu">
+              <MappingFragment StoreEntitySet="EstimateStatus">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="estimateStatusDescription" ColumnName="estimateStatusDescription" />
+                <ScalarProperty Name="estimateStatus" ColumnName="estimateStatus" />
+                <ScalarProperty Name="estimateStatusUid" ColumnName="estimateStatusUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

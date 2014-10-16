@@ -22,6 +22,9 @@
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EstimateStatu" Width="2.25" PointX="12.75" PointY="3.5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_category1" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_status" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

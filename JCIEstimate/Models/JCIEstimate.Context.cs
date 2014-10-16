@@ -34,5 +34,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Estimate> Estimates { get; set; }
+        public virtual DbSet<EstimateStatu> EstimateStatus { get; set; }
     }
 }

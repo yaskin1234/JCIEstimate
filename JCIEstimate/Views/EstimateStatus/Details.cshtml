@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.EstimateStatu
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EstimateStatu</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateStatusDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateStatusDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.estimateStatusUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
