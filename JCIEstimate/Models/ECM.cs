@@ -20,9 +20,11 @@ namespace JCIEstimate.Models
         }
     
         public System.Guid ecmUid { get; set; }
+        public System.Guid projectUid { get; set; }
         public string ecmNumber { get; set; }
         public string ecmDescription { get; set; }
     
+        public virtual Project Project { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
     }
 }
