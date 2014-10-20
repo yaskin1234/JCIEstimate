@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<JCIEstimate.Models.ContractorUser>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Contractor User";
 }
 
-<h2>Index</h2>
+<h2>Contractor User</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Contractor.contractorName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+            @Html.DisplayNameFor(model => model.AspNetUser.UserName)
         </th>
         <th></th>
     </tr>
@@ -26,7 +26,7 @@
             @Html.DisplayFor(modelItem => item.Contractor.contractorName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+            @Html.DisplayFor(modelItem => item.AspNetUser.UserName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.contractorUserUid }) |

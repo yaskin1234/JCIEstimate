@@ -23,7 +23,7 @@ namespace JCIEstimate.Models
     
         public System.Guid contractorUid { get; set; }
         public string contractorName { get; set; }
-        public Nullable<bool> isActive { get; set; }
+        public bool isActive { get; set; }
         public Nullable<System.DateTime> engScopeCompleted { get; set; }
         public Nullable<System.DateTime> contractorSelected { get; set; }
     

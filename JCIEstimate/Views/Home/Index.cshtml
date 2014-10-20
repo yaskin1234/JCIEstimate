@@ -1,17 +1,22 @@
-﻿@model IEnumerable<JCIEstimate.Models.Project>
+﻿@model JCIEstimate.Models.Project
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Choose Project";
 }
 
 <div class="jumbotron">
     <h1>JCI Estimate</h1>    
 </div>
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-<div class="form-group">
-    @Html.LabelFor(model => model.projectUid, "aspNetUserUid", htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.DropDownList("projectUid", null, htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.projectUid, "", new { @class = "text-danger" })
+<p></p>
+@using (Html.BeginForm("SetProject", "Projects"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(model => model.projectUid, "Choose Project", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">            
+            @Html.DropDownList("projectUid", null, htmlAttributes: new { @class = "form-control", @onChange = "this.form.submit();" })
+            @Html.ValidationMessageFor(model => model.projectUid, "", new { @class = "text-danger" })
+        </div>
     </div>
-</div>
+}

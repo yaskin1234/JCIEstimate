@@ -20,20 +20,38 @@ namespace JCIEstimate.Controllers
         public async Task<ActionResult> Index(string sort, string sortdir)
         {
             IQueryable<Estimate> estimates;
+            Guid sessionProject;
+
+            sessionProject = Guid.Empty;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             if (User.IsInRole("Admin"))
             {
-                estimates = from cc in db.Estimates                            
+                estimates = from cc in db.Estimates    
+                            join dd in db.ECMs on cc.ecmUid equals dd.ecmUid
+                            join dc in db.ProjectLineOfWorks on dd.projectLineOfWorkUid equals dc.projectLineOfWorkUid
+                            where dc.projectUid == sessionProject
                             select cc;
             }
             else
             {
                 estimates = from cc in db.Estimates
+                            join dd in db.ECMs on cc.ecmUid equals dd.ecmUid
+                            join dc in db.ProjectLineOfWorks on dd.projectLineOfWorkUid equals dc.projectLineOfWorkUid
                             join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                             join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
-                            where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                            where dc.projectUid == sessionProject 
+                            && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
                             select cc;                
-            }            
+            }
 
             if (sort == "Contractor")
             {
@@ -165,7 +183,7 @@ namespace JCIEstimate.Controllers
             }
             
 
-            estimates = estimates.Include(e => e.Category).Include(e => e.ECM).Include(e => e.Location).Include(e => e.Contractor).Include(e => e.EstimateStatu);
+            estimates = estimates.Include(e => e.Category).Include(e => e.ECM).Include(e => e.Location).Include(e => e.Contractor).Include(e => e.EstimateStatu);            
             return View(await estimates.ToListAsync());
         }
 
@@ -185,12 +203,53 @@ namespace JCIEstimate.Controllers
         }
 
         // GET: Estimates/Create
+        [Authorize(Roles="Admin")]
         public ActionResult Create()
-        {            
+        {
+            IQueryable<Location> locations;
+            IQueryable<ECM> ecms;
+            IQueryable<Contractor> contractors;
+            Guid sessionProject;
+
+            sessionProject = Guid.Empty;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                Url.Action("Index", "Home");
+            }           
+
+            ecms = from cc in db.ECMs
+                   join dc in db.ProjectLineOfWorks on cc.projectLineOfWorkUid equals dc.projectLineOfWorkUid
+                   where dc.projectUid == sessionProject
+                   select cc;
+
+            locations = from cc in db.Locations
+                        where cc.projectUid == sessionProject
+                        select cc;
+            
+            if (!User.IsInRole("Admin"))
+            {
+                contractors = from cc in db.Contractors
+                              join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
+                              join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
+                              where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                              select cc;
+            }
+            else
+            {
+                contractors = from cc in db.Contractors                              
+                              select cc;
+            }
+            
+
+            ViewBag.ecmUid = ecms.ToSelectList(d => d.ecmNumber + " - " + d.ecmDescription, d => d.ecmUid.ToString(), "");
+            ViewBag.locationUid = locations.ToSelectList(d => d.location1, d => d.locationUid.ToString(), "");
             ViewBag.categoryUid = db.Categories.ToSelectList(d => d.category1, d => d.categoryUid.ToString(), "");
-            ViewBag.ecmUid = db.ECMs.ToSelectList(d => d.ecmNumber + " - " + d.ecmDescription, d => d.ecmUid.ToString(), "");
-            ViewBag.locationUid = db.Locations.ToSelectList(d => d.location1, d => d.locationUid.ToString(), " - ");
-            ViewBag.contractorUid = db.Contractors.ToSelectList(d => d.contractorName, d => d.contractorUid.ToString(), "");
+            ViewBag.contractorUid = contractors.ToSelectList(d => d.contractorName, d => d.contractorUid.ToString(), "");
             ViewBag.estimateStatusUid = db.EstimateStatus.ToSelectList(d => d.estimateStatus, d => d.estimateStatusUid.ToString(), "");
             return View();
         }
@@ -198,6 +257,7 @@ namespace JCIEstimate.Controllers
         // POST: Estimates/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,materialBid,laborBid,bondAmount,total,notes,deliveryWeeks,installationWeeks,contractorUid")] Estimate estimate)
@@ -221,6 +281,10 @@ namespace JCIEstimate.Controllers
         // GET: Estimates/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
+            IQueryable<Location> locations;
+            IQueryable<ECM> ecms;
+            Guid sessionProject;
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -230,9 +294,31 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                sessionProject = new System.Guid(DBNull.Value.ToString());
+            }
+            
+            locations = from cc in db.Locations
+                        where cc.projectUid == sessionProject
+                        select cc;
+
+
+            ecms = from cc in db.ECMs
+                   join dc in db.ProjectLineOfWorks on cc.projectLineOfWorkUid equals dc.projectLineOfWorkUid
+                   where dc.projectUid == sessionProject
+                   select cc;
+
+
+
+            ViewBag.ecmUid = new SelectList(ecms, "ecmUid", "ecmString", estimate.ecmUid);
+            ViewBag.locationUid = new SelectList(locations, "locationUid", "location1", estimate.locationUid);
             ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", estimate.categoryUid);
-            ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", estimate.ecmUid);
-            ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", estimate.locationUid);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", estimate.contractorUid);
             ViewBag.estimateStatusUid = new SelectList(db.EstimateStatus, "estimateStatusUid", "estimateStatus");
             return View(estimate);

@@ -18,8 +18,8 @@ namespace IdentitySample.Controllers
         
         public ActionResult Index()
         {
-            //ViewBag.projectUid = db.Projects.ToSelectList(d => d.project1, d => d.projectUid.ToString(), "");
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
+            ViewBag.projectUid = db.Projects.ToSelectList(d => d.project1, d => d.projectUid.ToString(), "");
+            //ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
             return View();
         }
 
@@ -36,6 +36,6 @@ namespace IdentitySample.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
+        } 
     }
 }

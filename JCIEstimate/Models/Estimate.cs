@@ -31,8 +31,8 @@ namespace JCIEstimate.Models
     
         public virtual Category Category { get; set; }
         public virtual Contractor Contractor { get; set; }
-        public virtual ECM ECM { get; set; }
         public virtual Location Location { get; set; }
         public virtual EstimateStatu EstimateStatu { get; set; }
+        public virtual ECM ECM { get; set; }
     }
 }

@@ -11,7 +11,6 @@ using JCIEstimate.Models;
 
 namespace JCIEstimate.Controllers
 {
-    [Authorize(Roles="Admin")]
     public class LocationsController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
@@ -19,7 +18,23 @@ namespace JCIEstimate.Controllers
         // GET: Locations
         public async Task<ActionResult> Index()
         {
-            return View(await db.Locations.ToListAsync());
+            IQueryable<Location> locations;
+            Guid sessionProject;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                sessionProject = new System.Guid(DBNull.Value.ToString()); 
+            }
+            locations = from cc in db.Locations
+                            where cc.projectUid == sessionProject
+                            select cc;
+                
+            locations = locations.Include(l => l.Project);
+            return View(await locations.ToListAsync());
         }
 
         // GET: Locations/Details/5
@@ -40,6 +55,22 @@ namespace JCIEstimate.Controllers
         // GET: Locations/Create
         public ActionResult Create()
         {
+            IQueryable<Project> projects;
+            Guid sessionProject;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                sessionProject = new System.Guid(DBNull.Value.ToString());
+            }
+            projects = from cc in db.Projects
+                        where cc.projectUid == sessionProject
+                        select cc;
+
+            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
             return View();
         }
 
@@ -48,7 +79,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "locationUid,location1,locationDescription")] Location location)
+        public async Task<ActionResult> Create([Bind(Include = "locationUid,location1,locationDescription,projectUid")] Location location)
         {
             if (ModelState.IsValid)
             {
@@ -57,6 +88,23 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
+            IQueryable<Project> projects;
+            Guid sessionProject;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                sessionProject = new System.Guid(DBNull.Value.ToString());
+            }
+            projects = from cc in db.Projects
+                       where cc.projectUid == sessionProject
+                       select cc;
+
+            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
 
             return View(location);
         }
@@ -73,6 +121,22 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
+            IQueryable<Project> projects;
+            Guid sessionProject;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                sessionProject = new System.Guid(DBNull.Value.ToString());
+            }
+            projects = from cc in db.Projects
+                       where cc.projectUid == sessionProject
+                       select cc;
+
+            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
             return View(location);
         }
 
@@ -81,7 +145,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "locationUid,location1,locationDescription")] Location location)
+        public async Task<ActionResult> Edit([Bind(Include = "locationUid,location1,locationDescription,projectUid")] Location location)
         {
             if (ModelState.IsValid)
             {
@@ -89,6 +153,22 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            IQueryable<Project> projects;
+            Guid sessionProject;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                sessionProject = new System.Guid(DBNull.Value.ToString());
+            }
+            projects = from cc in db.Projects
+                       where cc.projectUid == sessionProject
+                       select cc;
+
+            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
             return View(location);
         }
 

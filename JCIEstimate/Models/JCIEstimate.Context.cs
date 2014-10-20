@@ -29,12 +29,14 @@ namespace JCIEstimate.Models
         public virtual DbSet<Contractor> Contractors { get; set; }
         public virtual DbSet<ContractorContact> ContractorContacts { get; set; }
         public virtual DbSet<ContractorUser> ContractorUsers { get; set; }
-        public virtual DbSet<ECM> ECMs { get; set; }
         public virtual DbSet<Eddress> Eddresses { get; set; }
         public virtual DbSet<EstimateStatu> EstimateStatus { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<Estimate> Estimates { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<LineOfWork> LineOfWorks { get; set; }
+        public virtual DbSet<ProjectLineOfWork> ProjectLineOfWorks { get; set; }
+        public virtual DbSet<ECM> ECMs { get; set; }
     }
 }

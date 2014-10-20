@@ -171,11 +171,6 @@
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Grid.mvc.readme" />
-    <Content Include="Views\Locations\Create.cshtml" />
-    <Content Include="Views\Locations\Delete.cshtml" />
-    <Content Include="Views\Locations\Details.cshtml" />
-    <Content Include="Views\Locations\Edit.cshtml" />
-    <Content Include="Views\Locations\Index.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Delete.cshtml" />
     <Content Include="Views\Categories\Details.cshtml" />
@@ -197,6 +192,27 @@
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />
     <Content Include="Views\Projects\Index.cshtml" />
+    <Content Include="Views\Projects\ChooseProject.cshtml" />
+    <Content Include="Views\Locations\Create.cshtml" />
+    <Content Include="Views\Locations\Delete.cshtml" />
+    <Content Include="Views\Locations\Details.cshtml" />
+    <Content Include="Views\Locations\Edit.cshtml" />
+    <Content Include="Views\Locations\Index.cshtml" />
+    <Content Include="Views\ECMs\Create.cshtml" />
+    <Content Include="Views\ECMs\Delete.cshtml" />
+    <Content Include="Views\ECMs\Details.cshtml" />
+    <Content Include="Views\ECMs\Edit.cshtml" />
+    <Content Include="Views\ECMs\Index.cshtml" />
+    <Content Include="Views\LineOfWorks\Create.cshtml" />
+    <Content Include="Views\LineOfWorks\Delete.cshtml" />
+    <Content Include="Views\LineOfWorks\Details.cshtml" />
+    <Content Include="Views\LineOfWorks\Edit.cshtml" />
+    <Content Include="Views\LineOfWorks\Index.cshtml" />
+    <Content Include="Views\ProjectLineOfWorks\Create.cshtml" />
+    <Content Include="Views\ProjectLineOfWorks\Delete.cshtml" />
+    <Content Include="Views\ProjectLineOfWorks\Details.cshtml" />
+    <Content Include="Views\ProjectLineOfWorks\Edit.cshtml" />
+    <Content Include="Views\ProjectLineOfWorks\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -319,13 +335,16 @@
     <Compile Include="Controllers\ContractorContactsController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
     <Compile Include="Controllers\ContractorUsersController.cs" />
+    <Compile Include="Controllers\ECMsController.cs" />
     <Compile Include="Controllers\EddressesController.cs" />
     <Compile Include="Controllers\EstimatesController.cs" />
     <Compile Include="Controllers\EstimateStatusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HtmlExtensions.cs" />
+    <Compile Include="Controllers\LineOfWorksController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProjectLineOfWorksController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
@@ -378,11 +397,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JCIEstimate.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\JCIEstimateMeta.cs" />
+    <Compile Include="Models\LineOfWork.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Location.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectLineOfWork.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

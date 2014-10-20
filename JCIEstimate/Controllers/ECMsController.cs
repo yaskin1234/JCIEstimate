@@ -11,131 +11,113 @@ using JCIEstimate.Models;
 
 namespace JCIEstimate.Controllers
 {
-    public class ProjectsController : Controller
+    public class ECMsController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
-        // GET: Projects
+        // GET: ECMs
         public async Task<ActionResult> Index()
         {
-            return View(await db.Projects.ToListAsync());        
+            var eCMs = db.ECMs.Include(e => e.ProjectLineOfWork);
+            return View(await eCMs.ToListAsync());
         }
 
-        // GET: ChooseProject
-        public async Task<ActionResult> ChooseProject()
-        {
-            return View(await db.Projects.ToListAsync());
-        }
-
-        // POST: Projects/SetProject
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SetProject([Bind(Include = "projectUid, project1")] Project project)
-        {
-            if (ModelState.IsValid)
-            {
-                Session["projectUid"] = project.projectUid;
-                Session["projectName"] = project.project1;
-                return RedirectToAction("Index", "Estimates");
-            }
-
-            return View(project);
-        }
-
-        // GET: Projects/Details/5
+        // GET: ECMs/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            ECM eCM = await db.ECMs.FindAsync(id);
+            if (eCM == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(eCM);
         }
 
-        // GET: Projects/Create
+        // GET: ECMs/Create
         public ActionResult Create()
         {
+            ViewBag.projectLineOfWorkUid = new SelectList(db.ProjectLineOfWorks, "projectLineOfWorkUid", "projectLineOfWorkUid");
             return View();
-        }       
+        }
 
-        // POST: Projects/Create
+        // POST: ECMs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "projectUid,project1,projectDescription")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectLineOfWorkUid")] ECM eCM)
         {
             if (ModelState.IsValid)
             {
-                project.projectUid = Guid.NewGuid();
-                db.Projects.Add(project);
+                eCM.ecmUid = Guid.NewGuid();
+                db.ECMs.Add(eCM);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(project);
+            ViewBag.projectLineOfWorkUid = new SelectList(db.ProjectLineOfWorks, "projectLineOfWorkUid", "projectLineOfWorkUid", eCM.projectLineOfWorkUid);
+            return View(eCM);
         }
 
-        // GET: Projects/Edit/5
+        // GET: ECMs/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            ECM eCM = await db.ECMs.FindAsync(id);
+            if (eCM == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            ViewBag.projectLineOfWorkUid = new SelectList(db.ProjectLineOfWorks, "projectLineOfWorkUid", "projectLineOfWorkUid", eCM.projectLineOfWorkUid);
+            return View(eCM);
         }
 
-        // POST: Projects/Edit/5
+        // POST: ECMs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectLineOfWorkUid")] ECM eCM)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
+                db.Entry(eCM).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(project);
+            ViewBag.projectLineOfWorkUid = new SelectList(db.ProjectLineOfWorks, "projectLineOfWorkUid", "projectLineOfWorkUid", eCM.projectLineOfWorkUid);
+            return View(eCM);
         }
 
-        // GET: Projects/Delete/5
+        // GET: ECMs/Delete/5
         public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            ECM eCM = await db.ECMs.FindAsync(id);
+            if (eCM == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(eCM);
         }
 
-        // POST: Projects/Delete/5
+        // POST: ECMs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
-            Project project = await db.Projects.FindAsync(id);
-            db.Projects.Remove(project);
+            ECM eCM = await db.ECMs.FindAsync(id);
+            db.ECMs.Remove(eCM);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

@@ -11,131 +11,108 @@ using JCIEstimate.Models;
 
 namespace JCIEstimate.Controllers
 {
-    public class ProjectsController : Controller
+    public class LineOfWorksController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
-        // GET: Projects
+        // GET: LineOfWorks
         public async Task<ActionResult> Index()
         {
-            return View(await db.Projects.ToListAsync());        
+            return View(await db.LineOfWorks.ToListAsync());
         }
 
-        // GET: ChooseProject
-        public async Task<ActionResult> ChooseProject()
-        {
-            return View(await db.Projects.ToListAsync());
-        }
-
-        // POST: Projects/SetProject
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SetProject([Bind(Include = "projectUid, project1")] Project project)
-        {
-            if (ModelState.IsValid)
-            {
-                Session["projectUid"] = project.projectUid;
-                Session["projectName"] = project.project1;
-                return RedirectToAction("Index", "Estimates");
-            }
-
-            return View(project);
-        }
-
-        // GET: Projects/Details/5
+        // GET: LineOfWorks/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            LineOfWork lineOfWork = await db.LineOfWorks.FindAsync(id);
+            if (lineOfWork == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(lineOfWork);
         }
 
-        // GET: Projects/Create
+        // GET: LineOfWorks/Create
         public ActionResult Create()
         {
             return View();
-        }       
+        }
 
-        // POST: Projects/Create
+        // POST: LineOfWorks/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "projectUid,project1,projectDescription")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "lineOfWorkUid,lineOfWork1,lineOfWorkDescription,behaviorIndicator")] LineOfWork lineOfWork)
         {
             if (ModelState.IsValid)
             {
-                project.projectUid = Guid.NewGuid();
-                db.Projects.Add(project);
+                lineOfWork.lineOfWorkUid = Guid.NewGuid();
+                db.LineOfWorks.Add(lineOfWork);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(project);
+            return View(lineOfWork);
         }
 
-        // GET: Projects/Edit/5
+        // GET: LineOfWorks/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            LineOfWork lineOfWork = await db.LineOfWorks.FindAsync(id);
+            if (lineOfWork == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(lineOfWork);
         }
 
-        // POST: Projects/Edit/5
+        // POST: LineOfWorks/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "lineOfWorkUid,lineOfWork1,lineOfWorkDescription,behaviorIndicator")] LineOfWork lineOfWork)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
+                db.Entry(lineOfWork).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(project);
+            return View(lineOfWork);
         }
 
-        // GET: Projects/Delete/5
+        // GET: LineOfWorks/Delete/5
         public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = await db.Projects.FindAsync(id);
-            if (project == null)
+            LineOfWork lineOfWork = await db.LineOfWorks.FindAsync(id);
+            if (lineOfWork == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+            return View(lineOfWork);
         }
 
-        // POST: Projects/Delete/5
+        // POST: LineOfWorks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
-            Project project = await db.Projects.FindAsync(id);
-            db.Projects.Remove(project);
+            LineOfWork lineOfWork = await db.LineOfWorks.FindAsync(id);
+            db.LineOfWorks.Remove(lineOfWork);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

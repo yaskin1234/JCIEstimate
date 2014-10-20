@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
-    WebGrid grid = new WebGrid(Model, rowsPerPage: 5);
+    WebGrid grid = new WebGrid(Model, rowsPerPage: 50);
     if (Request.QueryString["sort"] != null)
     {
         grid.SortColumn = Request.QueryString["sort"];
@@ -17,10 +17,13 @@
     }
 }
 
-<h2>All Estimates</h2>
+<h2>All Estimates - @Session["projectName"]</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Create New", "Create")
+    }    
 </p>
 
 @grid.GetHtml(
@@ -52,8 +55,6 @@
         grid.Column("Bond", format:@<span>@String.Format("{0:C0}", item.bondAmount)</span>),
         grid.Column("Total", format:@<span>@String.Format("{0:C0}", item.total)</span>),
         grid.Column("Notes", format:@<span>@item.notes</span>),
-        grid.Column("Delivery", format:@<span>@item.deliveryWeeks</span>),
-        grid.Column("Install", format:@<span>@item.installationWeeks</span>),
         grid.Column(header: "",
             format: @<text>
             <a href="@Url.Action("Edit", "Estimates", new { id = item.estimateUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" /></a>
