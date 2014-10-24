@@ -4,32 +4,28 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1">
-        <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="0.75" PointY="2.375" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="1.5" PointX="3" PointY="3.625" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ContractorUser" Width="1.5" PointX="3" PointY="1.125" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Eddress" Width="1.5" PointX="5.25" PointY="3.75" />
-        <EntityTypeShape EntityType="JCIEstimateModel.EstimateStatu" Width="1.5" PointX="5.75" PointY="6.75" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Location" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Project" Width="1.5" PointX="0.75" PointY="7" />
+      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="65">
+        <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="11.875" PointY="10.625" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="8.625" PointY="3.125" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorUser" Width="1.5" PointX="11.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Eddress" Width="1.5" PointX="17.25" PointY="3.875" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EstimateStatu" Width="1.5" PointX="10.5" PointY="6.25" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Location" Width="1.5" PointX="7.375" PointY="10.625" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Project" Width="1.5" PointX="9.625" PointY="10.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractor_user" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractorContact" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Estimate" Width="1.5" PointX="10" PointY="2.625" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Estimate" Width="1.5" PointX="3.75" PointY="4.25" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_category" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_status" />
-        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="8.375" PointY="9" />
+        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="14.25" PointY="0.875" IsExpanded="false" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_location_project" />
-        <EntityTypeShape EntityType="JCIEstimateModel.LineOfWork" Width="1.5" PointX="2.875" PointY="11.25" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ProjectLineOfWork" Width="1.5" PointX="5.125" PointY="10" />
-        <AssociationConnector Association="JCIEstimateModel.fk_projectlineofwork_lineofwork" />
-        <AssociationConnector Association="JCIEstimateModel.fk_projectlineofwork_project" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="7.375" PointY="14" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ecm_projectlineofwork" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="11.875" PointY="13.375" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ecm_project" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
         </Diagram>
     </edmx:Diagrams>

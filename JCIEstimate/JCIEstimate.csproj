@@ -89,6 +89,7 @@
       <HintPath>..\packages\Microsoft.Owin.Security.Twitter.2.1.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\JCIEstimate.css" />
     <Content Include="Content\ReportingService.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -186,7 +188,7 @@
     <Content Include="Views\EstimateStatus\Details.cshtml" />
     <Content Include="Views\EstimateStatus\Edit.cshtml" />
     <Content Include="Views\EstimateStatus\Index.cshtml" />
-    <Content Include="Views\Reports\ContractorTotals.cshtml" />
+    <Content Include="Views\Reports\Category_ECMTotals.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
     <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
@@ -203,16 +205,7 @@
     <Content Include="Views\ECMs\Details.cshtml" />
     <Content Include="Views\ECMs\Edit.cshtml" />
     <Content Include="Views\ECMs\Index.cshtml" />
-    <Content Include="Views\LineOfWorks\Create.cshtml" />
-    <Content Include="Views\LineOfWorks\Delete.cshtml" />
-    <Content Include="Views\LineOfWorks\Details.cshtml" />
-    <Content Include="Views\LineOfWorks\Edit.cshtml" />
-    <Content Include="Views\LineOfWorks\Index.cshtml" />
-    <Content Include="Views\ProjectLineOfWorks\Create.cshtml" />
-    <Content Include="Views\ProjectLineOfWorks\Delete.cshtml" />
-    <Content Include="Views\ProjectLineOfWorks\Details.cshtml" />
-    <Content Include="Views\ProjectLineOfWorks\Edit.cshtml" />
-    <Content Include="Views\ProjectLineOfWorks\Index.cshtml" />
+    <Content Include="Views\Reports\PieChartTest.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -341,10 +334,8 @@
     <Compile Include="Controllers\EstimateStatusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HtmlExtensions.cs" />
-    <Compile Include="Controllers\LineOfWorksController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\ProjectLineOfWorksController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
@@ -398,17 +389,11 @@
       <DependentUpon>JCIEstimate.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\JCIEstimateMeta.cs" />
-    <Compile Include="Models\LineOfWork.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Location.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ProjectLineOfWork.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,0 +1,12 @@
+﻿@model JCIEstimate.Models.Estimate
+
+@{
+    ViewBag.Title = "Contractor Totals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Caegory/ECM Totals</h2>
+<div style="height:auto;">
+    <iframe style="border:none;" src="~/Content/ReportingService.aspx?report=TotalsByECMAndCategory" height="1000" width="100%"></iframe>
+</div>
+    

@@ -11,6 +11,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.ecmNumber)
         </dt>
 
@@ -34,13 +42,6 @@
             @Html.DisplayFor(model => model.ecmString)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ProjectLineOfWork.projectLineOfWorkUid)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProjectLineOfWork.projectLineOfWorkUid)
-        </dd>
 
     </dl>
 </div>

@@ -35,8 +35,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<Estimate> Estimates { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<LineOfWork> LineOfWorks { get; set; }
-        public virtual DbSet<ProjectLineOfWork> ProjectLineOfWorks { get; set; }
         public virtual DbSet<ECM> ECMs { get; set; }
     }
 }

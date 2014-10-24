@@ -21,6 +21,11 @@ namespace JCIEstimate.Controllers
             IQueryable<Location> locations;
             Guid sessionProject;
 
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (Session["projectUid"] != null)
             {
                 sessionProject = new System.Guid(Session["projectUid"].ToString());
@@ -30,8 +35,8 @@ namespace JCIEstimate.Controllers
                 sessionProject = new System.Guid(DBNull.Value.ToString()); 
             }
             locations = from cc in db.Locations
-                            where cc.projectUid == sessionProject
-                            select cc;
+                        where cc.projectUid == sessionProject
+                        select cc;
                 
             locations = locations.Include(l => l.Project);
             return View(await locations.ToListAsync());

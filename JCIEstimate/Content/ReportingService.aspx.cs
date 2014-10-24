@@ -12,8 +12,17 @@ namespace JCIEstimate.Content
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ReportParameter rp = new ReportParameter("ecmUid", Session["ecmUid"].ToString());
-            ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { rp });
+            if (!IsPostBack)
+            {
+                string report = Request.QueryString["report"];
+                ReportViewer1.ServerReport.ReportPath = "/JCIEstimate/" + report;                
+                ReportParameter rp = new ReportParameter("projectUid", Session["projectUid"].ToString());
+                ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { rp });
+                ReportViewer1.ShowExportControls = true;
+                ReportViewer1.ShowParameterPrompts = true;            
+            }
+            
+           
         }
     }
 }

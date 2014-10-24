@@ -28,27 +28,25 @@
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin</a>
                         <ul class="dropdown-menu">                            
                             <li>@Html.ActionLink("Roles Admin", "Index", "RolesAdmin")</li>
-                            <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>                  
-                            <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>          
+                            <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>                                              
                         </ul>
                     </li>
                     }
-                    @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">System Setup</a>
-                        <ul class="dropdown-menu">                            
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Projects", "Index", "Projects")</li>                            
                             <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
                             <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>                                                        
-                            <li>@Html.ActionLink("Categories", "Index", "Categories")</li>                            
-                            <li>@Html.ActionLink("Lines Of Work", "Index", "LineOfWorks")</li>
+                            <li>@Html.ActionLink("Categories", "Index", "Categories")</li>                   
+                            <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project Setup</a>
-                        <ul class="dropdown-menu">                            
-                            <li>@Html.ActionLink("Projects", "Index", "Projects")</li>                            
-                            <li>@Html.ActionLink("Projects Lines Of Work", "Index", "ProjectLineOfWorks")</li>
+                        <ul class="dropdown-menu">                                                                                    
                             <li>@Html.ActionLink("Locations", "Index", "Locations")</li>                            
                             <li>@Html.ActionLink("ECMs", "Index", "ECMs")</li>
                         </ul>
@@ -57,10 +55,20 @@
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
                     {
                         <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Project Totals by Contractor", "GetContractorTotals", "Reports")</li>
+                                <li>@Html.ActionLink("Test Pie Chart", "GetPieChartTest", "Reports")</li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
+                    {
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contractor</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Contractor Contacts", "Index", "ContractorContacts")</li>
-                                <li>@Html.ActionLink("Contractor Contact Eddresses", "Index", "Eddresses")</li>
+                                <li>@Html.ActionLink("Contacts", "Index", "ContractorContacts")</li>
+                                <li>@Html.ActionLink("Email Addresses", "Index", "Eddresses")</li>
                                 <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>
                             </ul>
                         </li>
@@ -70,8 +78,8 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contractor</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Contractor Contacts", "Index", "ContractorContacts")</li>
-                                <li>@Html.ActionLink("Contractor Contact Eddresses", "Index", "Eddresses")</li>
+                                <li>@Html.ActionLink("Contacts", "Index", "ContractorContacts")</li>
+                                <li>@Html.ActionLink("Email Addresses", "Index", "Eddresses")</li>
                                 <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>
                             </ul>
                         </li>

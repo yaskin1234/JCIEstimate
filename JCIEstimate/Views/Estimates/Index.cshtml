@@ -17,7 +17,45 @@
     }
 }
 
-<h2>All Estimates - @Session["projectName"]</h2>
+<dl class="dl-horizontal">
+    <dt>
+        @ViewBag.projectName
+    </dt>
+    <dd>
+
+    </dd>
+    <dt>
+        Bid Total
+    </dt>
+    <dd>
+        @ViewBag.bidTotal
+    </dd>
+    <dt>
+        Active Total
+    </dt>
+    <dd>
+        @ViewBag.activeTotal
+    </dd>
+</dl>
+
+@*<table class="table-striped">
+    <thead>
+        <tr>
+            <th><h2>All Estimates - @ViewBag.projectName</h2></th>
+            <th width="28%"> </th>
+            <th>Bid Total</th>
+            <th width="2%"> </th>
+            <th>Active Total</th>
+        </tr>
+    </thead>
+    <tr>
+        <td> </td>
+        <td width="28%"> </td>
+        <td>@ViewBag.bidTotal</td>
+        <td width="2%"> </td>
+        <td>@ViewBag.activeTotal</td>
+    </tr>
+</table>*@
 
 <p>
     @if (User.IsInRole("Admin"))

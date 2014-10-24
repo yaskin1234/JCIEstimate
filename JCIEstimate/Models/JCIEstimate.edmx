@@ -67,7 +67,7 @@
           <Property Name="ecmNumber" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="ecmDescription" Type="nvarchar" MaxLength="200" />
           <Property Name="ecmString" Type="nvarchar" MaxLength="403" StoreGeneratedPattern="Computed" Nullable="false" />
-          <Property Name="projectLineOfWorkUid" Type="uniqueidentifier" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Eddress">
           <Key>
@@ -106,15 +106,6 @@
           <Property Name="estimateStatusDescription" Type="nvarchar" MaxLength="2000" Nullable="false" />
           <Property Name="behaviorIndicator" Type="char" MaxLength="1" />
         </EntityType>
-        <EntityType Name="LineOfWork">
-          <Key>
-            <PropertyRef Name="lineOfWorkUid" />
-          </Key>
-          <Property Name="lineOfWorkUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="lineOfWork" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="lineOfWorkDescription" Type="nvarchar" MaxLength="2000" Nullable="false" />
-          <Property Name="behaviorIndicator" Type="char" MaxLength="1" />
-        </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="locationUid" />
@@ -131,15 +122,6 @@
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="project" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="projectDescription" Type="nvarchar" MaxLength="200" />
-        </EntityType>
-        <EntityType Name="ProjectLineOfWork">
-          <Key>
-            <PropertyRef Name="projectLineOfWorkUid" />
-          </Key>
-          <Property Name="projectLineOfWorkUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="lineOfWorkUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="scopeOfWork" Type="varbinary(max)" />
         </EntityType>
         <Association Name="fk_AspNetUser">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -189,15 +171,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ecm_projectlineofwork">
-          <End Role="ProjectLineOfWork" Type="Self.ProjectLineOfWork" Multiplicity="0..1" />
+        <Association Name="fk_ecm_project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
           <End Role="ECM" Type="Self.ECM" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ProjectLineOfWork">
-              <PropertyRef Name="projectLineOfWorkUid" />
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
             </Principal>
             <Dependent Role="ECM">
-              <PropertyRef Name="projectLineOfWorkUid" />
+              <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -273,30 +255,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_projectlineofwork_lineofwork">
-          <End Role="LineOfWork" Type="Self.LineOfWork" Multiplicity="1" />
-          <End Role="ProjectLineOfWork" Type="Self.ProjectLineOfWork" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LineOfWork">
-              <PropertyRef Name="lineOfWorkUid" />
-            </Principal>
-            <Dependent Role="ProjectLineOfWork">
-              <PropertyRef Name="lineOfWorkUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_projectlineofwork_project">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
-          <End Role="ProjectLineOfWork" Type="Self.ProjectLineOfWork" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="projectUid" />
-            </Principal>
-            <Dependent Role="ProjectLineOfWork">
-              <PropertyRef Name="projectUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="JCIEstimateModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
@@ -307,10 +265,8 @@
           <EntitySet Name="Eddress" EntityType="Self.Eddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstimateStatus" EntityType="Self.EstimateStatus" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LineOfWork" EntityType="Self.LineOfWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProjectLineOfWork" EntityType="Self.ProjectLineOfWork" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_AspNetUser" Association="Self.fk_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="ContractorUser" EntitySet="ContractorUser" />
@@ -327,8 +283,8 @@
             <End Role="ContractorContact" EntitySet="ContractorContact" />
             <End Role="Eddress" EntitySet="Eddress" />
           </AssociationSet>
-          <AssociationSet Name="fk_ecm_projectlineofwork" Association="Self.fk_ecm_projectlineofwork">
-            <End Role="ProjectLineOfWork" EntitySet="ProjectLineOfWork" />
+          <AssociationSet Name="fk_ecm_project" Association="Self.fk_ecm_project">
+            <End Role="Project" EntitySet="Project" />
             <End Role="ECM" EntitySet="ECM" />
           </AssociationSet>
           <AssociationSet Name="fk_estimate_category" Association="Self.fk_estimate_category">
@@ -354,14 +310,6 @@
           <AssociationSet Name="fk_location_project" Association="Self.fk_location_project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Location" EntitySet="Location" />
-          </AssociationSet>
-          <AssociationSet Name="fk_projectlineofwork_lineofwork" Association="Self.fk_projectlineofwork_lineofwork">
-            <End Role="LineOfWork" EntitySet="LineOfWork" />
-            <End Role="ProjectLineOfWork" EntitySet="ProjectLineOfWork" />
-          </AssociationSet>
-          <AssociationSet Name="fk_projectlineofwork_project" Association="Self.fk_projectlineofwork_project">
-            <End Role="Project" EntitySet="Project" />
-            <End Role="ProjectLineOfWork" EntitySet="ProjectLineOfWork" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -415,19 +363,9 @@
             <End Role="Project" EntitySet="Projects" />
             <End Role="Location" EntitySet="Locations" />
           </AssociationSet>
-          <EntitySet Name="LineOfWorks" EntityType="JCIEstimateModel.LineOfWork" />
-          <EntitySet Name="ProjectLineOfWorks" EntityType="JCIEstimateModel.ProjectLineOfWork" />
-          <AssociationSet Name="fk_projectlineofwork_lineofwork" Association="JCIEstimateModel.fk_projectlineofwork_lineofwork">
-            <End Role="LineOfWork" EntitySet="LineOfWorks" />
-            <End Role="ProjectLineOfWork" EntitySet="ProjectLineOfWorks" />
-          </AssociationSet>
-          <AssociationSet Name="fk_projectlineofwork_project" Association="JCIEstimateModel.fk_projectlineofwork_project">
-            <End Role="Project" EntitySet="Projects" />
-            <End Role="ProjectLineOfWork" EntitySet="ProjectLineOfWorks" />
-          </AssociationSet>
           <EntitySet Name="ECMs" EntityType="JCIEstimateModel.ECM" />
-          <AssociationSet Name="fk_ecm_projectlineofwork" Association="JCIEstimateModel.fk_ecm_projectlineofwork">
-            <End Role="ProjectLineOfWork" EntitySet="ProjectLineOfWorks" />
+          <AssociationSet Name="fk_ecm_project" Association="JCIEstimateModel.fk_ecm_project">
+            <End Role="Project" EntitySet="Projects" />
             <End Role="ECM" EntitySet="ECMs" />
           </AssociationSet>
           <AssociationSet Name="fk_estimate_ecm" Association="JCIEstimateModel.fk_estimate_ecm">
@@ -518,7 +456,7 @@
           <Property Name="project1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="projectDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Locations" Relationship="JCIEstimateModel.fk_location_project" FromRole="Project" ToRole="Location" />
-          <NavigationProperty Name="ProjectLineOfWorks" Relationship="JCIEstimateModel.fk_projectlineofwork_project" FromRole="Project" ToRole="ProjectLineOfWork" />
+          <NavigationProperty Name="ECMs" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="Project" ToRole="ECM" />
         </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -671,52 +609,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="LineOfWork">
-          <Key>
-            <PropertyRef Name="lineOfWorkUid" />
-          </Key>
-          <Property Name="lineOfWorkUid" Type="Guid" Nullable="false" />
-          <Property Name="lineOfWork1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="lineOfWorkDescription" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="behaviorIndicator" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="ProjectLineOfWorks" Relationship="JCIEstimateModel.fk_projectlineofwork_lineofwork" FromRole="LineOfWork" ToRole="ProjectLineOfWork" />
-        </EntityType>
-        <EntityType Name="ProjectLineOfWork">
-          <Key>
-            <PropertyRef Name="projectLineOfWorkUid" />
-          </Key>
-          <Property Name="projectLineOfWorkUid" Type="Guid" Nullable="false" />
-          <Property Name="projectUid" Type="Guid" Nullable="false" />
-          <Property Name="lineOfWorkUid" Type="Guid" Nullable="false" />
-          <Property Name="scopeOfWork" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="LineOfWork" Relationship="JCIEstimateModel.fk_projectlineofwork_lineofwork" FromRole="ProjectLineOfWork" ToRole="LineOfWork" />
-          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_projectlineofwork_project" FromRole="ProjectLineOfWork" ToRole="Project" />
-          <NavigationProperty Name="ECMs" Relationship="JCIEstimateModel.fk_ecm_projectlineofwork" FromRole="ProjectLineOfWork" ToRole="ECM" />
-        </EntityType>
-        <Association Name="fk_projectlineofwork_lineofwork">
-          <End Type="JCIEstimateModel.LineOfWork" Role="LineOfWork" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectLineOfWork" Role="ProjectLineOfWork" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LineOfWork">
-              <PropertyRef Name="lineOfWorkUid" />
-            </Principal>
-            <Dependent Role="ProjectLineOfWork">
-              <PropertyRef Name="lineOfWorkUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_projectlineofwork_project">
-          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectLineOfWork" Role="ProjectLineOfWork" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="projectUid" />
-            </Principal>
-            <Dependent Role="ProjectLineOfWork">
-              <PropertyRef Name="projectUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ECM">
           <Key>
             <PropertyRef Name="ecmUid" />
@@ -725,19 +617,19 @@
           <Property Name="ecmNumber" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ecmDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ecmString" Type="String" Nullable="false" MaxLength="403" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="projectLineOfWorkUid" Type="Guid" />
-          <NavigationProperty Name="ProjectLineOfWork" Relationship="JCIEstimateModel.fk_ecm_projectlineofwork" FromRole="ECM" ToRole="ProjectLineOfWork" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="ECM" ToRole="Project" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
         </EntityType>
-        <Association Name="fk_ecm_projectlineofwork">
-          <End Type="JCIEstimateModel.ProjectLineOfWork" Role="ProjectLineOfWork" Multiplicity="0..1" />
+        <Association Name="fk_ecm_project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
           <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ProjectLineOfWork">
-              <PropertyRef Name="projectLineOfWorkUid" />
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
             </Principal>
             <Dependent Role="ECM">
-              <PropertyRef Name="projectLineOfWorkUid" />
+              <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -877,30 +769,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LineOfWorks">
-            <EntityTypeMapping TypeName="JCIEstimateModel.LineOfWork">
-              <MappingFragment StoreEntitySet="LineOfWork">
-                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
-                <ScalarProperty Name="lineOfWorkDescription" ColumnName="lineOfWorkDescription" />
-                <ScalarProperty Name="lineOfWork1" ColumnName="lineOfWork" />
-                <ScalarProperty Name="lineOfWorkUid" ColumnName="lineOfWorkUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProjectLineOfWorks">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectLineOfWork">
-              <MappingFragment StoreEntitySet="ProjectLineOfWork">
-                <ScalarProperty Name="scopeOfWork" ColumnName="scopeOfWork" />
-                <ScalarProperty Name="lineOfWorkUid" ColumnName="lineOfWorkUid" />
-                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
-                <ScalarProperty Name="projectLineOfWorkUid" ColumnName="projectLineOfWorkUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ECMs">
             <EntityTypeMapping TypeName="JCIEstimateModel.ECM">
               <MappingFragment StoreEntitySet="ECM">
-                <ScalarProperty Name="projectLineOfWorkUid" ColumnName="projectLineOfWorkUid" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
                 <ScalarProperty Name="ecmString" ColumnName="ecmString" />
                 <ScalarProperty Name="ecmDescription" ColumnName="ecmDescription" />
                 <ScalarProperty Name="ecmNumber" ColumnName="ecmNumber" />

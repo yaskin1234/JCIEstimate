@@ -18,7 +18,25 @@ namespace JCIEstimate.Controllers
 
         public ActionResult GetContractorTotals()
         {
-            return View("ContractorTotals");
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("Category_ECMTotals");            
+            }            
+        }
+        public ActionResult GetPieChartTest()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("PieChartTest");
+            }
         }
     }
 }

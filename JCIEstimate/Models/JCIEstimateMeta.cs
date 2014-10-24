@@ -234,16 +234,13 @@ namespace JCIEstimate.Models
         [Display(Name = "ECM")]
         public System.Guid ecmUid { get; set; }
 
-        [Display(Name = "Project Line Of Work")]
-        public System.Guid projectLineOfWorkUid { get; set; }
-
         [Display(Name = "ECM Description")]
         public string ecmDescription { get; set; }
 
         [Display(Name = "ECM Number")]
         public string ecmNumber { get; set; }
     }
-
+    
     /// <summary>
     /// Estimate
     /// </summary>

@@ -12,18 +12,19 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class LineOfWork
+    public partial class Project
     {
-        public LineOfWork()
+        public Project()
         {
-            this.ProjectLineOfWorks = new HashSet<ProjectLineOfWork>();
+            this.Locations = new HashSet<Location>();
+            this.ECMs = new HashSet<ECM>();
         }
     
-        public System.Guid lineOfWorkUid { get; set; }
-        public string lineOfWork1 { get; set; }
-        public string lineOfWorkDescription { get; set; }
-        public string behaviorIndicator { get; set; }
+        public System.Guid projectUid { get; set; }
+        public string project1 { get; set; }
+        public string projectDescription { get; set; }
     
-        public virtual ICollection<ProjectLineOfWork> ProjectLineOfWorks { get; set; }
+        public virtual ICollection<Location> Locations { get; set; }
+        public virtual ICollection<ECM> ECMs { get; set; }
     }
 }

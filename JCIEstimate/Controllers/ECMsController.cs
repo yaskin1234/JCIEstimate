@@ -18,7 +18,24 @@ namespace JCIEstimate.Controllers
         // GET: ECMs
         public async Task<ActionResult> Index()
         {
-            var eCMs = db.ECMs.Include(e => e.ProjectLineOfWork);
+            IQueryable<ECM> ecms;
+            Guid sessionProject;
+
+            sessionProject = Guid.Empty;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ecms = from cc in db.ECMs
+                        where cc.projectUid == sessionProject
+                        select cc;
+            var eCMs = ecms.Include(e => e.Project);
             return View(await eCMs.ToListAsync());
         }
 
@@ -40,7 +57,24 @@ namespace JCIEstimate.Controllers
         // GET: ECMs/Create
         public ActionResult Create()
         {
-            ViewBag.projectLineOfWorkUid = new SelectList(db.ProjectLineOfWorks, "projectLineOfWorkUid", "projectLineOfWorkUid");
+            IQueryable<Project> projects;
+            Guid sessionProject;
+
+            sessionProject = Guid.Empty;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            projects = from cc in db.Projects
+                   where cc.projectUid == sessionProject
+                   select cc;
+            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
             return View();
         }
 
@@ -49,7 +83,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectLineOfWorkUid")] ECM eCM)
+        public async Task<ActionResult> Create([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectUid")] ECM eCM)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +93,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.projectLineOfWorkUid = new SelectList(db.ProjectLineOfWorks, "projectLineOfWorkUid", "projectLineOfWorkUid", eCM.projectLineOfWorkUid);
+            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", eCM.projectUid);
             return View(eCM);
         }
 
@@ -75,7 +109,25 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.projectLineOfWorkUid = new SelectList(db.ProjectLineOfWorks, "projectLineOfWorkUid", "projectLineOfWorkUid", eCM.projectLineOfWorkUid);
+
+            IQueryable<Project> projects;
+            Guid sessionProject;
+
+            sessionProject = Guid.Empty;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            projects = from cc in db.Projects
+                       where cc.projectUid == sessionProject
+                       select cc;
+            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1", eCM.projectUid);            
             return View(eCM);
         }
 
@@ -84,7 +136,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectLineOfWorkUid")] ECM eCM)
+        public async Task<ActionResult> Edit([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectUid")] ECM eCM)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +144,7 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.projectLineOfWorkUid = new SelectList(db.ProjectLineOfWorks, "projectLineOfWorkUid", "projectLineOfWorkUid", eCM.projectLineOfWorkUid);
+            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", eCM.projectUid);
             return View(eCM);
         }
 

@@ -36,22 +36,36 @@ namespace JCIEstimate.Controllers
             if (User.IsInRole("Admin"))
             {
                 estimates = from cc in db.Estimates    
-                            join dd in db.ECMs on cc.ecmUid equals dd.ecmUid
-                            join dc in db.ProjectLineOfWorks on dd.projectLineOfWorkUid equals dc.projectLineOfWorkUid
-                            where dc.projectUid == sessionProject
+                            join dd in db.Locations on cc.locationUid equals dd.locationUid                            
+                            where dd.projectUid == sessionProject
                             select cc;
             }
             else
             {
                 estimates = from cc in db.Estimates
-                            join dd in db.ECMs on cc.ecmUid equals dd.ecmUid
-                            join dc in db.ProjectLineOfWorks on dd.projectLineOfWorkUid equals dc.projectLineOfWorkUid
+                            join dd in db.Locations on cc.locationUid equals dd.locationUid                            
                             join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                             join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
-                            where dc.projectUid == sessionProject 
+                            where dd.projectUid == sessionProject 
                             && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
                             select cc;                
             }
+
+            //Aggregates
+            decimal? activeTotal = 0;
+            decimal bidTotal = 0;
+
+            if (estimates.Count() > 0)
+            {
+                activeTotal = estimates.Sum(d => d.total);
+                bidTotal = estimates.Sum(d => d.laborBid) + estimates.Sum(d => d.materialBid) + estimates.Sum(d => d.bondAmount);
+            }
+
+            ViewBag.activeTotal = String.Format("{0:C0}", activeTotal);
+            ViewBag.bidTotal = String.Format("{0:C0}", bidTotal);
+            ViewBag.projectname = (estimates.Select(d => d.Location.Project.project1)).Max();
+
+            //Aggregates
 
             if (sort == "Contractor")
             {
@@ -223,8 +237,7 @@ namespace JCIEstimate.Controllers
             }           
 
             ecms = from cc in db.ECMs
-                   join dc in db.ProjectLineOfWorks on cc.projectLineOfWorkUid equals dc.projectLineOfWorkUid
-                   where dc.projectUid == sessionProject
+                   where cc.projectUid == sessionProject
                    select cc;
 
             locations = from cc in db.Locations
@@ -310,11 +323,8 @@ namespace JCIEstimate.Controllers
 
 
             ecms = from cc in db.ECMs
-                   join dc in db.ProjectLineOfWorks on cc.projectLineOfWorkUid equals dc.projectLineOfWorkUid
-                   where dc.projectUid == sessionProject
+                   where cc.projectUid == sessionProject
                    select cc;
-
-
 
             ViewBag.ecmUid = new SelectList(ecms, "ecmUid", "ecmString", estimate.ecmUid);
             ViewBag.locationUid = new SelectList(locations, "locationUid", "location1", estimate.locationUid);
