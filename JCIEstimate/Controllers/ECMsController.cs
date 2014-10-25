@@ -13,7 +13,7 @@ namespace JCIEstimate.Controllers
 {
     public class ECMsController : Controller
     {
-        private JCIEstimateEntities db = new JCIEstimateEntities();
+        private JCIEstimateEntities db = new JCIEstimateEntities();        
 
         // GET: ECMs
         public async Task<ActionResult> Index()

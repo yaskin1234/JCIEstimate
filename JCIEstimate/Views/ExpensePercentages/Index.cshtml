@@ -1,0 +1,70 @@
+﻿@model IEnumerable<JCIEstimate.Models.ExpensePercentage>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.expensePercentage1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.expensePercentageDescription)
+        </th>
+        <th>
+            Amount Applied to Percentage
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.percentage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isForActiveOnly)
+        </th>
+        <th>
+            Total
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.project1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.expensePercentage1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.expensePercentageDescription)
+        </td>
+        <td>
+            @String.Format("{0:C0}", ViewBag.projectTotal)
+        </td>
+        <td>
+            @String.Format("{0:P0}", (decimal)item.percentage / 100)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isForActiveOnly)
+        </td>
+        <td>
+            @String.Format("{0:C0}", item.percentage * ViewBag.projectTotal / 100)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.expensePercentageUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.expensePercentageUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.expensePercentageUid })
+        </td>
+    </tr>
+}
+
+</table>

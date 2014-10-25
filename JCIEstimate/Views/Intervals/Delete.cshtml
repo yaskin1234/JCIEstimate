@@ -1,4 +1,4 @@
-﻿@model JCIEstimate.Models.ECM
+﻿@model JCIEstimate.Models.Interval
 
 @{
     ViewBag.Title = "Delete";
@@ -8,31 +8,33 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>ECM</h4>
+    <h4>Interval</h4>
     <hr />
     <dl class="dl-horizontal">
-
         <dt>
-            @Html.DisplayNameFor(model => model.Project.project1)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Project.project1)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ecmNumber)
+            @Html.DisplayNameFor(model => model.interval1)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ecmNumber)
+            @Html.DisplayFor(model => model.interval1)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ecmDescription)
+            @Html.DisplayNameFor(model => model.intervalDescription)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ecmDescription)
+            @Html.DisplayFor(model => model.intervalDescription)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
     </dl>
 
     @using (Html.BeginForm()) {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace JCIEstimate.Models
 {
@@ -231,12 +232,15 @@ namespace JCIEstimate.Models
 
     public class ECMMetaData
     {
+
+        [Display(Name = "ECM Full Name")]
+        public string ecmString { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
         [Display(Name = "ECM")]
         public System.Guid ecmUid { get; set; }
-
         [Display(Name = "ECM Description")]
         public string ecmDescription { get; set; }
-
         [Display(Name = "ECM Number")]
         public string ecmNumber { get; set; }
     }
@@ -249,11 +253,12 @@ namespace JCIEstimate.Models
     {
     }
 
+    
     public class EstimateMetaData
     {
         [Display(Name = "Estimate")]
         public System.Guid estimateUid { get; set; }
-        [Display(Name = "Contractor")]
+        [Display(Name = "Contractor")]                
         public System.Guid contractorUid { get; set; }
         [Display(Name = "Location")]
         public System.Guid locationUid { get; set; }
@@ -277,5 +282,140 @@ namespace JCIEstimate.Models
         public Nullable<int> deliveryWeeks { get; set; }
         [Display(Name = "Installation Weeks")]
         public Nullable<int> installationWeeks { get; set; }
+    }
+
+
+    /// <summary>
+    /// ExpensePercentage
+    /// </summary>
+    [MetadataType(typeof(ExpensePercentageMetaData))]
+    public partial class ExpensePercentage
+    {
+    }
+
+    public class ExpensePercentageMetaData
+    {
+        [Display(Name = "Expense Percentage")]
+        public System.Guid expensePercentageUid { get; set; }
+
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+
+        [Display(Name = "Expense Percentage")]
+        public string expensePercentage1 { get; set; }
+
+        [Display(Name = "Description")]
+        public string expensePercentageDescription { get; set; }
+
+        [Display(Name = "Percentage"), DisplayFormat(DataFormatString="{0:P0}")]
+        public string percentage { get; set; }
+
+        [Display(Name = "Ignore Inactive")]
+        public bool isForActiveOnly { get; set; }
+    }
+
+    /// <summary>
+    /// ExpenseConstruction
+    /// </summary>
+    [MetadataType(typeof(ExpenseConstructionMetaData))]
+    public partial class ExpenseConstruction
+    {
+    }
+
+    public class ExpenseConstructionMetaData
+    {
+        [Display(Name = "Expense Construction")]
+        public System.Guid expenseConstructionUid { get; set; }
+
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+
+        [Display(Name = "Expense Construction")]
+        public string expenseConstruction1 { get; set; }
+
+        [Display(Name = "Description")]
+        public string expenseConstructionDescription { get; set; }
+
+        [Display(Name = "Rate"), DisplayFormat(DataFormatString = "{0:C0}")]
+        public decimal rate { get; set; }
+
+        [Display(Name = "Interval")]
+        public System.Guid intervalUid { get; set; }
+
+        [Display(Name = "Quantity")]
+        public int quantity { get; set; }
+
+        [Display(Name = "Total"), DisplayFormat(DataFormatString = "{0:C0}")]        
+        public Nullable<decimal> total { get; set; }
+    }
+
+    /// <summary>
+    /// ExpenseMiscellaneou
+    /// </summary>
+    [MetadataType(typeof(ExpenseMiscellaneouMetaData))]
+    public partial class ExpenseMiscellaneou
+    {
+    }
+
+    public class ExpenseMiscellaneouMetaData
+    {
+        [Display(Name = "Misc Expense")]
+        public System.Guid expenseMiscellaneousUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Misc Expense")]
+        public string expenseMiscellaneous { get; set; }
+        [Display(Name = "Description")]
+        public string expenseMiscellaneousDescription { get; set; }
+        [Display(Name = "Total")]
+        public decimal total { get; set; }        
+    }
+
+    /// <summary>
+    /// ExpenseTravel
+    /// </summary>
+    [MetadataType(typeof(ExpenseTravelMetaData))]
+    public partial class ExpenseTravel
+    {
+    }
+
+    public class ExpenseTravelMetaData
+    {
+        [Display(Name = "Travel Expense")]
+        public System.Guid expenseTravelUid { get; set; }
+        [Display(Name = "project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Travel Expense")]
+        public string expenseTravel1 { get; set; }
+        [Display(Name = "Description")]
+        public string expenseTravelDescription { get; set; }
+        [Display(Name = "Rate"), DisplayFormat(DataFormatString = "{0:C0}")]
+        public decimal rate { get; set; }
+        [Display(Name = "Interval")]
+        public System.Guid intervalUid { get; set; }
+        [Display(Name = "Quantity")]
+        public int quantity { get; set; }
+        [Display(Name = "Total"), DisplayFormat(DataFormatString = "{0:C0}")]
+        public Nullable<decimal> total { get; set; }        
+    }
+
+    /// <summary>
+    /// Interval
+    /// </summary>
+    [MetadataType(typeof(IntervalMetaData))]
+    public partial class Interval
+    {
+    }
+
+    public class IntervalMetaData
+    {
+        [Display(Name = "Interval")]
+        public System.Guid intervalUid { get; set; }
+        [Display(Name = "Interval")]
+        public string interval1 { get; set; }
+        [Display(Name = "Description")]
+        public string intervalDescription { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
     }
 }

@@ -34,23 +34,32 @@
                     }
                     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">System Setup</a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Projects", "Index", "Projects")</li>                            
-                            <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
-                            <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>                                                        
-                            <li>@Html.ActionLink("Categories", "Index", "Categories")</li>                   
-                            <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project Setup</a>
-                        <ul class="dropdown-menu">                                                                                    
-                            <li>@Html.ActionLink("Locations", "Index", "Locations")</li>                            
-                            <li>@Html.ActionLink("ECMs", "Index", "ECMs")</li>
-                        </ul>
-                    </li>                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">System Setup</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Projects", "Index", "Projects")</li>                            
+                                <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
+                                <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>                                                        
+                                <li>@Html.ActionLink("Categories", "Index", "Categories")</li>                   
+                                <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
+                                <li>@Html.ActionLink("Intervals", "Index", "Intervals")</li>
+                            </ul>
+                        </li>
+                        if (Session["projectUid"] != null)
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project Setup</a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Locations", "Index", "Locations")</li>
+                                    <li>@Html.ActionLink("ECMs", "Index", "ECMs")</li>
+                                    <li>@Html.ActionLink("Construction Expenses", "Index", "ExpenseConstructions")</li>
+                                    <li>@Html.ActionLink("Miscellaneous Expenses", "Index", "ExpenseMiscellaneous")</li>
+                                    <li>@Html.ActionLink("Travel Expenses", "Index", "ExpenseTravels")</li>
+                                    <li>@Html.ActionLink("Percentage Expenses", "Index", "ExpensePercentages")</li>
+                                </ul>
+                            </li>
+                        }
+
                     }
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
                     {
@@ -88,7 +97,7 @@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
-    </div>
+    </div>    
     <div class="container body-content">
         @RenderBody()
         <hr />

@@ -36,5 +36,10 @@ namespace JCIEstimate.Models
         public virtual DbSet<Estimate> Estimates { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<ECM> ECMs { get; set; }
+        public virtual DbSet<ExpenseConstruction> ExpenseConstructions { get; set; }
+        public virtual DbSet<ExpenseMiscellaneou> ExpenseMiscellaneous { get; set; }
+        public virtual DbSet<ExpensePercentage> ExpensePercentages { get; set; }
+        public virtual DbSet<ExpenseTravel> ExpenseTravels { get; set; }
+        public virtual DbSet<Interval> Intervals { get; set; }
     }
 }

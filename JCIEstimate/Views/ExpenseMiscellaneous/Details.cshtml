@@ -1,0 +1,51 @@
+﻿@model JCIEstimate.Models.ExpenseMiscellaneou
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ExpenseMiscellaneou</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.expenseMiscellaneous)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expenseMiscellaneous)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expenseMiscellaneousDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expenseMiscellaneousDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.total)
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.expenseMiscellaneousUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

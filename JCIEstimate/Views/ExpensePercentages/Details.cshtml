@@ -1,0 +1,58 @@
+﻿@model JCIEstimate.Models.ExpensePercentage
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ExpensePercentage</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.expensePercentage1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expensePercentage1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expensePercentageDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expensePercentageDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.percentage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.percentage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isForActiveOnly)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isForActiveOnly)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.expensePercentageUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

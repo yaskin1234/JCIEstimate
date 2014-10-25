@@ -296,6 +296,7 @@ namespace JCIEstimate.Controllers
         {
             IQueryable<Location> locations;
             IQueryable<ECM> ecms;
+            IQueryable<Contractor> contractors;
             Guid sessionProject;
 
             if (id == null)
@@ -326,10 +327,24 @@ namespace JCIEstimate.Controllers
                    where cc.projectUid == sessionProject
                    select cc;
 
+            if (!User.IsInRole("Admin"))
+            {
+                contractors = from cc in db.Contractors
+                              join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
+                              join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
+                              where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                              select cc;
+            }
+            else
+            {
+                contractors = from cc in db.Contractors
+                              select cc;
+            }
+
             ViewBag.ecmUid = new SelectList(ecms, "ecmUid", "ecmString", estimate.ecmUid);
             ViewBag.locationUid = new SelectList(locations, "locationUid", "location1", estimate.locationUid);
             ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", estimate.categoryUid);
-            ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", estimate.contractorUid);
+            ViewBag.contractorUid = new SelectList(contractors, "contractorUid", "contractorName", estimate.contractorUid);
             ViewBag.estimateStatusUid = new SelectList(db.EstimateStatus, "estimateStatusUid", "estimateStatus");
             return View(estimate);
         }

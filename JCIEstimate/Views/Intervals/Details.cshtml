@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.Interval
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Interval</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.interval1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.interval1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.intervalDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.intervalDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.intervalUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
