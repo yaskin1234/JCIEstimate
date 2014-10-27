@@ -21,86 +21,52 @@
     }
 }
 
-<dl class="dl-horizontal">
-    <dt>
-        @ViewBag.projectName
-    </dt>
-    <dd>
+<div class="container body-content" style="text-align:center;width:100%">
+    <ul class="nav navbar-nav navbar-left">
 
-    </dd>
-    <dt>
-        Bid Total
-    </dt>
-    <dd>
-        @ViewBag.bidTotal
-    </dd>
-    <dt>
-        Active Total
-    </dt>
-    <dd>
-        @ViewBag.activeTotal
-    </dd>
-</dl>
-
-@*<table class="table-striped">
-    <thead>
-        <tr>
-            <th><h2>All Estimates - @ViewBag.projectName</h2></th>
-            <th width="28%"> </th>
-            <th>Bid Total</th>
-            <th width="2%"> </th>
-            <th>Active Total</th>
-        </tr>
-    </thead>
-    <tr>
-        <td> </td>
-        <td width="28%"> </td>
-        <td>@ViewBag.bidTotal</td>
-        <td width="2%"> </td>
-        <td>@ViewBag.activeTotal</td>
-    </tr>
-</table>*@
-
+    </ul>
+</div>
 <p>
     @if (User.IsInRole("Admin"))
     {
         @Html.ActionLink("Create New", "Create")
-    }    
+    }
 </p>
 
 @grid.GetHtml(
 
-    tableStyle: "table", // applying style on grid
+tableStyle: "table", // applying style on grid
 
-    fillEmptyRows: false,
+fillEmptyRows: false,
         //show empty row when there is only one record on page to it will display all empty rows there.
-    headerStyle: "header", //applying style.
+headerStyle: "header", //applying style.
 
-    footerStyle: "grid-footer", //applying style.
+footerStyle: "grid-footer", //applying style.
 
-    mode: WebGridPagerModes.All, //paging to grid
-    firstText: "<< First",
-    previousText: "< Prev",
-    nextText: "Next >",
-    lastText: "Last >>",
+mode: WebGridPagerModes.All, //paging to grid
+firstText: "<< First",
+previousText: "< Prev",
+nextText: "Next >",
+lastText: "Last >>",
 
-    columns: new[]  // colums in grid
-    {
-        grid.Column("Contractor", format:@<span>@item.Contractor.contractorName</span>),
-        grid.Column("Location", format:@<span>@item.Location.location1</span>),
-        grid.Column("ECM", format:@<span>@item.ECM.ecmNumber @if( item.ECM.ecmDescription != null ){ <span>-</span>@item.ECM.ecmDescription }</span>),
-        grid.Column("Category", format:@<span>@item.Category.category1</span>),
-        grid.Column("Status", format:@<span>@item.EstimateStatu.estimateStatus</span>),
-        grid.Column("Active?", format:@<span>@item.isActive</span>),
-        grid.Column("Material", format:@<span>@String.Format("{0:C0}", item.materialBid)</span>),
-        grid.Column("Labor", format:@<span>@String.Format("{0:C0}", item.laborBid)</span>),
-        grid.Column("Bond", format:@<span>@String.Format("{0:C0}", item.bondAmount)</span>),
-        grid.Column("Total", format:@<span>@String.Format("{0:C0}", item.total)</span>),
-        grid.Column("Notes", format:@<span>@item.notes</span>),
-        grid.Column(header: "",
-            format: @<text>
-            <a href="@Url.Action("Edit", "Estimates", new { id = item.estimateUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" /></a>
-            <a href="@Url.Action("Details", "Estimates", new { id = item.estimateUid })"><img src="@Url.Content("~/Images/view_details.png")" height="15" width="15" /></a>
-            <a href="@Url.Action("Delete", "Estimates", new { id = item.estimateUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" /></a>
-            </text>)
-   })
+columns: new[]  // colums in grid
+{
+    grid.Column("Contractor", format:@<span>@item.Contractor.contractorName</span>),
+    grid.Column("Location", format:@<span>@item.Location.location1</span>),
+    grid.Column("ECM", format:@<span>@item.ECM.ecmNumber @if (item.ECM.ecmDescription != null)
+    { <span>-</span>@item.ECM.ecmDescription }</span>),
+    grid.Column("Category", format:@<span>@item.Category.category1</span>),
+    grid.Column("Status", format:@<span>@item.EstimateStatu.estimateStatus</span>),
+    grid.Column("Active?", format:@<span>@item.isActive</span>),
+    grid.Column("Material", format:@<span>@String.Format("{0:C0}", item.materialBid)</span>),
+    grid.Column("Labor", format:@<span>@String.Format("{0:C0}", item.laborBid)</span>),
+    grid.Column("Bond", format:@<span>@String.Format("{0:C0}", item.bondAmount)</span>),
+    grid.Column("Total", format:@<span>@String.Format("{0:C0}", item.activeTotal)</span>),
+    grid.Column("Notes", format:@<span>@item.notes</span>),
+    grid.Column(header: "",
+        format: @<text>
+        <a href="@Url.Action("Edit", "Estimates", new { id = item.estimateUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" /></a>
+        <a href="@Url.Action("Details", "Estimates", new { id = item.estimateUid })"><img src="@Url.Content("~/Images/view_details.png")" height="15" width="15" /></a>
+        <a href="@Url.Action("Delete", "Estimates", new { id = item.estimateUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" /></a>
+        </text>)
+})

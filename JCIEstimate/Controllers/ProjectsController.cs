@@ -37,7 +37,8 @@ namespace JCIEstimate.Controllers
             if (ModelState.IsValid)
             {
                 Session["projectUid"] = project.projectUid;
-                Session["projectName"] = project.project1;
+                Session["projectName"] = db.Projects.First(d => d.projectUid == project.projectUid).project1.ToString();
+                
                 return RedirectToAction("Index", "Estimates");
             }
 
@@ -62,6 +63,7 @@ namespace JCIEstimate.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
+            ViewBag.miscExpenseList = new SelectList(db.ExpenseMiscellaneous, "expenseMiscellaneousUid", "expenseMiscellaneous");
             return View();
         }       
 
@@ -70,13 +72,30 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "projectUid,project1,projectDescription")] Project project)
+        public async Task<ActionResult> Create([Bind(Include = "projectUid,project1,projectDescription")] Project project, params string[] selectedExpenses)
         {
+            ExpenseMiscellaneousProject myExpense;            
+
             if (ModelState.IsValid)
             {
+
                 project.projectUid = Guid.NewGuid();
                 db.Projects.Add(project);
                 await db.SaveChangesAsync();
+
+                if (selectedExpenses != null)
+                {
+                    //add each selected task to EquipmentToDo
+                    foreach (var item in selectedExpenses)
+                    {
+                        myExpense = new ExpenseMiscellaneousProject();
+                        myExpense.expenseMiscellaneousProjectUid = Guid.NewGuid();
+                        myExpense.projectUid = project.projectUid;
+                        myExpense.expenseMiscellaneousUid = new Guid(item);
+                        db.ExpenseMiscellaneousProjects.Add(myExpense);
+                        await db.SaveChangesAsync();
+                    }
+                }
                 return RedirectToAction("Index");
             }
 
@@ -95,6 +114,17 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
+
+            var selectedExpenses = from cc in db.ExpenseMiscellaneousProjects
+                                where cc.projectUid == id
+                                select cc.expenseMiscellaneousUid.ToString();
+            var expenseList = db.ExpenseMiscellaneous.ToList().Select(x => new SelectListItem()
+            {
+                Selected = selectedExpenses.Contains(x.expenseMiscellaneousUid.ToString()),
+                Text = x.expenseMiscellaneous,
+                Value = x.expenseMiscellaneousUid.ToString()
+            });
+            ViewBag.expenseList = new SelectList(expenseList, "Value", "Text", selectedExpenses.ToList());            
             return View(project);
         }
 
@@ -103,8 +133,47 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription")] Project project)
+        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription")] Project project, params string[] selectedExpenses)
         {
+            ExpenseMiscellaneousProject myExpense;
+
+            if (ModelState.IsValid)
+            {
+                if (selectedExpenses != null)
+                {
+
+                    IQueryable<ExpenseMiscellaneousProject> expensesToDelete;
+                    IQueryable<ExpenseMiscellaneou> expensesToInsert;
+
+                    expensesToDelete = from cc in db.ExpenseMiscellaneousProjects
+                                        where !(selectedExpenses.Any(v => cc.expenseMiscellaneousUid.ToString().Contains(v)))
+                                        && cc.projectUid == project.projectUid
+                                        select cc;
+
+                    expensesToInsert = from cc in db.ExpenseMiscellaneous
+                                       where selectedExpenses.Any(v => cc.expenseMiscellaneousUid.ToString().Contains(v))
+                                       select cc;
+
+                    //Delete
+                    foreach (var item in expensesToDelete.ToList())
+                    {
+                        myExpense = db.ExpenseMiscellaneousProjects.Find(item.expenseMiscellaneousProjectUid);
+                        db.ExpenseMiscellaneousProjects.Remove(myExpense);
+                        await db.SaveChangesAsync();
+                    }
+
+                    //Insert
+                    foreach (var item in expensesToInsert.ToList())
+                    {
+                        myExpense = new ExpenseMiscellaneousProject();
+                        myExpense.expenseMiscellaneousUid = item.expenseMiscellaneousUid;
+                        myExpense.projectUid= project.projectUid;
+                        JCIExtensions.MCVExtensions.InsertOrUpdate(db, myExpense);
+                    }
+                }
+            }    
+
+
             if (ModelState.IsValid)
             {
                 db.Entry(project).State = EntityState.Modified;

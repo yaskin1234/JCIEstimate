@@ -27,12 +27,13 @@ namespace JCIEstimate.Models
         public string notes { get; set; }
         public Nullable<int> deliveryWeeks { get; set; }
         public Nullable<int> installationWeeks { get; set; }
-        public Nullable<decimal> total { get; set; }
+        public Nullable<decimal> bidTotal { get; set; }
+        public Nullable<decimal> activeTotal { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Contractor Contractor { get; set; }
+        public virtual ECM ECM { get; set; }
         public virtual Location Location { get; set; }
         public virtual EstimateStatu EstimateStatu { get; set; }
-        public virtual ECM ECM { get; set; }
     }
 }

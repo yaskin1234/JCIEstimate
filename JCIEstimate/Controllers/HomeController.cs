@@ -18,6 +18,8 @@ namespace IdentitySample.Controllers
         
         public ActionResult Index()
         {
+            Session["projectUid"] = null;
+            Session["projectName"] = null;
             ViewBag.projectUid = db.Projects.ToSelectList(d => d.project1, d => d.projectUid.ToString(), "");
             //ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
             return View();

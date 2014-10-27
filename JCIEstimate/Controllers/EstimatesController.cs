@@ -49,21 +49,23 @@ namespace JCIEstimate.Controllers
                             where dd.projectUid == sessionProject 
                             && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
                             select cc;                
-            }
+            }            
 
             //Aggregates
             decimal? activeTotal = 0;
-            decimal bidTotal = 0;
+            decimal? bidTotal = 0;
 
             if (estimates.Count() > 0)
             {
-                activeTotal = estimates.Sum(d => d.total);
-                bidTotal = estimates.Sum(d => d.laborBid) + estimates.Sum(d => d.materialBid) + estimates.Sum(d => d.bondAmount);
+                activeTotal = estimates.Sum(d => d.activeTotal);
+                bidTotal = estimates.Sum(d => d.bidTotal);
             }
 
             ViewBag.activeTotal = String.Format("{0:C0}", activeTotal);
             ViewBag.bidTotal = String.Format("{0:C0}", bidTotal);
-            ViewBag.projectname = (estimates.Select(d => d.Location.Project.project1)).Max();
+            ViewBag.projectname = Session["projectName"];
+            Session["activeTotal"] = activeTotal;
+            Session["bidTotal"] = bidTotal;
 
             //Aggregates
 
@@ -184,13 +186,13 @@ namespace JCIEstimate.Controllers
                 if (sortdir == "ASC")
                 {
                     estimates = from ee in estimates
-                                orderby ee.total ascending
+                                orderby ee.activeTotal ascending
                                 select ee;
                 }
                 else
                 {
                     estimates = from ee in estimates
-                                orderby ee.total descending
+                                orderby ee.activeTotal descending
                                 select ee;
                 }
 

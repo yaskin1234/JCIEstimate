@@ -1,0 +1,69 @@
+﻿@model IEnumerable<JCIEstimate.Models.Equipment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.room)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.equipment1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.jciCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.barCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ECM.ecmNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EquipmentType.equipmentType1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.location1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.room)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.equipment1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.jciCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.barCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ECM.ecmNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EquipmentType.equipmentType1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.location1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.equipmentUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.equipmentUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.equipmentUid })
+        </td>
+    </tr>
+}
+
+</table>

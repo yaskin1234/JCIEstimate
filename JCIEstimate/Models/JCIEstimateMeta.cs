@@ -276,6 +276,10 @@ namespace JCIEstimate.Models
         public decimal laborBid { get; set; }
         [Display(Name = "Bond Amount")]
         public decimal bondAmount { get; set; }
+        [Display(Name = "Active Total")]
+        public decimal activeTotal { get; set; }
+        [Display(Name = "Bid Total")]
+        public decimal bidTotal { get; set; }
         [Display(Name = "Notes")]
         public string notes { get; set; }
         [Display(Name = "Delivery Weeks")]
@@ -361,14 +365,10 @@ namespace JCIEstimate.Models
     {
         [Display(Name = "Misc Expense")]
         public System.Guid expenseMiscellaneousUid { get; set; }
-        [Display(Name = "Project")]
-        public System.Guid projectUid { get; set; }
         [Display(Name = "Misc Expense")]
         public string expenseMiscellaneous { get; set; }
         [Display(Name = "Description")]
-        public string expenseMiscellaneousDescription { get; set; }
-        [Display(Name = "Total")]
-        public decimal total { get; set; }        
+        public string expenseMiscellaneousDescription { get; set; }  
     }
 
     /// <summary>
@@ -417,5 +417,97 @@ namespace JCIEstimate.Models
         public string intervalDescription { get; set; }
         [Display(Name = "Behavior Indicator")]
         public string behaviorIndicator { get; set; }
+    }
+
+    /// <summary>
+    /// Equipment
+    /// </summary>
+    [MetadataType(typeof(EquipmentMetaData))]
+    public partial class Equipment
+    {
+        public Guid[] selectedTasks { get; set; }
+        public MultiSelectList equipmetTasks { get; set; }
+    }
+
+    public class EquipmentMetaData
+    {
+        [Display(Name = "Equipment")]
+        public System.Guid equipmentUid { get; set; }
+        [Display(Name = "ECM")]
+        public System.Guid ecmUid { get; set; }
+        [Display(Name = "Location")]
+        public System.Guid locationUid { get; set; }
+        [Display(Name = "Room")]
+        public string room { get; set; }
+        [Display(Name = "Equipment Type")]
+        public System.Guid equipmentTypeUid { get; set; }
+        [Display(Name = "Equipment Name")]
+        public string equipment1 { get; set; }
+        [Display(Name = "JCI Code")]
+        public string jciCode { get; set; }
+        [Display(Name = "Bar Code")]
+        public string barCode { get; set; }
+
+        public Guid[] selectedTasks { get; set; }
+    }
+
+    /// <summary>
+    /// EquipmentTask
+    /// </summary>
+    [MetadataType(typeof(EquipmentTaskMetaData))]
+    public partial class EquipmentTask
+    {
+    }
+
+    public class EquipmentTaskMetaData
+    {
+        [Display(Name = "Equipment Task")]
+        public System.Guid equipmentTaskUid { get; set; }
+        [Display(Name = "Equipment Task")]
+        public string equipmentTask1 { get; set; }
+        [Display(Name = "Equipment Task Description")]
+        public string equipmentTaskDescription { get; set; }
+    }
+
+    /// <summary>
+    /// EquipmentToDo
+    /// </summary>
+    [MetadataType(typeof(EquipmentToDoMetaData))]
+    public partial class EquipmentToDo
+    {
+    }
+
+    public class EquipmentToDoMetaData
+    {
+        [Display(Name = "Equipment To Do")]
+        public System.Guid equipmentToDoUid { get; set; }
+        [Display(Name = "Equipment Name")]
+        public System.Guid equipmentUid { get; set; }
+        [Display(Name = "Equipment Task")]
+        public System.Guid equipmentTaskUid { get; set; }
+        [Display(Name = "Days To Complete")]
+        public Nullable<decimal> daysToComplete { get; set; }
+    
+    }
+
+    /// <summary>
+    /// EquipmentType
+    /// </summary>
+    [MetadataType(typeof(EquipmentTypeMetaData))]
+    public partial class EquipmentType
+    {
+    }
+
+    public class EquipmentTypeMetaData
+    {
+        [Display(Name = "Equipment Type")]
+        public System.Guid equipmentTypeUid { get; set; }
+        [Display(Name = "Equipment Type")]
+        public string equipmentType1 { get; set; }
+        [Display(Name = "Equipment Type Description")]
+        public string equipmentTypeDescription { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+
     }
 }

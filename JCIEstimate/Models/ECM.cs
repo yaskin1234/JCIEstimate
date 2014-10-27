@@ -17,6 +17,7 @@ namespace JCIEstimate.Models
         public ECM()
         {
             this.Estimates = new HashSet<Estimate>();
+            this.Equipments = new HashSet<Equipment>();
         }
     
         public System.Guid ecmUid { get; set; }
@@ -27,5 +28,6 @@ namespace JCIEstimate.Models
     
         public virtual Project Project { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<Equipment> Equipments { get; set; }
     }
 }

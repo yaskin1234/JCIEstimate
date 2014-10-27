@@ -5,11 +5,43 @@ using System.Web;
 using System.Net;
 using System.Web.Mvc;
 using JCIEstimate.Models;
+using System.Data.Entity;
+
 
 namespace JCIExtensions
 {
     public static class MCVExtensions
     {
+
+        public static void InsertOrUpdate(DbContext context, EquipmentToDo entity)
+        {
+            if (entity.equipmentToDoUid == Guid.Empty)
+            {
+                context.Entry(entity).State = EntityState.Added;
+                entity.equipmentToDoUid = Guid.NewGuid();
+            }
+            else
+            {
+                context.Entry(entity).State = EntityState.Modified;
+            }
+            context.SaveChanges();
+        }
+
+        public static void InsertOrUpdate(DbContext context, ExpenseMiscellaneousProject entity)
+        {
+            if (entity.expenseMiscellaneousProjectUid == Guid.Empty)
+            {
+                context.Entry(entity).State = EntityState.Added;
+                entity.expenseMiscellaneousProjectUid = Guid.NewGuid();
+            }
+            else
+            {
+                context.Entry(entity).State = EntityState.Modified;
+            }
+            context.SaveChanges();
+        }
+
+
         public static List<SelectListItem> ToSelectList<T>(
             this IEnumerable<T> enumerable,
             Func<T, string> text,

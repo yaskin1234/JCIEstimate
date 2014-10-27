@@ -19,9 +19,9 @@ namespace JCIEstimate.Models
             this.Locations = new HashSet<Location>();
             this.ECMs = new HashSet<ECM>();
             this.ExpenseConstructions = new HashSet<ExpenseConstruction>();
-            this.ExpenseMiscellaneous = new HashSet<ExpenseMiscellaneou>();
             this.ExpensePercentages = new HashSet<ExpensePercentage>();
             this.ExpenseTravels = new HashSet<ExpenseTravel>();
+            this.ExpenseMiscellaneousProjects = new HashSet<ExpenseMiscellaneousProject>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -31,8 +31,8 @@ namespace JCIEstimate.Models
         public virtual ICollection<Location> Locations { get; set; }
         public virtual ICollection<ECM> ECMs { get; set; }
         public virtual ICollection<ExpenseConstruction> ExpenseConstructions { get; set; }
-        public virtual ICollection<ExpenseMiscellaneou> ExpenseMiscellaneous { get; set; }
         public virtual ICollection<ExpensePercentage> ExpensePercentages { get; set; }
         public virtual ICollection<ExpenseTravel> ExpenseTravels { get; set; }
+        public virtual ICollection<ExpenseMiscellaneousProject> ExpenseMiscellaneousProjects { get; set; }
     }
 }

@@ -1,0 +1,74 @@
+﻿@model JCIEstimate.Models.Equipment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Equipment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.room)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.room)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.equipment1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.equipment1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.jciCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.jciCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.barCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.barCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ECM.ecmNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ECM.ecmNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquipmentType.equipmentType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipmentType.equipmentType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.location1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.location1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.equipmentUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

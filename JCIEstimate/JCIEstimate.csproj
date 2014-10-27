@@ -189,7 +189,6 @@
     <Content Include="Views\EstimateStatus\Details.cshtml" />
     <Content Include="Views\EstimateStatus\Edit.cshtml" />
     <Content Include="Views\EstimateStatus\Index.cshtml" />
-    <Content Include="Views\Reports\Category_ECMTotals.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
     <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
@@ -206,7 +205,6 @@
     <Content Include="Views\ECMs\Details.cshtml" />
     <Content Include="Views\ECMs\Edit.cshtml" />
     <Content Include="Views\ECMs\Index.cshtml" />
-    <Content Include="Views\Reports\PieChartTest.cshtml" />
     <Content Include="Views\Intervals\Create.cshtml" />
     <Content Include="Views\Intervals\Delete.cshtml" />
     <Content Include="Views\Intervals\Details.cshtml" />
@@ -217,11 +215,6 @@
     <Content Include="Views\ExpenseConstructions\Details.cshtml" />
     <Content Include="Views\ExpenseConstructions\Edit.cshtml" />
     <Content Include="Views\ExpenseConstructions\Index.cshtml" />
-    <Content Include="Views\ExpenseMiscellaneous\Create.cshtml" />
-    <Content Include="Views\ExpenseMiscellaneous\Delete.cshtml" />
-    <Content Include="Views\ExpenseMiscellaneous\Details.cshtml" />
-    <Content Include="Views\ExpenseMiscellaneous\Edit.cshtml" />
-    <Content Include="Views\ExpenseMiscellaneous\Index.cshtml" />
     <Content Include="Views\ExpensePercentages\Create.cshtml" />
     <Content Include="Views\ExpensePercentages\Delete.cshtml" />
     <Content Include="Views\ExpensePercentages\Details.cshtml" />
@@ -232,6 +225,39 @@
     <Content Include="Views\ExpenseTravels\Details.cshtml" />
     <Content Include="Views\ExpenseTravels\Edit.cshtml" />
     <Content Include="Views\ExpenseTravels\Index.cshtml" />
+    <Content Include="Views\Reports\rptCategoryECMByContractor.cshtml" />
+    <Content Include="Views\EquipmentTypes\Create.cshtml" />
+    <Content Include="Views\EquipmentTypes\Delete.cshtml" />
+    <Content Include="Views\EquipmentTypes\Details.cshtml" />
+    <Content Include="Views\EquipmentTypes\Edit.cshtml" />
+    <Content Include="Views\EquipmentTypes\Index.cshtml" />
+    <Content Include="Views\Equipments\Create.cshtml" />
+    <Content Include="Views\Equipments\Delete.cshtml" />
+    <Content Include="Views\Equipments\Details.cshtml" />
+    <Content Include="Views\Equipments\Edit.cshtml" />
+    <Content Include="Views\Equipments\Index.cshtml" />
+    <Content Include="Views\EquipmentToDoes\Create.cshtml" />
+    <Content Include="Views\EquipmentToDoes\Delete.cshtml" />
+    <Content Include="Views\EquipmentToDoes\Details.cshtml" />
+    <Content Include="Views\EquipmentToDoes\Edit.cshtml" />
+    <Content Include="Views\EquipmentToDoes\Index.cshtml" />
+    <Content Include="Views\EquipmentTasks\Create.cshtml" />
+    <Content Include="Views\EquipmentTasks\Delete.cshtml" />
+    <Content Include="Views\EquipmentTasks\Details.cshtml" />
+    <Content Include="Views\EquipmentTasks\Edit.cshtml" />
+    <Content Include="Views\EquipmentTasks\Index.cshtml" />
+    <Content Include="Views\ExpenseMiscellaneous\Create.cshtml" />
+    <Content Include="Views\ExpenseMiscellaneous\Delete.cshtml" />
+    <Content Include="Views\ExpenseMiscellaneous\Details.cshtml" />
+    <Content Include="Views\ExpenseMiscellaneous\Edit.cshtml" />
+    <Content Include="Views\ExpenseMiscellaneous\Index.cshtml" />
+    <Content Include="Views\ExpenseMiscellaneousProjects\Create.cshtml" />
+    <Content Include="Views\ExpenseMiscellaneousProjects\Delete.cshtml" />
+    <Content Include="Views\ExpenseMiscellaneousProjects\Details.cshtml" />
+    <Content Include="Views\ExpenseMiscellaneousProjects\Edit.cshtml" />
+    <Content Include="Views\ExpenseMiscellaneousProjects\Index.cshtml" />
+    <Content Include="Views\Reports\rptEstimateSummary.cshtml" />
+    <Content Include="Views\Reports\rptBidSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -356,10 +382,15 @@
     <Compile Include="Controllers\ContractorUsersController.cs" />
     <Compile Include="Controllers\ECMsController.cs" />
     <Compile Include="Controllers\EddressesController.cs" />
+    <Compile Include="Controllers\EquipmentsController.cs" />
+    <Compile Include="Controllers\EquipmentTasksController.cs" />
+    <Compile Include="Controllers\EquipmentToDoesController.cs" />
+    <Compile Include="Controllers\EquipmentTypesController.cs" />
     <Compile Include="Controllers\EstimatesController.cs" />
     <Compile Include="Controllers\EstimateStatusController.cs" />
     <Compile Include="Controllers\ExpenseConstructionsController.cs" />
     <Compile Include="Controllers\ExpenseMiscellaneousController.cs" />
+    <Compile Include="Controllers\ExpenseMiscellaneousProjectsController.cs" />
     <Compile Include="Controllers\ExpensePercentagesController.cs" />
     <Compile Include="Controllers\ExpenseTravelsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -397,6 +428,18 @@
     <Compile Include="Models\Eddress.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Equipment.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentTask.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentToDo.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Estimate.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -407,6 +450,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExpenseMiscellaneou.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExpenseMiscellaneousProject.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExpensePercentage.cs">

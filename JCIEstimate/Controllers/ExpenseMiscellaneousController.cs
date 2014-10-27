@@ -18,14 +18,7 @@ namespace JCIEstimate.Controllers
         // GET: ExpenseMiscellaneous
         public async Task<ActionResult> Index()
         {
-            IQueryable<ExpenseMiscellaneou> expenseMiscellaneous;
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-
-            expenseMiscellaneous = from cc in db.ExpenseMiscellaneous
-                                   where cc.projectUid == sessionProject
-                                   select cc;            
-            expenseMiscellaneous = expenseMiscellaneous.Include(e => e.Project);
-            return View(await expenseMiscellaneous.ToListAsync());
+            return View(await db.ExpenseMiscellaneous.ToListAsync());
         }
 
         // GET: ExpenseMiscellaneous/Details/5
@@ -46,14 +39,6 @@ namespace JCIEstimate.Controllers
         // GET: ExpenseMiscellaneous/Create
         public ActionResult Create()
         {
-            IQueryable<Project> projects;
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-
-            projects = from cc in db.Projects
-                       where cc.projectUid == sessionProject
-                       select cc;
-
-            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");            
             return View();
         }
 
@@ -62,7 +47,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "expenseMiscellaneousUid,projectUid,expenseMiscellaneous,expenseMiscellaneousDescription,total")] ExpenseMiscellaneou expenseMiscellaneou)
+        public async Task<ActionResult> Create([Bind(Include = "expenseMiscellaneousUid,expenseMiscellaneous,expenseMiscellaneousDescription")] ExpenseMiscellaneou expenseMiscellaneou)
         {
             if (ModelState.IsValid)
             {
@@ -72,7 +57,6 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", expenseMiscellaneou.projectUid);
             return View(expenseMiscellaneou);
         }
 
@@ -88,15 +72,6 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-
-            IQueryable<Project> projects;
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-
-            projects = from cc in db.Projects
-                       where cc.projectUid == sessionProject
-                       select cc;
-
-            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1", expenseMiscellaneou.projectUid);            
             return View(expenseMiscellaneou);
         }
 
@@ -105,7 +80,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "expenseMiscellaneousUid,projectUid,expenseMiscellaneous,expenseMiscellaneousDescription,total")] ExpenseMiscellaneou expenseMiscellaneou)
+        public async Task<ActionResult> Edit([Bind(Include = "expenseMiscellaneousUid,expenseMiscellaneous,expenseMiscellaneousDescription")] ExpenseMiscellaneou expenseMiscellaneou)
         {
             if (ModelState.IsValid)
             {
@@ -113,7 +88,6 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", expenseMiscellaneou.projectUid);
             return View(expenseMiscellaneou);
         }
 

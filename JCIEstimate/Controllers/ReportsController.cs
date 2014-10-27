@@ -16,7 +16,7 @@ namespace JCIEstimate.Controllers
             return View();
         }
 
-        public ActionResult GetContractorTotals()
+        public ActionResult GetCategoryECMByContractor()
         {
             if (Session["projectUid"] == null)
             {
@@ -24,10 +24,11 @@ namespace JCIEstimate.Controllers
             }
             else
             {
-                return View("Category_ECMTotals");            
-            }            
+                return View("rptCategoryECMByContractor");
+            }
         }
-        public ActionResult GetPieChartTest()
+
+        public ActionResult GetEstimateSummary()
         {
             if (Session["projectUid"] == null)
             {
@@ -35,8 +36,20 @@ namespace JCIEstimate.Controllers
             }
             else
             {
-                return View("PieChartTest");
+                return View("rptEstimateSummary");
             }
         }
+
+        public ActionResult GetBidSummary()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptBidSummary");
+            }
+        }                
     }
 }

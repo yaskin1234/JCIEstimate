@@ -1,0 +1,80 @@
+﻿@model JCIEstimate.Models.Equipment
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Equipment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.room)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.room)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.equipment1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.equipment1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.jciCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.jciCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.barCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.barCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ECM.ecmNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ECM.ecmNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquipmentType.equipmentType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipmentType.equipmentType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.location1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.location1)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

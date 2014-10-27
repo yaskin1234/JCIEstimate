@@ -14,12 +14,15 @@ namespace JCIEstimate.Models
     
     public partial class ExpenseMiscellaneou
     {
+        public ExpenseMiscellaneou()
+        {
+            this.ExpenseMiscellaneousProjects = new HashSet<ExpenseMiscellaneousProject>();
+        }
+    
         public System.Guid expenseMiscellaneousUid { get; set; }
-        public System.Guid projectUid { get; set; }
         public string expenseMiscellaneous { get; set; }
         public string expenseMiscellaneousDescription { get; set; }
-        public decimal total { get; set; }
     
-        public virtual Project Project { get; set; }
+        public virtual ICollection<ExpenseMiscellaneousProject> ExpenseMiscellaneousProjects { get; set; }
     }
 }
