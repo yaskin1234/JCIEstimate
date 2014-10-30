@@ -9,12 +9,31 @@ using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
 using JCIExtensions;
+using System.IO;  
 
 namespace IdentitySample.Controllers
 {
     public class HomeController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
+
+        [HttpPost]
+        public ActionResult FileUpload(HttpPostedFileBase file1) // OR IEnumerable<HttpPostedFileBase> files
+        {
+            file1 = Request.Files["file1"];
+
+            if (file1 != null) // Same for file2, file3, file4
+            {
+                // Check and Save the file1 // Same for file2, file3, file4
+                if (file1.ContentLength > 0)
+                {
+                    string filePath = Path.Combine(HttpContext.Server.MapPath(@"..\Context\ScopeDocuments"),
+                                                   Path.GetFileName(file1.FileName));
+                    file1.SaveAs(filePath);
+                }
+            }
+            return View();
+        }
         
         public ActionResult Index()
         {

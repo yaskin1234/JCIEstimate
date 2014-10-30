@@ -1,0 +1,50 @@
+﻿@model JCIEstimate.Models.ScopeOfWork
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ScopeOfWork</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.scopeOfWork1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.scopeOfWork1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.scopeOfWorkDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.scopeOfWorkDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.document)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.document)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.scopeOfWorkUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

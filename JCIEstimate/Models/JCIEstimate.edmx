@@ -184,8 +184,7 @@
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="expensePercentage" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="expensePercentageDescription" Type="nvarchar" MaxLength="2000" />
-          <Property Name="percentage" Type="int" Nullable="false" />
-          <Property Name="isForActiveOnly" Type="bit" Nullable="false" />
+          <Property Name="percentage" Type="decimal" Precision="11" Scale="6" Nullable="false" />
         </EntityType>
         <EntityType Name="ExpenseTravel">
           <Key>
@@ -195,9 +194,9 @@
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="expenseTravel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="expenseTravelDescription" Type="nvarchar" MaxLength="2000" />
-          <Property Name="rate" Type="money" Nullable="false" />
-          <Property Name="intervalUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="ratePerDay" Type="money" Nullable="false" />
+          <Property Name="daysPerMonth" Type="int" Nullable="false" />
+          <Property Name="projectDurationInMonths" Type="int" Nullable="false" />
           <Property Name="total" Type="money" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Interval">
@@ -225,6 +224,53 @@
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="project" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="projectDescription" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ProjectToDo">
+          <Key>
+            <PropertyRef Name="projectToDoUid" />
+          </Key>
+          <Property Name="projectToDoUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectToDo" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="projectToDoDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="toDoStatusUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="dateCreated" Type="date" Nullable="false" />
+          <Property Name="dateResolved" Type="date" />
+        </EntityType>
+        <EntityType Name="ScopeOfWork">
+          <Key>
+            <PropertyRef Name="scopeOfWorkUid" />
+          </Key>
+          <Property Name="scopeOfWorkUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="scopeOfWork" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="scopeOfWorkDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="document" Type="varbinary(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ToDoStatus">
+          <Key>
+            <PropertyRef Name="toDoStatusUid" />
+          </Key>
+          <Property Name="toDoStatusUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="toDoStatus" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="toDoStatusDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v__ExpensePercentage">
+          <Key>
+            <PropertyRef Name="expensePercentageUid" />
+            <PropertyRef Name="projectUid" />
+            <PropertyRef Name="expensePercentage" />
+            <PropertyRef Name="percentage" />
+          </Key>
+          <Property Name="expensePercentageUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="expensePercentage" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="expensePercentageDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="percentage" Type="decimal" Precision="11" Scale="6" Nullable="false" />
+          <Property Name="sumActiveTotal" Type="money" />
+          <Property Name="total" Type="decimal" Precision="31" Scale="10" />
         </EntityType>
         <Association Name="fk_AspNetUser">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -466,18 +512,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_expenseTravel_interval">
-          <End Role="Interval" Type="Self.Interval" Multiplicity="1" />
-          <End Role="ExpenseTravel" Type="Self.ExpenseTravel" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Interval">
-              <PropertyRef Name="intervalUid" />
-            </Principal>
-            <Dependent Role="ExpenseTravel">
-              <PropertyRef Name="intervalUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_expenseTravel_project">
           <End Role="Project" Type="Self.Project" Multiplicity="1" />
           <End Role="ExpenseTravel" Type="Self.ExpenseTravel" Multiplicity="*" />
@@ -498,6 +532,30 @@
               <PropertyRef Name="projectUid" />
             </Principal>
             <Dependent Role="Location">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projecttodo_todostatus">
+          <End Role="ToDoStatus" Type="Self.ToDoStatus" Multiplicity="1" />
+          <End Role="ProjectToDo" Type="Self.ProjectToDo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ToDoStatus">
+              <PropertyRef Name="toDoStatusUid" />
+            </Principal>
+            <Dependent Role="ProjectToDo">
+              <PropertyRef Name="toDoStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ScopeOfWork_project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ScopeOfWork" Type="Self.ScopeOfWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ScopeOfWork">
               <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
@@ -524,6 +582,20 @@
           <EntitySet Name="Interval" EntityType="Self.Interval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectToDo" EntityType="Self.ProjectToDo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScopeOfWork" EntityType="Self.ScopeOfWork" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ToDoStatus" EntityType="Self.ToDoStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v__ExpensePercentage" EntityType="Self.v__ExpensePercentage" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v__ExpensePercentage].[expensePercentageUid] AS [expensePercentageUid], 
+    [v__ExpensePercentage].[projectUid] AS [projectUid], 
+    [v__ExpensePercentage].[expensePercentage] AS [expensePercentage], 
+    [v__ExpensePercentage].[expensePercentageDescription] AS [expensePercentageDescription], 
+    [v__ExpensePercentage].[percentage] AS [percentage], 
+    [v__ExpensePercentage].[sumActiveTotal] AS [sumActiveTotal], 
+    [v__ExpensePercentage].[total] AS [total]
+    FROM [dbo].[v__ExpensePercentage] AS [v__ExpensePercentage]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="fk_AspNetUser" Association="Self.fk_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="ContractorUser" EntitySet="ContractorUser" />
@@ -604,10 +676,6 @@
             <End Role="Project" EntitySet="Project" />
             <End Role="ExpensePercentage" EntitySet="ExpensePercentage" />
           </AssociationSet>
-          <AssociationSet Name="fk_expenseTravel_interval" Association="Self.fk_expenseTravel_interval">
-            <End Role="Interval" EntitySet="Interval" />
-            <End Role="ExpenseTravel" EntitySet="ExpenseTravel" />
-          </AssociationSet>
           <AssociationSet Name="fk_expenseTravel_project" Association="Self.fk_expenseTravel_project">
             <End Role="Project" EntitySet="Project" />
             <End Role="ExpenseTravel" EntitySet="ExpenseTravel" />
@@ -615,6 +683,14 @@
           <AssociationSet Name="fk_location_project" Association="Self.fk_location_project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projecttodo_todostatus" Association="Self.fk_projecttodo_todostatus">
+            <End Role="ToDoStatus" EntitySet="ToDoStatus" />
+            <End Role="ProjectToDo" EntitySet="ProjectToDo" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ScopeOfWork_project" Association="Self.fk_ScopeOfWork_project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ScopeOfWork" EntitySet="ScopeOfWork" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -657,28 +733,14 @@
             <End Role="ECM" EntitySet="ECMs" />
           </AssociationSet>
           <EntitySet Name="ExpenseConstructions" EntityType="JCIEstimateModel.ExpenseConstruction" />
-          <EntitySet Name="ExpensePercentages" EntityType="JCIEstimateModel.ExpensePercentage" />
-          <EntitySet Name="ExpenseTravels" EntityType="JCIEstimateModel.ExpenseTravel" />
           <AssociationSet Name="fk_expenseConstruction_project" Association="JCIEstimateModel.fk_expenseConstruction_project">
             <End Role="Project" EntitySet="Projects" />
             <End Role="ExpenseConstruction" EntitySet="ExpenseConstructions" />
-          </AssociationSet>
-          <AssociationSet Name="fk_expensePercentage_project" Association="JCIEstimateModel.fk_expensePercentage_project">
-            <End Role="Project" EntitySet="Projects" />
-            <End Role="ExpensePercentage" EntitySet="ExpensePercentages" />
-          </AssociationSet>
-          <AssociationSet Name="fk_expenseTravel_project" Association="JCIEstimateModel.fk_expenseTravel_project">
-            <End Role="Project" EntitySet="Projects" />
-            <End Role="ExpenseTravel" EntitySet="ExpenseTravels" />
           </AssociationSet>
           <EntitySet Name="Intervals" EntityType="JCIEstimateModel.Interval" />
           <AssociationSet Name="fk_expenseConstruction_interval" Association="JCIEstimateModel.fk_expenseConstruction_interval">
             <End Role="Interval" EntitySet="Intervals" />
             <End Role="ExpenseConstruction" EntitySet="ExpenseConstructions" />
-          </AssociationSet>
-          <AssociationSet Name="fk_expenseTravel_interval" Association="JCIEstimateModel.fk_expenseTravel_interval">
-            <End Role="Interval" EntitySet="Intervals" />
-            <End Role="ExpenseTravel" EntitySet="ExpenseTravels" />
           </AssociationSet>
           <EntitySet Name="Estimates" EntityType="JCIEstimateModel.Estimate" />
           <AssociationSet Name="fk_estimate_category" Association="JCIEstimateModel.fk_estimate_category">
@@ -734,6 +796,28 @@
           <AssociationSet Name="fk_expensemiscellaneousproject_project" Association="JCIEstimateModel.fk_expensemiscellaneousproject_project">
             <End Role="Project" EntitySet="Projects" />
             <End Role="ExpenseMiscellaneousProject" EntitySet="ExpenseMiscellaneousProjects" />
+          </AssociationSet>
+          <EntitySet Name="ExpensePercentages" EntityType="JCIEstimateModel.ExpensePercentage" />
+          <AssociationSet Name="fk_expensePercentage_project" Association="JCIEstimateModel.fk_expensePercentage_project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ExpensePercentage" EntitySet="ExpensePercentages" />
+          </AssociationSet>
+          <EntitySet Name="ScopeOfWorks" EntityType="JCIEstimateModel.ScopeOfWork" />
+          <AssociationSet Name="fk_ScopeOfWork_project" Association="JCIEstimateModel.fk_ScopeOfWork_project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ScopeOfWork" EntitySet="ScopeOfWorks" />
+          </AssociationSet>
+          <EntitySet Name="v__ExpensePercentage" EntityType="JCIEstimateModel.v__ExpensePercentage" />
+          <EntitySet Name="ToDoStatus" EntityType="JCIEstimateModel.ToDoStatu" />
+          <EntitySet Name="ProjectToDoes" EntityType="JCIEstimateModel.ProjectToDo" />
+          <AssociationSet Name="fk_projecttodo_todostatus" Association="JCIEstimateModel.fk_projecttodo_todostatus">
+            <End Role="ToDoStatu" EntitySet="ToDoStatus" />
+            <End Role="ProjectToDo" EntitySet="ProjectToDoes" />
+          </AssociationSet>
+          <EntitySet Name="ExpenseTravels" EntityType="JCIEstimateModel.ExpenseTravel" />
+          <AssociationSet Name="fk_expenseTravel_project" Association="JCIEstimateModel.fk_expenseTravel_project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ExpenseTravel" EntitySet="ExpenseTravels" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
@@ -822,9 +906,10 @@
           <NavigationProperty Name="Locations" Relationship="JCIEstimateModel.fk_location_project" FromRole="Project" ToRole="Location" />
           <NavigationProperty Name="ECMs" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="Project" ToRole="ECM" />
           <NavigationProperty Name="ExpenseConstructions" Relationship="JCIEstimateModel.fk_expenseConstruction_project" FromRole="Project" ToRole="ExpenseConstruction" />
-          <NavigationProperty Name="ExpensePercentages" Relationship="JCIEstimateModel.fk_expensePercentage_project" FromRole="Project" ToRole="ExpensePercentage" />
-          <NavigationProperty Name="ExpenseTravels" Relationship="JCIEstimateModel.fk_expenseTravel_project" FromRole="Project" ToRole="ExpenseTravel" />
           <NavigationProperty Name="ExpenseMiscellaneousProjects" Relationship="JCIEstimateModel.fk_expensemiscellaneousproject_project" FromRole="Project" ToRole="ExpenseMiscellaneousProject" />
+          <NavigationProperty Name="ExpensePercentages" Relationship="JCIEstimateModel.fk_expensePercentage_project" FromRole="Project" ToRole="ExpensePercentage" />
+          <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="Project" ToRole="ScopeOfWork" />
+          <NavigationProperty Name="ExpenseTravels" Relationship="JCIEstimateModel.fk_expenseTravel_project" FromRole="Project" ToRole="ExpenseTravel" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -945,33 +1030,6 @@
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_expenseConstruction_project" FromRole="ExpenseConstruction" ToRole="Project" />
           <NavigationProperty Name="Interval" Relationship="JCIEstimateModel.fk_expenseConstruction_interval" FromRole="ExpenseConstruction" ToRole="Interval" />
         </EntityType>
-        <EntityType Name="ExpensePercentage">
-          <Key>
-            <PropertyRef Name="expensePercentageUid" />
-          </Key>
-          <Property Name="expensePercentageUid" Type="Guid" Nullable="false" />
-          <Property Name="projectUid" Type="Guid" Nullable="false" />
-          <Property Name="expensePercentage1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="expensePercentageDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="percentage" Type="Int32" Nullable="false" />
-          <Property Name="isForActiveOnly" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_expensePercentage_project" FromRole="ExpensePercentage" ToRole="Project" />
-        </EntityType>
-        <EntityType Name="ExpenseTravel">
-          <Key>
-            <PropertyRef Name="expenseTravelUid" />
-          </Key>
-          <Property Name="expenseTravelUid" Type="Guid" Nullable="false" />
-          <Property Name="projectUid" Type="Guid" Nullable="false" />
-          <Property Name="expenseTravel1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="expenseTravelDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="rate" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="intervalUid" Type="Guid" Nullable="false" />
-          <Property Name="quantity" Type="Int32" Nullable="false" />
-          <Property Name="total" Type="Decimal" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_expenseTravel_project" FromRole="ExpenseTravel" ToRole="Project" />
-          <NavigationProperty Name="Interval" Relationship="JCIEstimateModel.fk_expenseTravel_interval" FromRole="ExpenseTravel" ToRole="Interval" />
-        </EntityType>
         <Association Name="fk_expenseConstruction_project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
           <End Type="JCIEstimateModel.ExpenseConstruction" Role="ExpenseConstruction" Multiplicity="*" />
@@ -980,30 +1038,6 @@
               <PropertyRef Name="projectUid" />
             </Principal>
             <Dependent Role="ExpenseConstruction">
-              <PropertyRef Name="projectUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_expensePercentage_project">
-          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ExpensePercentage" Role="ExpensePercentage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="projectUid" />
-            </Principal>
-            <Dependent Role="ExpensePercentage">
-              <PropertyRef Name="projectUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_expenseTravel_project">
-          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ExpenseTravel" Role="ExpenseTravel" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="projectUid" />
-            </Principal>
-            <Dependent Role="ExpenseTravel">
               <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
@@ -1017,7 +1051,6 @@
           <Property Name="intervalDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="behaviorIndicator" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ExpenseConstructions" Relationship="JCIEstimateModel.fk_expenseConstruction_interval" FromRole="Interval" ToRole="ExpenseConstruction" />
-          <NavigationProperty Name="ExpenseTravels" Relationship="JCIEstimateModel.fk_expenseTravel_interval" FromRole="Interval" ToRole="ExpenseTravel" />
         </EntityType>
         <Association Name="fk_expenseConstruction_interval">
           <End Type="JCIEstimateModel.Interval" Role="Interval" Multiplicity="1" />
@@ -1027,18 +1060,6 @@
               <PropertyRef Name="intervalUid" />
             </Principal>
             <Dependent Role="ExpenseConstruction">
-              <PropertyRef Name="intervalUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_expenseTravel_interval">
-          <End Type="JCIEstimateModel.Interval" Role="Interval" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ExpenseTravel" Role="ExpenseTravel" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Interval">
-              <PropertyRef Name="intervalUid" />
-            </Principal>
-            <Dependent Role="ExpenseTravel">
               <PropertyRef Name="intervalUid" />
             </Dependent>
           </ReferentialConstraint>
@@ -1279,6 +1300,127 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ExpensePercentage">
+          <Key>
+            <PropertyRef Name="expensePercentageUid" />
+          </Key>
+          <Property Name="expensePercentageUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="expensePercentage1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="expensePercentageDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="percentage" Type="Decimal" Nullable="false" Precision="11" Scale="6" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_expensePercentage_project" FromRole="ExpensePercentage" ToRole="Project" />
+        </EntityType>
+        <Association Name="fk_expensePercentage_project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ExpensePercentage" Role="ExpensePercentage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ExpensePercentage">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ScopeOfWork">
+          <Key>
+            <PropertyRef Name="scopeOfWorkUid" />
+          </Key>
+          <Property Name="scopeOfWorkUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="scopeOfWork1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="document" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="ScopeOfWork" ToRole="Project" />
+        </EntityType>
+        <Association Name="fk_ScopeOfWork_project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ScopeOfWork" Role="ScopeOfWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ScopeOfWork">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="v__ExpensePercentage">
+          <Key>
+            <PropertyRef Name="expensePercentageUid" />
+            <PropertyRef Name="projectUid" />
+            <PropertyRef Name="expensePercentage" />
+            <PropertyRef Name="percentage" />
+          </Key>
+          <Property Name="expensePercentageUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="expensePercentage" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="expensePercentageDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="percentage" Type="Decimal" Nullable="false" Precision="11" Scale="6" />
+          <Property Name="sumActiveTotal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="total" Type="Decimal" Precision="31" Scale="10" />
+        </EntityType>
+        <EntityType Name="ToDoStatu">
+          <Key>
+            <PropertyRef Name="toDoStatusUid" />
+          </Key>
+          <Property Name="toDoStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="toDoStatus" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="toDoStatusDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="ProjectToDoes" Relationship="JCIEstimateModel.fk_projecttodo_todostatus" FromRole="ToDoStatu" ToRole="ProjectToDo" />
+        </EntityType>
+        <EntityType Name="ProjectToDo">
+          <Key>
+            <PropertyRef Name="projectToDoUid" />
+          </Key>
+          <Property Name="projectToDoUid" Type="Guid" Nullable="false" />
+          <Property Name="projectToDo1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="projectToDoDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="toDoStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateResolved" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="ToDoStatu" Relationship="JCIEstimateModel.fk_projecttodo_todostatus" FromRole="ProjectToDo" ToRole="ToDoStatu" />
+        </EntityType>
+        <Association Name="fk_projecttodo_todostatus">
+          <End Type="JCIEstimateModel.ToDoStatu" Role="ToDoStatu" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectToDo" Role="ProjectToDo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ToDoStatu">
+              <PropertyRef Name="toDoStatusUid" />
+            </Principal>
+            <Dependent Role="ProjectToDo">
+              <PropertyRef Name="toDoStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ExpenseTravel">
+          <Key>
+            <PropertyRef Name="expenseTravelUid" />
+          </Key>
+          <Property Name="expenseTravelUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="expenseTravel1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="expenseTravelDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="ratePerDay" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="daysPerMonth" Type="Int32" Nullable="false" />
+          <Property Name="projectDurationInMonths" Type="Int32" Nullable="false" />
+          <Property Name="total" Type="Decimal" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_expenseTravel_project" FromRole="ExpenseTravel" ToRole="Project" />
+        </EntityType>
+        <Association Name="fk_expenseTravel_project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ExpenseTravel" Role="ExpenseTravel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ExpenseTravel">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1408,32 +1550,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ExpensePercentages">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ExpensePercentage">
-              <MappingFragment StoreEntitySet="ExpensePercentage">
-                <ScalarProperty Name="isForActiveOnly" ColumnName="isForActiveOnly" />
-                <ScalarProperty Name="percentage" ColumnName="percentage" />
-                <ScalarProperty Name="expensePercentageDescription" ColumnName="expensePercentageDescription" />
-                <ScalarProperty Name="expensePercentage1" ColumnName="expensePercentage" />
-                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
-                <ScalarProperty Name="expensePercentageUid" ColumnName="expensePercentageUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ExpenseTravels">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ExpenseTravel">
-              <MappingFragment StoreEntitySet="ExpenseTravel">
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="quantity" ColumnName="quantity" />
-                <ScalarProperty Name="intervalUid" ColumnName="intervalUid" />
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="expenseTravelDescription" ColumnName="expenseTravelDescription" />
-                <ScalarProperty Name="expenseTravel1" ColumnName="expenseTravel" />
-                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
-                <ScalarProperty Name="expenseTravelUid" ColumnName="expenseTravelUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Intervals">
             <EntityTypeMapping TypeName="JCIEstimateModel.Interval">
               <MappingFragment StoreEntitySet="Interval">
@@ -1524,6 +1640,77 @@
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
                 <ScalarProperty Name="expenseMiscellaneousUid" ColumnName="expenseMiscellaneousUid" />
                 <ScalarProperty Name="expenseMiscellaneousProjectUid" ColumnName="expenseMiscellaneousProjectUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpensePercentages">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ExpensePercentage">
+              <MappingFragment StoreEntitySet="ExpensePercentage">
+                <ScalarProperty Name="percentage" ColumnName="percentage" />
+                <ScalarProperty Name="expensePercentageDescription" ColumnName="expensePercentageDescription" />
+                <ScalarProperty Name="expensePercentage1" ColumnName="expensePercentage" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="expensePercentageUid" ColumnName="expensePercentageUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScopeOfWorks">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ScopeOfWork">
+              <MappingFragment StoreEntitySet="ScopeOfWork">
+                <ScalarProperty Name="document" ColumnName="document" />
+                <ScalarProperty Name="scopeOfWorkDescription" ColumnName="scopeOfWorkDescription" />
+                <ScalarProperty Name="scopeOfWork1" ColumnName="scopeOfWork" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="scopeOfWorkUid" ColumnName="scopeOfWorkUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v__ExpensePercentage">
+            <EntityTypeMapping TypeName="JCIEstimateModel.v__ExpensePercentage">
+              <MappingFragment StoreEntitySet="v__ExpensePercentage">
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="sumActiveTotal" ColumnName="sumActiveTotal" />
+                <ScalarProperty Name="percentage" ColumnName="percentage" />
+                <ScalarProperty Name="expensePercentageDescription" ColumnName="expensePercentageDescription" />
+                <ScalarProperty Name="expensePercentage" ColumnName="expensePercentage" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="expensePercentageUid" ColumnName="expensePercentageUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ToDoStatus">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ToDoStatu">
+              <MappingFragment StoreEntitySet="ToDoStatus">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="toDoStatusDescription" ColumnName="toDoStatusDescription" />
+                <ScalarProperty Name="toDoStatus" ColumnName="toDoStatus" />
+                <ScalarProperty Name="toDoStatusUid" ColumnName="toDoStatusUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectToDoes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectToDo">
+              <MappingFragment StoreEntitySet="ProjectToDo">
+                <ScalarProperty Name="dateResolved" ColumnName="dateResolved" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="toDoStatusUid" ColumnName="toDoStatusUid" />
+                <ScalarProperty Name="projectToDoDescription" ColumnName="projectToDoDescription" />
+                <ScalarProperty Name="projectToDo1" ColumnName="projectToDo" />
+                <ScalarProperty Name="projectToDoUid" ColumnName="projectToDoUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseTravels">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ExpenseTravel">
+              <MappingFragment StoreEntitySet="ExpenseTravel">
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="projectDurationInMonths" ColumnName="projectDurationInMonths" />
+                <ScalarProperty Name="daysPerMonth" ColumnName="daysPerMonth" />
+                <ScalarProperty Name="ratePerDay" ColumnName="ratePerDay" />
+                <ScalarProperty Name="expenseTravelDescription" ColumnName="expenseTravelDescription" />
+                <ScalarProperty Name="expenseTravel1" ColumnName="expenseTravel" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="expenseTravelUid" ColumnName="expenseTravelUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

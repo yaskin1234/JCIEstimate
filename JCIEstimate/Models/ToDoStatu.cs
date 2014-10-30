@@ -12,18 +12,18 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Interval
+    public partial class ToDoStatu
     {
-        public Interval()
+        public ToDoStatu()
         {
-            this.ExpenseConstructions = new HashSet<ExpenseConstruction>();
+            this.ProjectToDoes = new HashSet<ProjectToDo>();
         }
     
-        public System.Guid intervalUid { get; set; }
-        public string interval1 { get; set; }
-        public string intervalDescription { get; set; }
+        public System.Guid toDoStatusUid { get; set; }
+        public string toDoStatus { get; set; }
+        public string toDoStatusDescription { get; set; }
         public string behaviorIndicator { get; set; }
     
-        public virtual ICollection<ExpenseConstruction> ExpenseConstructions { get; set; }
+        public virtual ICollection<ProjectToDo> ProjectToDoes { get; set; }
     }
 }

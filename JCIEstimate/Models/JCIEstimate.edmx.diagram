@@ -22,14 +22,9 @@
         <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="13.125" PointY="15.25" />
         <AssociationConnector Association="JCIEstimateModel.fk_ecm_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstruction" Width="1.5" PointX="7.625" PointY="18.625" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ExpensePercentage" Width="1.5" PointX="18.375" PointY="11.75" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ExpenseTravel" Width="1.5" PointX="18.375" PointY="14.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_project" />
-        <AssociationConnector Association="JCIEstimateModel.fk_expensePercentage_project" />
-        <AssociationConnector Association="JCIEstimateModel.fk_expenseTravel_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.Interval" Width="1.5" PointX="0.75" PointY="0.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_interval" />
-        <AssociationConnector Association="JCIEstimateModel.fk_expenseTravel_interval" />
         <EntityTypeShape EntityType="JCIEstimateModel.Estimate" Width="1.5" PointX="15.375" PointY="8" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_category" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
@@ -49,6 +44,16 @@
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseMiscellaneousProject" Width="1.5" PointX="18.375" PointY="18.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_expensemiscellaneousproject_expensemiscellaneous" />
         <AssociationConnector Association="JCIEstimateModel.fk_expensemiscellaneousproject_project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ExpensePercentage" Width="1.5" PointX="18.375" PointY="21.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_expensePercentage_project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ScopeOfWork" Width="1.5" PointX="18.375" PointY="11.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.v__ExpensePercentage" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ToDoStatu" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectToDo" Width="1.5" PointX="3" PointY="4.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_projecttodo_todostatus" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ExpenseTravel" Width="1.5" PointX="18.375" PointY="25.625" />
+        <AssociationConnector Association="JCIEstimateModel.fk_expenseTravel_project" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -18,12 +18,11 @@ namespace JCIEstimate.Models
         public System.Guid projectUid { get; set; }
         public string expenseTravel1 { get; set; }
         public string expenseTravelDescription { get; set; }
-        public decimal rate { get; set; }
-        public System.Guid intervalUid { get; set; }
-        public int quantity { get; set; }
+        public decimal ratePerDay { get; set; }
+        public int daysPerMonth { get; set; }
+        public int projectDurationInMonths { get; set; }
         public Nullable<decimal> total { get; set; }
     
         public virtual Project Project { get; set; }
-        public virtual Interval Interval { get; set; }
     }
 }

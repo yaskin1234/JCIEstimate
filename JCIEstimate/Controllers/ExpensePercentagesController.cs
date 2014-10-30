@@ -16,14 +16,14 @@ namespace JCIEstimate.Controllers
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
         // GET: ExpensePercentages
-        public async Task<ActionResult> Index()        
+        public async Task<ActionResult> Index()
         {
             IQueryable<ExpensePercentage> expensePercentages;
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();            
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             expensePercentages = from cc in db.ExpensePercentages
-                                   where cc.projectUid == sessionProject
-                                   select cc;
+                                 where cc.projectUid == sessionProject
+                                 select cc;
             var projectTotal = db.Estimates.Sum(e => e.laborBid + e.materialBid + e.bondAmount);
             expensePercentages = expensePercentages.Include(e => e.Project);
             ViewBag.projectTotal = projectTotal;
@@ -55,7 +55,7 @@ namespace JCIEstimate.Controllers
                        where cc.projectUid == sessionProject
                        select cc;
 
-            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");            
+            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
             return View();
         }
 
@@ -69,6 +69,7 @@ namespace JCIEstimate.Controllers
             if (ModelState.IsValid)
             {
                 expensePercentage.expensePercentageUid = Guid.NewGuid();
+                expensePercentage.percentage = expensePercentage.percentage / 100;
                 db.ExpensePercentages.Add(expensePercentage);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -81,7 +82,7 @@ namespace JCIEstimate.Controllers
                        where cc.projectUid == sessionProject
                        select cc;
 
-            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1", expensePercentage.projectUid);            
+            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1", expensePercentage.projectUid);
             return View(expensePercentage);
         }
 
@@ -92,7 +93,7 @@ namespace JCIEstimate.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ExpensePercentage expensePercentage = await db.ExpensePercentages.FindAsync(id);
+            ExpensePercentage expensePercentage = await db.ExpensePercentages.FindAsync(id);            
             if (expensePercentage == null)
             {
                 return HttpNotFound();
@@ -104,7 +105,7 @@ namespace JCIEstimate.Controllers
                        where cc.projectUid == sessionProject
                        select cc;
 
-            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");            
+            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
             return View(expensePercentage);
         }
 
@@ -117,6 +118,7 @@ namespace JCIEstimate.Controllers
         {
             if (ModelState.IsValid)
             {
+                expensePercentage.percentage = expensePercentage.percentage / 100;
                 db.Entry(expensePercentage).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

@@ -298,7 +298,7 @@ namespace JCIEstimate.Models
     }
 
     public class ExpensePercentageMetaData
-    {
+    {      
         [Display(Name = "Expense Percentage")]
         public System.Guid expensePercentageUid { get; set; }
 
@@ -311,11 +311,8 @@ namespace JCIEstimate.Models
         [Display(Name = "Description")]
         public string expensePercentageDescription { get; set; }
 
-        [Display(Name = "Percentage"), DisplayFormat(DataFormatString="{0:P0}")]
-        public string percentage { get; set; }
-
-        [Display(Name = "Ignore Inactive")]
-        public bool isForActiveOnly { get; set; }
+        [Display(Name = "Percentage"), DisplayFormat(DataFormatString="{0:p3}", ApplyFormatInEditMode= true)]
+        public string percentage { get; set; }        
     }
 
     /// <summary>
@@ -389,14 +386,15 @@ namespace JCIEstimate.Models
         public string expenseTravel1 { get; set; }
         [Display(Name = "Description")]
         public string expenseTravelDescription { get; set; }
-        [Display(Name = "Rate"), DisplayFormat(DataFormatString = "{0:C0}")]
-        public decimal rate { get; set; }
-        [Display(Name = "Interval")]
-        public System.Guid intervalUid { get; set; }
-        [Display(Name = "Quantity")]
-        public int quantity { get; set; }
+        [Display(Name = "Rate Per Day"), DisplayFormat(DataFormatString = "{0:C0}")]
+        public decimal ratePerDay { get; set; }
+        [Display(Name = "Days Per Month")]
+        public int daysPerMonth { get; set; }
+        [Display(Name = "Duration(months)")]
+        public int projectDurationInMonths { get; set; }
         [Display(Name = "Total"), DisplayFormat(DataFormatString = "{0:C0}")]
-        public Nullable<decimal> total { get; set; }        
+        public Nullable<decimal> total { get; set; }
+
     }
 
     /// <summary>
@@ -508,6 +506,57 @@ namespace JCIEstimate.Models
         public string equipmentTypeDescription { get; set; }
         [Display(Name = "Behavior Indicator")]
         public string behaviorIndicator { get; set; }
+
+    }
+
+    /// <summary>
+    /// ToDoStatu
+    /// </summary>
+    [MetadataType(typeof(ToDoStatuMetaData))]
+    public partial class ToDoStatu
+    {
+    }
+
+    public class ToDoStatuMetaData
+    {
+        [Display(Name = "To Do Status")]
+        public System.Guid toDoStatusUid { get; set; }
+        [Display(Name = "To Do Status")]
+        public string toDoStatus { get; set; }
+        [Display(Name = "To Do Status Description")]
+        public string toDoStatusDescription { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+
+    }
+
+
+    /// <summary>
+    /// ProjectToDo
+    /// </summary>
+    [MetadataType(typeof(ProjectToDoMetaData))]
+    public partial class ProjectToDo
+    {
+    }
+    
+    public class ProjectToDoMetaData
+    {
+        [Display(Name = "Project To Do")]
+        public System.Guid projectToDoUid { get; set; }
+        [Display(Name = "Project To Do")]
+        public string projectToDo1 { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Project To Do Description")]
+        public string projectToDoDescription { get; set; }
+        [Display(Name = "To Do Status")]
+        public System.Guid toDoStatusUid { get; set; }
+        [Display(Name = "Date Created")]
+        [DataType(DataType.Date)]       
+        [Editable(false)]
+        public Nullable<System.DateTime> dateCreated { get; set; }
+        [Display(Name = "Date Resolved")]
+        [DataType(DataType.Date)]
+        public Nullable<System.DateTime> dateResolved { get; set; }
 
     }
 }

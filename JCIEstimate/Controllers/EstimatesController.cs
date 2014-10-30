@@ -197,8 +197,8 @@ namespace JCIEstimate.Controllers
                 }
 
             }
-            
 
+            estimates = estimates.OrderBy(m => m.Location.location1).ThenBy(m => m.ECM.ecmString).ThenBy(m => m.Contractor.contractorName);
             estimates = estimates.Include(e => e.Category).Include(e => e.ECM).Include(e => e.Location).Include(e => e.Contractor).Include(e => e.EstimateStatu);            
             return View(await estimates.ToListAsync());
         }

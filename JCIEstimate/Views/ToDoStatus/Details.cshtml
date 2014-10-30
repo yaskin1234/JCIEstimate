@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.ToDoStatu
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ToDoStatu</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.toDoStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.toDoStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.toDoStatusDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.toDoStatusDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.toDoStatusUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

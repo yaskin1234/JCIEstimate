@@ -18,8 +18,7 @@ namespace JCIEstimate.Models
         public System.Guid projectUid { get; set; }
         public string expensePercentage1 { get; set; }
         public string expensePercentageDescription { get; set; }
-        public int percentage { get; set; }
-        public bool isForActiveOnly { get; set; }
+        public decimal percentage { get; set; }
     
         public virtual Project Project { get; set; }
     }

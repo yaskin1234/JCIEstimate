@@ -11,14 +11,6 @@
     <h4>ExpenseTravel</h4>
     <hr />
     <dl class="dl-horizontal">
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.project1)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Project.project1)
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.expenseTravel1)
         </dt>
@@ -36,27 +28,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.rate)
+            @Html.DisplayNameFor(model => model.ratePerDay)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.rate)
+            @Html.DisplayFor(model => model.ratePerDay)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Interval.interval1)
+            @Html.DisplayNameFor(model => model.daysPerMonth)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Interval.interval1)
+            @Html.DisplayFor(model => model.daysPerMonth)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.quantity)
+            @Html.DisplayNameFor(model => model.projectDurationInMonths)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.quantity)
+            @Html.DisplayFor(model => model.projectDurationInMonths)
         </dd>
 
         <dt>
@@ -67,7 +59,13 @@
             @Html.DisplayFor(model => model.total)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
 
     </dl>
 

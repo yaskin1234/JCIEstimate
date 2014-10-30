@@ -21,17 +21,13 @@
             @Html.DisplayNameFor(model => model.expensePercentageDescription)
         </th>
         <th>
-            Amount Applied to Percentage
+            Project Active Total
         </th>
-
         <th>
             @Html.DisplayNameFor(model => model.percentage)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.isForActiveOnly)
-        </th>
-        <th>
-            Total
+            Expense Total
         </th>
         <th></th>
     </tr>
@@ -48,16 +44,13 @@
             @Html.DisplayFor(modelItem => item.expensePercentageDescription)
         </td>
         <td>
-            @String.Format("{0:C0}", ViewBag.projectTotal)
+            @String.Format("{0:C0}", Session["activeTotal"])
         </td>
         <td>
-            @String.Format("{0:P0}", (decimal)item.percentage / 100)
+            @Html.DisplayFor(modelItem => item.percentage)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.isForActiveOnly)
-        </td>
-        <td>
-            @String.Format("{0:C0}", item.percentage * ViewBag.projectTotal / 100)
+            @(String.Format("{0:C0}", item.percentage * (Decimal)Session["activeTotal"]))
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.expensePercentageUid }) |

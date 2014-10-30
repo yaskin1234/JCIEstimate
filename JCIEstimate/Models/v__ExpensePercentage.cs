@@ -12,18 +12,14 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Interval
+    public partial class v__ExpensePercentage
     {
-        public Interval()
-        {
-            this.ExpenseConstructions = new HashSet<ExpenseConstruction>();
-        }
-    
-        public System.Guid intervalUid { get; set; }
-        public string interval1 { get; set; }
-        public string intervalDescription { get; set; }
-        public string behaviorIndicator { get; set; }
-    
-        public virtual ICollection<ExpenseConstruction> ExpenseConstructions { get; set; }
+        public System.Guid expensePercentageUid { get; set; }
+        public System.Guid projectUid { get; set; }
+        public string expensePercentage { get; set; }
+        public string expensePercentageDescription { get; set; }
+        public decimal percentage { get; set; }
+        public Nullable<decimal> sumActiveTotal { get; set; }
+        public Nullable<decimal> total { get; set; }
     }
 }

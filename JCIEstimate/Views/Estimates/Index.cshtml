@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
-    WebGrid grid = new WebGrid(Model, rowsPerPage: 50, defaultSort: "ECM.ecmString");
+    WebGrid grid = new WebGrid(Model, rowsPerPage: 50);
     if (Request.QueryString["sort"] != null)
     {
         grid.SortColumn = Request.QueryString["sort"];

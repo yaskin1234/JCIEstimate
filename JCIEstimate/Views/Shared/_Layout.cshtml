@@ -24,7 +24,9 @@
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin</a>
                         <ul class="dropdown-menu">                            
                             <li>@Html.ActionLink("Roles Admin", "Index", "RolesAdmin")</li>
-                            <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>                                              
+                            <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>          
+                            <li>@Html.ActionLink("To Do Status", "Index", "ToDoStatus")</li>                                            
+                            <li>@Html.ActionLink("To Do List", "Index", "ProjectToDoes")</li>        
                         </ul>
                     </li>
                     }
@@ -36,12 +38,12 @@
                                 <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
                                 <li>@Html.ActionLink("Projects", "Index", "Projects")</li>                             
                                 <li>@Html.ActionLink("Misc Expenses", "Index", "ExpenseMiscellaneous")</li>                               
-                                <li>--------------------------</li>
+                                <li><hr /></li>
                                 <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>                                                                
                                 <li>@Html.ActionLink("Equipment Tasks", "Index", "EquipmentTasks")</li>
                                 <li>@Html.ActionLink("Equipment Types", "Index", "EquipmentTypes")</li>
                                 <li>@Html.ActionLink("Intervals", "Index", "Intervals")</li>
-                                <li>--------------------------</li>
+                                <li><hr /></li>
                                 <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
                                 <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li> 
                                 
@@ -54,12 +56,12 @@
                                 <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("ECMs", "Index", "ECMs")</li>
                                     <li>@Html.ActionLink("Locations", "Index", "Locations")</li>                                                
-                                    <li>--------------------------------</li>
+                                    <li><hr /></li>
                                     <li>@Html.ActionLink("Construction Expenses", "Index", "ExpenseConstructions")</li>                                    
                                     <li>@Html.ActionLink("Percentage Expenses", "Index", "ExpensePercentages")</li>                                    
                                     <li>@Html.ActionLink("Travel Expenses", "Index", "ExpenseTravels")</li> 
                                     <li>@Html.ActionLink("Misc Expenses For Project", "Index", "ExpenseMiscellaneousProjects")</li>                                   
-                                    <li>--------------------------------</li>     
+                                    <li><hr /></li>
                                     <li>@Html.ActionLink("Equipment", "Index", "Equipments")</li>                                    
                                     <li>@Html.ActionLink("Equipment To Do", "Index", "EquipmentToDoes")</li>
                                 </ul>

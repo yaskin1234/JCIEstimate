@@ -6,6 +6,7 @@ using System.Net;
 using System.Web.Mvc;
 using JCIEstimate.Models;
 using System.Data.Entity;
+using System.Net.Mail;
 
 
 namespace JCIExtensions
@@ -26,6 +27,16 @@ namespace JCIExtensions
             }
             context.SaveChanges();
         }
+
+        public static void sendMail(string message, string subject, string fromAddress, string toAddress)
+        {
+            SmtpClient sClient = new SmtpClient("localhost");
+            sClient.Credentials = CredentialCache.DefaultNetworkCredentials;
+            MailMessage m = new MailMessage(fromAddress, toAddress, subject, message);
+            sClient.Send(m);
+            
+        }
+        
 
         public static void InsertOrUpdate(DbContext context, ExpenseMiscellaneousProject entity)
         {

@@ -12,18 +12,14 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Interval
+    public partial class ScopeOfWork
     {
-        public Interval()
-        {
-            this.ExpenseConstructions = new HashSet<ExpenseConstruction>();
-        }
+        public System.Guid scopeOfWorkUid { get; set; }
+        public System.Guid projectUid { get; set; }
+        public string scopeOfWork1 { get; set; }
+        public string scopeOfWorkDescription { get; set; }
+        public byte[] document { get; set; }
     
-        public System.Guid intervalUid { get; set; }
-        public string interval1 { get; set; }
-        public string intervalDescription { get; set; }
-        public string behaviorIndicator { get; set; }
-    
-        public virtual ICollection<ExpenseConstruction> ExpenseConstructions { get; set; }
+        public virtual Project Project { get; set; }
     }
 }
