@@ -43,7 +43,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index", "Estimates");
             }
 
-            return View(project);
+            return View(project); //test comment
         }
 
         // GET: Projects/Details/5
