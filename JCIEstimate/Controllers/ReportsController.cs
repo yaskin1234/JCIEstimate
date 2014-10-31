@@ -50,6 +50,17 @@ namespace JCIEstimate.Controllers
             {
                 return View("rptBidSummary");
             }
-        }                
+        }
+        public ActionResult GetContractorSummary()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {                
+                return View("rptContractorSummary");
+            }
+        }  
     }
 }

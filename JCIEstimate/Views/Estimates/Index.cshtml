@@ -56,17 +56,21 @@ columns: new[]  // colums in grid
     grid.Column("ECM", format:@<span>@item.ECM.ecmNumber @if (item.ECM.ecmDescription != null)
     { <span>-</span>@item.ECM.ecmDescription }</span>),
     grid.Column("Category", format:@<span>@item.Category.category1</span>),
-    grid.Column("Status", format:@<span>@item.EstimateStatu.estimateStatus</span>),
+    grid.Column("Status", format:@<span>@item.EstimateStatu.estimateStatus</span>),    
+    grid.Column("Amount", format:@<span>@String.Format("{0:C0}", item.amount)</span>),
     grid.Column("Active?", format:@<span>@item.isActive</span>),
-    grid.Column("Material", format:@<span>@String.Format("{0:C0}", item.materialBid)</span>),
-    grid.Column("Labor", format:@<span>@String.Format("{0:C0}", item.laborBid)</span>),
-    grid.Column("Bond", format:@<span>@String.Format("{0:C0}", item.bondAmount)</span>),
-    grid.Column("Total", format:@<span>@String.Format("{0:C0}", item.activeTotal)</span>),
+    grid.Column("Active Amount", format:@<span>@String.Format("{0:C0}", item.activeAmount)</span>),    
     grid.Column("Notes", format:@<span>@item.notes</span>),
     grid.Column(header: "",
         format: @<text>
-        <a href="@Url.Action("Edit", "Estimates", new { id = item.estimateUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" /></a>
+        @if (item.EstimateStatu.behaviorIndicator != "S" || User.IsInRole("Admin"))
+        { 
+            <a href="@Url.Action("Edit", "Estimates", new { id = item.estimateUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" /></a>
+        } 
         <a href="@Url.Action("Details", "Estimates", new { id = item.estimateUid })"><img src="@Url.Content("~/Images/view_details.png")" height="15" width="15" /></a>
-        <a href="@Url.Action("Delete", "Estimates", new { id = item.estimateUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" /></a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a href="@Url.Action("Delete", "Estimates", new { id = item.estimateUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" /></a>
+        }
         </text>)
 })

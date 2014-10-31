@@ -256,12 +256,14 @@ namespace JCIEstimate.Models
     
     public class EstimateMetaData
     {
+
+
         [Display(Name = "Estimate")]
         public System.Guid estimateUid { get; set; }
         [Display(Name = "Contractor")]                
         public System.Guid contractorUid { get; set; }
         [Display(Name = "Location")]
-        public System.Guid locationUid { get; set; }
+        public System.Guid locationUid { get; set; }        
         [Display(Name = "ECM")]
         public System.Guid ecmUid { get; set; }
         [Display(Name = "Category")]
@@ -269,23 +271,16 @@ namespace JCIEstimate.Models
         [Display(Name = "Estimate Status")]
         public System.Guid estimateStatusUid { get; set; }
         [Display(Name = "Active?")]
-        public Nullable<bool> isActive { get; set; }
-        [Display(Name = "Material Bid")]
-        public decimal materialBid { get; set; }
-        [Display(Name = "Labor Bid")]
-        public decimal laborBid { get; set; }
-        [Display(Name = "Bond Amount")]
-        public decimal bondAmount { get; set; }
-        [Display(Name = "Active Total")]
-        public decimal activeTotal { get; set; }
-        [Display(Name = "Bid Total")]
-        public decimal bidTotal { get; set; }
+        public Nullable<bool> isActive { get; set; }        
+        [Display(Name = "Amount")]
+        [DataType(DataType.Currency)]
+        public decimal amount { get; set; }        
+        [Display(Name = "Active Amount")]
+        [DataType(DataType.Currency)]
+        public decimal activeAmount { get; set; }
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Notes")]
         public string notes { get; set; }
-        [Display(Name = "Delivery Weeks")]
-        public Nullable<int> deliveryWeeks { get; set; }
-        [Display(Name = "Installation Weeks")]
-        public Nullable<int> installationWeeks { get; set; }
     }
 
 

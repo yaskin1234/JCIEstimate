@@ -1,0 +1,58 @@
+﻿@model JCIEstimate.Models.ProjectToDo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ProjectToDo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToDoStatu.toDoStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToDoStatu.toDoStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.projectToDo1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectToDo1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectToDoDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectToDoDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateResolved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateResolved)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.projectToDoUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

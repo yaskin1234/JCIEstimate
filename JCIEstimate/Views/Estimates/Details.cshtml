@@ -51,6 +51,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.amount)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.isActive)
         </dt>
 
@@ -59,35 +67,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.materialBid)
+            @Html.DisplayNameFor(model => model.activeAmount)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.materialBid)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.laborBid)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.laborBid)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.bondAmount)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.bondAmount)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.total)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.total)
+            @Html.DisplayFor(model => model.activeAmount)
         </dd>
 
         <dt>
@@ -96,22 +80,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.notes)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.deliveryWeeks)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.deliveryWeeks)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.installationWeeks)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.installationWeeks)
         </dd>
 
     </dl>

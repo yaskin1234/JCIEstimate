@@ -21,14 +21,9 @@ namespace JCIEstimate.Models
         public System.Guid categoryUid { get; set; }
         public System.Guid estimateStatusUid { get; set; }
         public Nullable<bool> isActive { get; set; }
-        public decimal materialBid { get; set; }
-        public decimal laborBid { get; set; }
-        public decimal bondAmount { get; set; }
+        public decimal amount { get; set; }
+        public decimal activeAmount { get; set; }
         public string notes { get; set; }
-        public Nullable<int> deliveryWeeks { get; set; }
-        public Nullable<int> installationWeeks { get; set; }
-        public Nullable<decimal> bidTotal { get; set; }
-        public Nullable<decimal> activeTotal { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Contractor Contractor { get; set; }

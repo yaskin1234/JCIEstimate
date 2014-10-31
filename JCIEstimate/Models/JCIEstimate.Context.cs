@@ -37,7 +37,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ECM> ECMs { get; set; }
         public virtual DbSet<ExpenseConstruction> ExpenseConstructions { get; set; }
         public virtual DbSet<Interval> Intervals { get; set; }
-        public virtual DbSet<Estimate> Estimates { get; set; }
         public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<EquipmentToDo> EquipmentToDoes { get; set; }
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
@@ -50,5 +49,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ToDoStatu> ToDoStatus { get; set; }
         public virtual DbSet<ProjectToDo> ProjectToDoes { get; set; }
         public virtual DbSet<ExpenseTravel> ExpenseTravels { get; set; }
+        public virtual DbSet<Estimate> Estimates { get; set; }
     }
 }

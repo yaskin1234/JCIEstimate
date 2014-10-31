@@ -1,0 +1,64 @@
+﻿@model JCIEstimate.Models.ProjectToDo
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ProjectToDo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.projectToDo1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectToDo1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectToDoDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectToDoDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateResolved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateResolved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToDoStatu.toDoStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToDoStatu.toDoStatus)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

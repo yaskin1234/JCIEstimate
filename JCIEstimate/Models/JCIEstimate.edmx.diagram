@@ -25,12 +25,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.Interval" Width="1.5" PointX="0.75" PointY="0.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_interval" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Estimate" Width="1.5" PointX="15.375" PointY="8" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_category" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_status" />
         <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="20.375" PointY="3" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentToDo" Width="1.5" PointX="22.5" PointY="6.375" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentType" Width="1.5" PointX="16.125" PointY="20.75" />
@@ -54,6 +48,12 @@
         <AssociationConnector Association="JCIEstimateModel.fk_projecttodo_todostatus" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseTravel" Width="1.5" PointX="18.375" PointY="25.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseTravel_project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Estimate" Width="1.5" PointX="15.375" PointY="8.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_category" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_status" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

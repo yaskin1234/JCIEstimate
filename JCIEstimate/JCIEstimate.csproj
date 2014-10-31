@@ -279,6 +279,7 @@
     <Content Include="Views\ExpenseTravels\Details.cshtml" />
     <Content Include="Views\ExpenseTravels\Edit.cshtml" />
     <Content Include="Views\ExpenseTravels\Index.cshtml" />
+    <Content Include="Views\Reports\rptContractorSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

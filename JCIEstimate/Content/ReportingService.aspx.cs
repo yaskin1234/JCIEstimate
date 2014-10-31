@@ -30,11 +30,20 @@ namespace JCIEstimate.Content
                     {
                         ReportViewer1.ServerReport.ReportPath = "/JCIEstimate/" + report;
                     }
-                    
                     ReportParameter rp = new ReportParameter("projectUid", Session["projectUid"].ToString());
                     ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { rp });
                     ReportViewer1.ShowExportControls = true;
                     ReportViewer1.ShowParameterPrompts = true;            
+                    string contractorUid = Request.QueryString["contractorUid"];
+                    if (contractorUid != null) 
+                    {
+                        ReportParameter cu = new ReportParameter("contractorUid", Session["contractorUid"].ToString());
+                        ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { cu });
+                        ReportViewer1.ShowExportControls = true;
+                        ReportViewer1.ShowParameterPrompts = true;            
+
+                    }
+
                 }                
             }
         }

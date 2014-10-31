@@ -24,7 +24,7 @@ namespace JCIEstimate.Controllers
             expensePercentages = from cc in db.ExpensePercentages
                                  where cc.projectUid == sessionProject
                                  select cc;
-            var projectTotal = db.Estimates.Sum(e => e.laborBid + e.materialBid + e.bondAmount);
+            var projectTotal = db.Estimates.Sum(e => e.amount);
             expensePercentages = expensePercentages.Include(e => e.Project);
             ViewBag.projectTotal = projectTotal;
             return View(await expensePercentages.ToListAsync());

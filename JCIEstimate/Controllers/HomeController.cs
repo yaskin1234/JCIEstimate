@@ -39,8 +39,24 @@ namespace IdentitySample.Controllers
         {
             Session["projectUid"] = null;
             Session["projectName"] = null;
-            ViewBag.projectUid = db.Projects.ToSelectList(d => d.project1, d => d.projectUid.ToString(), "");
-            //ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
+            
+            IQueryable<Project> projects;
+
+            if (User.IsInRole("Admin"))
+            {
+                projects = from cc in db.Projects
+                           select cc;
+            }
+            else
+            {
+                projects = from cc in db.Projects
+                           join ss in db.Estimates on cc.projectUid equals ss.ECM.projectUid
+                           select cc;
+                projects = projects.Distinct();
+            }
+
+
+            ViewBag.projectUid = projects.ToSelectList(d => d.project1, d => d.projectUid.ToString(), "");            
             return View();
         }
 

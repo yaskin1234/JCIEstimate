@@ -57,8 +57,8 @@ namespace JCIEstimate.Controllers
 
             if (estimates.Count() > 0)
             {
-                activeTotal = estimates.Sum(d => d.activeTotal);
-                bidTotal = estimates.Sum(d => d.bidTotal);
+                activeTotal = estimates.Sum(d => d.activeAmount);
+                bidTotal = estimates.Sum(d => d.amount);
             }
 
             ViewBag.activeTotal = String.Format("{0:C0}", activeTotal);
@@ -133,66 +133,34 @@ namespace JCIEstimate.Controllers
                 }
 
             }
-            else if (sort == "Material")
+            else if (sort == "Amount")
             {
                 if (sortdir == "ASC")
                 {
                     estimates = from ee in estimates
-                                orderby ee.materialBid ascending
+                                orderby ee.amount ascending
                                 select ee;
                 }
                 else
                 {
                     estimates = from ee in estimates
-                                orderby ee.materialBid descending
+                                orderby ee.amount descending
                                 select ee;
                 }
 
             }
-            else if (sort == "Labor")
+            else if (sort == "Active Amount")
             {
                 if (sortdir == "ASC")
                 {
                     estimates = from ee in estimates
-                                orderby ee.laborBid ascending
+                                orderby ee.activeAmount ascending
                                 select ee;
                 }
                 else
                 {
                     estimates = from ee in estimates
-                                orderby ee.laborBid descending
-                                select ee;
-                }
-
-            }
-            else if (sort == "Bond")
-            {
-                if (sortdir == "ASC")
-                {
-                    estimates = from ee in estimates
-                                orderby ee.bondAmount ascending
-                                select ee;
-                }
-                else
-                {
-                    estimates = from ee in estimates
-                                orderby ee.bondAmount descending
-                                select ee;
-                }
-
-            }
-            else if (sort == "Total")
-            {
-                if (sortdir == "ASC")
-                {
-                    estimates = from ee in estimates
-                                orderby ee.activeTotal ascending
-                                select ee;
-                }
-                else
-                {
-                    estimates = from ee in estimates
-                                orderby ee.activeTotal descending
+                                orderby ee.activeAmount descending
                                 select ee;
                 }
 
@@ -275,7 +243,7 @@ namespace JCIEstimate.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,materialBid,laborBid,bondAmount,total,notes,deliveryWeeks,installationWeeks,contractorUid")] Estimate estimate)
+        public async Task<ActionResult> Create([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,amount,activeAmount,notes,contractorUid")] Estimate estimate)
         {
             if (ModelState.IsValid)
             {
@@ -356,7 +324,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,materialBid,laborBid,bondAmount,total,notes,deliveryWeeks,installationWeeks,contractorUid")] Estimate estimate)
+        public async Task<ActionResult> Edit([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,amount,activeAmount,notes,contractorUid")] Estimate estimate)
         {
             if (ModelState.IsValid)
             {
@@ -389,6 +357,7 @@ namespace JCIEstimate.Controllers
 
         // POST: Estimates/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
