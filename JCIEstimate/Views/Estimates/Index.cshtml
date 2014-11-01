@@ -17,7 +17,7 @@
     }
     else
     {
-        grid.SortColumn = "ECM";
+        grid.SortColumn = "Location, ECM, Contractor";
     }
 }
 
@@ -51,10 +51,10 @@ lastText: "Last >>",
 
 columns: new[]  // colums in grid
 {
-    grid.Column("Contractor", format:@<span>@item.Contractor.contractorName</span>),
-    grid.Column("Location", format:@<span>@item.Location.location1</span>),
+    grid.Column("Location", format:@<span>@item.Location.location1</span>),    
     grid.Column("ECM", format:@<span>@item.ECM.ecmNumber @if (item.ECM.ecmDescription != null)
     { <span>-</span>@item.ECM.ecmDescription }</span>),
+    grid.Column("Contractor", format:@<span>@item.Contractor.contractorName</span>),
     grid.Column("Category", format:@<span>@item.Category.category1</span>),
     grid.Column("Status", format:@<span>@item.EstimateStatu.estimateStatus</span>),    
     grid.Column("Amount", format:@<span>@String.Format("{0:C0}", item.amount)</span>),

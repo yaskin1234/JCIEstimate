@@ -37,7 +37,7 @@ namespace JCIEstimate.Content
                     string contractorUid = Request.QueryString["contractorUid"];
                     if (contractorUid != null) 
                     {
-                        ReportParameter cu = new ReportParameter("contractorUid", Session["contractorUid"].ToString());
+                        ReportParameter cu = new ReportParameter("userUid", Session["userUid"].ToString());
                         ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { cu });
                         ReportViewer1.ShowExportControls = true;
                         ReportViewer1.ShowParameterPrompts = true;            

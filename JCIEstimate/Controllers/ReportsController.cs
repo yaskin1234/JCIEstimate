@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
+using Microsoft.AspNet.Identity;
 
 namespace JCIEstimate.Controllers
 {
@@ -58,7 +59,8 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index", "Home");
             }
             else
-            {                
+            {
+                Session["userUid"] = IdentityExtensions.GetUserId(User.Identity);                
                 return View("rptContractorSummary");
             }
         }  

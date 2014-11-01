@@ -36,8 +36,7 @@ namespace JCIEstimate.Controllers
         {
             if (ModelState.IsValid)
             {
-                Session["projectUid"] = project.projectUid;
-                Session["contractorUid"] = db.ContractorUsers.FirstOrDefault(d => d.AspNetUser.UserName == User.Identity.Name).contractorUid.ToString();
+                Session["projectUid"] = project.projectUid;                           
                 Session["projectName"] = db.Projects.First(d => d.projectUid == project.projectUid).project1.ToString();
                 
                 return RedirectToAction("Index", "Estimates");
