@@ -44,11 +44,10 @@ namespace JCIEstimate.Models
         public virtual DbSet<ExpenseMiscellaneou> ExpenseMiscellaneous { get; set; }
         public virtual DbSet<ExpenseMiscellaneousProject> ExpenseMiscellaneousProjects { get; set; }
         public virtual DbSet<ExpensePercentage> ExpensePercentages { get; set; }
-        public virtual DbSet<ScopeOfWork> ScopeOfWorks { get; set; }
-        public virtual DbSet<v__ExpensePercentage> v__ExpensePercentage { get; set; }
         public virtual DbSet<ToDoStatu> ToDoStatus { get; set; }
         public virtual DbSet<ProjectToDo> ProjectToDoes { get; set; }
         public virtual DbSet<ExpenseTravel> ExpenseTravels { get; set; }
         public virtual DbSet<Estimate> Estimates { get; set; }
+        public virtual DbSet<ScopeOfWork> ScopeOfWorks { get; set; }
     }
 }

@@ -237,9 +237,13 @@
           </Key>
           <Property Name="scopeOfWorkUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="categoryUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="scopeOfWork" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="scopeOfWorkDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="document" Type="varbinary(max)" Nullable="false" />
+          <Property Name="fileType" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="version" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="documentName" Type="varchar" MaxLength="2000" Nullable="false" />
         </EntityType>
         <EntityType Name="ToDoStatus">
           <Key>
@@ -249,23 +253,6 @@
           <Property Name="toDoStatus" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="toDoStatusDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v__ExpensePercentage">
-          <Key>
-            <PropertyRef Name="expensePercentageUid" />
-            <PropertyRef Name="projectUid" />
-            <PropertyRef Name="expensePercentage" />
-            <PropertyRef Name="percentage" />
-          </Key>
-          <Property Name="expensePercentageUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="expensePercentage" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="expensePercentageDescription" Type="nvarchar" MaxLength="2000" />
-          <Property Name="percentage" Type="decimal" Precision="11" Scale="6" Nullable="false" />
-          <Property Name="sumActiveTotal" Type="money" />
-          <Property Name="total" Type="decimal" Precision="31" Scale="10" />
         </EntityType>
         <Association Name="fk_AspNetUser">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -543,6 +530,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_ScopeOfWork_category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="ScopeOfWork" Type="Self.ScopeOfWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryUid" />
+            </Principal>
+            <Dependent Role="ScopeOfWork">
+              <PropertyRef Name="categoryUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_ScopeOfWork_project">
           <End Role="Project" Type="Self.Project" Multiplicity="1" />
           <End Role="ScopeOfWork" Type="Self.ScopeOfWork" Multiplicity="*" />
@@ -580,17 +579,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="ProjectToDo" EntityType="Self.ProjectToDo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScopeOfWork" EntityType="Self.ScopeOfWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ToDoStatus" EntityType="Self.ToDoStatus" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="v__ExpensePercentage" EntityType="Self.v__ExpensePercentage" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v__ExpensePercentage].[expensePercentageUid] AS [expensePercentageUid], 
-    [v__ExpensePercentage].[projectUid] AS [projectUid], 
-    [v__ExpensePercentage].[expensePercentage] AS [expensePercentage], 
-    [v__ExpensePercentage].[expensePercentageDescription] AS [expensePercentageDescription], 
-    [v__ExpensePercentage].[percentage] AS [percentage], 
-    [v__ExpensePercentage].[sumActiveTotal] AS [sumActiveTotal], 
-    [v__ExpensePercentage].[total] AS [total]
-    FROM [dbo].[v__ExpensePercentage] AS [v__ExpensePercentage]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="fk_AspNetUser" Association="Self.fk_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="ContractorUser" EntitySet="ContractorUser" />
@@ -682,6 +670,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_projecttodo_todostatus" Association="Self.fk_projecttodo_todostatus">
             <End Role="ToDoStatus" EntitySet="ToDoStatus" />
             <End Role="ProjectToDo" EntitySet="ProjectToDo" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ScopeOfWork_category" Association="Self.fk_ScopeOfWork_category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="ScopeOfWork" EntitySet="ScopeOfWork" />
           </AssociationSet>
           <AssociationSet Name="fk_ScopeOfWork_project" Association="Self.fk_ScopeOfWork_project">
             <End Role="Project" EntitySet="Project" />
@@ -776,12 +768,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Project" EntitySet="Projects" />
             <End Role="ExpensePercentage" EntitySet="ExpensePercentages" />
           </AssociationSet>
-          <EntitySet Name="ScopeOfWorks" EntityType="JCIEstimateModel.ScopeOfWork" />
-          <AssociationSet Name="fk_ScopeOfWork_project" Association="JCIEstimateModel.fk_ScopeOfWork_project">
-            <End Role="Project" EntitySet="Projects" />
-            <End Role="ScopeOfWork" EntitySet="ScopeOfWorks" />
-          </AssociationSet>
-          <EntitySet Name="v__ExpensePercentage" EntityType="JCIEstimateModel.v__ExpensePercentage" />
           <EntitySet Name="ToDoStatus" EntityType="JCIEstimateModel.ToDoStatu" />
           <EntitySet Name="ProjectToDoes" EntityType="JCIEstimateModel.ProjectToDo" />
           <AssociationSet Name="fk_projecttodo_todostatus" Association="JCIEstimateModel.fk_projecttodo_todostatus">
@@ -814,6 +800,15 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="EstimateStatu" EntitySet="EstimateStatus" />
             <End Role="Estimate" EntitySet="Estimates" />
           </AssociationSet>
+          <EntitySet Name="ScopeOfWorks" EntityType="JCIEstimateModel.ScopeOfWork" />
+          <AssociationSet Name="fk_ScopeOfWork_category" Association="JCIEstimateModel.fk_ScopeOfWork_category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="ScopeOfWork" EntitySet="ScopeOfWorks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ScopeOfWork_project" Association="JCIEstimateModel.fk_ScopeOfWork_project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ScopeOfWork" EntitySet="ScopeOfWorks" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -823,6 +818,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="category1" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="categoryDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_category" FromRole="Category" ToRole="Estimate" />
+          <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_category" FromRole="Category" ToRole="ScopeOfWork" />
         </EntityType>
         <EntityType Name="Contractor">
           <Key>
@@ -903,8 +899,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ExpenseConstructions" Relationship="JCIEstimateModel.fk_expenseConstruction_project" FromRole="Project" ToRole="ExpenseConstruction" />
           <NavigationProperty Name="ExpenseMiscellaneousProjects" Relationship="JCIEstimateModel.fk_expensemiscellaneousproject_project" FromRole="Project" ToRole="ExpenseMiscellaneousProject" />
           <NavigationProperty Name="ExpensePercentages" Relationship="JCIEstimateModel.fk_expensePercentage_project" FromRole="Project" ToRole="ExpensePercentage" />
-          <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="Project" ToRole="ScopeOfWork" />
           <NavigationProperty Name="ExpenseTravels" Relationship="JCIEstimateModel.fk_expenseTravel_project" FromRole="Project" ToRole="ExpenseTravel" />
+          <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="Project" ToRole="ScopeOfWork" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -1233,44 +1229,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ScopeOfWork">
-          <Key>
-            <PropertyRef Name="scopeOfWorkUid" />
-          </Key>
-          <Property Name="scopeOfWorkUid" Type="Guid" Nullable="false" />
-          <Property Name="projectUid" Type="Guid" Nullable="false" />
-          <Property Name="scopeOfWork1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="document" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="ScopeOfWork" ToRole="Project" />
-        </EntityType>
-        <Association Name="fk_ScopeOfWork_project">
-          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ScopeOfWork" Role="ScopeOfWork" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="projectUid" />
-            </Principal>
-            <Dependent Role="ScopeOfWork">
-              <PropertyRef Name="projectUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="v__ExpensePercentage">
-          <Key>
-            <PropertyRef Name="expensePercentageUid" />
-            <PropertyRef Name="projectUid" />
-            <PropertyRef Name="expensePercentage" />
-            <PropertyRef Name="percentage" />
-          </Key>
-          <Property Name="expensePercentageUid" Type="Guid" Nullable="false" />
-          <Property Name="projectUid" Type="Guid" Nullable="false" />
-          <Property Name="expensePercentage" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="expensePercentageDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="percentage" Type="Decimal" Nullable="false" Precision="11" Scale="6" />
-          <Property Name="sumActiveTotal" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="total" Type="Decimal" Precision="31" Scale="10" />
-        </EntityType>
         <EntityType Name="ToDoStatu">
           <Key>
             <PropertyRef Name="toDoStatusUid" />
@@ -1408,6 +1366,46 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="Estimate">
               <PropertyRef Name="estimateStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ScopeOfWork">
+          <Key>
+            <PropertyRef Name="scopeOfWorkUid" />
+          </Key>
+          <Property Name="scopeOfWorkUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="categoryUid" Type="Guid" Nullable="false" />
+          <Property Name="scopeOfWork1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="document" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="fileType" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="version" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Category" Relationship="JCIEstimateModel.fk_ScopeOfWork_category" FromRole="ScopeOfWork" ToRole="Category" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="ScopeOfWork" ToRole="Project" />
+          <Property Name="documentName" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="fk_ScopeOfWork_category">
+          <End Type="JCIEstimateModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ScopeOfWork" Role="ScopeOfWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryUid" />
+            </Principal>
+            <Dependent Role="ScopeOfWork">
+              <PropertyRef Name="categoryUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ScopeOfWork_project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ScopeOfWork" Role="ScopeOfWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ScopeOfWork">
+              <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1623,30 +1621,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ScopeOfWorks">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ScopeOfWork">
-              <MappingFragment StoreEntitySet="ScopeOfWork">
-                <ScalarProperty Name="document" ColumnName="document" />
-                <ScalarProperty Name="scopeOfWorkDescription" ColumnName="scopeOfWorkDescription" />
-                <ScalarProperty Name="scopeOfWork1" ColumnName="scopeOfWork" />
-                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
-                <ScalarProperty Name="scopeOfWorkUid" ColumnName="scopeOfWorkUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v__ExpensePercentage">
-            <EntityTypeMapping TypeName="JCIEstimateModel.v__ExpensePercentage">
-              <MappingFragment StoreEntitySet="v__ExpensePercentage">
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="sumActiveTotal" ColumnName="sumActiveTotal" />
-                <ScalarProperty Name="percentage" ColumnName="percentage" />
-                <ScalarProperty Name="expensePercentageDescription" ColumnName="expensePercentageDescription" />
-                <ScalarProperty Name="expensePercentage" ColumnName="expensePercentage" />
-                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
-                <ScalarProperty Name="expensePercentageUid" ColumnName="expensePercentageUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ToDoStatus">
             <EntityTypeMapping TypeName="JCIEstimateModel.ToDoStatu">
               <MappingFragment StoreEntitySet="ToDoStatus">
@@ -1696,6 +1670,21 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="locationUid" ColumnName="locationUid" />
                 <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
                 <ScalarProperty Name="estimateUid" ColumnName="estimateUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScopeOfWorks">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ScopeOfWork">
+              <MappingFragment StoreEntitySet="ScopeOfWork">
+                <ScalarProperty Name="documentName" ColumnName="documentName" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="fileType" ColumnName="fileType" />
+                <ScalarProperty Name="document" ColumnName="document" />
+                <ScalarProperty Name="scopeOfWorkDescription" ColumnName="scopeOfWorkDescription" />
+                <ScalarProperty Name="scopeOfWork1" ColumnName="scopeOfWork" />
+                <ScalarProperty Name="categoryUid" ColumnName="categoryUid" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="scopeOfWorkUid" ColumnName="scopeOfWorkUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

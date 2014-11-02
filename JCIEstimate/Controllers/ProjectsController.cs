@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
+using System.IO;
 
 namespace JCIEstimate.Controllers
 {    
@@ -25,6 +26,18 @@ namespace JCIEstimate.Controllers
         public async Task<ActionResult> ChooseProject()
         {
             return View(await db.Projects.ToListAsync());
+        }
+
+        public async Task<ActionResult> UploadScope(HttpPostedFileBase scopeDocument)
+        {
+            if (scopeDocument.ContentLength > 0)
+           {
+               var fileName = Path.GetFileName(scopeDocument.FileName);
+               var path = Path.Combine(Server.MapPath("~/Content/ScopeDocuments"), fileName);
+               scopeDocument.SaveAs(path);
+           }
+           return View(await db.Projects.ToListAsync());
+
         }
 
         // POST: Projects/SetProject

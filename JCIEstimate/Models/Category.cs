@@ -17,6 +17,7 @@ namespace JCIEstimate.Models
         public Category()
         {
             this.Estimates = new HashSet<Estimate>();
+            this.ScopeOfWorks = new HashSet<ScopeOfWork>();
         }
     
         public System.Guid categoryUid { get; set; }
@@ -24,5 +25,6 @@ namespace JCIEstimate.Models
         public string categoryDescription { get; set; }
     
         public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<ScopeOfWork> ScopeOfWorks { get; set; }
     }
 }

@@ -554,4 +554,41 @@ namespace JCIEstimate.Models
         public Nullable<System.DateTime> dateResolved { get; set; }
 
     }
+
+
+    
+    /// <summary>
+    /// ScopeOfWork
+    /// </summary>
+    [MetadataType(typeof(ScopeOfWorkMetaData))]
+    public partial class ScopeOfWork
+    {
+    }
+
+    public class ScopeOfWorkMetaData
+    {
+
+        [Display(Name = "Scope Of Work")]
+        public System.Guid scopeOfWorkUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Category")]
+        public System.Guid categoryUid { get; set; }
+        [Display(Name = "Scope Of Work")]
+        public string scopeOfWork1 { get; set; }
+        [Display(Name = "Scope Of Work Description")]
+        public string scopeOfWorkDescription { get; set; }
+        [Display(Name = "Scope Document")]
+        public byte[] document { get; set; }
+        [Display(Name = "File Type")]
+        public string fileType { get; set; }
+        [Display(Name = "Document ID")]
+        public string version { get; set; }
+        [Display(Name = "Document Name")]
+        public string documentName { get; set; }
+    }
+
+
+
+
 }

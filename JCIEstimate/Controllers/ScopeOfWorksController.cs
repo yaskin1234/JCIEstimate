@@ -19,9 +19,23 @@ namespace JCIEstimate.Controllers
         // GET: ScopeOfWorks
         public async Task<ActionResult> Index()
         {
-
-            var scopeOfWorks = db.ScopeOfWorks.Include(s => s.Project);
+            var scopeOfWorks = db.ScopeOfWorks.Include(s => s.Category).Include(s => s.Project);
             return View(await scopeOfWorks.ToListAsync());
+        }
+
+        // GET: ScopeOfWorks/getScopeDocument/5
+        public async Task<ActionResult> GetScopeDocument(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ScopeOfWork scopeOfWork = await db.ScopeOfWorks.FindAsync(id);
+            if (scopeOfWork == null)
+            {
+                return HttpNotFound();
+            }
+            return View(scopeOfWork);
         }
 
         // GET: ScopeOfWorks/Details/5
@@ -42,6 +56,7 @@ namespace JCIEstimate.Controllers
         // GET: ScopeOfWorks/Create
         public ActionResult Create()
         {
+            ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1");
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
             return View();
         }
@@ -51,25 +66,33 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "scopeOfWorkUid,projectUid,scopeOfWork1,scopeOfWorkDescription,document")] ScopeOfWork scopeOfWork, HttpPostedFileBase file1)
+        public async Task<ActionResult> Create(ScopeOfWork scopeOfWork, HttpPostedFileBase postedFile)
         {
-            file1 = Request.Files["file1"];
             if (ModelState.IsValid)
             {
+                if (postedFile != null)
+                {
+                    int fileSize = postedFile.ContentLength;
+                    MemoryStream target = new MemoryStream();
+                    postedFile.InputStream.CopyTo(target);
+                    byte[] data = target.ToArray();
+                    scopeOfWork.document = data;
+                    scopeOfWork.fileType = Path.GetExtension(postedFile.FileName);
+                }
+
+
+                var docName = postedFile.FileName;
+
+                scopeOfWork.documentName = docName;
+
                 scopeOfWork.scopeOfWorkUid = Guid.NewGuid();
                 db.ScopeOfWorks.Add(scopeOfWork);
                 await db.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
 
-            if (file1 != null)
-            {
-                if (file1.ContentLength > 0)
-                {
-                    string filePath = Path.Combine(HttpContext.Server.MapPath("~/Content/ScopeDocuments/"), Path.GetFileName(file1.FileName));
-                    file1.SaveAs(filePath);
-                }
-            }
+            ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", scopeOfWork.categoryUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", scopeOfWork.projectUid);
             return View(scopeOfWork);
         }
@@ -86,8 +109,9 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", scopeOfWork.categoryUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", scopeOfWork.projectUid);
-            return View(scopeOfWork);
+            return View(scopeOfWork);            
         }
 
         // POST: ScopeOfWorks/Edit/5
@@ -95,7 +119,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "scopeOfWorkUid,projectUid,scopeOfWork1,scopeOfWorkDescription,document")] ScopeOfWork scopeOfWork)
+        public async Task<ActionResult> Edit([Bind(Include = "scopeOfWorkUid,projectUid,categoryUid,scopeOfWork1,scopeOfWorkDescription,document")] ScopeOfWork scopeOfWork)
         {
             if (ModelState.IsValid)
             {
@@ -103,10 +127,27 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", scopeOfWork.categoryUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", scopeOfWork.projectUid);
             return View(scopeOfWork);
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetScopeDocument(Guid scopeOfWorkUid, string fileType)
+        {
+            var d = from cc in db.ScopeOfWorks
+                    where cc.scopeOfWorkUid == scopeOfWorkUid
+                    select cc.document;
+
+            var docName = from cc in db.ScopeOfWorks
+                          where cc.scopeOfWorkUid == scopeOfWorkUid
+                          select cc.documentName;
+
+            byte[] byteArray = d.FirstOrDefault();
+            return File(byteArray, "application/octect-stream", docName.FirstOrDefault());
+        }
+
+        
         // GET: ScopeOfWorks/Delete/5
         public async Task<ActionResult> Delete(Guid? id)
         {

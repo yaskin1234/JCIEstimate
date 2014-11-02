@@ -16,10 +16,15 @@ namespace JCIEstimate.Models
     {
         public System.Guid scopeOfWorkUid { get; set; }
         public System.Guid projectUid { get; set; }
+        public System.Guid categoryUid { get; set; }
         public string scopeOfWork1 { get; set; }
         public string scopeOfWorkDescription { get; set; }
         public byte[] document { get; set; }
+        public string fileType { get; set; }
+        public int version { get; set; }
+        public string documentName { get; set; }
     
+        public virtual Category Category { get; set; }
         public virtual Project Project { get; set; }
     }
 }
