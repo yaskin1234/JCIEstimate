@@ -19,7 +19,16 @@ namespace JCIEstimate.Controllers
         // GET: ScopeOfWorks
         public async Task<ActionResult> Index()
         {
-            var scopeOfWorks = db.ScopeOfWorks.Include(s => s.Category).Include(s => s.Project);
+            IQueryable<ScopeOfWork> scopeOfWorks;
+            
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
+            scopeOfWorks = from cc in db.ScopeOfWorks
+                   where cc.projectUid == sessionProject
+                   orderby cc.Category.category1, cc.documentName
+                   select cc;
+
+            scopeOfWorks = scopeOfWorks.Include(s => s.Category).Include(s => s.Project);
             return View(await scopeOfWorks.ToListAsync());
         }
 
@@ -54,10 +63,12 @@ namespace JCIEstimate.Controllers
         }
 
         // GET: ScopeOfWorks/Create
+        [Authorize(Roles="Admin")]
         public ActionResult Create()
         {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            ViewBag.projectUid = new SelectList(db.Projects.Where(m => m.projectUid == sessionProject), "projectUid", "project1");
             ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1");
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
             return View();
         }
 
@@ -66,6 +77,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Create(ScopeOfWork scopeOfWork, HttpPostedFileBase postedFile)
         {
             if (ModelState.IsValid)
@@ -91,13 +103,15 @@ namespace JCIEstimate.Controllers
 
                 return RedirectToAction("Index");
             }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", scopeOfWork.categoryUid);
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", scopeOfWork.projectUid);
+            ViewBag.projectUid = new SelectList(db.Projects.Where(m => m.projectUid == sessionProject), "projectUid", "project1", scopeOfWork.projectUid);
             return View(scopeOfWork);
         }
 
         // GET: ScopeOfWorks/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -108,9 +122,11 @@ namespace JCIEstimate.Controllers
             if (scopeOfWork == null)
             {
                 return HttpNotFound();
-            }
+            }            
+
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();            
+            ViewBag.projectUid = new SelectList(db.Projects.Where(m => m.projectUid == sessionProject), "projectUid", "project1", scopeOfWork.projectUid);
             ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", scopeOfWork.categoryUid);
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", scopeOfWork.projectUid);
             return View(scopeOfWork);            
         }
 
@@ -119,6 +135,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit([Bind(Include = "scopeOfWorkUid,projectUid,categoryUid,scopeOfWork1,scopeOfWorkDescription,document")] ScopeOfWork scopeOfWork)
         {
             if (ModelState.IsValid)
@@ -127,8 +144,9 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", scopeOfWork.categoryUid);
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", scopeOfWork.projectUid);
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            ViewBag.projectUid = new SelectList(db.Projects.Where(m => m.projectUid == sessionProject), "projectUid", "project1", scopeOfWork.projectUid);
+            ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", scopeOfWork.categoryUid);            
             return View(scopeOfWork);
         }
 
@@ -149,6 +167,7 @@ namespace JCIEstimate.Controllers
 
         
         // GET: ScopeOfWorks/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -166,6 +185,7 @@ namespace JCIEstimate.Controllers
         // POST: ScopeOfWorks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
             ScopeOfWork scopeOfWork = await db.ScopeOfWorks.FindAsync(id);

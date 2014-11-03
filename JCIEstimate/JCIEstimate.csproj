@@ -168,100 +168,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Backload\content-types\128\Excel.png" />
-    <Content Include="Content\Backload\content-types\128\File.png" />
-    <Content Include="Content\Backload\content-types\128\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\128\Image.png" />
-    <Content Include="Content\Backload\content-types\128\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\128\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\128\PDF.png" />
-    <Content Include="Content\Backload\content-types\128\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\128\Text.png" />
-    <Content Include="Content\Backload\content-types\128\Word.png" />
-    <Content Include="Content\Backload\content-types\16\Excel.png" />
-    <Content Include="Content\Backload\content-types\16\File.png" />
-    <Content Include="Content\Backload\content-types\16\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\16\Image.png" />
-    <Content Include="Content\Backload\content-types\16\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\16\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\16\PDF.png" />
-    <Content Include="Content\Backload\content-types\16\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\16\Text.png" />
-    <Content Include="Content\Backload\content-types\16\Word.png" />
-    <Content Include="Content\Backload\content-types\24\Excel.png" />
-    <Content Include="Content\Backload\content-types\24\File.png" />
-    <Content Include="Content\Backload\content-types\24\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\24\Image.png" />
-    <Content Include="Content\Backload\content-types\24\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\24\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\24\PDF.png" />
-    <Content Include="Content\Backload\content-types\24\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\24\Text.png" />
-    <Content Include="Content\Backload\content-types\24\Word.png" />
-    <Content Include="Content\Backload\content-types\32\Excel.png" />
-    <Content Include="Content\Backload\content-types\32\File.png" />
-    <Content Include="Content\Backload\content-types\32\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\32\Image.png" />
-    <Content Include="Content\Backload\content-types\32\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\32\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\32\PDF.png" />
-    <Content Include="Content\Backload\content-types\32\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\32\Text.png" />
-    <Content Include="Content\Backload\content-types\32\Word.png" />
-    <Content Include="Content\Backload\content-types\48\Excel.png" />
-    <Content Include="Content\Backload\content-types\48\File.png" />
-    <Content Include="Content\Backload\content-types\48\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\48\Image.png" />
-    <Content Include="Content\Backload\content-types\48\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\48\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\48\PDF.png" />
-    <Content Include="Content\Backload\content-types\48\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\48\Text.png" />
-    <Content Include="Content\Backload\content-types\48\Word.png" />
-    <Content Include="Content\Backload\content-types\64\Excel.png" />
-    <Content Include="Content\Backload\content-types\64\File.png" />
-    <Content Include="Content\Backload\content-types\64\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\64\Image.png" />
-    <Content Include="Content\Backload\content-types\64\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\64\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\64\PDF.png" />
-    <Content Include="Content\Backload\content-types\64\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\64\Text.png" />
-    <Content Include="Content\Backload\content-types\64\Word.png" />
-    <Content Include="Content\Backload\content-types\72\Excel.png" />
-    <Content Include="Content\Backload\content-types\72\File.png" />
-    <Content Include="Content\Backload\content-types\72\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\72\Image.png" />
-    <Content Include="Content\Backload\content-types\72\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\72\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\72\PDF.png" />
-    <Content Include="Content\Backload\content-types\72\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\72\Text.png" />
-    <Content Include="Content\Backload\content-types\72\Word.png" />
-    <Content Include="Content\Backload\content-types\96\Excel.png" />
-    <Content Include="Content\Backload\content-types\96\File.png" />
-    <Content Include="Content\Backload\content-types\96\FileNotFound.png" />
-    <Content Include="Content\Backload\content-types\96\Image.png" />
-    <Content Include="Content\Backload\content-types\96\Multimedia.png" />
-    <Content Include="Content\Backload\content-types\96\OpenOffice-Writer.png" />
-    <Content Include="Content\Backload\content-types\96\PDF.png" />
-    <Content Include="Content\Backload\content-types\96\PowerPoint.png" />
-    <Content Include="Content\Backload\content-types\96\Text.png" />
-    <Content Include="Content\Backload\content-types\96\Word.png" />
-    <Content Include="Content\FileUpload\cors\postmessage.html" />
-    <Content Include="Content\FileUpload\cors\result.html" />
-    <Content Include="Content\FileUpload\css\bootstrap\bootstrap-image-gallery.debug.css" />
-    <Content Include="Content\FileUpload\css\bootstrap\bootstrap-responsive.debug.css" />
-    <Content Include="Content\FileUpload\css\bootstrap\bootstrap.debug.css" />
-    <Content Include="Content\FileUpload\css\jquery.fileupload-ui-noscript.css" />
-    <Content Include="Content\FileUpload\css\jquery.fileupload-ui.css" />
-    <Content Include="Content\FileUpload\css\jquery.image-gallery.debug.css" />
-    <Content Include="Content\FileUpload\css\jqueryui\jquery.fileupload-jui.css" />
-    <Content Include="Content\FileUpload\img\glyphicons-halflings-white.png" />
-    <Content Include="Content\FileUpload\img\glyphicons-halflings.png" />
-    <Content Include="Content\FileUpload\img\loading.gif" />
-    <Content Include="Content\FileUpload\img\progressbar.gif" />
-    <Content Include="Content\FileUpload\img\progressblue.gif" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\JCIEstimate.css" />
     <Content Include="Content\ReportingService.aspx" />
@@ -408,7 +314,6 @@
     <Content Include="Views\ScopeOfWorks\Details.cshtml" />
     <Content Include="Views\ScopeOfWorks\Edit.cshtml" />
     <Content Include="Views\ScopeOfWorks\Index.cshtml" />
-    <Content Include="Views\BackloadDemo\Index.cshtml" />
     <None Include="Web.Backload.Default.config" />
     <None Include="Web.Backload.xsd">
       <SubType>Designer</SubType>
@@ -532,7 +437,6 @@
       <DependentUpon>ReportingService.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BackloadDemoController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ContractorContactsController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
@@ -666,9 +570,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\ScopeDocuments\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

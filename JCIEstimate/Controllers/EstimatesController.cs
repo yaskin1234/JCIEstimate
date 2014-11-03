@@ -208,10 +208,12 @@ namespace JCIEstimate.Controllers
 
             ecms = from cc in db.ECMs
                    where cc.projectUid == sessionProject
+                   orderby cc.ecmString
                    select cc;
 
             locations = from cc in db.Locations
                         where cc.projectUid == sessionProject
+                        orderby cc.location1
                         select cc;
             
             if (!User.IsInRole("Admin"))
@@ -220,20 +222,22 @@ namespace JCIEstimate.Controllers
                               join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                               join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                               where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                              orderby cc.contractorName
                               select cc;
             }
             else
             {
-                contractors = from cc in db.Contractors                              
+                contractors = from cc in db.Contractors
+                              orderby cc.contractorName
                               select cc;
             }
             
 
             ViewBag.ecmUid = ecms.ToSelectList(d => d.ecmNumber + " - " + d.ecmDescription, d => d.ecmUid.ToString(), "");
             ViewBag.locationUid = locations.ToSelectList(d => d.location1, d => d.locationUid.ToString(), "");
-            ViewBag.categoryUid = db.Categories.ToSelectList(d => d.category1, d => d.categoryUid.ToString(), "");
+            ViewBag.categoryUid = db.Categories.OrderBy(m=>m.category1).ToSelectList(d => d.category1, d => d.categoryUid.ToString(), "");
             ViewBag.contractorUid = contractors.ToSelectList(d => d.contractorName, d => d.contractorUid.ToString(), "");
-            ViewBag.estimateStatusUid = db.EstimateStatus.ToSelectList(d => d.estimateStatus, d => d.estimateStatusUid.ToString(), "");
+            ViewBag.estimateStatusUid = db.EstimateStatus.OrderBy(m => m.estimateStatus).ToSelectList(d => d.estimateStatus, d => d.estimateStatusUid.ToString(), "");
             return View();
         }
 
@@ -290,11 +294,13 @@ namespace JCIEstimate.Controllers
             
             locations = from cc in db.Locations
                         where cc.projectUid == sessionProject
+                        orderby cc.location1
                         select cc;
 
 
             ecms = from cc in db.ECMs
                    where cc.projectUid == sessionProject
+                   orderby cc.ecmString
                    select cc;
 
             if (!User.IsInRole("Admin"))
@@ -303,19 +309,21 @@ namespace JCIEstimate.Controllers
                               join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                               join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                               where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                              orderby cc.contractorName
                               select cc;
             }
             else
             {
                 contractors = from cc in db.Contractors
+                              orderby cc.contractorName
                               select cc;
             }
 
             ViewBag.ecmUid = new SelectList(ecms, "ecmUid", "ecmString", estimate.ecmUid);
             ViewBag.locationUid = new SelectList(locations, "locationUid", "location1", estimate.locationUid);
-            ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", estimate.categoryUid);
+            ViewBag.categoryUid = new SelectList(db.Categories.OrderBy(m=>m.category1), "categoryUid", "category1", estimate.categoryUid);
             ViewBag.contractorUid = new SelectList(contractors, "contractorUid", "contractorName", estimate.contractorUid);
-            ViewBag.estimateStatusUid = new SelectList(db.EstimateStatus, "estimateStatusUid", "estimateStatus");
+            ViewBag.estimateStatusUid = new SelectList(db.EstimateStatus.OrderBy(m=>m.estimateStatus), "estimateStatusUid", "estimateStatus");
             return View(estimate);
         }
 
@@ -332,7 +340,7 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }            
-            ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", estimate.categoryUid);
+            ViewBag.categoryUid = new SelectList(db.Categories.OrderBy(x => x.category1), "categoryUid", "category1", estimate.categoryUid);
             ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", estimate.ecmUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", estimate.locationUid);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", estimate.contractorUid);

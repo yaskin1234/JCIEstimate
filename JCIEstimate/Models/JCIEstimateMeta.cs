@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
+
 
 namespace JCIEstimate.Models
 {
@@ -80,6 +82,7 @@ namespace JCIEstimate.Models
         [Display(Name = "Phone Number Confirmed")]
         public bool PhoneNumberConfirmed { get; set; }
 
+        
         [Display(Name = "User Name")]
         public string UserName { get; set; }        
     }
@@ -147,11 +150,9 @@ namespace JCIEstimate.Models
         public System.Guid eddressUid { get; set; }
 
         [Display(Name = "Contractor Contact")]
-        public System.Guid contractorContactUid { get; set; }
-
-        [Display(Name = "Eddress")]
+        public System.Guid contractorContactUid { get; set; }        
+        [Display(Name = "Eddress")]                
         public string eddress1 { get; set; }
-
         [Display(Name = "Primary?")]
         public Nullable<bool> isPrimary { get; set; }
     }
