@@ -19,17 +19,7 @@ namespace JCIEstimate.Content
                 if (Session["projectUid"] != null)
                 {
                     string report = Request.QueryString["report"];
-                    if (!Request.IsLocal)
-                    {
-                        IReportServerCredentials myCred = new CustomReportCredentials("yaskin_reportserver", "7UtYru4Uv", "LOTUS");
-                        ReportViewer1.ServerReport.ReportServerCredentials = myCred;
-                        ReportViewer1.ServerReport.ReportServerUrl = new Uri("http://lotus.arvixe.com/ReportServer_SQL/");
-                        ReportViewer1.ServerReport.ReportPath = "/yaskin/JCIEstimate/" + report;
-                    }
-                    else
-                    {
-                        ReportViewer1.ServerReport.ReportPath = "/JCIEstimate/" + report;
-                    }
+                    ReportViewer1.ServerReport.ReportPath = "/JCIEstimate/" + report;
                     ReportParameter rp = new ReportParameter("projectUid", Session["projectUid"].ToString());
                     ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { rp });
                     ReportViewer1.ShowExportControls = true;

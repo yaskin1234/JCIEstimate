@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
 using System.IO;
+using System.Data.Entity.Validation;
 
 namespace JCIEstimate.Controllers
 {
@@ -136,12 +137,29 @@ namespace JCIEstimate.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Edit([Bind(Include = "scopeOfWorkUid,projectUid,categoryUid,scopeOfWork1,scopeOfWorkDescription,document")] ScopeOfWork scopeOfWork)
+        public async Task<ActionResult> Edit([Bind(Include = "scopeOfWorkUid,projectUid,categoryUid,scopeOfWork1,scopeOfWorkDescription,document,fileType")] ScopeOfWork scopeOfWork)
         {
             if (ModelState.IsValid)
-            {
+            {                
                 db.Entry(scopeOfWork).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (DbEntityValidationException ex)
+                {
+
+                    foreach (var eve in ex.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                }
+                
                 return RedirectToAction("Index");
             }
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();

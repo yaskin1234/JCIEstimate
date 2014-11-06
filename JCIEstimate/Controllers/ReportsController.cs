@@ -63,6 +63,33 @@ namespace JCIEstimate.Controllers
                 Session["userUid"] = IdentityExtensions.GetUserId(User.Identity);                
                 return View("rptContractorSummary");
             }
+        }
+
+        public ActionResult GetProjectGrandTotal()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                Session["userUid"] = IdentityExtensions.GetUserId(User.Identity);
+
+                return View("rptProjectGrandTotal");
+            }
+        }
+        public ActionResult GetBarGraphSummary()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                Session["userUid"] = IdentityExtensions.GetUserId(User.Identity);
+
+                return View("rptBarGraphSummary");
+            }
         }  
     }
 }
