@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - JCI Estimate</title>
+    <title>@ViewBag.Title - Bernservices</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -117,8 +117,8 @@
         @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["bidTotal"] != null)
         {
             <ul class="nav navbar-nav navbar-left">
-                <li><a href="" style="color:black;">Bid Total: @String.Format("{0:C0}", Session["bidTotal"])</a></li>
-                <li><a href="" style="color:black;">Active Total: @String.Format("{0:C0}", Session["activeTotal"])</a></li>            
+                <li><a style="color:black; font-weight:500">Bid Total: @String.Format("{0:C0}", Session["bidTotal"])</a></li>
+                <li><a style="color:black; font-weight:500">Active Total: @String.Format("{0:C0}", Session["activeTotal"])</a></li>       
             </ul>
         }
         <ul class="nav navbar-nav navbar-right">
@@ -140,7 +140,7 @@
             @RenderBody()
             <hr />
             <footer>
-                <p>&copy; @DateTime.Now.Year - JCI Estimate</p>
+                <p>&copy; @DateTime.Now.Year - BBConsulting</p>
             </footer>
         </div>
 

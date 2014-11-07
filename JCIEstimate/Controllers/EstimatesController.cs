@@ -17,9 +17,12 @@ namespace JCIEstimate.Controllers
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
         // GET: Estimates
-        public async Task<ActionResult> Index(string sort, string sortdir)
+        public async Task<ActionResult> Index(int page = 1, string sort = "", string sortDir = "ASC", 
+            string location = null, string ecm = null, string category = null, string contractor = null, string status = null, string active = null,
+            string filterSubmit = null
+            )
         {
-            IQueryable<Estimate> estimates;
+            IQueryable<Estimate> estimates;            
             Guid sessionProject;
 
             sessionProject = Guid.Empty;
@@ -54,6 +57,8 @@ namespace JCIEstimate.Controllers
             //Aggregates
             decimal? activeTotal = 0;
             decimal? bidTotal = 0;
+            decimal? filteredActiveTotal = 0;
+            decimal? filteredBidTotal = 0;
 
             if (estimates.Count() > 0)
             {
@@ -61,17 +66,17 @@ namespace JCIEstimate.Controllers
                 bidTotal = estimates.Sum(d => d.amount);
             }
 
+            //Aggregates
             ViewBag.activeTotal = String.Format("{0:C0}", activeTotal);
-            ViewBag.bidTotal = String.Format("{0:C0}", bidTotal);
+            ViewBag.bidTotal = String.Format("{0:C0}", bidTotal);            
             ViewBag.projectname = Session["projectName"];
             Session["activeTotal"] = activeTotal;
             Session["bidTotal"] = bidTotal;
 
-            //Aggregates
-
+            #region="filter"            
             if (sort == "Contractor")
-            {
-                if (sortdir == "ASC")
+            {                
+                if (sortDir == "ASC")
                 {
                     estimates = from ee in estimates
                                 orderby ee.Contractor.contractorName ascending
@@ -87,7 +92,7 @@ namespace JCIEstimate.Controllers
             }
             else if (sort == "Location")
             {
-                if (sortdir == "ASC")
+                if (sortDir == "ASC")
                 {
                     estimates = from ee in estimates
                                 orderby ee.Location.location1 ascending
@@ -101,9 +106,25 @@ namespace JCIEstimate.Controllers
                 }
 
             }
+            else if (sort == "Category")
+            {
+                if (sortDir == "ASC")
+                {
+                    estimates = from ee in estimates
+                                orderby ee.Category.category1 ascending
+                                select ee;
+                }
+                else
+                {
+                    estimates = from ee in estimates
+                                orderby ee.Category.category1 descending
+                                select ee;
+                }
+
+            }
             else if (sort == "ECM")
             {
-                if (sortdir == "ASC")
+                if (sortDir == "ASC")
                 {
                     estimates = from ee in estimates
                                 orderby ee.ECM.ecmNumber ascending
@@ -119,7 +140,7 @@ namespace JCIEstimate.Controllers
             }
             else if (sort == "Active?")
             {
-                if (sortdir == "ASC")
+                if (sortDir == "ASC")
                 {
                     estimates = from ee in estimates
                                 orderby ee.isActive ascending
@@ -135,7 +156,7 @@ namespace JCIEstimate.Controllers
             }
             else if (sort == "Amount")
             {
-                if (sortdir == "ASC")
+                if (sortDir == "ASC")
                 {
                     estimates = from ee in estimates
                                 orderby ee.amount ascending
@@ -151,7 +172,7 @@ namespace JCIEstimate.Controllers
             }
             else if (sort == "Active Amount")
             {
-                if (sortdir == "ASC")
+                if (sortDir == "ASC")
                 {
                     estimates = from ee in estimates
                                 orderby ee.activeAmount ascending
@@ -165,8 +186,55 @@ namespace JCIEstimate.Controllers
                 }
 
             }
+            else
+            {
+                estimates = estimates.OrderBy(m => m.Location.location1).ThenBy(m => m.ECM.ecmString).ThenBy(m => m.Contractor.contractorName);
+            }
+            #endregion
 
-            estimates = estimates.OrderBy(m => m.Location.location1).ThenBy(m => m.ECM.ecmString).ThenBy(m => m.Contractor.contractorName);
+            if (filterSubmit != "clear")            
+            {
+                if (location != null)
+                {
+                    estimates = estimates.Where(m => m.Location.location1.Contains(location));
+                }
+
+                if (ecm != null)
+                {
+                    estimates = estimates.Where(m => m.ECM.ecmString.Contains(ecm));
+                }
+
+                if (contractor != null)
+                {
+                    estimates = estimates.Where(m => m.Contractor.contractorName.Contains(contractor));
+                }
+
+                if (category != null)
+                {
+                    estimates = estimates.Where(m => m.Category.category1.Contains(category));
+                }
+
+                if (status != null)
+                {
+                    estimates = estimates.Where(m => m.EstimateStatu.estimateStatus.Contains(status));
+                }
+
+                if (active != null)
+                {
+                    estimates = estimates.Where(m => m.isActive == true);
+                }
+            }
+
+            if (estimates.Count() > 0)
+            {
+                filteredActiveTotal = estimates.Sum(d => d.activeAmount);
+                filteredBidTotal = estimates.Sum(d => d.amount);
+                Session["filteredActiveTotal"] = filteredActiveTotal;
+                Session["filteredBidTotal"] = filteredBidTotal;
+            }
+            ViewBag.filteredActiveTotal = String.Format("{0:C0}", filteredActiveTotal);
+            ViewBag.filteredBidTotal = String.Format("{0:C0}", filteredBidTotal);
+            
             estimates = estimates.Include(e => e.Category).Include(e => e.ECM).Include(e => e.Location).Include(e => e.Contractor).Include(e => e.EstimateStatu);            
             return View(await estimates.ToListAsync());
         }

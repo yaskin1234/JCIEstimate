@@ -270,7 +270,7 @@ namespace JCIEstimate.Models
         [Display(Name = "Category")]
         public System.Guid categoryUid { get; set; }
         [Display(Name = "Estimate Status")]
-        public System.Guid estimateStatusUid { get; set; }
+        public System.Guid estimateStatusUid { get; set; }        
         [Display(Name = "Active?")]
         public Nullable<bool> isActive { get; set; }        
         [Display(Name = "Amount")]

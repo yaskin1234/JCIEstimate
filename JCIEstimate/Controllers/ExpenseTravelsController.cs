@@ -40,7 +40,8 @@ namespace JCIEstimate.Controllers
         // GET: ExpenseTravels/Create
         public ActionResult Create()
         {
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            ViewBag.projectUid = new SelectList(db.Projects.Where(m => m.projectUid == sessionProject), "projectUid", "project1");
             return View();
         }
 
@@ -75,7 +76,8 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", expenseTravel.projectUid);
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            ViewBag.projectUid = new SelectList(db.Projects.Where(m => m.projectUid == sessionProject), "projectUid", "project1", expenseTravel.projectUid);            
             return View(expenseTravel);
         }
 
