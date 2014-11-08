@@ -42,20 +42,11 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Backload">
-      <HintPath>..\packages\Backload.1.9.3.0\lib\net45\Backload.dll</HintPath>
-    </Reference>
-    <Reference Include="Backload.Contracts">
-      <HintPath>..\packages\Backload.1.9.3.0\lib\net45\Backload.Contracts.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="GridMvc">
-      <HintPath>..\packages\Grid.Mvc.3.0.0\lib\net40\GridMvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -161,15 +152,11 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="WebActivatorEx">
-      <HintPath>..\packages\WebActivatorEx.2.0.2\lib\net40\WebActivatorEx.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\JCIEstimate.css" />
     <Content Include="Content\ReportingService.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -182,42 +169,11 @@
     <Content Include="Images\filter.png" />
     <Content Include="Images\View_Details.png" />
     <Content Include="packages.config" />
-    <Content Include="Scripts\FileUpload\angularjs\angular.debug.js" />
-    <Content Include="Scripts\FileUpload\backload.demo.js" />
-    <Content Include="Scripts\FileUpload\bootstrap\bootstrap-image-gallery.debug.js" />
-    <Content Include="Scripts\FileUpload\bootstrap\bootstrap.debug.js" />
-    <Content Include="Scripts\FileUpload\canvas-to-blob.debug.js" />
-    <Content Include="Scripts\FileUpload\cors\jquery.postmessage-transport.js" />
-    <Content Include="Scripts\FileUpload\cors\jquery.xdr-transport.js" />
-    <Content Include="Scripts\FileUpload\jquery.fileupload-angular.js" />
-    <Content Include="Scripts\FileUpload\jquery.fileupload-audio.js" />
-    <Content Include="Scripts\FileUpload\jquery.fileupload-fp.js" />
-    <Content Include="Scripts\FileUpload\jquery.fileupload-image.js" />
-    <Content Include="Scripts\FileUpload\jquery.fileupload-jui.js" />
-    <Content Include="Scripts\FileUpload\jquery.fileupload-process.js" />
-    <Content Include="Scripts\FileUpload\jquery.fileupload-ui.js" />
-    <Content Include="Scripts\FileUpload\jquery.fileupload-validate.js" />
-    <Content Include="Scripts\FileUpload\jquery.fileupload-video.js" />
-    <Content Include="Scripts\FileUpload\jquery.fileupload.js" />
-    <Content Include="Scripts\FileUpload\jquery.iframe-transport.js" />
-    <Content Include="Scripts\FileUpload\jquery.image-gallery.debug.js" />
-    <Content Include="Scripts\FileUpload\jqueryui\jquery.fileupload-jui.js" />
-    <Content Include="Scripts\FileUpload\jqueryui\jquery.fileupload-ui.js" />
-    <Content Include="Scripts\FileUpload\jqueryui\jquery.fileupload.js" />
-    <Content Include="Scripts\FileUpload\jqueryui\jquery.ui.widget.js" />
-    <Content Include="Scripts\FileUpload\load-image.debug.js" />
-    <Content Include="Scripts\FileUpload\tmpl.debug.js" />
-    <Content Include="Scripts\gridmvc.js" />
-    <Content Include="Scripts\gridmvc.lang.ru.js" />
-    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Views\ContractorUsers\Create.cshtml" />
     <Content Include="Views\ContractorUsers\Delete.cshtml" />
     <Content Include="Views\ContractorUsers\Details.cshtml" />
     <Content Include="Views\ContractorUsers\Edit.cshtml" />
     <Content Include="Views\ContractorUsers\Index.cshtml" />
-    <Content Include="Views\Shared\_GridPager.cshtml" />
-    <Content Include="Views\Shared\_Grid.cshtml" />
-    <Content Include="Grid.mvc.readme" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Delete.cshtml" />
     <Content Include="Views\Categories\Details.cshtml" />
@@ -297,11 +253,6 @@
     <Content Include="Views\ExpensePercentages\Details.cshtml" />
     <Content Include="Views\ExpensePercentages\Edit.cshtml" />
     <Content Include="Views\ExpensePercentages\Index.cshtml" />
-    <Content Include="Views\ToDoStatus\Create.cshtml" />
-    <Content Include="Views\ToDoStatus\Delete.cshtml" />
-    <Content Include="Views\ToDoStatus\Details.cshtml" />
-    <Content Include="Views\ToDoStatus\Edit.cshtml" />
-    <Content Include="Views\ToDoStatus\Index.cshtml" />
     <Content Include="Views\ProjectToDoes\Create.cshtml" />
     <Content Include="Views\ProjectToDoes\Delete.cshtml" />
     <Content Include="Views\ProjectToDoes\Details.cshtml" />
@@ -321,9 +272,11 @@
     <None Include="Properties\PublishProfiles\AWS.pubxml" />
     <Content Include="Views\Reports\rptProjectGrandTotal.cshtml" />
     <Content Include="Views\Reports\rptBarGraphSummary.cshtml" />
-    <None Include="Web.Backload.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <Content Include="Views\ToDoStatus\Create.cshtml" />
+    <Content Include="Views\ToDoStatus\Delete.cshtml" />
+    <Content Include="Views\ToDoStatus\Details.cshtml" />
+    <Content Include="Views\ToDoStatus\Edit.cshtml" />
+    <Content Include="Views\ToDoStatus\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -429,7 +382,6 @@
     <Content Include="Views\Eddresses\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BackloadConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
