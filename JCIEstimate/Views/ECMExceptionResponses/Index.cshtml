@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JCIEstimate.Models.ECMExceptionResponse>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ecmExceptionResponseID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ecmExceptionResponse1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ECMException.ecmException1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ecmExceptionResponseID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ecmExceptionResponse1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ECMException.ecmException1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ecmExceptionResponseUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ecmExceptionResponseUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ecmExceptionResponseUid })
+        </td>
+    </tr>
+}
+
+</table>

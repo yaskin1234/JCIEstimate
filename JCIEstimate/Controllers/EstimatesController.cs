@@ -9,12 +9,29 @@ using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
 using JCIExtensions;
+using System.Linq;
 
 namespace JCIEstimate.Controllers
 {
     public class EstimatesController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
+
+
+        //// GET: Estimates
+        //public ActionResult Index2()
+        //{
+        //    return View();
+        //}
+
+        //// POST: Estimates_Read
+        //[HttpPost]
+        //public ActionResult Estimates_Read([DataSourceRequest] DataSourceRequest request)
+        //{
+        //    var est = db.Estimates.ToList().ToDataSourceResult(request);
+        //    return Json(est, JsonRequestBehavior.AllowGet);
+        //}
+
 
         // GET: Estimates
         public async Task<ActionResult> Index(int page = 1, string sort = "", string sortDir = "ASC", 

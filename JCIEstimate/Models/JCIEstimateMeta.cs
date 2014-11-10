@@ -365,23 +365,23 @@ namespace JCIEstimate.Models
     }
 
     /// <summary>
-    /// ExpenseTravel
+    /// ExpenseMonthly
     /// </summary>
-    [MetadataType(typeof(ExpenseTravelMetaData))]
-    public partial class ExpenseTravel
+    [MetadataType(typeof(ExpenseMonthlyMetaData))]
+    public partial class ExpenseMonthly
     {
     }
 
-    public class ExpenseTravelMetaData
+    public class ExpenseMonthlyMetaData
     {
-        [Display(Name = "Travel Expense")]
-        public System.Guid expenseTravelUid { get; set; }
+        [Display(Name = "Monthly Expense")]
+        public System.Guid expenseMonthlyUid { get; set; }
         [Display(Name = "project")]
         public System.Guid projectUid { get; set; }
-        [Display(Name = "Travel Expense")]
-        public string expenseTravel1 { get; set; }
+        [Display(Name = "Monthly Expense")]
+        public string expenseMonthly1 { get; set; }
         [Display(Name = "Description")]
-        public string expenseTravelDescription { get; set; }
+        public string expenseMonthlyDescription { get; set; }
         [Display(Name = "Rate Per Day"), DisplayFormat(DataFormatString = "{0:C0}")]
         public decimal ratePerDay { get; set; }
         [Display(Name = "Days Per Month")]
@@ -505,26 +505,26 @@ namespace JCIEstimate.Models
 
     }
 
-    /// <summary>
-    /// ToDoStatu
-    /// </summary>
-    [MetadataType(typeof(ToDoStatuMetaData))]
-    public partial class ToDoStatu
-    {
-    }
+    ///// <summary>
+    ///// ToDoStatu
+    ///// </summary>
+    //[MetadataType(typeof(ToDoStatuMetaData))]
+    //public partial class ToDoStatu
+    //{
+    //}
 
-    public class ToDoStatuMetaData
-    {
-        [Display(Name = "To Do Status")]
-        public System.Guid toDoStatusUid { get; set; }
-        [Display(Name = "To Do Status")]
-        public string toDoStatus { get; set; }
-        [Display(Name = "To Do Status Description")]
-        public string toDoStatusDescription { get; set; }
-        [Display(Name = "Behavior Indicator")]
-        public string behaviorIndicator { get; set; }
+    //public class ToDoStatuMetaData
+    //{
+    //    [Display(Name = "To Do Status")]
+    //    public System.Guid toDoStatusUid { get; set; }
+    //    [Display(Name = "To Do Status")]
+    //    public string toDoStatus { get; set; }
+    //    [Display(Name = "To Do Status Description")]
+    //    public string toDoStatusDescription { get; set; }
+    //    [Display(Name = "Behavior Indicator")]
+    //    public string behaviorIndicator { get; set; }
 
-    }
+    //}
 
 
     /// <summary>

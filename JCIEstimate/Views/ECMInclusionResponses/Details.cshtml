@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.ECMInclusionResponse
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ECMInclusionResponse</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ecmInclusionResponseID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ecmInclusionResponseID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ecmInclusionResponse1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ecmInclusionResponse1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ECMInclusion.ecmInclusion1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ECMInclusion.ecmInclusion1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ecmInclusionResponseUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

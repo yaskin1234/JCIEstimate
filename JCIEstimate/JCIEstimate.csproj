@@ -258,11 +258,6 @@
     <Content Include="Views\ProjectToDoes\Details.cshtml" />
     <Content Include="Views\ProjectToDoes\Edit.cshtml" />
     <Content Include="Views\ProjectToDoes\Index.cshtml" />
-    <Content Include="Views\ExpenseTravels\Create.cshtml" />
-    <Content Include="Views\ExpenseTravels\Delete.cshtml" />
-    <Content Include="Views\ExpenseTravels\Details.cshtml" />
-    <Content Include="Views\ExpenseTravels\Edit.cshtml" />
-    <Content Include="Views\ExpenseTravels\Index.cshtml" />
     <Content Include="Views\Reports\rptContractorSummary.cshtml" />
     <Content Include="Views\ScopeOfWorks\Create.cshtml" />
     <Content Include="Views\ScopeOfWorks\Delete.cshtml" />
@@ -272,11 +267,46 @@
     <None Include="Properties\PublishProfiles\AWS.pubxml" />
     <Content Include="Views\Reports\rptProjectGrandTotal.cshtml" />
     <Content Include="Views\Reports\rptBarGraphSummary.cshtml" />
+    <Content Include="Views\ExpenseMonthlies\Create.cshtml" />
+    <Content Include="Views\ExpenseMonthlies\Delete.cshtml" />
+    <Content Include="Views\ExpenseMonthlies\Details.cshtml" />
+    <Content Include="Views\ExpenseMonthlies\Edit.cshtml" />
+    <Content Include="Views\ExpenseMonthlies\Index.cshtml" />
     <Content Include="Views\ToDoStatus\Create.cshtml" />
     <Content Include="Views\ToDoStatus\Delete.cshtml" />
     <Content Include="Views\ToDoStatus\Details.cshtml" />
     <Content Include="Views\ToDoStatus\Edit.cshtml" />
     <Content Include="Views\ToDoStatus\Index.cshtml" />
+    <Content Include="Views\ECMExceptions\Create.cshtml" />
+    <Content Include="Views\ECMExceptions\Delete.cshtml" />
+    <Content Include="Views\ECMExceptions\Details.cshtml" />
+    <Content Include="Views\ECMExceptions\Edit.cshtml" />
+    <Content Include="Views\ECMExceptions\Index.cshtml" />
+    <Content Include="Views\ECMExceptionResponses\Create.cshtml" />
+    <Content Include="Views\ECMExceptionResponses\Delete.cshtml" />
+    <Content Include="Views\ECMExceptionResponses\Details.cshtml" />
+    <Content Include="Views\ECMExceptionResponses\Edit.cshtml" />
+    <Content Include="Views\ECMExceptionResponses\Index.cshtml" />
+    <Content Include="Views\ECMExclusions\Create.cshtml" />
+    <Content Include="Views\ECMExclusions\Delete.cshtml" />
+    <Content Include="Views\ECMExclusions\Details.cshtml" />
+    <Content Include="Views\ECMExclusions\Edit.cshtml" />
+    <Content Include="Views\ECMExclusions\Index.cshtml" />
+    <Content Include="Views\ECMExclusionResponses\Create.cshtml" />
+    <Content Include="Views\ECMExclusionResponses\Delete.cshtml" />
+    <Content Include="Views\ECMExclusionResponses\Details.cshtml" />
+    <Content Include="Views\ECMExclusionResponses\Edit.cshtml" />
+    <Content Include="Views\ECMExclusionResponses\Index.cshtml" />
+    <Content Include="Views\ECMInclusions\Create.cshtml" />
+    <Content Include="Views\ECMInclusions\Delete.cshtml" />
+    <Content Include="Views\ECMInclusions\Details.cshtml" />
+    <Content Include="Views\ECMInclusions\Edit.cshtml" />
+    <Content Include="Views\ECMInclusions\Index.cshtml" />
+    <Content Include="Views\ECMInclusionResponses\Create.cshtml" />
+    <Content Include="Views\ECMInclusionResponses\Delete.cshtml" />
+    <Content Include="Views\ECMInclusionResponses\Details.cshtml" />
+    <Content Include="Views\ECMInclusionResponses\Edit.cshtml" />
+    <Content Include="Views\ECMInclusionResponses\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -399,6 +429,12 @@
     <Compile Include="Controllers\ContractorContactsController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
     <Compile Include="Controllers\ContractorUsersController.cs" />
+    <Compile Include="Controllers\ECMExceptionResponsesController.cs" />
+    <Compile Include="Controllers\ECMExceptionsController.cs" />
+    <Compile Include="Controllers\ECMExclusionResponsesController.cs" />
+    <Compile Include="Controllers\ECMExclusionsController.cs" />
+    <Compile Include="Controllers\ECMInclusionResponsesController.cs" />
+    <Compile Include="Controllers\ECMInclusionsController.cs" />
     <Compile Include="Controllers\ECMsController.cs" />
     <Compile Include="Controllers\EddressesController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
@@ -410,8 +446,8 @@
     <Compile Include="Controllers\ExpenseConstructionsController.cs" />
     <Compile Include="Controllers\ExpenseMiscellaneousController.cs" />
     <Compile Include="Controllers\ExpenseMiscellaneousProjectsController.cs" />
+    <Compile Include="Controllers\ExpenseMonthliesController.cs" />
     <Compile Include="Controllers\ExpensePercentagesController.cs" />
-    <Compile Include="Controllers\ExpenseTravelsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HtmlExtensions.cs" />
     <Compile Include="Controllers\IntervalsController.cs" />
@@ -447,6 +483,24 @@
     <Compile Include="Models\ECM.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ECMException.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ECMExceptionResponse.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ECMExclusion.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ECMExclusionResponse.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ECMInclusion.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ECMInclusionResponse.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Eddress.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -477,10 +531,10 @@
     <Compile Include="Models\ExpenseMiscellaneousProject.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExpensePercentage.cs">
+    <Compile Include="Models\ExpenseMonthly.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExpenseTravel.cs">
+    <Compile Include="Models\ExpensePercentage.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
@@ -514,6 +568,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ScopeOfWork.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TestGrid.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ToDoStatu.cs">

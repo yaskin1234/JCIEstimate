@@ -12,17 +12,13 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ExpenseTravel
+    public partial class ECMExceptionResponse
     {
-        public System.Guid expenseTravelUid { get; set; }
-        public System.Guid projectUid { get; set; }
-        public string expenseTravel1 { get; set; }
-        public string expenseTravelDescription { get; set; }
-        public decimal ratePerDay { get; set; }
-        public int daysPerMonth { get; set; }
-        public int projectDurationInMonths { get; set; }
-        public Nullable<decimal> total { get; set; }
+        public System.Guid ecmExceptionResponseUid { get; set; }
+        public int ecmExceptionResponseID { get; set; }
+        public System.Guid ecmExceptionUid { get; set; }
+        public string ecmExceptionResponse1 { get; set; }
     
-        public virtual Project Project { get; set; }
+        public virtual ECMException ECMException { get; set; }
     }
 }

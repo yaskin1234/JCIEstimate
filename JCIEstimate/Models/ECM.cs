@@ -18,6 +18,9 @@ namespace JCIEstimate.Models
         {
             this.Equipments = new HashSet<Equipment>();
             this.Estimates = new HashSet<Estimate>();
+            this.ECMExceptions = new HashSet<ECMException>();
+            this.ECMExclusions = new HashSet<ECMExclusion>();
+            this.ECMInclusions = new HashSet<ECMInclusion>();
         }
     
         public System.Guid ecmUid { get; set; }
@@ -29,5 +32,8 @@ namespace JCIEstimate.Models
         public virtual Project Project { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<ECMException> ECMExceptions { get; set; }
+        public virtual ICollection<ECMExclusion> ECMExclusions { get; set; }
+        public virtual ICollection<ECMInclusion> ECMInclusions { get; set; }
     }
 }

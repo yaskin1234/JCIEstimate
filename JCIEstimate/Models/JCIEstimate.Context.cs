@@ -46,8 +46,15 @@ namespace JCIEstimate.Models
         public virtual DbSet<ExpensePercentage> ExpensePercentages { get; set; }
         public virtual DbSet<ToDoStatu> ToDoStatus { get; set; }
         public virtual DbSet<ProjectToDo> ProjectToDoes { get; set; }
-        public virtual DbSet<ExpenseTravel> ExpenseTravels { get; set; }
         public virtual DbSet<Estimate> Estimates { get; set; }
         public virtual DbSet<ScopeOfWork> ScopeOfWorks { get; set; }
+        public virtual DbSet<TestGrid> TestGrids { get; set; }
+        public virtual DbSet<ExpenseMonthly> ExpenseMonthlies { get; set; }
+        public virtual DbSet<ECMException> ECMExceptions { get; set; }
+        public virtual DbSet<ECMExceptionResponse> ECMExceptionResponses { get; set; }
+        public virtual DbSet<ECMExclusion> ECMExclusions { get; set; }
+        public virtual DbSet<ECMExclusionResponse> ECMExclusionResponses { get; set; }
+        public virtual DbSet<ECMInclusion> ECMInclusions { get; set; }
+        public virtual DbSet<ECMInclusionResponse> ECMInclusionResponses { get; set; }
     }
 }

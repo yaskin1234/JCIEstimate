@@ -2,62 +2,56 @@
 
 @{
     ViewBag.Title = "Estimate List";
-    WebGrid grid = new WebGrid(Model, rowsPerPage: 500, canSort:false, canPage:false);    
-}
-<script>
+    WebGrid grid = new WebGrid(Model, rowsPerPage: 500, canSort: false, canPage: false);
 
-    
-</script>
+}
 
 <div class="container body-content" style="text-align:center;width:100%">
-    <ul class="nav navbar-nav navbar-left">
-
-    </ul>
-</div>
-<div>    
-    <ul class="list-inline">        
-        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-        {
-            <li><a href="@Url.Action("Create", "Estimates", new { id = Guid.NewGuid().ToString()})"><img src="@Url.Content("/Images/AddItem.png")" height="25px" width="25px" alt="Click to add a new estimate" title="Click to add a new estimate" /></a></li>
-            @*if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["filteredActiveTotal"] != null)
+    <ul class="nav navbar-nav navbar-left"></ul>
+    <div>
+        <ul class="list-inline">
+            @if (Request.IsAuthenticated && User.IsInRole("Admin"))
             {
-                <li><a style="color:black; font-weight:700;">Filtered Active Total: @String.Format("{0:C0}", Session["filteredActiveTotal"])</a></li>
-                <li><a style="color:black; font-weight:700;">Filtered Bid Total: @String.Format("{0:C0}", Session["filteredBidTotal"])</a></li>
-            }*@
-        }
-        <li><img id="imgFilter" alt="Filter" title="Filter" height="20px" width="20px" src="/Images/filter.png" onclick="($('#imgFilter').attr('src') == '/Images/filter.png') ? $('#searchDiv').show() : $('#searchDiv').hide(); ($('#imgFilter').attr('src') == '/Images/filter.png') ? $('#imgFilter').attr('src', '/Images/delete_filter-128.png') : $('#imgFilter').attr('src', '/Images/filter.png');" /></li>
-    </ul>
-</div>
+                <li><a href="@Url.Action("Create", "Estimates", new { id = Guid.NewGuid().ToString()})"><img src="@Url.Content("/Images/AddItem.png")" height="25px" width="25px" alt="Click to add a new estimate" title="Click to add a new estimate" /></a></li>
+                @*if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["filteredActiveTotal"] != null)
+                    {
+                        <li><a style="color:black; font-weight:700;">Filtered Active Total: @String.Format("{0:C0}", Session["filteredActiveTotal"])</a></li>
+                        <li><a style="color:black; font-weight:700;">Filtered Bid Total: @String.Format("{0:C0}", Session["filteredBidTotal"])</a></li>
+                    }*@
+            }
+            <li><img id="imgFilter" alt="Filter" title="Filter" height="20px" width="20px" src="/Images/filter.png" onclick="($('#imgFilter').attr('src') == '/Images/filter.png') ? $('#searchDiv').show() : $('#searchDiv').hide(); ($('#imgFilter').attr('src') == '/Images/filter.png') ? $('#imgFilter').attr('src', '/Images/delete_filter-128.png') : $('#imgFilter').attr('src', '/Images/filter.png');" /></li>
+        </ul>
+    </div>
 
-<div id="searchDiv" style="display:none" >
-    <hr />
-    @using (Html.BeginForm(null, null, FormMethod.Get))
+    <div id="searchDiv" style="display:none">
+        <hr />
+        @using (Html.BeginForm(null, null, FormMethod.Get))
+        {
+            <fieldset>
+                @Html.Label("location", "Location:")
+                @Html.TextBox("location", null, new { size = 10 })
+                @Html.Label("ecm", "ECM:")
+                @Html.TextBox("ecm", null, new { size = 5 })
+                @Html.Label("contractor", "Contractor:")
+                @Html.TextBox("contractor", null, new { size = 10 })
+                @Html.Label("status", "Status:")
+                @Html.TextBox("status", null, new { size = 5 })
+                @Html.Label("active", "Active:")
+                @Html.TextBox("active", null, new { size = 3 })
+                <input type="submit" name="filterSubmit" value="apply" />
+                <input type="submit" name="filterSubmit" value="clear" />
+            </fieldset>
+        }
+        <hr />
+    </div>
+    @if (User.IsInRole("Admin"))
     {
-        <fieldset>
-            @Html.Label("location", "Location:")
-            @Html.TextBox("location", null, new { size=10 })
-            @Html.Label("ecm", "ECM:")
-            @Html.TextBox("ecm", null, new { size=5 })
-            @Html.Label("contractor", "Contractor:")
-            @Html.TextBox("contractor", null, new { size = 10 })
-            @Html.Label("status", "Status:")
-            @Html.TextBox("status", null, new { size = 5 })
-            @Html.Label("active", "Active:")
-            @Html.TextBox("active", null, new { size = 3 })
-            <input type="submit" name="filterSubmit" value="apply" />
-            <input type="submit" name="filterSubmit" value="clear" />
-        </fieldset>
-    }
-    <hr />
-</div>
-@if (User.IsInRole("Admin"))
-{
-    @grid.GetHtml(
+        @grid.GetHtml(
 
 tableStyle: "table", // applying style on grid
 
 fillEmptyRows: false,
-        //show empty row when there is only one record on page to it will display all empty rows there.
+            //show empty row when there is only one record on page to it will display all empty rows there.
 headerStyle: "header", //applying style.
 
 footerStyle: "grid-footer", //applying style.
@@ -72,9 +66,9 @@ columns: new[]  // colums in grid
 {
     grid.Column("Location", format:@<span>@item.Location.location1</span>),
     grid.Column("ECM", format:@<span>
-        @item.ECM.ecmNumber @if (item.ECM.ecmDescription != null)
-        { <span>-</span>@item.ECM.ecmDescription }
-    </span>),
+            @item.ECM.ecmNumber @if (item.ECM.ecmDescription != null)
+            { <span>-</span>@item.ECM.ecmDescription }
+        </span>),
     grid.Column("Contractor", format:@<span>@item.Contractor.contractorName</span>),
     grid.Column("Category", format:@<span>@item.Category.category1</span>),
     grid.Column("Status", format:@<span>@item.EstimateStatu.estimateStatus</span>),
@@ -95,15 +89,15 @@ columns: new[]  // colums in grid
         }
         </text>)
 })
-}
-else
-{
-    @grid.GetHtml(
+    }
+    else
+    {
+        @grid.GetHtml(
 
 tableStyle: "table", // applying style on grid
 
 fillEmptyRows: false,
-        //show empty row when there is only one record on page to it will display all empty rows there.
+            //show empty row when there is only one record on page to it will display all empty rows there.
 headerStyle: "header", //applying style.
 
 footerStyle: "grid-footer", //applying style.
@@ -118,9 +112,9 @@ columns: new[]  // colums in grid
 {
     grid.Column("Location", format:@<span>@item.Location.location1</span>),
     grid.Column("ECM", format:@<span>
-        @item.ECM.ecmNumber @if (item.ECM.ecmDescription != null)
-        { <span>-</span>@item.ECM.ecmDescription }
-    </span>),
+            @item.ECM.ecmNumber @if (item.ECM.ecmDescription != null)
+            { <span>-</span>@item.ECM.ecmDescription }
+        </span>),
     grid.Column("Contractor", format:@<span>@item.Contractor.contractorName</span>),
     grid.Column("Category", format:@<span>@item.Category.category1</span>),
     grid.Column("Status", format:@<span>@item.EstimateStatu.estimateStatus</span>),
@@ -139,5 +133,5 @@ columns: new[]  // colums in grid
         }
         </text>)
 })
-}
-
+    }
+</div>

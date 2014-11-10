@@ -1,0 +1,48 @@
+﻿@model JCIEstimate.Models.ECMExclusion
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ECMExclusion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ecmExclusionID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ecmExclusionID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ecmExclusion1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ecmExclusion1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ECM.ecmNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ECM.ecmNumber)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -11,115 +11,113 @@ using JCIEstimate.Models;
 
 namespace JCIEstimate.Controllers
 {
-    public class ExpenseTravelsController : Controller
+    public class ECMExclusionResponsesController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
-        // GET: ExpenseTravels
+        // GET: ECMExclusionResponses
         public async Task<ActionResult> Index()
         {
-            var expenseTravels = db.ExpenseTravels.Include(e => e.Project);
-            return View(await expenseTravels.ToListAsync());
+            var eCMExclusionResponses = db.ECMExclusionResponses.Include(e => e.ECMExclusion);
+            return View(await eCMExclusionResponses.ToListAsync());
         }
 
-        // GET: ExpenseTravels/Details/5
+        // GET: ECMExclusionResponses/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ExpenseTravel expenseTravel = await db.ExpenseTravels.FindAsync(id);
-            if (expenseTravel == null)
+            ECMExclusionResponse eCMExclusionResponse = await db.ECMExclusionResponses.FindAsync(id);
+            if (eCMExclusionResponse == null)
             {
                 return HttpNotFound();
             }
-            return View(expenseTravel);
+            return View(eCMExclusionResponse);
         }
 
-        // GET: ExpenseTravels/Create
+        // GET: ECMExclusionResponses/Create
         public ActionResult Create()
         {
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-            ViewBag.projectUid = new SelectList(db.Projects.Where(m => m.projectUid == sessionProject), "projectUid", "project1");
+            ViewBag.ecmExclusionUid = new SelectList(db.ECMExclusions, "ecmExclusionUid", "ecmExclusion1");
             return View();
         }
 
-        // POST: ExpenseTravels/Create
+        // POST: ECMExclusionResponses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "expenseTravelUid,projectUid,expenseTravel1,expenseTravelDescription,ratePerDay,daysPerMonth,projectDurationInMonths,total")] ExpenseTravel expenseTravel)
+        public async Task<ActionResult> Create([Bind(Include = "ecmExclusionResponseUid,ecmExclusionResponseID,ecmExclusionUid,ecmExclusionResponse1")] ECMExclusionResponse eCMExclusionResponse)
         {
             if (ModelState.IsValid)
             {
-                expenseTravel.expenseTravelUid = Guid.NewGuid();
-                db.ExpenseTravels.Add(expenseTravel);
+                eCMExclusionResponse.ecmExclusionResponseUid = Guid.NewGuid();
+                db.ECMExclusionResponses.Add(eCMExclusionResponse);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", expenseTravel.projectUid);
-            return View(expenseTravel);
+            ViewBag.ecmExclusionUid = new SelectList(db.ECMExclusions, "ecmExclusionUid", "ecmExclusion1", eCMExclusionResponse.ecmExclusionUid);
+            return View(eCMExclusionResponse);
         }
 
-        // GET: ExpenseTravels/Edit/5
+        // GET: ECMExclusionResponses/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ExpenseTravel expenseTravel = await db.ExpenseTravels.FindAsync(id);
-            if (expenseTravel == null)
+            ECMExclusionResponse eCMExclusionResponse = await db.ECMExclusionResponses.FindAsync(id);
+            if (eCMExclusionResponse == null)
             {
                 return HttpNotFound();
             }
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-            ViewBag.projectUid = new SelectList(db.Projects.Where(m => m.projectUid == sessionProject), "projectUid", "project1", expenseTravel.projectUid);            
-            return View(expenseTravel);
+            ViewBag.ecmExclusionUid = new SelectList(db.ECMExclusions, "ecmExclusionUid", "ecmExclusion1", eCMExclusionResponse.ecmExclusionUid);
+            return View(eCMExclusionResponse);
         }
 
-        // POST: ExpenseTravels/Edit/5
+        // POST: ECMExclusionResponses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "expenseTravelUid,projectUid,expenseTravel1,expenseTravelDescription,ratePerDay,daysPerMonth,projectDurationInMonths,total")] ExpenseTravel expenseTravel)
+        public async Task<ActionResult> Edit([Bind(Include = "ecmExclusionResponseUid,ecmExclusionResponseID,ecmExclusionUid,ecmExclusionResponse1")] ECMExclusionResponse eCMExclusionResponse)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(expenseTravel).State = EntityState.Modified;
+                db.Entry(eCMExclusionResponse).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", expenseTravel.projectUid);
-            return View(expenseTravel);
+            ViewBag.ecmExclusionUid = new SelectList(db.ECMExclusions, "ecmExclusionUid", "ecmExclusion1", eCMExclusionResponse.ecmExclusionUid);
+            return View(eCMExclusionResponse);
         }
 
-        // GET: ExpenseTravels/Delete/5
+        // GET: ECMExclusionResponses/Delete/5
         public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ExpenseTravel expenseTravel = await db.ExpenseTravels.FindAsync(id);
-            if (expenseTravel == null)
+            ECMExclusionResponse eCMExclusionResponse = await db.ECMExclusionResponses.FindAsync(id);
+            if (eCMExclusionResponse == null)
             {
                 return HttpNotFound();
             }
-            return View(expenseTravel);
+            return View(eCMExclusionResponse);
         }
 
-        // POST: ExpenseTravels/Delete/5
+        // POST: ECMExclusionResponses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
-            ExpenseTravel expenseTravel = await db.ExpenseTravels.FindAsync(id);
-            db.ExpenseTravels.Remove(expenseTravel);
+            ECMExclusionResponse eCMExclusionResponse = await db.ECMExclusionResponses.FindAsync(id);
+            db.ECMExclusionResponses.Remove(eCMExclusionResponse);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.ECMExclusion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ECMExclusion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ecmExclusionID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ecmExclusionID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ecmExclusion1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ecmExclusion1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ECM.ecmNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ECM.ecmNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ecmExclusionUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
