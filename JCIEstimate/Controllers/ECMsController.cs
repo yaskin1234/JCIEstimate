@@ -34,6 +34,7 @@ namespace JCIEstimate.Controllers
 
             ecms = from cc in db.ECMs
                         where cc.projectUid == sessionProject
+                        orderby cc.ecmString
                         select cc;
             var eCMs = ecms.Include(e => e.Project);
             return View(await eCMs.ToListAsync());

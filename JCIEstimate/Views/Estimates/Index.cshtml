@@ -44,10 +44,9 @@
         }
         <hr />
     </div>
-    @if (User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin")) // if admin ////////////////////////////////////////////////////////////////////////////////////////////////
     {
         @grid.GetHtml(
-
 tableStyle: "table", // applying style on grid
 
 fillEmptyRows: false,

@@ -257,8 +257,6 @@ namespace JCIEstimate.Models
     
     public class EstimateMetaData
     {
-
-
         [Display(Name = "Estimate")]
         public System.Guid estimateUid { get; set; }
         [Display(Name = "Contractor")]                
@@ -271,7 +269,7 @@ namespace JCIEstimate.Models
         public System.Guid categoryUid { get; set; }
         [Display(Name = "Estimate Status")]
         public System.Guid estimateStatusUid { get; set; }        
-        [Display(Name = "Active?")]
+        [Display(Name = "Active?")]        
         public Nullable<bool> isActive { get; set; }        
         [Display(Name = "Amount")]
         [DataType(DataType.Currency)]

@@ -59,7 +59,8 @@
         <dd>
             @Html.DisplayFor(model => model.amount)
         </dd>
-
+@if (User.IsInRole("Admin"))
+{
         <dt>
             @Html.DisplayNameFor(model => model.isActive)
         </dt>
@@ -76,7 +77,7 @@
         <dd>
             @Html.DisplayFor(model => model.activeAmount)
         </dd>
-
+}
         <dt>
             @Html.DisplayNameFor(model => model.notes)
         </dt>
