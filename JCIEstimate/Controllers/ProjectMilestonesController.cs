@@ -19,7 +19,7 @@ namespace JCIEstimate.Controllers
         public async Task<ActionResult> Index()
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-            var projectMilestones = db.ProjectMilestones.Include(p => p.Project).Where(d=>d.projectUid == sessionProject);
+            var projectMilestones = db.ProjectMilestones.Include(p => p.Project).Where(d=>d.projectUid == sessionProject).OrderBy(d=>d.listOrder);
             return View(await projectMilestones.ToListAsync());
         }
 

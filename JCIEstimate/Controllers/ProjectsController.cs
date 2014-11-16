@@ -137,7 +137,18 @@ namespace JCIEstimate.Controllers
                 Selected = selectedExpenses.Contains(x.expenseMiscellaneousUid.ToString()),
                 Text = x.expenseMiscellaneous,
                 Value = x.expenseMiscellaneousUid.ToString()
-            });
+            });           
+            
+            var projectHasMilestones = db.ProjectMilestones.Where(d => d.projectUid == project.projectUid);
+            if (projectHasMilestones.Count() > 0)
+            {
+                ViewBag.hasProjectMilestones = true;
+            }
+            else
+            {
+                ViewBag.hasProjectMilestones = false;
+            }
+
             ViewBag.expenseList = new SelectList(expenseList, "Value", "Text", selectedExpenses.ToList());
             ViewBag.milestoneList = new SelectList(db.Milestones.OrderBy(c => c.defaultListOrder), "milestoneUid", "milestone1");
             return View(project);

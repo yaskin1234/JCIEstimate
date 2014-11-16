@@ -374,17 +374,17 @@ namespace JCIEstimate.Models
     {
         [Display(Name = "Monthly Expense")]
         public System.Guid expenseMonthlyUid { get; set; }
-        [Display(Name = "project")]
+        [Display(Name = "Project")]
         public System.Guid projectUid { get; set; }
         [Display(Name = "Monthly Expense")]
         public string expenseMonthly1 { get; set; }
         [Display(Name = "Description")]
         public string expenseMonthlyDescription { get; set; }
-        [Display(Name = "Rate Per Day"), DisplayFormat(DataFormatString = "{0:C0}")]
+        [Display(Name = "Rate"), DisplayFormat(DataFormatString = "{0:C0}")]
         public decimal ratePerDay { get; set; }
-        [Display(Name = "Days Per Month")]
+        [Display(Name = "Quantity")]
         public int daysPerMonth { get; set; }
-        [Display(Name = "Duration(months)")]
+        [Display(Name = "Duration")]
         public int projectDurationInMonths { get; set; }
         [Display(Name = "Total"), DisplayFormat(DataFormatString = "{0:C0}")]
         public Nullable<decimal> total { get; set; }
