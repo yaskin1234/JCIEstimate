@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.EstimateException
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EstimateException</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateExceptionID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateExceptionID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateException1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateException1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estimate.notes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estimate.notes)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.estimateExceptionUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

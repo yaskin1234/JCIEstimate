@@ -131,13 +131,15 @@ namespace JCIEstimate.Controllers
             var selectedExpenses = from cc in db.ExpenseMiscellaneousProjects
                                 where cc.projectUid == id
                                 select cc.expenseMiscellaneousUid.ToString();
+
             var expenseList = db.ExpenseMiscellaneous.ToList().Select(x => new SelectListItem()
             {
                 Selected = selectedExpenses.Contains(x.expenseMiscellaneousUid.ToString()),
                 Text = x.expenseMiscellaneous,
                 Value = x.expenseMiscellaneousUid.ToString()
             });
-            ViewBag.expenseList = new SelectList(expenseList, "Value", "Text", selectedExpenses.ToList());            
+            ViewBag.expenseList = new SelectList(expenseList, "Value", "Text", selectedExpenses.ToList());
+            ViewBag.milestoneList = new SelectList(db.Milestones.OrderBy(c => c.defaultListOrder), "milestoneUid", "milestone1");
             return View(project);
         }
 
@@ -146,9 +148,11 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription")] Project project, params string[] selectedExpenses)
+        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription")] Project project, string[] selectedExpenses, string[] selectedMilestones)
         {
             ExpenseMiscellaneousProject myExpense;
+            ProjectMilestone myProjectMilestone;
+            ProjectMilestoneAction myProjectMilestoneAction;
 
             if (ModelState.IsValid)
             {
@@ -182,6 +186,38 @@ namespace JCIEstimate.Controllers
                         myExpense.expenseMiscellaneousUid = item.expenseMiscellaneousUid;
                         myExpense.projectUid= project.projectUid;
                         JCIExtensions.MCVExtensions.InsertOrUpdate(db, myExpense);
+                    }
+                }
+
+                if (selectedMilestones != null)
+                {
+                    IQueryable<Milestone> milestonesToAdd;
+                    IQueryable<MilestoneAction> myMilestoneActions;
+
+                    milestonesToAdd = from cc in db.Milestones
+                                      where selectedMilestones.Any(v => cc.milestoneUid.ToString().Contains(v))
+                                      select cc;
+
+                    foreach (var item in milestonesToAdd.ToList())
+                    {
+                        Guid projectMilestoneUid;
+                        myProjectMilestone = new ProjectMilestone();
+                        myProjectMilestone.projectUid = project.projectUid;
+                        myProjectMilestone.projectMilestone1 = item.milestone1;
+                        myProjectMilestone.projectMilestoneDescription = item.milestoneDescription;
+                        myProjectMilestone.listOrder = item.defaultListOrder;
+                        JCIExtensions.MCVExtensions.InsertOrUpdate(db, myProjectMilestone);                        
+                        projectMilestoneUid = myProjectMilestone.projectMilestoneUid;                        
+                        myMilestoneActions = db.MilestoneActions.Where(d => d.milestoneUid == item.milestoneUid);
+                        foreach (var xItem in myMilestoneActions.ToList())
+                        {                            
+                            myProjectMilestoneAction = new ProjectMilestoneAction();
+                            myProjectMilestoneAction.projectMilestoneUid = projectMilestoneUid;
+                            myProjectMilestoneAction.listOrder = xItem.defaultListOrder;
+                            myProjectMilestoneAction.projectMilestoneAction1 = xItem.milestoneAction1;
+                            myProjectMilestoneAction.projectMilestoneActionDescription = xItem.milestoneActionDescription;
+                            JCIExtensions.MCVExtensions.InsertOrUpdate(db, myProjectMilestoneAction);                            
+                        }
                     }
                 }
             }    

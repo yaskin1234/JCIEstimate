@@ -1,0 +1,70 @@
+﻿@model IEnumerable<JCIEstimate.Models.ProjectMilestoneAction>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProjectMilestone.projectMilestone1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectMilestoneAction1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.plannedStartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.actualStartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.endDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.listOrder)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectMilestone.projectMilestone1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.projectMilestoneAction1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.plannedStartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.actualStartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.duration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.endDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.listOrder)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.projectMilestoneActionUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.projectMilestoneActionUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.projectMilestoneActionUid })
+        </td>
+    </tr>
+}
+
+</table>

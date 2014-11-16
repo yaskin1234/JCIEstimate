@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.Milestone
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Milestone</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.milestone1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.milestone1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.milestoneDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.milestoneDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.defaultListOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.defaultListOrder)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.milestoneUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

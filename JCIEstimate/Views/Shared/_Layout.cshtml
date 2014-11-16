@@ -39,6 +39,8 @@
                                 <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
                                 <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
                                 <li>@Html.ActionLink("Misc Expenses", "Index", "ExpenseMiscellaneous")</li>
+                                <li>@Html.ActionLink("Milestones", "Index", "Milestones")</li>
+                                <li>@Html.ActionLink("Milestone Actions", "Index", "MilestoneActions")</li>
                                 <li class="divider" />
                                 <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
                                 <li>@Html.ActionLink("Equipment Tasks", "Index", "EquipmentTasks")</li>
@@ -46,8 +48,7 @@
                                 <li>@Html.ActionLink("Intervals", "Index", "Intervals")</li>
                                 <li class="divider" />   
                                 <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
-                                <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li> 
-                                
+                                <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>                                 
                             </ul>
                         </li>
                         if (Session["projectUid"] != null)
@@ -55,8 +56,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project Setup</a>
                                 <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("ECMs", "Index", "ECMs")</li>                                    
-                                    <li>@*@Html.ActionLink("ECM Inclusions", "Index", "ECMInclusions")*@</li>
+                                    <li>@Html.ActionLink("ECMs", "Index", "ECMs")</li>                                                                        
                                     <li>@Html.ActionLink("Locations", "Index", "Locations")</li>                                                
                                     <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>                   
                                     <li class="divider" />
@@ -65,8 +65,8 @@
                                     <li>@Html.ActionLink("Monthly Expenses", "Index", "ExpenseMonthlies")</li> 
                                     <li>@Html.ActionLink("Misc Expenses For Project", "Index", "ExpenseMiscellaneousProjects")</li>                                   
                                     <li class="divider" />
-                                    <li>@Html.ActionLink("Equipment", "Index", "Equipments")</li>                                    
-                                    <li>@Html.ActionLink("Equipment To Do", "Index", "EquipmentToDoes")</li>
+                                    <li>@Html.ActionLink("Project Milestones", "Index", "ProjectMilestones")</li>
+                                    <li>@Html.ActionLink("Project Milestone Actions", "Index", "ProjectMilestoneActions")</li>
                                 </ul>
                             </li>
                         }
@@ -92,7 +92,17 @@
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Contacts", "Index", "ContractorContacts")</li>
                                 <li>@Html.ActionLink("Email Addresses", "Index", "Eddresses")</li>
-                                <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>  
+                                <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>                                
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Estimate Inclusions", "Index", "EstimateInclusions")</li>
+                                <li>@Html.ActionLink("Estimate Inclusion Responses", "Index", "EstimateInclusionResponses")</li>
+                                <li>@Html.ActionLink("Estimate Exclusions", "Index", "EstimateExclusions")</li>
+                                <li>@Html.ActionLink("Estimate Exclusion Responses", "Index", "EstimateExclusionResponses")</li>
+                                <li>@Html.ActionLink("Estimate Exceptions", "Index", "EstimateExceptions")</li>
+                                <li>@Html.ActionLink("Estimate Exception Responses", "Index", "EstimateExceptionResponses")</li>
+                                <li class="divider"></li>
                                 <li>@Html.ActionLink("Bid Summary", "getContractorSummary", "Reports")</li>
                             </ul>
                         </li>
@@ -104,8 +114,17 @@
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Contacts", "Index", "ContractorContacts")</li>
                                 <li>@Html.ActionLink("Email Addresses", "Index", "Eddresses")</li>
-                                <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>                
-                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>                   
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>  
+                                <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Estimate Inclusions", "Index", "EstimateInclusions")</li>
+                                <li>@Html.ActionLink("Estimate Inclusion Responses", "Index", "EstimateInclusionResponses")</li>
+                                <li>@Html.ActionLink("Estimate Exclusions", "Index", "EstimateExclusions")</li>
+                                <li>@Html.ActionLink("Estimate Exclusion Responses", "Index", "EstimateExclusionResponses")</li>
+                                <li>@Html.ActionLink("Estimate Exceptions", "Index", "EstimateExceptions")</li>
+                                <li>@Html.ActionLink("Estimate Exception Responses", "Index", "EstimateExceptionResponses")</li>
+                                <li class="divider"></li>
                                 <li>@Html.ActionLink("Bid Summary", "getContractorSummary", "Reports")</li>                
                             </ul>
                         </li>

@@ -51,6 +51,20 @@
         </div>
 
         <div class="form-group">
+            <label class="col-md-2 control-label">
+                Select Milestones
+            </label>
+            <div class="col-md-10">
+                @foreach (var item in (SelectList)ViewBag.milestoneList)
+                {
+                    string chked = "";                    
+                    <input type="checkbox" name="SelectedMilestones" value="@item.Value" @chked class="checkbox-inline" />
+                    @Html.Label(item.Text, new { @class = "control-label" })
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

@@ -1,0 +1,82 @@
+﻿@model JCIEstimate.Models.ProjectMilestoneAction
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ProjectMilestoneAction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.projectMilestoneAction1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectMilestoneAction1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectMilestoneActionDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectMilestoneActionDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.plannedStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.plannedStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.actualStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.actualStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.duration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.endDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.endDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.listOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.listOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectMilestone.projectMilestone1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectMilestone.projectMilestone1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.projectMilestoneActionUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

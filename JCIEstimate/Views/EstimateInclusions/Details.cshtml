@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.EstimateInclusion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EstimateInclusion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateInclusionID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateInclusionID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateInclusion1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateInclusion1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estimate.notes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estimate.notes)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.estimateInclusionUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

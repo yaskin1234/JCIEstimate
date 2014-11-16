@@ -277,36 +277,56 @@
     <Content Include="Views\ToDoStatus\Details.cshtml" />
     <Content Include="Views\ToDoStatus\Edit.cshtml" />
     <Content Include="Views\ToDoStatus\Index.cshtml" />
-    <Content Include="Views\ECMExceptions\Create.cshtml" />
-    <Content Include="Views\ECMExceptions\Delete.cshtml" />
-    <Content Include="Views\ECMExceptions\Details.cshtml" />
-    <Content Include="Views\ECMExceptions\Edit.cshtml" />
-    <Content Include="Views\ECMExceptions\Index.cshtml" />
-    <Content Include="Views\ECMExceptionResponses\Create.cshtml" />
-    <Content Include="Views\ECMExceptionResponses\Delete.cshtml" />
-    <Content Include="Views\ECMExceptionResponses\Details.cshtml" />
-    <Content Include="Views\ECMExceptionResponses\Edit.cshtml" />
-    <Content Include="Views\ECMExceptionResponses\Index.cshtml" />
-    <Content Include="Views\ECMExclusions\Create.cshtml" />
-    <Content Include="Views\ECMExclusions\Delete.cshtml" />
-    <Content Include="Views\ECMExclusions\Details.cshtml" />
-    <Content Include="Views\ECMExclusions\Edit.cshtml" />
-    <Content Include="Views\ECMExclusions\Index.cshtml" />
-    <Content Include="Views\ECMExclusionResponses\Create.cshtml" />
-    <Content Include="Views\ECMExclusionResponses\Delete.cshtml" />
-    <Content Include="Views\ECMExclusionResponses\Details.cshtml" />
-    <Content Include="Views\ECMExclusionResponses\Edit.cshtml" />
-    <Content Include="Views\ECMExclusionResponses\Index.cshtml" />
-    <Content Include="Views\ECMInclusions\Create.cshtml" />
-    <Content Include="Views\ECMInclusions\Delete.cshtml" />
-    <Content Include="Views\ECMInclusions\Details.cshtml" />
-    <Content Include="Views\ECMInclusions\Edit.cshtml" />
-    <Content Include="Views\ECMInclusions\Index.cshtml" />
-    <Content Include="Views\ECMInclusionResponses\Create.cshtml" />
-    <Content Include="Views\ECMInclusionResponses\Delete.cshtml" />
-    <Content Include="Views\ECMInclusionResponses\Details.cshtml" />
-    <Content Include="Views\ECMInclusionResponses\Edit.cshtml" />
-    <Content Include="Views\ECMInclusionResponses\Index.cshtml" />
+    <Content Include="Views\EstimateExceptions\Create.cshtml" />
+    <Content Include="Views\EstimateExceptions\Delete.cshtml" />
+    <Content Include="Views\EstimateExceptions\Details.cshtml" />
+    <Content Include="Views\EstimateExceptions\Edit.cshtml" />
+    <Content Include="Views\EstimateExceptions\Index.cshtml" />
+    <Content Include="Views\EstimateExceptionResponses\Create.cshtml" />
+    <Content Include="Views\EstimateExceptionResponses\Delete.cshtml" />
+    <Content Include="Views\EstimateExceptionResponses\Details.cshtml" />
+    <Content Include="Views\EstimateExceptionResponses\Edit.cshtml" />
+    <Content Include="Views\EstimateExceptionResponses\Index.cshtml" />
+    <Content Include="Views\EstimateExclusions\Create.cshtml" />
+    <Content Include="Views\EstimateExclusions\Delete.cshtml" />
+    <Content Include="Views\EstimateExclusions\Details.cshtml" />
+    <Content Include="Views\EstimateExclusions\Edit.cshtml" />
+    <Content Include="Views\EstimateExclusions\Index.cshtml" />
+    <Content Include="Views\EstimateExclusionResponses\Create.cshtml" />
+    <Content Include="Views\EstimateExclusionResponses\Delete.cshtml" />
+    <Content Include="Views\EstimateExclusionResponses\Details.cshtml" />
+    <Content Include="Views\EstimateExclusionResponses\Edit.cshtml" />
+    <Content Include="Views\EstimateExclusionResponses\Index.cshtml" />
+    <Content Include="Views\EstimateInclusions\Create.cshtml" />
+    <Content Include="Views\EstimateInclusions\Delete.cshtml" />
+    <Content Include="Views\EstimateInclusions\Details.cshtml" />
+    <Content Include="Views\EstimateInclusions\Edit.cshtml" />
+    <Content Include="Views\EstimateInclusions\Index.cshtml" />
+    <Content Include="Views\EstimateInclusionResponses\Create.cshtml" />
+    <Content Include="Views\EstimateInclusionResponses\Delete.cshtml" />
+    <Content Include="Views\EstimateInclusionResponses\Details.cshtml" />
+    <Content Include="Views\EstimateInclusionResponses\Edit.cshtml" />
+    <Content Include="Views\EstimateInclusionResponses\Index.cshtml" />
+    <Content Include="Views\Milestones\Create.cshtml" />
+    <Content Include="Views\Milestones\Delete.cshtml" />
+    <Content Include="Views\Milestones\Details.cshtml" />
+    <Content Include="Views\Milestones\Edit.cshtml" />
+    <Content Include="Views\Milestones\Index.cshtml" />
+    <Content Include="Views\MilestoneActions\Create.cshtml" />
+    <Content Include="Views\MilestoneActions\Delete.cshtml" />
+    <Content Include="Views\MilestoneActions\Details.cshtml" />
+    <Content Include="Views\MilestoneActions\Edit.cshtml" />
+    <Content Include="Views\MilestoneActions\Index.cshtml" />
+    <Content Include="Views\ProjectMilestones\Create.cshtml" />
+    <Content Include="Views\ProjectMilestones\Delete.cshtml" />
+    <Content Include="Views\ProjectMilestones\Details.cshtml" />
+    <Content Include="Views\ProjectMilestones\Edit.cshtml" />
+    <Content Include="Views\ProjectMilestones\Index.cshtml" />
+    <Content Include="Views\ProjectMilestoneActions\Create.cshtml" />
+    <Content Include="Views\ProjectMilestoneActions\Delete.cshtml" />
+    <Content Include="Views\ProjectMilestoneActions\Details.cshtml" />
+    <Content Include="Views\ProjectMilestoneActions\Edit.cshtml" />
+    <Content Include="Views\ProjectMilestoneActions\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -429,18 +449,18 @@
     <Compile Include="Controllers\ContractorContactsController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
     <Compile Include="Controllers\ContractorUsersController.cs" />
-    <Compile Include="Controllers\ECMExceptionResponsesController.cs" />
-    <Compile Include="Controllers\ECMExceptionsController.cs" />
-    <Compile Include="Controllers\ECMExclusionResponsesController.cs" />
-    <Compile Include="Controllers\ECMExclusionsController.cs" />
-    <Compile Include="Controllers\ECMInclusionResponsesController.cs" />
-    <Compile Include="Controllers\ECMInclusionsController.cs" />
     <Compile Include="Controllers\ECMsController.cs" />
     <Compile Include="Controllers\EddressesController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\EquipmentTasksController.cs" />
     <Compile Include="Controllers\EquipmentToDoesController.cs" />
     <Compile Include="Controllers\EquipmentTypesController.cs" />
+    <Compile Include="Controllers\EstimateExceptionResponsesController.cs" />
+    <Compile Include="Controllers\EstimateExceptionsController.cs" />
+    <Compile Include="Controllers\EstimateExclusionResponsesController.cs" />
+    <Compile Include="Controllers\EstimateExclusionsController.cs" />
+    <Compile Include="Controllers\EstimateInclusionResponsesController.cs" />
+    <Compile Include="Controllers\EstimateInclusionsController.cs" />
     <Compile Include="Controllers\EstimatesController.cs" />
     <Compile Include="Controllers\EstimateStatusController.cs" />
     <Compile Include="Controllers\ExpenseConstructionsController.cs" />
@@ -453,6 +473,10 @@
     <Compile Include="Controllers\IntervalsController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MilestoneActionsController.cs" />
+    <Compile Include="Controllers\MilestonesController.cs" />
+    <Compile Include="Controllers\ProjectMilestoneActionsController.cs" />
+    <Compile Include="Controllers\ProjectMilestonesController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ProjectToDoesController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -483,24 +507,6 @@
     <Compile Include="Models\ECM.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ECMException.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ECMExceptionResponse.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ECMExclusion.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ECMExclusionResponse.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ECMInclusion.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ECMInclusionResponse.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Eddress.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -517,6 +523,24 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Estimate.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstimateException.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstimateExceptionResponse.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstimateExclusion.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstimateExclusionResponse.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstimateInclusion.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstimateInclusionResponse.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EstimateStatu.cs">
@@ -561,7 +585,19 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Milestone.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MilestoneAction.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Project.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectMilestone.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectMilestoneAction.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectToDo.cs">

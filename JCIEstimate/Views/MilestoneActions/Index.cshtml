@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JCIEstimate.Models.MilestoneAction>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Milestone.milestone1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.milestoneAction1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.defaultListOrder)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Milestone.milestone1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.milestoneAction1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.defaultListOrder)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.milestoneActionUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.milestoneActionUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.milestoneActionUid })
+        </td>
+    </tr>
+}
+
+</table>

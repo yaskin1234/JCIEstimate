@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JCIEstimate.Models.EquipmentToDo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Equipment.equipment1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EquipmentTask.equipmentTask1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.daysToComplete)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Equipment.equipment1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EquipmentTask.equipmentTask1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.daysToComplete)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.equipmentToDoUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.equipmentToDoUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.equipmentToDoUid })
+        </td>
+    </tr>
+}
+
+</table>

@@ -23,6 +23,7 @@ namespace JCIEstimate.Models
             this.ExpensePercentages = new HashSet<ExpensePercentage>();
             this.ScopeOfWorks = new HashSet<ScopeOfWork>();
             this.ExpenseMonthlies = new HashSet<ExpenseMonthly>();
+            this.ProjectMilestones = new HashSet<ProjectMilestone>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -36,5 +37,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ExpensePercentage> ExpensePercentages { get; set; }
         public virtual ICollection<ScopeOfWork> ScopeOfWorks { get; set; }
         public virtual ICollection<ExpenseMonthly> ExpenseMonthlies { get; set; }
+        public virtual ICollection<ProjectMilestone> ProjectMilestones { get; set; }
     }
 }

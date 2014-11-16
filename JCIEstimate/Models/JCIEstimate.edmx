@@ -69,60 +69,6 @@
           <Property Name="ecmString" Type="nvarchar" MaxLength="403" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <EntityType Name="ECMException">
-          <Key>
-            <PropertyRef Name="ecmExceptionUid" />
-          </Key>
-          <Property Name="ecmExceptionUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmExceptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmException" Type="nvarchar" MaxLength="2000" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ECMExceptionResponse">
-          <Key>
-            <PropertyRef Name="ecmExceptionResponseUid" />
-          </Key>
-          <Property Name="ecmExceptionResponseUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmExceptionResponseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ecmExceptionUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmExceptionResponse" Type="nvarchar" MaxLength="2000" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ECMExclusion">
-          <Key>
-            <PropertyRef Name="ecmExclusionUid" />
-          </Key>
-          <Property Name="ecmExclusionUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmExclusionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmExclusion" Type="nvarchar" MaxLength="2000" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ECMExclusionResponse">
-          <Key>
-            <PropertyRef Name="ecmExclusionResponseUid" />
-          </Key>
-          <Property Name="ecmExclusionResponseUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmExclusionResponseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ecmExclusionUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmExclusionResponse" Type="nvarchar" MaxLength="2000" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ECMInclusion">
-          <Key>
-            <PropertyRef Name="ecmInclusionUid" />
-          </Key>
-          <Property Name="ecmInclusionUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmInclusionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmInclusion" Type="nvarchar" MaxLength="2000" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ECMInclusionResponse">
-          <Key>
-            <PropertyRef Name="ecmInclusionResponseUid" />
-          </Key>
-          <Property Name="ecmInclusionResponseUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmInclusionResponseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ecmInclusionUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmInclusionResponse" Type="nvarchar" MaxLength="2000" Nullable="false" />
-        </EntityType>
         <EntityType Name="Eddress">
           <Key>
             <PropertyRef Name="eddressUid" />
@@ -185,6 +131,63 @@
           <Property Name="amount" Type="money" Nullable="false" />
           <Property Name="activeAmount" Type="money" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="EstimateException">
+          <Key>
+            <PropertyRef Name="estimateExceptionUid" />
+          </Key>
+          <Property Name="estimateExceptionUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateExceptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estimateUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateException" Type="nvarchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstimateExceptionResponse">
+          <Key>
+            <PropertyRef Name="estimateExceptionResponseUid" />
+          </Key>
+          <Property Name="estimateExceptionResponseUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateExceptionResponseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estimateExceptionUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateExceptionResponse" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="responseDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstimateExclusion">
+          <Key>
+            <PropertyRef Name="estimateExclusionUid" />
+          </Key>
+          <Property Name="estimateExclusionUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateExclusionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estimateUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateExclusion" Type="nvarchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstimateExclusionResponse">
+          <Key>
+            <PropertyRef Name="estimateExclusionResponseUid" />
+          </Key>
+          <Property Name="estimateExclusionResponseUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateExclusionResponseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estimateExclusionUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateExclusionResponse" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="responseDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstimateInclusion">
+          <Key>
+            <PropertyRef Name="estimateInclusionUid" />
+          </Key>
+          <Property Name="estimateInclusionUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateInclusionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estimateUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateInclusion" Type="nvarchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstimateInclusionResponse">
+          <Key>
+            <PropertyRef Name="estimateInclusionResponseUid" />
+          </Key>
+          <Property Name="estimateInclusionResponseUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateInclusionResponseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="estimateInclusionUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="estimateInclusionResponse" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="responseDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="EstimateStatus">
           <Key>
@@ -266,6 +269,25 @@
           <Property Name="locationDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
+        <EntityType Name="Milestone">
+          <Key>
+            <PropertyRef Name="milestoneUid" />
+          </Key>
+          <Property Name="milestoneUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="milestone" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="milestoneDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="defaultListOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MilestoneAction">
+          <Key>
+            <PropertyRef Name="milestoneActionUid" />
+          </Key>
+          <Property Name="milestoneActionUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="milestoneUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="milestoneAction" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="milestoneActionDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="defaultListOrder" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Project">
           <Key>
             <PropertyRef Name="projectUid" />
@@ -273,6 +295,30 @@
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="project" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="projectDescription" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ProjectMilestone">
+          <Key>
+            <PropertyRef Name="projectMilestoneUid" />
+          </Key>
+          <Property Name="projectMilestoneUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectMilestone" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="projectMilestoneDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="listOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectMilestoneAction">
+          <Key>
+            <PropertyRef Name="projectMilestoneActionUid" />
+          </Key>
+          <Property Name="projectMilestoneActionUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectMilestoneUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectMilestoneAction" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="projectMilestoneActionDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="plannedStartDate" Type="date" />
+          <Property Name="actualStartDate" Type="date" />
+          <Property Name="duration" Type="int" Nullable="false" />
+          <Property Name="endDate" Type="date" StoreGeneratedPattern="Computed" />
+          <Property Name="listOrder" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ProjectToDo">
           <Key>
@@ -373,78 +419,6 @@
             </Principal>
             <Dependent Role="ECM">
               <PropertyRef Name="projectUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ECMException_ecm">
-          <End Role="ECM" Type="Self.ECM" Multiplicity="1" />
-          <End Role="ECMException" Type="Self.ECMException" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
-            </Principal>
-            <Dependent Role="ECMException">
-              <PropertyRef Name="ecmUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ecmExceptionResponse_ecmException">
-          <End Role="ECMException" Type="Self.ECMException" Multiplicity="1" />
-          <End Role="ECMExceptionResponse" Type="Self.ECMExceptionResponse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECMException">
-              <PropertyRef Name="ecmExceptionUid" />
-            </Principal>
-            <Dependent Role="ECMExceptionResponse">
-              <PropertyRef Name="ecmExceptionUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ECMExclusion_ecm">
-          <End Role="ECM" Type="Self.ECM" Multiplicity="1" />
-          <End Role="ECMExclusion" Type="Self.ECMExclusion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
-            </Principal>
-            <Dependent Role="ECMExclusion">
-              <PropertyRef Name="ecmUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ecmExclusionResponse_ecmExclusion">
-          <End Role="ECMExclusion" Type="Self.ECMExclusion" Multiplicity="1" />
-          <End Role="ECMExclusionResponse" Type="Self.ECMExclusionResponse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECMExclusion">
-              <PropertyRef Name="ecmExclusionUid" />
-            </Principal>
-            <Dependent Role="ECMExclusionResponse">
-              <PropertyRef Name="ecmExclusionUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ECMInclusion_ecm">
-          <End Role="ECM" Type="Self.ECM" Multiplicity="1" />
-          <End Role="ECMInclusion" Type="Self.ECMInclusion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
-            </Principal>
-            <Dependent Role="ECMInclusion">
-              <PropertyRef Name="ecmUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ecmInclusionResponse_ecminclusion">
-          <End Role="ECMInclusion" Type="Self.ECMInclusion" Multiplicity="1" />
-          <End Role="ECMInclusionResponse" Type="Self.ECMInclusionResponse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECMInclusion">
-              <PropertyRef Name="ecmInclusionUid" />
-            </Principal>
-            <Dependent Role="ECMInclusionResponse">
-              <PropertyRef Name="ecmInclusionUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -568,6 +542,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_estimateException_estimate">
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="1" />
+          <End Role="EstimateException" Type="Self.EstimateException" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estimate">
+              <PropertyRef Name="estimateUid" />
+            </Principal>
+            <Dependent Role="EstimateException">
+              <PropertyRef Name="estimateUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimateExceptionResponse_estimateException">
+          <End Role="EstimateException" Type="Self.EstimateException" Multiplicity="1" />
+          <End Role="EstimateExceptionResponse" Type="Self.EstimateExceptionResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstimateException">
+              <PropertyRef Name="estimateExceptionUid" />
+            </Principal>
+            <Dependent Role="EstimateExceptionResponse">
+              <PropertyRef Name="estimateExceptionUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimateExclusion_estimate">
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="1" />
+          <End Role="EstimateExclusion" Type="Self.EstimateExclusion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estimate">
+              <PropertyRef Name="estimateUid" />
+            </Principal>
+            <Dependent Role="EstimateExclusion">
+              <PropertyRef Name="estimateUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimateExclusionResponse_estimateExclusion">
+          <End Role="EstimateExclusion" Type="Self.EstimateExclusion" Multiplicity="1" />
+          <End Role="EstimateExclusionResponse" Type="Self.EstimateExclusionResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstimateExclusion">
+              <PropertyRef Name="estimateExclusionUid" />
+            </Principal>
+            <Dependent Role="EstimateExclusionResponse">
+              <PropertyRef Name="estimateExclusionUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimateInclusion_estimate">
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="1" />
+          <End Role="EstimateInclusion" Type="Self.EstimateInclusion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estimate">
+              <PropertyRef Name="estimateUid" />
+            </Principal>
+            <Dependent Role="EstimateInclusion">
+              <PropertyRef Name="estimateUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimateInclusionResponse_estimateinclusion">
+          <End Role="EstimateInclusion" Type="Self.EstimateInclusion" Multiplicity="1" />
+          <End Role="EstimateInclusionResponse" Type="Self.EstimateInclusionResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstimateInclusion">
+              <PropertyRef Name="estimateInclusionUid" />
+            </Principal>
+            <Dependent Role="EstimateInclusionResponse">
+              <PropertyRef Name="estimateInclusionUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_expenseConstruction_interval">
           <End Role="Interval" Type="Self.Interval" Multiplicity="1" />
           <End Role="ExpenseConstruction" Type="Self.ExpenseConstruction" Multiplicity="*" />
@@ -652,6 +698,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_milestoneAction_milestone">
+          <End Role="Milestone" Type="Self.Milestone" Multiplicity="1" />
+          <End Role="MilestoneAction" Type="Self.MilestoneAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Milestone">
+              <PropertyRef Name="milestoneUid" />
+            </Principal>
+            <Dependent Role="MilestoneAction">
+              <PropertyRef Name="milestoneUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projectMilestone_project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ProjectMilestone" Type="Self.ProjectMilestone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectMilestone">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_projectMilestoneAction_projectMilestone">
+          <End Role="ProjectMilestone" Type="Self.ProjectMilestone" Multiplicity="1" />
+          <End Role="ProjectMilestoneAction" Type="Self.ProjectMilestoneAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectMilestone">
+              <PropertyRef Name="projectMilestoneUid" />
+            </Principal>
+            <Dependent Role="ProjectMilestoneAction">
+              <PropertyRef Name="projectMilestoneUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_projecttodo_todostatus">
           <End Role="ToDoStatus" Type="Self.ToDoStatus" Multiplicity="1" />
           <End Role="ProjectToDo" Type="Self.ProjectToDo" Multiplicity="*" />
@@ -695,18 +777,18 @@
           <EntitySet Name="ContractorContact" EntityType="Self.ContractorContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorUser" EntityType="Self.ContractorUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ECM" EntityType="Self.ECM" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ECMException" EntityType="Self.ECMException" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ECMExceptionResponse" EntityType="Self.ECMExceptionResponse" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ECMExclusion" EntityType="Self.ECMExclusion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ECMExclusionResponse" EntityType="Self.ECMExclusionResponse" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ECMInclusion" EntityType="Self.ECMInclusion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ECMInclusionResponse" EntityType="Self.ECMInclusionResponse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Eddress" EntityType="Self.Eddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentTask" EntityType="Self.EquipmentTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentToDo" EntityType="Self.EquipmentToDo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentType" EntityType="Self.EquipmentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstimateException" EntityType="Self.EstimateException" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstimateExceptionResponse" EntityType="Self.EstimateExceptionResponse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstimateExclusion" EntityType="Self.EstimateExclusion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstimateExclusionResponse" EntityType="Self.EstimateExclusionResponse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstimateInclusion" EntityType="Self.EstimateInclusion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstimateInclusionResponse" EntityType="Self.EstimateInclusionResponse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstimateStatus" EntityType="Self.EstimateStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseConstruction" EntityType="Self.ExpenseConstruction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseMiscellaneous" EntityType="Self.ExpenseMiscellaneous" Schema="dbo" store:Type="Tables" />
@@ -715,7 +797,11 @@
           <EntitySet Name="ExpensePercentage" EntityType="Self.ExpensePercentage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Interval" EntityType="Self.Interval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Milestone" EntityType="Self.Milestone" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MilestoneAction" EntityType="Self.MilestoneAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectMilestone" EntityType="Self.ProjectMilestone" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectMilestoneAction" EntityType="Self.ProjectMilestoneAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectToDo" EntityType="Self.ProjectToDo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScopeOfWork" EntityType="Self.ScopeOfWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestGrid" EntityType="Self.TestGrid" Schema="dbo" store:Type="Tables" />
@@ -739,30 +825,6 @@
           <AssociationSet Name="fk_ecm_project" Association="Self.fk_ecm_project">
             <End Role="Project" EntitySet="Project" />
             <End Role="ECM" EntitySet="ECM" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ECMException_ecm" Association="Self.fk_ECMException_ecm">
-            <End Role="ECM" EntitySet="ECM" />
-            <End Role="ECMException" EntitySet="ECMException" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ecmExceptionResponse_ecmException" Association="Self.fk_ecmExceptionResponse_ecmException">
-            <End Role="ECMException" EntitySet="ECMException" />
-            <End Role="ECMExceptionResponse" EntitySet="ECMExceptionResponse" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ECMExclusion_ecm" Association="Self.fk_ECMExclusion_ecm">
-            <End Role="ECM" EntitySet="ECM" />
-            <End Role="ECMExclusion" EntitySet="ECMExclusion" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ecmExclusionResponse_ecmExclusion" Association="Self.fk_ecmExclusionResponse_ecmExclusion">
-            <End Role="ECMExclusion" EntitySet="ECMExclusion" />
-            <End Role="ECMExclusionResponse" EntitySet="ECMExclusionResponse" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ECMInclusion_ecm" Association="Self.fk_ECMInclusion_ecm">
-            <End Role="ECM" EntitySet="ECM" />
-            <End Role="ECMInclusion" EntitySet="ECMInclusion" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ecmInclusionResponse_ecminclusion" Association="Self.fk_ecmInclusionResponse_ecminclusion">
-            <End Role="ECMInclusion" EntitySet="ECMInclusion" />
-            <End Role="ECMInclusionResponse" EntitySet="ECMInclusionResponse" />
           </AssociationSet>
           <AssociationSet Name="fk_equipment_ecm" Association="Self.fk_equipment_ecm">
             <End Role="ECM" EntitySet="ECM" />
@@ -804,6 +866,30 @@
             <End Role="EstimateStatus" EntitySet="EstimateStatus" />
             <End Role="Estimate" EntitySet="Estimate" />
           </AssociationSet>
+          <AssociationSet Name="fk_estimateException_estimate" Association="Self.fk_estimateException_estimate">
+            <End Role="Estimate" EntitySet="Estimate" />
+            <End Role="EstimateException" EntitySet="EstimateException" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimateExceptionResponse_estimateException" Association="Self.fk_estimateExceptionResponse_estimateException">
+            <End Role="EstimateException" EntitySet="EstimateException" />
+            <End Role="EstimateExceptionResponse" EntitySet="EstimateExceptionResponse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimateExclusion_estimate" Association="Self.fk_estimateExclusion_estimate">
+            <End Role="Estimate" EntitySet="Estimate" />
+            <End Role="EstimateExclusion" EntitySet="EstimateExclusion" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimateExclusionResponse_estimateExclusion" Association="Self.fk_estimateExclusionResponse_estimateExclusion">
+            <End Role="EstimateExclusion" EntitySet="EstimateExclusion" />
+            <End Role="EstimateExclusionResponse" EntitySet="EstimateExclusionResponse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimateInclusion_estimate" Association="Self.fk_estimateInclusion_estimate">
+            <End Role="Estimate" EntitySet="Estimate" />
+            <End Role="EstimateInclusion" EntitySet="EstimateInclusion" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimateInclusionResponse_estimateinclusion" Association="Self.fk_estimateInclusionResponse_estimateinclusion">
+            <End Role="EstimateInclusion" EntitySet="EstimateInclusion" />
+            <End Role="EstimateInclusionResponse" EntitySet="EstimateInclusionResponse" />
+          </AssociationSet>
           <AssociationSet Name="fk_expenseConstruction_interval" Association="Self.fk_expenseConstruction_interval">
             <End Role="Interval" EntitySet="Interval" />
             <End Role="ExpenseConstruction" EntitySet="ExpenseConstruction" />
@@ -831,6 +917,18 @@
           <AssociationSet Name="fk_location_project" Association="Self.fk_location_project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_milestoneAction_milestone" Association="Self.fk_milestoneAction_milestone">
+            <End Role="Milestone" EntitySet="Milestone" />
+            <End Role="MilestoneAction" EntitySet="MilestoneAction" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projectMilestone_project" Association="Self.fk_projectMilestone_project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectMilestone" EntitySet="ProjectMilestone" />
+          </AssociationSet>
+          <AssociationSet Name="fk_projectMilestoneAction_projectMilestone" Association="Self.fk_projectMilestoneAction_projectMilestone">
+            <End Role="ProjectMilestone" EntitySet="ProjectMilestone" />
+            <End Role="ProjectMilestoneAction" EntitySet="ProjectMilestoneAction" />
           </AssociationSet>
           <AssociationSet Name="fk_projecttodo_todostatus" Association="Self.fk_projecttodo_todostatus">
             <End Role="ToDoStatus" EntitySet="ToDoStatus" />
@@ -975,35 +1073,51 @@
             <End Role="Project" EntitySet="Projects" />
             <End Role="ExpenseMonthly" EntitySet="ExpenseMonthlies" />
           </AssociationSet>
-          <EntitySet Name="ECMExceptions" EntityType="JCIEstimateModel.ECMException" />
-          <EntitySet Name="ECMExceptionResponses" EntityType="JCIEstimateModel.ECMExceptionResponse" />
-          <EntitySet Name="ECMExclusions" EntityType="JCIEstimateModel.ECMExclusion" />
-          <EntitySet Name="ECMExclusionResponses" EntityType="JCIEstimateModel.ECMExclusionResponse" />
-          <EntitySet Name="ECMInclusions" EntityType="JCIEstimateModel.ECMInclusion" />
-          <EntitySet Name="ECMInclusionResponses" EntityType="JCIEstimateModel.ECMInclusionResponse" />
-          <AssociationSet Name="fk_ECMException_ecm" Association="JCIEstimateModel.fk_ECMException_ecm">
-            <End Role="ECM" EntitySet="ECMs" />
-            <End Role="ECMException" EntitySet="ECMExceptions" />
+          <EntitySet Name="EstimateExceptions" EntityType="JCIEstimateModel.EstimateException" />
+          <EntitySet Name="EstimateExceptionResponses" EntityType="JCIEstimateModel.EstimateExceptionResponse" />
+          <EntitySet Name="EstimateExclusions" EntityType="JCIEstimateModel.EstimateExclusion" />
+          <EntitySet Name="EstimateExclusionResponses" EntityType="JCIEstimateModel.EstimateExclusionResponse" />
+          <EntitySet Name="EstimateInclusions" EntityType="JCIEstimateModel.EstimateInclusion" />
+          <EntitySet Name="EstimateInclusionResponses" EntityType="JCIEstimateModel.EstimateInclusionResponse" />
+          <AssociationSet Name="fk_estimateException_estimate" Association="JCIEstimateModel.fk_estimateException_estimate">
+            <End Role="Estimate" EntitySet="Estimates" />
+            <End Role="EstimateException" EntitySet="EstimateExceptions" />
           </AssociationSet>
-          <AssociationSet Name="fk_ECMExclusion_ecm" Association="JCIEstimateModel.fk_ECMExclusion_ecm">
-            <End Role="ECM" EntitySet="ECMs" />
-            <End Role="ECMExclusion" EntitySet="ECMExclusions" />
+          <AssociationSet Name="fk_estimateExclusion_estimate" Association="JCIEstimateModel.fk_estimateExclusion_estimate">
+            <End Role="Estimate" EntitySet="Estimates" />
+            <End Role="EstimateExclusion" EntitySet="EstimateExclusions" />
           </AssociationSet>
-          <AssociationSet Name="fk_ECMInclusion_ecm" Association="JCIEstimateModel.fk_ECMInclusion_ecm">
-            <End Role="ECM" EntitySet="ECMs" />
-            <End Role="ECMInclusion" EntitySet="ECMInclusions" />
+          <AssociationSet Name="fk_estimateInclusion_estimate" Association="JCIEstimateModel.fk_estimateInclusion_estimate">
+            <End Role="Estimate" EntitySet="Estimates" />
+            <End Role="EstimateInclusion" EntitySet="EstimateInclusions" />
           </AssociationSet>
-          <AssociationSet Name="fk_ecmExceptionResponse_ecmException" Association="JCIEstimateModel.fk_ecmExceptionResponse_ecmException">
-            <End Role="ECMException" EntitySet="ECMExceptions" />
-            <End Role="ECMExceptionResponse" EntitySet="ECMExceptionResponses" />
+          <AssociationSet Name="fk_estimateExceptionResponse_estimateException" Association="JCIEstimateModel.fk_estimateExceptionResponse_estimateException">
+            <End Role="EstimateException" EntitySet="EstimateExceptions" />
+            <End Role="EstimateExceptionResponse" EntitySet="EstimateExceptionResponses" />
           </AssociationSet>
-          <AssociationSet Name="fk_ecmExclusionResponse_ecmExclusion" Association="JCIEstimateModel.fk_ecmExclusionResponse_ecmExclusion">
-            <End Role="ECMExclusion" EntitySet="ECMExclusions" />
-            <End Role="ECMExclusionResponse" EntitySet="ECMExclusionResponses" />
+          <AssociationSet Name="fk_estimateExclusionResponse_estimateExclusion" Association="JCIEstimateModel.fk_estimateExclusionResponse_estimateExclusion">
+            <End Role="EstimateExclusion" EntitySet="EstimateExclusions" />
+            <End Role="EstimateExclusionResponse" EntitySet="EstimateExclusionResponses" />
           </AssociationSet>
-          <AssociationSet Name="fk_ecmInclusionResponse_ecminclusion" Association="JCIEstimateModel.fk_ecmInclusionResponse_ecminclusion">
-            <End Role="ECMInclusion" EntitySet="ECMInclusions" />
-            <End Role="ECMInclusionResponse" EntitySet="ECMInclusionResponses" />
+          <AssociationSet Name="fk_estimateInclusionResponse_estimateinclusion" Association="JCIEstimateModel.fk_estimateInclusionResponse_estimateinclusion">
+            <End Role="EstimateInclusion" EntitySet="EstimateInclusions" />
+            <End Role="EstimateInclusionResponse" EntitySet="EstimateInclusionResponses" />
+          </AssociationSet>
+          <EntitySet Name="Milestones" EntityType="JCIEstimateModel.Milestone" />
+          <EntitySet Name="MilestoneActions" EntityType="JCIEstimateModel.MilestoneAction" />
+          <AssociationSet Name="fk_milestoneAction_milestone" Association="JCIEstimateModel.fk_milestoneAction_milestone">
+            <End Role="Milestone" EntitySet="Milestones" />
+            <End Role="MilestoneAction" EntitySet="MilestoneActions" />
+          </AssociationSet>
+          <EntitySet Name="ProjectMilestones" EntityType="JCIEstimateModel.ProjectMilestone" />
+          <AssociationSet Name="fk_projectMilestone_project" Association="JCIEstimateModel.fk_projectMilestone_project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectMilestone" EntitySet="ProjectMilestones" />
+          </AssociationSet>
+          <EntitySet Name="ProjectMilestoneActions" EntityType="JCIEstimateModel.ProjectMilestoneAction" />
+          <AssociationSet Name="fk_projectMilestoneAction_projectMilestone" Association="JCIEstimateModel.fk_projectMilestoneAction_projectMilestone">
+            <End Role="ProjectMilestone" EntitySet="ProjectMilestones" />
+            <End Role="ProjectMilestoneAction" EntitySet="ProjectMilestoneActions" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
@@ -1097,6 +1211,7 @@
           <NavigationProperty Name="ExpensePercentages" Relationship="JCIEstimateModel.fk_expensePercentage_project" FromRole="Project" ToRole="ExpensePercentage" />
           <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="Project" ToRole="ScopeOfWork" />
           <NavigationProperty Name="ExpenseMonthlies" Relationship="JCIEstimateModel.fk_ExpenseMonthly_project" FromRole="Project" ToRole="ExpenseMonthly" />
+          <NavigationProperty Name="ProjectMilestones" Relationship="JCIEstimateModel.fk_projectMilestone_project" FromRole="Project" ToRole="ProjectMilestone" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -1189,10 +1304,7 @@
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="ECM" ToRole="Project" />
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="ECM" ToRole="Equipment" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
-          <NavigationProperty Name="ECMExceptions" Relationship="JCIEstimateModel.fk_ECMException_ecm" FromRole="ECM" ToRole="ECMException" />
-          <NavigationProperty Name="ECMExclusions" Relationship="JCIEstimateModel.fk_ECMExclusion_ecm" FromRole="ECM" ToRole="ECMExclusion" />
-          <NavigationProperty Name="ECMInclusions" Relationship="JCIEstimateModel.fk_ECMInclusion_ecm" FromRole="ECM" ToRole="ECMInclusion" />
-        </EntityType>
+          </EntityType>
         <Association Name="fk_ecm_project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
           <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="*" />
@@ -1481,6 +1593,9 @@
           <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="Estimate" ToRole="ECM" />
           <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Estimate" ToRole="Location" />
           <NavigationProperty Name="EstimateStatu" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="Estimate" ToRole="EstimateStatu" />
+          <NavigationProperty Name="EstimateExceptions" Relationship="JCIEstimateModel.fk_estimateException_estimate" FromRole="Estimate" ToRole="EstimateException" />
+          <NavigationProperty Name="EstimateExclusions" Relationship="JCIEstimateModel.fk_estimateExclusion_estimate" FromRole="Estimate" ToRole="EstimateExclusion" />
+          <NavigationProperty Name="EstimateInclusions" Relationship="JCIEstimateModel.fk_estimateInclusion_estimate" FromRole="Estimate" ToRole="EstimateInclusion" />
         </EntityType>
         <Association Name="fk_estimate_category">
           <End Type="JCIEstimateModel.Category" Role="Category" Multiplicity="1" />
@@ -1616,138 +1731,225 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ECMException">
+        <EntityType Name="EstimateException">
           <Key>
-            <PropertyRef Name="ecmExceptionUid" />
+            <PropertyRef Name="estimateExceptionUid" />
           </Key>
-          <Property Name="ecmExceptionUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmExceptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ecmUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmException1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_ECMException_ecm" FromRole="ECMException" ToRole="ECM" />
-          <NavigationProperty Name="ECMExceptionResponses" Relationship="JCIEstimateModel.fk_ecmExceptionResponse_ecmException" FromRole="ECMException" ToRole="ECMExceptionResponse" />
+          <Property Name="estimateExceptionUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateExceptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estimateUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateException1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Estimate" Relationship="JCIEstimateModel.fk_estimateException_estimate" FromRole="EstimateException" ToRole="Estimate" />
+          <NavigationProperty Name="EstimateExceptionResponses" Relationship="JCIEstimateModel.fk_estimateExceptionResponse_estimateException" FromRole="EstimateException" ToRole="EstimateExceptionResponse" />
         </EntityType>
-        <EntityType Name="ECMExceptionResponse">
+        <EntityType Name="EstimateExceptionResponse">
           <Key>
-            <PropertyRef Name="ecmExceptionResponseUid" />
+            <PropertyRef Name="estimateExceptionResponseUid" />
           </Key>
-          <Property Name="ecmExceptionResponseUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmExceptionResponseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ecmExceptionUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmExceptionResponse1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ECMException" Relationship="JCIEstimateModel.fk_ecmExceptionResponse_ecmException" FromRole="ECMExceptionResponse" ToRole="ECMException" />
+          <Property Name="estimateExceptionResponseUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateExceptionResponseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estimateExceptionUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateExceptionResponse1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="responseDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="EstimateException" Relationship="JCIEstimateModel.fk_estimateExceptionResponse_estimateException" FromRole="EstimateExceptionResponse" ToRole="EstimateException" />
         </EntityType>
-        <EntityType Name="ECMExclusion">
+        <EntityType Name="EstimateExclusion">
           <Key>
-            <PropertyRef Name="ecmExclusionUid" />
+            <PropertyRef Name="estimateExclusionUid" />
           </Key>
-          <Property Name="ecmExclusionUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmExclusionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ecmUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmExclusion1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_ECMExclusion_ecm" FromRole="ECMExclusion" ToRole="ECM" />
-          <NavigationProperty Name="ECMExclusionResponses" Relationship="JCIEstimateModel.fk_ecmExclusionResponse_ecmExclusion" FromRole="ECMExclusion" ToRole="ECMExclusionResponse" />
+          <Property Name="estimateExclusionUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateExclusionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estimateUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateExclusion1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Estimate" Relationship="JCIEstimateModel.fk_estimateExclusion_estimate" FromRole="EstimateExclusion" ToRole="Estimate" />
+          <NavigationProperty Name="EstimateExclusionResponses" Relationship="JCIEstimateModel.fk_estimateExclusionResponse_estimateExclusion" FromRole="EstimateExclusion" ToRole="EstimateExclusionResponse" />
         </EntityType>
-        <EntityType Name="ECMExclusionResponse">
+        <EntityType Name="EstimateExclusionResponse">
           <Key>
-            <PropertyRef Name="ecmExclusionResponseUid" />
+            <PropertyRef Name="estimateExclusionResponseUid" />
           </Key>
-          <Property Name="ecmExclusionResponseUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmExclusionResponseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ecmExclusionUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmExclusionResponse1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ECMExclusion" Relationship="JCIEstimateModel.fk_ecmExclusionResponse_ecmExclusion" FromRole="ECMExclusionResponse" ToRole="ECMExclusion" />
+          <Property Name="estimateExclusionResponseUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateExclusionResponseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estimateExclusionUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateExclusionResponse1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="responseDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="EstimateExclusion" Relationship="JCIEstimateModel.fk_estimateExclusionResponse_estimateExclusion" FromRole="EstimateExclusionResponse" ToRole="EstimateExclusion" />
         </EntityType>
-        <EntityType Name="ECMInclusion">
+        <EntityType Name="EstimateInclusion">
           <Key>
-            <PropertyRef Name="ecmInclusionUid" />
+            <PropertyRef Name="estimateInclusionUid" />
           </Key>
-          <Property Name="ecmInclusionUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmInclusionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ecmUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmInclusion1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_ECMInclusion_ecm" FromRole="ECMInclusion" ToRole="ECM" />
-          <NavigationProperty Name="ECMInclusionResponses" Relationship="JCIEstimateModel.fk_ecmInclusionResponse_ecminclusion" FromRole="ECMInclusion" ToRole="ECMInclusionResponse" />
+          <Property Name="estimateInclusionUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateInclusionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estimateUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateInclusion1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Estimate" Relationship="JCIEstimateModel.fk_estimateInclusion_estimate" FromRole="EstimateInclusion" ToRole="Estimate" />
+          <NavigationProperty Name="EstimateInclusionResponses" Relationship="JCIEstimateModel.fk_estimateInclusionResponse_estimateinclusion" FromRole="EstimateInclusion" ToRole="EstimateInclusionResponse" />
         </EntityType>
-        <EntityType Name="ECMInclusionResponse">
+        <EntityType Name="EstimateInclusionResponse">
           <Key>
-            <PropertyRef Name="ecmInclusionResponseUid" />
+            <PropertyRef Name="estimateInclusionResponseUid" />
           </Key>
-          <Property Name="ecmInclusionResponseUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmInclusionResponseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ecmInclusionUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmInclusionResponse1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ECMInclusion" Relationship="JCIEstimateModel.fk_ecmInclusionResponse_ecminclusion" FromRole="ECMInclusionResponse" ToRole="ECMInclusion" />
+          <Property Name="estimateInclusionResponseUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateInclusionResponseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="estimateInclusionUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateInclusionResponse1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="responseDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="EstimateInclusion" Relationship="JCIEstimateModel.fk_estimateInclusionResponse_estimateinclusion" FromRole="EstimateInclusionResponse" ToRole="EstimateInclusion" />
         </EntityType>
-        <Association Name="fk_ECMException_ecm">
-          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ECMException" Role="ECMException" Multiplicity="*" />
+        <Association Name="fk_estimateException_estimate">
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EstimateException" Role="EstimateException" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
+            <Principal Role="Estimate">
+              <PropertyRef Name="estimateUid" />
             </Principal>
-            <Dependent Role="ECMException">
-              <PropertyRef Name="ecmUid" />
+            <Dependent Role="EstimateException">
+              <PropertyRef Name="estimateUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ECMExclusion_ecm">
-          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ECMExclusion" Role="ECMExclusion" Multiplicity="*" />
+        <Association Name="fk_estimateExclusion_estimate">
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EstimateExclusion" Role="EstimateExclusion" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
+            <Principal Role="Estimate">
+              <PropertyRef Name="estimateUid" />
             </Principal>
-            <Dependent Role="ECMExclusion">
-              <PropertyRef Name="ecmUid" />
+            <Dependent Role="EstimateExclusion">
+              <PropertyRef Name="estimateUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ECMInclusion_ecm">
-          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ECMInclusion" Role="ECMInclusion" Multiplicity="*" />
+        <Association Name="fk_estimateInclusion_estimate">
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EstimateInclusion" Role="EstimateInclusion" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
+            <Principal Role="Estimate">
+              <PropertyRef Name="estimateUid" />
             </Principal>
-            <Dependent Role="ECMInclusion">
-              <PropertyRef Name="ecmUid" />
+            <Dependent Role="EstimateInclusion">
+              <PropertyRef Name="estimateUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ecmExceptionResponse_ecmException">
-          <End Type="JCIEstimateModel.ECMException" Role="ECMException" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ECMExceptionResponse" Role="ECMExceptionResponse" Multiplicity="*" />
+        <Association Name="fk_estimateExceptionResponse_estimateException">
+          <End Type="JCIEstimateModel.EstimateException" Role="EstimateException" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EstimateExceptionResponse" Role="EstimateExceptionResponse" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ECMException">
-              <PropertyRef Name="ecmExceptionUid" />
+            <Principal Role="EstimateException">
+              <PropertyRef Name="estimateExceptionUid" />
             </Principal>
-            <Dependent Role="ECMExceptionResponse">
-              <PropertyRef Name="ecmExceptionUid" />
+            <Dependent Role="EstimateExceptionResponse">
+              <PropertyRef Name="estimateExceptionUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ecmExclusionResponse_ecmExclusion">
-          <End Type="JCIEstimateModel.ECMExclusion" Role="ECMExclusion" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ECMExclusionResponse" Role="ECMExclusionResponse" Multiplicity="*" />
+        <Association Name="fk_estimateExclusionResponse_estimateExclusion">
+          <End Type="JCIEstimateModel.EstimateExclusion" Role="EstimateExclusion" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EstimateExclusionResponse" Role="EstimateExclusionResponse" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ECMExclusion">
-              <PropertyRef Name="ecmExclusionUid" />
+            <Principal Role="EstimateExclusion">
+              <PropertyRef Name="estimateExclusionUid" />
             </Principal>
-            <Dependent Role="ECMExclusionResponse">
-              <PropertyRef Name="ecmExclusionUid" />
+            <Dependent Role="EstimateExclusionResponse">
+              <PropertyRef Name="estimateExclusionUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_ecmInclusionResponse_ecminclusion">
-          <End Type="JCIEstimateModel.ECMInclusion" Role="ECMInclusion" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ECMInclusionResponse" Role="ECMInclusionResponse" Multiplicity="*" />
+        <Association Name="fk_estimateInclusionResponse_estimateinclusion">
+          <End Type="JCIEstimateModel.EstimateInclusion" Role="EstimateInclusion" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EstimateInclusionResponse" Role="EstimateInclusionResponse" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ECMInclusion">
-              <PropertyRef Name="ecmInclusionUid" />
+            <Principal Role="EstimateInclusion">
+              <PropertyRef Name="estimateInclusionUid" />
             </Principal>
-            <Dependent Role="ECMInclusionResponse">
-              <PropertyRef Name="ecmInclusionUid" />
+            <Dependent Role="EstimateInclusionResponse">
+              <PropertyRef Name="estimateInclusionUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Milestone">
+          <Key>
+            <PropertyRef Name="milestoneUid" />
+          </Key>
+          <Property Name="milestoneUid" Type="Guid" Nullable="false" />
+          <Property Name="milestone1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="milestoneDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="defaultListOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MilestoneActions" Relationship="JCIEstimateModel.fk_milestoneAction_milestone" FromRole="Milestone" ToRole="MilestoneAction" />
+        </EntityType>
+        <EntityType Name="MilestoneAction">
+          <Key>
+            <PropertyRef Name="milestoneActionUid" />
+          </Key>
+          <Property Name="milestoneActionUid" Type="Guid" Nullable="false" />
+          <Property Name="milestoneUid" Type="Guid" Nullable="false" />
+          <Property Name="milestoneAction1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="milestoneActionDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="defaultListOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Milestone" Relationship="JCIEstimateModel.fk_milestoneAction_milestone" FromRole="MilestoneAction" ToRole="Milestone" />
+        </EntityType>
+        <Association Name="fk_milestoneAction_milestone">
+          <End Type="JCIEstimateModel.Milestone" Role="Milestone" Multiplicity="1" />
+          <End Type="JCIEstimateModel.MilestoneAction" Role="MilestoneAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Milestone">
+              <PropertyRef Name="milestoneUid" />
+            </Principal>
+            <Dependent Role="MilestoneAction">
+              <PropertyRef Name="milestoneUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectMilestone">
+          <Key>
+            <PropertyRef Name="projectMilestoneUid" />
+          </Key>
+          <Property Name="projectMilestoneUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="projectMilestone1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="projectMilestoneDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="listOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_projectMilestone_project" FromRole="ProjectMilestone" ToRole="Project" />
+          <NavigationProperty Name="ProjectMilestoneActions" Relationship="JCIEstimateModel.fk_projectMilestoneAction_projectMilestone" FromRole="ProjectMilestone" ToRole="ProjectMilestoneAction" />
+        </EntityType>
+        <Association Name="fk_projectMilestone_project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectMilestone" Role="ProjectMilestone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectMilestone">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectMilestoneAction">
+          <Key>
+            <PropertyRef Name="projectMilestoneActionUid" />
+          </Key>
+          <Property Name="projectMilestoneActionUid" Type="Guid" Nullable="false" />
+          <Property Name="projectMilestoneUid" Type="Guid" Nullable="false" />
+          <Property Name="projectMilestoneAction1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="projectMilestoneActionDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="plannedStartDate" Type="DateTime" Precision="0" />
+          <Property Name="actualStartDate" Type="DateTime" Precision="0" />
+          <Property Name="duration" Type="Int32" Nullable="false" />
+          <Property Name="endDate" Type="DateTime" annotation:StoreGeneratedPattern="Computed" Precision="0" />
+          <Property Name="listOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProjectMilestone" Relationship="JCIEstimateModel.fk_projectMilestoneAction_projectMilestone" FromRole="ProjectMilestoneAction" ToRole="ProjectMilestone" />
+        </EntityType>
+        <Association Name="fk_projectMilestoneAction_projectMilestone">
+          <End Type="JCIEstimateModel.ProjectMilestone" Role="ProjectMilestone" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectMilestoneAction" Role="ProjectMilestoneAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectMilestone">
+              <PropertyRef Name="projectMilestoneUid" />
+            </Principal>
+            <Dependent Role="ProjectMilestoneAction">
+              <PropertyRef Name="projectMilestoneUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2039,63 +2241,113 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ECMExceptions">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ECMException">
-              <MappingFragment StoreEntitySet="ECMException">
-                <ScalarProperty Name="ecmException1" ColumnName="ecmException" />
-                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
-                <ScalarProperty Name="ecmExceptionID" ColumnName="ecmExceptionID" />
-                <ScalarProperty Name="ecmExceptionUid" ColumnName="ecmExceptionUid" />
+          <EntitySetMapping Name="EstimateExceptions">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EstimateException">
+              <MappingFragment StoreEntitySet="EstimateException">
+                <ScalarProperty Name="estimateException1" ColumnName="estimateException" />
+                <ScalarProperty Name="estimateUid" ColumnName="estimateUid" />
+                <ScalarProperty Name="estimateExceptionID" ColumnName="estimateExceptionID" />
+                <ScalarProperty Name="estimateExceptionUid" ColumnName="estimateExceptionUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ECMExceptionResponses">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ECMExceptionResponse">
-              <MappingFragment StoreEntitySet="ECMExceptionResponse">
-                <ScalarProperty Name="ecmExceptionResponse1" ColumnName="ecmExceptionResponse" />
-                <ScalarProperty Name="ecmExceptionUid" ColumnName="ecmExceptionUid" />
-                <ScalarProperty Name="ecmExceptionResponseID" ColumnName="ecmExceptionResponseID" />
-                <ScalarProperty Name="ecmExceptionResponseUid" ColumnName="ecmExceptionResponseUid" />
+          <EntitySetMapping Name="EstimateExceptionResponses">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EstimateExceptionResponse">
+              <MappingFragment StoreEntitySet="EstimateExceptionResponse">
+                <ScalarProperty Name="responseDate" ColumnName="responseDate" />
+                <ScalarProperty Name="estimateExceptionResponse1" ColumnName="estimateExceptionResponse" />
+                <ScalarProperty Name="estimateExceptionUid" ColumnName="estimateExceptionUid" />
+                <ScalarProperty Name="estimateExceptionResponseID" ColumnName="estimateExceptionResponseID" />
+                <ScalarProperty Name="estimateExceptionResponseUid" ColumnName="estimateExceptionResponseUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ECMExclusions">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ECMExclusion">
-              <MappingFragment StoreEntitySet="ECMExclusion">
-                <ScalarProperty Name="ecmExclusion1" ColumnName="ecmExclusion" />
-                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
-                <ScalarProperty Name="ecmExclusionID" ColumnName="ecmExclusionID" />
-                <ScalarProperty Name="ecmExclusionUid" ColumnName="ecmExclusionUid" />
+          <EntitySetMapping Name="EstimateExclusions">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EstimateExclusion">
+              <MappingFragment StoreEntitySet="EstimateExclusion">
+                <ScalarProperty Name="estimateExclusion1" ColumnName="estimateExclusion" />
+                <ScalarProperty Name="estimateUid" ColumnName="estimateUid" />
+                <ScalarProperty Name="estimateExclusionID" ColumnName="estimateExclusionID" />
+                <ScalarProperty Name="estimateExclusionUid" ColumnName="estimateExclusionUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ECMExclusionResponses">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ECMExclusionResponse">
-              <MappingFragment StoreEntitySet="ECMExclusionResponse">
-                <ScalarProperty Name="ecmExclusionResponse1" ColumnName="ecmExclusionResponse" />
-                <ScalarProperty Name="ecmExclusionUid" ColumnName="ecmExclusionUid" />
-                <ScalarProperty Name="ecmExclusionResponseID" ColumnName="ecmExclusionResponseID" />
-                <ScalarProperty Name="ecmExclusionResponseUid" ColumnName="ecmExclusionResponseUid" />
+          <EntitySetMapping Name="EstimateExclusionResponses">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EstimateExclusionResponse">
+              <MappingFragment StoreEntitySet="EstimateExclusionResponse">
+                <ScalarProperty Name="responseDate" ColumnName="responseDate" />
+                <ScalarProperty Name="estimateExclusionResponse1" ColumnName="estimateExclusionResponse" />
+                <ScalarProperty Name="estimateExclusionUid" ColumnName="estimateExclusionUid" />
+                <ScalarProperty Name="estimateExclusionResponseID" ColumnName="estimateExclusionResponseID" />
+                <ScalarProperty Name="estimateExclusionResponseUid" ColumnName="estimateExclusionResponseUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ECMInclusions">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ECMInclusion">
-              <MappingFragment StoreEntitySet="ECMInclusion">
-                <ScalarProperty Name="ecmInclusion1" ColumnName="ecmInclusion" />
-                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
-                <ScalarProperty Name="ecmInclusionID" ColumnName="ecmInclusionID" />
-                <ScalarProperty Name="ecmInclusionUid" ColumnName="ecmInclusionUid" />
+          <EntitySetMapping Name="EstimateInclusions">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EstimateInclusion">
+              <MappingFragment StoreEntitySet="EstimateInclusion">
+                <ScalarProperty Name="estimateInclusion1" ColumnName="estimateInclusion" />
+                <ScalarProperty Name="estimateUid" ColumnName="estimateUid" />
+                <ScalarProperty Name="estimateInclusionID" ColumnName="estimateInclusionID" />
+                <ScalarProperty Name="estimateInclusionUid" ColumnName="estimateInclusionUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ECMInclusionResponses">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ECMInclusionResponse">
-              <MappingFragment StoreEntitySet="ECMInclusionResponse">
-                <ScalarProperty Name="ecmInclusionResponse1" ColumnName="ecmInclusionResponse" />
-                <ScalarProperty Name="ecmInclusionUid" ColumnName="ecmInclusionUid" />
-                <ScalarProperty Name="ecmInclusionResponseID" ColumnName="ecmInclusionResponseID" />
-                <ScalarProperty Name="ecmInclusionResponseUid" ColumnName="ecmInclusionResponseUid" />
+          <EntitySetMapping Name="EstimateInclusionResponses">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EstimateInclusionResponse">
+              <MappingFragment StoreEntitySet="EstimateInclusionResponse">
+                <ScalarProperty Name="responseDate" ColumnName="responseDate" />
+                <ScalarProperty Name="estimateInclusionResponse1" ColumnName="estimateInclusionResponse" />
+                <ScalarProperty Name="estimateInclusionUid" ColumnName="estimateInclusionUid" />
+                <ScalarProperty Name="estimateInclusionResponseID" ColumnName="estimateInclusionResponseID" />
+                <ScalarProperty Name="estimateInclusionResponseUid" ColumnName="estimateInclusionResponseUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Milestones">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Milestone">
+              <MappingFragment StoreEntitySet="Milestone">
+                <ScalarProperty Name="defaultListOrder" ColumnName="defaultListOrder" />
+                <ScalarProperty Name="milestoneDescription" ColumnName="milestoneDescription" />
+                <ScalarProperty Name="milestone1" ColumnName="milestone" />
+                <ScalarProperty Name="milestoneUid" ColumnName="milestoneUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MilestoneActions">
+            <EntityTypeMapping TypeName="JCIEstimateModel.MilestoneAction">
+              <MappingFragment StoreEntitySet="MilestoneAction">
+                <ScalarProperty Name="defaultListOrder" ColumnName="defaultListOrder" />
+                <ScalarProperty Name="milestoneActionDescription" ColumnName="milestoneActionDescription" />
+                <ScalarProperty Name="milestoneAction1" ColumnName="milestoneAction" />
+                <ScalarProperty Name="milestoneUid" ColumnName="milestoneUid" />
+                <ScalarProperty Name="milestoneActionUid" ColumnName="milestoneActionUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectMilestones">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectMilestone">
+              <MappingFragment StoreEntitySet="ProjectMilestone">
+                <ScalarProperty Name="listOrder" ColumnName="listOrder" />
+                <ScalarProperty Name="projectMilestoneDescription" ColumnName="projectMilestoneDescription" />
+                <ScalarProperty Name="projectMilestone1" ColumnName="projectMilestone" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="projectMilestoneUid" ColumnName="projectMilestoneUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectMilestoneActions">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectMilestoneAction">
+              <MappingFragment StoreEntitySet="ProjectMilestoneAction">
+                <ScalarProperty Name="listOrder" ColumnName="listOrder" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="actualStartDate" ColumnName="actualStartDate" />
+                <ScalarProperty Name="plannedStartDate" ColumnName="plannedStartDate" />
+                <ScalarProperty Name="projectMilestoneActionDescription" ColumnName="projectMilestoneActionDescription" />
+                <ScalarProperty Name="projectMilestoneAction1" ColumnName="projectMilestoneAction" />
+                <ScalarProperty Name="projectMilestoneUid" ColumnName="projectMilestoneUid" />
+                <ScalarProperty Name="projectMilestoneActionUid" ColumnName="projectMilestoneActionUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

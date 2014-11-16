@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.EquipmentToDo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EquipmentToDo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.daysToComplete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.daysToComplete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Equipment.room)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Equipment.room)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquipmentTask.equipmentTask1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipmentTask.equipmentTask1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.equipmentToDoUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

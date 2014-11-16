@@ -12,22 +12,20 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ECM
+    public partial class ProjectMilestone
     {
-        public ECM()
+        public ProjectMilestone()
         {
-            this.Equipments = new HashSet<Equipment>();
-            this.Estimates = new HashSet<Estimate>();
+            this.ProjectMilestoneActions = new HashSet<ProjectMilestoneAction>();
         }
     
-        public System.Guid ecmUid { get; set; }
-        public string ecmNumber { get; set; }
-        public string ecmDescription { get; set; }
-        public string ecmString { get; set; }
+        public System.Guid projectMilestoneUid { get; set; }
         public System.Guid projectUid { get; set; }
+        public string projectMilestone1 { get; set; }
+        public string projectMilestoneDescription { get; set; }
+        public int listOrder { get; set; }
     
         public virtual Project Project { get; set; }
-        public virtual ICollection<Equipment> Equipments { get; set; }
-        public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<ProjectMilestoneAction> ProjectMilestoneActions { get; set; }
     }
 }

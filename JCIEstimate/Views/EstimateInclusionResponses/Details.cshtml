@@ -1,0 +1,50 @@
+﻿@model JCIEstimate.Models.EstimateInclusionResponse
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EstimateInclusionResponse</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateInclusionResponseID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateInclusionResponseID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateInclusionResponse1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateInclusionResponse1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.responseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.responseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimateInclusion.estimateInclusion1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstimateInclusion.estimateInclusion1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.estimateInclusionResponseUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

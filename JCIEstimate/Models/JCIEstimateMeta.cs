@@ -553,8 +553,6 @@ namespace JCIEstimate.Models
         public Nullable<System.DateTime> dateResolved { get; set; }
 
     }
-
-
     
     /// <summary>
     /// ScopeOfWork
@@ -589,5 +587,238 @@ namespace JCIEstimate.Models
 
 
 
+    /// <summary>
+    /// EstimateExclusion
+    /// </summary>
+    [MetadataType(typeof(EstimateExclusionMetaData))]
+    public partial class EstimateExclusion
+    {
+    }
 
+    public class EstimateExclusionMetaData
+    {
+
+        [Display(Name = "Estimate Exclusion")]
+        public System.Guid estimateExclusionUid { get; set; }
+        [Display(Name = "Estimate Exclusion ID")]
+        public int estimateExclusionID { get; set; }
+        [Display(Name = "Estimate")]
+        public System.Guid estimateUid { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Estimate Exclusion")]
+        public string estimateExclusion1 { get; set; }
+    }
+
+    /// <summary>
+    /// EstimateExclusionResponse
+    /// </summary>
+    [MetadataType(typeof(EstimateExclusionResponseMetaData))]
+    public partial class EstimateExclusionResponse
+    {
+    }
+
+    public class EstimateExclusionResponseMetaData
+    {
+        [Display(Name = "Estimate Exclusion Response")]
+        public System.Guid estimateExclusionResponseUid { get; set; }
+        [Display(Name = "Estimate Exclusion Response ID")]
+        public int estimateExclusionResponseID { get; set; }
+        [Display(Name = "Estimate Exclusion")]
+        public System.Guid estimateExclusionUid { get; set; }
+        [Display(Name = "Estimate Exclusion Response")]
+        public string estimateExclusionResponse1 { get; set; }
+        [Display(Name = "Response Date")]
+        public System.DateTime responseDate { get; set; }
+    }
+
+
+    /// <summary>
+    /// EstimateInclusion
+    /// </summary>
+    [MetadataType(typeof(EstimateInclusionMetaData))]
+    public partial class EstimateInclusion
+    {
+    }
+
+    public class EstimateInclusionMetaData
+    {
+        [Display(Name = "Estimate Inclusion")]
+        public System.Guid estimateInclusionUid { get; set; }
+        [Display(Name = "Estimate Inclusion ID")]
+        public int estimateInclusionID { get; set; }
+        [Display(Name = "Estimate")]
+        public System.Guid estimateUid { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Estimate Inclusion")]
+        public string estimateInclusion1 { get; set; }        
+    }
+
+    /// <summary>
+    /// EstimateInclusionResponse
+    /// </summary>
+    [MetadataType(typeof(EstimateInclusionResponseMetaData))]
+    public partial class EstimateInclusionResponse
+    {
+    }
+
+    public class EstimateInclusionResponseMetaData
+    {
+        [Display(Name = "Estimate Inclusion Response")]
+        public System.Guid estimateInclusionResponseUid { get; set; }
+        [Display(Name = "Estimate Inclusion Response ID")]
+        public int estimateInclusionResponseID { get; set; }
+        [Display(Name = "Estimate Inclusion")]
+        public System.Guid estimateInclusionUid { get; set; }
+        [Display(Name = "Estimate Inclusion Response")]
+        public string estimateInclusionResponse1 { get; set; }
+        [Display(Name = "Response Date")]
+        public System.DateTime responseDate { get; set; }
+    }
+
+    /// <summary>
+    /// EstimateException
+    /// </summary>
+    [MetadataType(typeof(EstimateExceptionMetaData))]
+    public partial class EstimateException
+    {
+    }
+
+    public class EstimateExceptionMetaData
+    {
+        [Display(Name = "Estimate Exception")]
+        public System.Guid estimateExceptionUid { get; set; }
+        [Display(Name = "Estimate Exception ID")]
+        public int estimateExceptionID { get; set; }
+        [Display(Name = "Estimate")]
+        public System.Guid estimateUid { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Estimate Exception")]
+        public string estimateException1 { get; set; }
+    }
+
+    /// <summary>
+    /// EstimateExceptionResponse
+    /// </summary>
+    [MetadataType(typeof(EstimateExceptionResponseMetaData))]
+    public partial class EstimateExceptionResponse
+    {
+    }
+
+    public class EstimateExceptionResponseMetaData
+    {
+        [Display(Name = "Estimate Exception Response")]
+        public System.Guid estimateExceptionResponseUid { get; set; }
+        [Display(Name = "Estimate Exception Response ID")]
+        public int estimateExceptionResponseID { get; set; }
+        [Display(Name = "Estimate Exception")]
+        public System.Guid estimateExceptionUid { get; set; }
+        [Display(Name = "Estimate Exception Response")]
+        public string estimateExceptionResponse1 { get; set; }
+        [Display(Name = "Response Date")]
+        public System.DateTime responseDate { get; set; }
+    }
+
+    /// <summary>
+    /// Milestone
+    /// </summary>
+    [MetadataType(typeof(MilestoneMetaData))]
+    public partial class Milestone
+    {
+    }
+
+    public class MilestoneMetaData
+    {
+        [Display(Name = "Milestone")]
+        public System.Guid milestoneUid { get; set; }
+        [Display(Name = "Milestone")]
+        public string milestone1 { get; set; }
+        [Display(Name = "Milestone Description")]
+        public string milestoneDescription { get; set; }
+        [Display(Name = "Default List Order")]
+        public int defaultListOrder { get; set; }
+    }
+
+
+    /// <summary>
+    /// MilestoneAction
+    /// </summary>
+    [MetadataType(typeof(MilestoneActionMetaData))]
+    public partial class MilestoneAction
+    {
+    }
+
+    public class MilestoneActionMetaData
+    {
+        [Display(Name = "Milestone Action")]
+        public System.Guid milestoneActionUid { get; set; }
+        [Display(Name = "Milestone")]
+        public System.Guid milestoneUid { get; set; }
+        [Display(Name = "Milestone Action")]
+        public string milestoneAction1 { get; set; }
+        [Display(Name = "Milestone Action Description")]
+        public string milestoneActionDescription { get; set; }
+        [Display(Name = "Default List Order")]
+        public int defaultListOrder { get; set; }
+    }
+
+
+    /// <summary>
+    /// ProjectMilestone
+    /// </summary>
+    [MetadataType(typeof(ProjectMilestoneMetaData))]
+    public partial class ProjectMilestone
+    {
+    }
+
+    public class ProjectMilestoneMetaData
+    {
+        [Display(Name = "Project Milestone")]
+        public System.Guid projectMilestoneUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Project Milestone")]
+        public string projectMilestone1 { get; set; }
+        [Display(Name = "Project Milestone Description")]
+        public string projectMilestoneDescription { get; set; }
+        [Display(Name = "List Order")]
+        public int listOrder { get; set; }
+    }
+
+
+    /// <summary>
+    /// ProjectMilestoneAction
+    /// </summary>
+    [MetadataType(typeof(ProjectMilestoneActionMetaData))]
+    public partial class ProjectMilestoneAction
+    {
+    }
+
+    public class ProjectMilestoneActionMetaData
+    {
+        [Display(Name = "Project Milestone Action")]
+        public System.Guid projectMilestoneActionUid { get; set; }
+        [Display(Name = "Project Milestone")]
+        public System.Guid projectMilestoneUid { get; set; }        
+        [Display(Name = "Project Milestone Action")]
+        [DataType(DataType.MultilineText)]
+        public string projectMilestoneAction1 { get; set; }
+        [Display(Name = "Project Milestone Action Description")]
+        public string projectMilestoneActionDescription { get; set; }
+        [DataType(DataType.Date)]       
+        [Display(Name = "Planned Start Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> plannedStartDate { get; set; }
+        [DataType(DataType.Date)]       
+        [Display(Name = "Actual Start Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> actualStartDate { get; set; }
+        [Display(Name = "Duration(days)")]
+        public int duration { get; set; }
+        [DataType(DataType.Date)]       
+        [Display(Name = "End Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> endDate { get; set; }
+        [Display(Name = "List Order")]
+        public int listOrder { get; set; }
+    }
 }

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JCIEstimate.Models.EstimateExclusion>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.estimateExclusionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.estimateExclusion1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estimate.notes)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.estimateExclusionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estimateExclusion1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estimate.notes)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.estimateExclusionUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.estimateExclusionUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.estimateExclusionUid })
+        </td>
+    </tr>
+}
+
+</table>

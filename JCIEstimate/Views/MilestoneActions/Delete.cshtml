@@ -1,0 +1,56 @@
+﻿@model JCIEstimate.Models.MilestoneAction
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>MilestoneAction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.milestoneAction1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.milestoneAction1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.milestoneActionDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.milestoneActionDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.defaultListOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.defaultListOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Milestone.milestone1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Milestone.milestone1)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

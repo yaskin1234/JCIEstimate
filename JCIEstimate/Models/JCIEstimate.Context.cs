@@ -50,11 +50,15 @@ namespace JCIEstimate.Models
         public virtual DbSet<ScopeOfWork> ScopeOfWorks { get; set; }
         public virtual DbSet<TestGrid> TestGrids { get; set; }
         public virtual DbSet<ExpenseMonthly> ExpenseMonthlies { get; set; }
-        public virtual DbSet<ECMException> ECMExceptions { get; set; }
-        public virtual DbSet<ECMExceptionResponse> ECMExceptionResponses { get; set; }
-        public virtual DbSet<ECMExclusion> ECMExclusions { get; set; }
-        public virtual DbSet<ECMExclusionResponse> ECMExclusionResponses { get; set; }
-        public virtual DbSet<ECMInclusion> ECMInclusions { get; set; }
-        public virtual DbSet<ECMInclusionResponse> ECMInclusionResponses { get; set; }
+        public virtual DbSet<EstimateException> EstimateExceptions { get; set; }
+        public virtual DbSet<EstimateExceptionResponse> EstimateExceptionResponses { get; set; }
+        public virtual DbSet<EstimateExclusion> EstimateExclusions { get; set; }
+        public virtual DbSet<EstimateExclusionResponse> EstimateExclusionResponses { get; set; }
+        public virtual DbSet<EstimateInclusion> EstimateInclusions { get; set; }
+        public virtual DbSet<EstimateInclusionResponse> EstimateInclusionResponses { get; set; }
+        public virtual DbSet<Milestone> Milestones { get; set; }
+        public virtual DbSet<MilestoneAction> MilestoneActions { get; set; }
+        public virtual DbSet<ProjectMilestone> ProjectMilestones { get; set; }
+        public virtual DbSet<ProjectMilestoneAction> ProjectMilestoneActions { get; set; }
     }
 }
