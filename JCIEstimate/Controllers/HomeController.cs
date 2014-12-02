@@ -42,7 +42,7 @@ namespace IdentitySample.Controllers
             
             IQueryable<Project> projects;
 
-            if (User.IsInRole("Admin"))
+            if (User.IsInRole("Admin") || User.IsInRole("Sales"))
             {
                 projects = from cc in db.Projects
                            select cc;

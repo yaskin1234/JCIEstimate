@@ -78,6 +78,7 @@ namespace JCIEstimate.Controllers
                 return View("rptProjectGrandTotal");
             }
         }
+
         public ActionResult GetBarGraphSummary()
         {
             if (Session["projectUid"] == null)
@@ -90,6 +91,21 @@ namespace JCIEstimate.Controllers
 
                 return View("rptBarGraphSummary");
             }
-        }  
+        }
+
+
+        public ActionResult GetProjectMilestoneActions()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                Session["userUid"] = IdentityExtensions.GetUserId(User.Identity);
+
+                return View("rptProjectMilestoneActions");
+            }
+        }
     }
 }

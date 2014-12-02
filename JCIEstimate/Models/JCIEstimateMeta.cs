@@ -759,6 +759,8 @@ namespace JCIEstimate.Models
         public string milestoneActionDescription { get; set; }
         [Display(Name = "Default List Order")]
         public int defaultListOrder { get; set; }
+        [Display(Name = "Rolls Up")]
+        public bool isRollingUp { get; set; }
     }
 
 
@@ -812,13 +814,17 @@ namespace JCIEstimate.Models
         [Display(Name = "Actual Start Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> actualStartDate { get; set; }
-        [Display(Name = "Duration(days)")]
+        [Display(Name = "Duration (days)")]
         public int duration { get; set; }
         [DataType(DataType.Date)]       
-        [Display(Name = "End Date")]
+        [Display(Name = "Actual End Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> endDate { get; set; }
         [Display(Name = "List Order")]
         public int listOrder { get; set; }
+        [Display(Name = "Assigned To")]
+        public string assignedTo { get; set; }
+        [Display(Name = "Rolls Up")]
+        public bool isRollingUp { get; set; }
     }
 }

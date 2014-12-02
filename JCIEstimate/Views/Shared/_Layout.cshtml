@@ -64,9 +64,6 @@
                                     <li>@Html.ActionLink("Percentage Expenses", "Index", "ExpensePercentages")</li>                                    
                                     <li>@Html.ActionLink("Monthly Expenses", "Index", "ExpenseMonthlies")</li> 
                                     <li>@Html.ActionLink("Misc Expenses For Project", "Index", "ExpenseMiscellaneousProjects")</li>                                   
-                                    <li class="divider" />
-                                    <li>@Html.ActionLink("Project Milestones", "Index", "ProjectMilestones")</li>
-                                    <li>@Html.ActionLink("Project Milestone Actions", "Index", "ProjectMilestoneActions")</li>
                                 </ul>
                             </li>
                         }
@@ -80,11 +77,24 @@
                                 <li>@Html.ActionLink("Category and ECM By Contractor", "GetCategoryECMByContractor", "Reports")</li>                                      
                                 <li>@Html.ActionLink("Vert Bar Graph Summary", "GetBarGraphSummary", "Reports")</li>                                      
                                 <li>@Html.ActionLink("Bid Summary", "GetBidSummary", "Reports")</li>     
-                                <li>@Html.ActionLink("Project Grand Totals", "GetProjectGrandTotal", "Reports")</li>
-                                
+                                <li>@Html.ActionLink("Project Grand Totals", "GetProjectGrandTotal", "Reports")</li>                                
                             </ul>
                         </li>
                     }
+                    
+                    @if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Sales") ) && Session["projectUid"] != null)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sales</a>
+                            <ul class="dropdown-menu">                                
+                                <li>@Html.ActionLink("Project Milestones", "Index", "ProjectMilestones")</li>
+                                <li>@Html.ActionLink("Project Milestone Actions", "Index", "ProjectMilestoneActions")</li>
+                                <li class="divider" />                                
+                                <li>@Html.ActionLink("Report -- Milestone Actions", "GetProjectMilestoneActions", "Reports")</li>
+                            </ul>
+                        </li>
+                    }
+
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
                     {
                         <li class="dropdown">
@@ -139,8 +149,9 @@
         {
             <ul class="nav navbar-nav navbar-left">
                 <li><a style="color:black; font-weight:500">Bid Total: @String.Format("{0:C0}", Session["bidTotal"])</a></li>
-                <li><a style="color:black; font-weight:500">Active Total: @String.Format("{0:C0}", Session["activeTotal"])</a></li>       
+                <li><a style="color:black; font-weight:500">Active Total: @String.Format("{0:C0}", Session["activeTotal"])</a></li>
             </ul>
+            
         }
         <ul class="nav navbar-nav navbar-right">
             @if (Request.IsAuthenticated && (!(this.Request.Url.AbsolutePath.Equals("/") || this.Request.Url.AbsolutePath.Equals("/Home"))))

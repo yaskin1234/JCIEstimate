@@ -116,5 +116,24 @@ namespace JCIExtensions
 
             return sessionProject;
         }
+
+        public static void SendEmail(string emailAddress, string subject, string body)
+        {
+            SmtpClient smtpClient = new SmtpClient("bernservices.com", 25);
+            
+            smtpClient.UseDefaultCredentials = true;
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.EnableSsl = false;
+            MailMessage mail = new MailMessage();
+
+            //Setting From , To and CC
+            mail.From = new MailAddress("info@bernservices.com", "Info");
+            mail.To.Add(new MailAddress(emailAddress));
+            mail.Subject = subject;
+            mail.Body = body;
+            mail.IsBodyHtml = true;
+
+            smtpClient.Send(mail);
+        }
     }
 }

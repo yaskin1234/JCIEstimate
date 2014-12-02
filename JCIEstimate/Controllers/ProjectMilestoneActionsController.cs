@@ -15,10 +15,19 @@ namespace JCIEstimate.Controllers
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
+
+        // GET: ProjectMilestoneActions
+        public async Task<ActionResult> View_Grid()
+        {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            var projectMilestoneActions = db.ProjectMilestoneActions.Include(p => p.ProjectMilestone).Where(d => d.ProjectMilestone.projectUid == sessionProject).OrderBy(d => d.ProjectMilestone.listOrder).ThenBy(d => d.listOrder);
+            return View(await projectMilestoneActions.ToListAsync());
+        }
+
         // GET: ProjectMilestoneActions
         public async Task<ActionResult> Index()
         {
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();            
             var projectMilestoneActions = db.ProjectMilestoneActions.Include(p => p.ProjectMilestone).Where(d => d.ProjectMilestone.projectUid == sessionProject).OrderBy(d => d.ProjectMilestone.listOrder).ThenBy(d => d.listOrder);
             return View(await projectMilestoneActions.ToListAsync());
         }
@@ -51,7 +60,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "projectMilestoneActionUid,projectMilestoneUid,projectMilestoneAction1,projectMilestoneActionDescription,plannedStartDate,actualStartDate,duration,endDate,listOrder")] ProjectMilestoneAction projectMilestoneAction)
+        public async Task<ActionResult> Create([Bind(Include = "projectMilestoneActionUid,projectMilestoneUid,projectMilestoneAction1,projectMilestoneActionDescription,plannedStartDate,actualStartDate,duration,endDate,listOrder,assignedTo,isRollingUp")] ProjectMilestoneAction projectMilestoneAction)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +96,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "projectMilestoneActionUid,projectMilestoneUid,projectMilestoneAction1,projectMilestoneActionDescription,plannedStartDate,actualStartDate,duration,endDate,listOrder")] ProjectMilestoneAction projectMilestoneAction)
+        public async Task<ActionResult> Edit([Bind(Include = "projectMilestoneActionUid,projectMilestoneUid,projectMilestoneAction1,projectMilestoneActionDescription,plannedStartDate,actualStartDate,duration,endDate,listOrder,assignedTo,isRollingUp")] ProjectMilestoneAction projectMilestoneAction)
         {
             if (ModelState.IsValid)
             {

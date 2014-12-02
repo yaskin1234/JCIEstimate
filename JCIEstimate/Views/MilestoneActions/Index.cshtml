@@ -20,11 +20,15 @@
         <th>
             @Html.DisplayNameFor(model => model.defaultListOrder)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isRollingUp)
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
+@foreach (var item in Model)
+{
+    <tr @((item.isRollingUp == true) ? "style=background-color:beige;" : "")>
         <td>
             @Html.DisplayFor(modelItem => item.Milestone.milestone1)
         </td>
@@ -35,9 +39,12 @@
             @Html.DisplayFor(modelItem => item.defaultListOrder)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.milestoneActionUid }) |
-            @Html.ActionLink("Details", "Details", new { id=item.milestoneActionUid }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.milestoneActionUid })
+            @Html.DisplayFor(modelItem => item.isRollingUp)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.milestoneActionUid }) |
+            @Html.ActionLink("Details", "Details", new { id = item.milestoneActionUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.milestoneActionUid })
         </td>
     </tr>
 }

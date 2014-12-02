@@ -19,6 +19,7 @@ namespace JCIEstimate.Models
         public string milestoneAction1 { get; set; }
         public string milestoneActionDescription { get; set; }
         public int defaultListOrder { get; set; }
+        public bool isRollingUp { get; set; }
     
         public virtual Milestone Milestone { get; set; }
     }

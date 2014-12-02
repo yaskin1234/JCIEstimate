@@ -287,6 +287,7 @@
           <Property Name="milestoneAction" Type="nvarchar" MaxLength="2000" Nullable="false" />
           <Property Name="milestoneActionDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="defaultListOrder" Type="int" Nullable="false" />
+          <Property Name="isRollingUp" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -317,8 +318,10 @@
           <Property Name="plannedStartDate" Type="date" />
           <Property Name="actualStartDate" Type="date" />
           <Property Name="duration" Type="int" Nullable="false" />
-          <Property Name="endDate" Type="date" StoreGeneratedPattern="Computed" />
           <Property Name="listOrder" Type="int" Nullable="false" />
+          <Property Name="assignedTo" Type="varchar" MaxLength="200" />
+          <Property Name="endDate" Type="date" StoreGeneratedPattern="Computed" />
+          <Property Name="isRollingUp" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ProjectToDo">
           <Key>
@@ -1889,6 +1892,7 @@
           <Property Name="milestoneActionDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="defaultListOrder" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Milestone" Relationship="JCIEstimateModel.fk_milestoneAction_milestone" FromRole="MilestoneAction" ToRole="Milestone" />
+          <Property Name="isRollingUp" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="fk_milestoneAction_milestone">
           <End Type="JCIEstimateModel.Milestone" Role="Milestone" Multiplicity="1" />
@@ -1940,6 +1944,8 @@
           <Property Name="endDate" Type="DateTime" annotation:StoreGeneratedPattern="Computed" Precision="0" />
           <Property Name="listOrder" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ProjectMilestone" Relationship="JCIEstimateModel.fk_projectMilestoneAction_projectMilestone" FromRole="ProjectMilestoneAction" ToRole="ProjectMilestone" />
+          <Property Name="assignedTo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="isRollingUp" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="fk_projectMilestoneAction_projectMilestone">
           <End Type="JCIEstimateModel.ProjectMilestone" Role="ProjectMilestone" Multiplicity="1" />
@@ -2317,6 +2323,7 @@
           <EntitySetMapping Name="MilestoneActions">
             <EntityTypeMapping TypeName="JCIEstimateModel.MilestoneAction">
               <MappingFragment StoreEntitySet="MilestoneAction">
+                <ScalarProperty Name="isRollingUp" ColumnName="isRollingUp" />
                 <ScalarProperty Name="defaultListOrder" ColumnName="defaultListOrder" />
                 <ScalarProperty Name="milestoneActionDescription" ColumnName="milestoneActionDescription" />
                 <ScalarProperty Name="milestoneAction1" ColumnName="milestoneAction" />
@@ -2339,6 +2346,8 @@
           <EntitySetMapping Name="ProjectMilestoneActions">
             <EntityTypeMapping TypeName="JCIEstimateModel.ProjectMilestoneAction">
               <MappingFragment StoreEntitySet="ProjectMilestoneAction">
+                <ScalarProperty Name="isRollingUp" ColumnName="isRollingUp" />
+                <ScalarProperty Name="assignedTo" ColumnName="assignedTo" />
                 <ScalarProperty Name="listOrder" ColumnName="listOrder" />
                 <ScalarProperty Name="endDate" ColumnName="endDate" />
                 <ScalarProperty Name="duration" ColumnName="duration" />

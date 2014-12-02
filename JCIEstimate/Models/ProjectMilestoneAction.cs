@@ -23,6 +23,8 @@ namespace JCIEstimate.Models
         public int duration { get; set; }
         public Nullable<System.DateTime> endDate { get; set; }
         public int listOrder { get; set; }
+        public string assignedTo { get; set; }
+        public bool isRollingUp { get; set; }
     
         public virtual ProjectMilestone ProjectMilestone { get; set; }
     }

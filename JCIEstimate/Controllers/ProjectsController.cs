@@ -47,12 +47,23 @@ namespace JCIEstimate.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetProject([Bind(Include = "projectUid, project1")] Project project)
         {
+
+            JCIExtensions.MCVExtensions.SendEmail("brian@ld-designs.net", "test", "test");
+            JCIExtensions.MCVExtensions.sendMail("test", "test", "info@bernservices.com", "brian@ld-designs.net");
             if (ModelState.IsValid)
             {
                 Session["projectUid"] = project.projectUid;                           
                 Session["projectName"] = db.Projects.First(d => d.projectUid == project.projectUid).project1.ToString();
+
+                if (User.IsInRole("Sales"))
+                {
+                    return RedirectToAction("Index", "ProjectMilestoneActions");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Estimates");
+                }
                 
-                return RedirectToAction("Index", "Estimates");
             }
 
             return View(project); //test comment
@@ -227,6 +238,7 @@ namespace JCIEstimate.Controllers
                             myProjectMilestoneAction.listOrder = xItem.defaultListOrder;
                             myProjectMilestoneAction.projectMilestoneAction1 = xItem.milestoneAction1;
                             myProjectMilestoneAction.projectMilestoneActionDescription = xItem.milestoneActionDescription;
+                            myProjectMilestoneAction.isRollingUp = xItem.isRollingUp;
                             JCIExtensions.MCVExtensions.InsertOrUpdate(db, myProjectMilestoneAction);                            
                         }
                     }

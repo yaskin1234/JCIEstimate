@@ -49,7 +49,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "milestoneActionUid,milestoneUid,milestoneAction1,milestoneActionDescription,defaultListOrder")] MilestoneAction milestoneAction)
+        public async Task<ActionResult> Create([Bind(Include = "milestoneActionUid,milestoneUid,milestoneAction1,milestoneActionDescription,defaultListOrder,isRollingUp")] MilestoneAction milestoneAction)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "milestoneActionUid,milestoneUid,milestoneAction1,milestoneActionDescription,defaultListOrder")] MilestoneAction milestoneAction)
+        public async Task<ActionResult> Edit([Bind(Include = "milestoneActionUid,milestoneUid,milestoneAction1,milestoneActionDescription,defaultListOrder,isRollingUp")] MilestoneAction milestoneAction)
         {
             if (ModelState.IsValid)
             {
