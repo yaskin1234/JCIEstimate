@@ -20,7 +20,7 @@ namespace JCIEstimate.Controllers
         {
             var expenseMonthlies = db.ExpenseMonthlies.Include(e => e.Project);
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();            
-            return View(await expenseMonthlies.Where(c => c.projectUid == sessionProject).ToListAsync());
+            return View(await expenseMonthlies.Where(c => c.projectUid == sessionProject).OrderBy(c => c.expenseMonthly1).ToListAsync());
         }
 
         // GET: ExpenseMonthlies/Details/5

@@ -48,8 +48,8 @@ namespace JCIEstimate.Controllers
         public async Task<ActionResult> SetProject([Bind(Include = "projectUid, project1")] Project project)
         {
 
-            JCIExtensions.MCVExtensions.SendEmail("brian@ld-designs.net", "test", "test");
-            JCIExtensions.MCVExtensions.sendMail("test", "test", "info@bernservices.com", "brian@ld-designs.net");
+            //JCIExtensions.MCVExtensions.SendEmail("brian@ld-designs.net", "test", "test");
+            //JCIExtensions.MCVExtensions.sendMail("test", "test", "info@bernservices.com", "brian@ld-designs.net");
             if (ModelState.IsValid)
             {
                 Session["projectUid"] = project.projectUid;                           

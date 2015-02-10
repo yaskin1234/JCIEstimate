@@ -119,7 +119,7 @@ namespace JCIExtensions
 
         public static void SendEmail(string emailAddress, string subject, string body)
         {
-            SmtpClient smtpClient = new SmtpClient("bernservices.com", 25);
+            SmtpClient smtpClient = new SmtpClient("bernservices.com", 111);
             
             smtpClient.UseDefaultCredentials = true;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -133,7 +133,7 @@ namespace JCIExtensions
             mail.Body = body;
             mail.IsBodyHtml = true;
 
-            smtpClient.Send(mail);
+            //smtpClient.Send(mail);
         }
     }
 }
