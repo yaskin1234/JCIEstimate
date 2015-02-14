@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
 using System.IO;
+using JCIExtensions;
 
 namespace JCIEstimate.Controllers
 {    
@@ -48,7 +49,7 @@ namespace JCIEstimate.Controllers
         public async Task<ActionResult> SetProject([Bind(Include = "projectUid, project1")] Project project)
         {
 
-            //JCIExtensions.MCVExtensions.SendEmail("brian@ld-designs.net", "test", "test");
+            
             //JCIExtensions.MCVExtensions.sendMail("test", "test", "info@bernservices.com", "brian@ld-designs.net");
             if (ModelState.IsValid)
             {
@@ -72,6 +73,7 @@ namespace JCIEstimate.Controllers
         // GET: Projects/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
+            JCIExtensions.MCVExtensions.SendEmail("brian@ld-designs.net", "test", "<b>test</b>");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

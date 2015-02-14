@@ -35,8 +35,7 @@ namespace IdentitySample.Models
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+                RequiredLength = 6,                
                 RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true,
@@ -87,6 +86,7 @@ namespace IdentitySample.Models
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
+            JCIExtensions.MCVExtensions.SendEmail(message.Destination, message.Subject, message.Body);
             return Task.FromResult(0);
         }
     }

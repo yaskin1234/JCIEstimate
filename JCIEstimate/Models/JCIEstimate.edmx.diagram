@@ -74,6 +74,9 @@
         <AssociationConnector Association="JCIEstimateModel.fk_projectMilestone_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectMilestoneAction" Width="1.5" PointX="20.625" PointY="32.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_projectMilestoneAction_projectMilestone" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectUser" Width="1.5" PointX="21.375" PointY="12.375" />
+        <AssociationConnector Association="JCIEstimateModel.fk_project_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_project_user" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -803,6 +803,11 @@
     <Content Include="Scripts\kendo\2014.2.1008\kendo.view.min.js.map" />
     <Content Include="Scripts\kendo\2014.2.1008\kendo.web.min.js.map" />
     <Content Include="Scripts\kendo\2014.2.1008\kendo.window.min.js.map" />
+    <Content Include="Views\ProjectUsers\Create.cshtml" />
+    <Content Include="Views\ProjectUsers\Delete.cshtml" />
+    <Content Include="Views\ProjectUsers\Details.cshtml" />
+    <Content Include="Views\ProjectUsers\Edit.cshtml" />
+    <Content Include="Views\ProjectUsers\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -955,6 +960,7 @@
     <Compile Include="Controllers\ProjectMilestonesController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ProjectToDoesController.cs" />
+    <Compile Include="Controllers\ProjectUsersController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\ScopeOfWorksController.cs" />
@@ -1077,6 +1083,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectToDo.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectUser.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ScopeOfWork.cs">

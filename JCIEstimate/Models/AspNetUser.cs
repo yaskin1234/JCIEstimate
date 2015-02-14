@@ -17,6 +17,7 @@ namespace JCIEstimate.Models
         public AspNetUser()
         {
             this.ContractorUsers = new HashSet<ContractorUser>();
+            this.ProjectUsers = new HashSet<ProjectUser>();
         }
     
         public string Id { get; set; }
@@ -34,5 +35,6 @@ namespace JCIEstimate.Models
         public string UserName { get; set; }
     
         public virtual ICollection<ContractorUser> ContractorUsers { get; set; }
+        public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
     }
 }

@@ -47,10 +47,23 @@ namespace IdentitySample.Controllers
                 projects = from cc in db.Projects
                            select cc;
             }
+            if (User.IsInRole("Warranty"))
+            {
+                projects = from cc in db.Projects
+                           join pu in db.ProjectUsers on cc.projectUid equals pu.projectUid
+                           join pq in db.AspNetUsers on pu.aspNetUserUid equals pq.Id
+                           where pq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                           select cc;
+            }
             else
             {
                 projects = from cc in db.Projects
-                           join ss in db.Estimates on cc.projectUid equals ss.ECM.projectUid
+                           join dd in db.Locations on cc.projectUid equals dd.projectUid
+                           join ee in db.Estimates on dd.locationUid equals ee.locationUid
+                           join c in db.Contractors on ee.contractorUid equals c.contractorUid
+                           join cn in db.ContractorUsers on c.contractorUid equals cn.contractorUid
+                           join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
+                           where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
                            select cc;
                 projects = projects.Distinct();
             }

@@ -119,7 +119,8 @@ namespace JCIExtensions
 
         public static void SendEmail(string emailAddress, string subject, string body)
         {
-            SmtpClient smtpClient = new SmtpClient("bernservices.com", 111);
+            
+            SmtpClient smtpClient = new SmtpClient("localhost", 25);
             
             smtpClient.UseDefaultCredentials = true;
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -130,10 +131,19 @@ namespace JCIExtensions
             mail.From = new MailAddress("info@bernservices.com", "Info");
             mail.To.Add(new MailAddress(emailAddress));
             mail.Subject = subject;
+            body += "<br/><br/><i><b>This email is not monitored for incoming messages.</b></i>";
             mail.Body = body;
             mail.IsBodyHtml = true;
 
-            //smtpClient.Send(mail);
+            try
+            {
+                smtpClient.Send(mail);
+            }
+            catch (Exception)
+            {                
+                
+            }
+            
         }
     }
 }

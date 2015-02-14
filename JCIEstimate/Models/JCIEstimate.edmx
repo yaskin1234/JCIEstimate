@@ -334,6 +334,14 @@
           <Property Name="dateCreated" Type="date" Nullable="false" />
           <Property Name="dateResolved" Type="date" />
         </EntityType>
+        <EntityType Name="ProjectUser">
+          <Key>
+            <PropertyRef Name="projectUserUid" />
+          </Key>
+          <Property Name="projectUserUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="ScopeOfWork">
           <Key>
             <PropertyRef Name="scopeOfWorkUid" />
@@ -713,6 +721,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_project_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="ProjectUser" Type="Self.ProjectUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectUser">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_project_user">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ProjectUser" Type="Self.ProjectUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectUser">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_projectMilestone_project">
           <End Role="Project" Type="Self.Project" Multiplicity="1" />
           <End Role="ProjectMilestone" Type="Self.ProjectMilestone" Multiplicity="*" />
@@ -806,6 +838,7 @@
           <EntitySet Name="ProjectMilestone" EntityType="Self.ProjectMilestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMilestoneAction" EntityType="Self.ProjectMilestoneAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectToDo" EntityType="Self.ProjectToDo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectUser" EntityType="Self.ProjectUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScopeOfWork" EntityType="Self.ScopeOfWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestGrid" EntityType="Self.TestGrid" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ToDoStatus" EntityType="Self.ToDoStatus" Schema="dbo" store:Type="Tables" />
@@ -924,6 +957,14 @@
           <AssociationSet Name="fk_milestoneAction_milestone" Association="Self.fk_milestoneAction_milestone">
             <End Role="Milestone" EntitySet="Milestone" />
             <End Role="MilestoneAction" EntitySet="MilestoneAction" />
+          </AssociationSet>
+          <AssociationSet Name="fk_project_AspNetUser" Association="Self.fk_project_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ProjectUser" EntitySet="ProjectUser" />
+          </AssociationSet>
+          <AssociationSet Name="fk_project_user" Association="Self.fk_project_user">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectUser" EntitySet="ProjectUser" />
           </AssociationSet>
           <AssociationSet Name="fk_projectMilestone_project" Association="Self.fk_projectMilestone_project">
             <End Role="Project" EntitySet="Project" />
@@ -1122,6 +1163,15 @@
             <End Role="ProjectMilestone" EntitySet="ProjectMilestones" />
             <End Role="ProjectMilestoneAction" EntitySet="ProjectMilestoneActions" />
           </AssociationSet>
+          <EntitySet Name="ProjectUsers" EntityType="JCIEstimateModel.ProjectUser" />
+          <AssociationSet Name="fk_project_AspNetUser" Association="JCIEstimateModel.fk_project_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectUser" EntitySet="ProjectUsers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_project_user" Association="JCIEstimateModel.fk_project_user">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectUser" EntitySet="ProjectUsers" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -1215,6 +1265,7 @@
           <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="Project" ToRole="ScopeOfWork" />
           <NavigationProperty Name="ExpenseMonthlies" Relationship="JCIEstimateModel.fk_ExpenseMonthly_project" FromRole="Project" ToRole="ExpenseMonthly" />
           <NavigationProperty Name="ProjectMilestones" Relationship="JCIEstimateModel.fk_projectMilestone_project" FromRole="Project" ToRole="ProjectMilestone" />
+          <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_user" FromRole="Project" ToRole="ProjectUser" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -1270,6 +1321,7 @@
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ContractorUsers" Relationship="JCIEstimateModel.fk_AspNetUser" FromRole="AspNetUser" ToRole="ContractorUser" />
+          <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="AspNetUser" ToRole="ProjectUser" />
         </EntityType>
         <Association Name="fk_AspNetUser">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -1959,6 +2011,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProjectUser">
+          <Key>
+            <PropertyRef Name="projectUserUid" />
+          </Key>
+          <Property Name="projectUserUid" Type="Guid" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="ProjectUser" ToRole="AspNetUser" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_project_user" FromRole="ProjectUser" ToRole="Project" />
+        </EntityType>
+        <Association Name="fk_project_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectUser">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_project_user">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectUser">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2357,6 +2443,15 @@
                 <ScalarProperty Name="projectMilestoneAction1" ColumnName="projectMilestoneAction" />
                 <ScalarProperty Name="projectMilestoneUid" ColumnName="projectMilestoneUid" />
                 <ScalarProperty Name="projectMilestoneActionUid" ColumnName="projectMilestoneActionUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectUsers">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectUser">
+              <MappingFragment StoreEntitySet="ProjectUser">
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
+                <ScalarProperty Name="projectUserUid" ColumnName="projectUserUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
