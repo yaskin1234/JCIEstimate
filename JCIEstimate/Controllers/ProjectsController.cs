@@ -60,6 +60,10 @@ namespace JCIEstimate.Controllers
                 {
                     return RedirectToAction("Index", "ProjectMilestoneActions");
                 }
+                else if (User.IsInRole("Warranty"))
+                {
+                    return RedirectToAction("Index", "WarrantyIssues");
+                }
                 else
                 {
                     return RedirectToAction("Index", "Estimates");

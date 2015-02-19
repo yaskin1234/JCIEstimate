@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.WarrantyStatu
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>WarrantyStatu</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.warrantyStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.warrantyStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.warrantyStatusDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.warrantyStatusDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.warrantyStatusUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

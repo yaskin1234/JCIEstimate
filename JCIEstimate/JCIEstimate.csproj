@@ -389,6 +389,7 @@
     <Content Include="Images\filter.png" />
     <Content Include="Images\View_Details.png" />
     <Content Include="packages.config" />
+    <Content Include="Scripts\JCIEstimate.js" />
     <Content Include="Scripts\kendo\2014.2.1008\angular.min.js" />
     <Content Include="Scripts\kendo\2014.2.1008\jquery.min.js" />
     <Content Include="Content\kendo\2014.2.1008\images\kendoui.ttf" />
@@ -808,6 +809,26 @@
     <Content Include="Views\ProjectUsers\Details.cshtml" />
     <Content Include="Views\ProjectUsers\Edit.cshtml" />
     <Content Include="Views\ProjectUsers\Index.cshtml" />
+    <Content Include="Views\WarrantyStatus\Create.cshtml" />
+    <Content Include="Views\WarrantyStatus\Delete.cshtml" />
+    <Content Include="Views\WarrantyStatus\Details.cshtml" />
+    <Content Include="Views\WarrantyStatus\Edit.cshtml" />
+    <Content Include="Views\WarrantyStatus\Index.cshtml" />
+    <Content Include="Views\WarrantyUnits\Create.cshtml" />
+    <Content Include="Views\WarrantyUnits\Delete.cshtml" />
+    <Content Include="Views\WarrantyUnits\Details.cshtml" />
+    <Content Include="Views\WarrantyUnits\Edit.cshtml" />
+    <Content Include="Views\WarrantyUnits\Index.cshtml" />
+    <Content Include="Views\WarrantyIssues\Create.cshtml" />
+    <Content Include="Views\WarrantyIssues\Delete.cshtml" />
+    <Content Include="Views\WarrantyIssues\Details.cshtml" />
+    <Content Include="Views\WarrantyIssues\Edit.cshtml" />
+    <Content Include="Views\WarrantyIssues\Index.cshtml" />
+    <Content Include="Views\WarrantyNotes\Create.cshtml" />
+    <Content Include="Views\WarrantyNotes\Delete.cshtml" />
+    <Content Include="Views\WarrantyNotes\Details.cshtml" />
+    <Content Include="Views\WarrantyNotes\Edit.cshtml" />
+    <Content Include="Views\WarrantyNotes\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -966,6 +987,10 @@
     <Compile Include="Controllers\ScopeOfWorksController.cs" />
     <Compile Include="Controllers\ToDoStatusController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
+    <Compile Include="Controllers\WarrantyIssuesController.cs" />
+    <Compile Include="Controllers\WarrantyNotesController.cs" />
+    <Compile Include="Controllers\WarrantyStatusController.cs" />
+    <Compile Include="Controllers\WarrantyUnitsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1004,6 +1029,7 @@
     <Compile Include="Models\EquipmentType.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EquipmentViewModel.cs" />
     <Compile Include="Models\Estimate.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -1097,8 +1123,21 @@
     <Compile Include="Models\ToDoStatu.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WarrantyIssue.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WarrantyNote.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WarrantyStatu.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WarrantyUnit.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Views\WarrantyUnitsController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

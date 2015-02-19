@@ -61,5 +61,9 @@ namespace JCIEstimate.Models
         public virtual DbSet<ProjectMilestone> ProjectMilestones { get; set; }
         public virtual DbSet<ProjectMilestoneAction> ProjectMilestoneActions { get; set; }
         public virtual DbSet<ProjectUser> ProjectUsers { get; set; }
+        public virtual DbSet<WarrantyStatu> WarrantyStatus { get; set; }
+        public virtual DbSet<WarrantyUnit> WarrantyUnits { get; set; }
+        public virtual DbSet<WarrantyNote> WarrantyNotes { get; set; }
+        public virtual DbSet<WarrantyIssue> WarrantyIssues { get; set; }
     }
 }

@@ -827,4 +827,113 @@ namespace JCIEstimate.Models
         [Display(Name = "Rolls Up")]
         public bool isRollingUp { get; set; }
     }
+
+    /// <summary>
+    /// WarrantyStatus
+    /// </summary>
+    [MetadataType(typeof(WarrantyStatusMetaData))]
+    public partial class WarrantyStatus
+    {
+    }
+
+    public class WarrantyStatusMetaData
+    {
+        [Display(Name = "Warranty Status")]
+        public System.Guid warrantyStatusUid { get; set; }                
+        [Display(Name = "Warranty Status")]
+        public string warrantyStatus { get; set; }
+        [Display(Name = "Warranty Status Description")]
+        public string warrantyStatusDescription { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
+    /// <summary>
+    /// WarrantyIssue
+    /// </summary>
+    [MetadataType(typeof(WarrantyIssueMetaData))]
+    public partial class WarrantyIssue
+    {
+    }
+
+    public class WarrantyIssueMetaData
+    {
+        [Display(Name = "Warranty Issue")]
+        public System.Guid warrantyIssueUid { get; set; }
+        [Display(Name = "Location and Unit Number")]
+        public System.Guid warrantyUnitUid { get; set; }
+        [Display(Name = "Issue Status")]
+        public System.Guid warrantyStatusUid { get; set; }
+        [Display(Name = "Room Location")]
+        public string warrantyIssueLocation { get; set; }
+        [Display(Name = "Issue Description")]
+        public string warrantyIssue1 { get; set; }
+        [Display(Name = "Assigned To")]
+        public string projectUserUid { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh:mm:ss}", ApplyFormatInEditMode = true)]        
+        [Display(Name = "Date Created")]
+        public System.DateTime date { get; set; }        
+    }
+
+
+    /// <summary>
+    /// WarrantyNote
+    /// </summary>
+    [MetadataType(typeof(WarrantyNoteMetaData))]
+    public partial class WarrantyNote
+    {
+    }
+
+    public class WarrantyNoteMetaData
+    {
+        [Display(Name = "Issue Note")]
+        public System.Guid warrantyNoteUid { get; set; }
+        [Display(Name = "Issue Description")]
+        public System.Guid warrantyIssueUid { get; set; }
+        [Display(Name = "Note Text")]
+        public string warrantyNote1 { get; set; }
+        [Display(Name = "Date Created")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh:mm:ss}", ApplyFormatInEditMode = true)]        
+        public System.DateTime date { get; set; }
+    }
+
+    /// <summary>
+    /// WarrantyUnit
+    /// </summary>
+    [MetadataType(typeof(WarrantyUnitMetaData))]
+    public partial class WarrantyUnit
+    {
+    }
+
+    public class WarrantyUnitMetaData
+    {
+        [Display(Name = "Warranty Unit")]
+        public System.Guid warrantyUnitUid { get; set; }
+        [Display(Name = "Location")]
+        public System.Guid locationUid { get; set; }
+        [Display(Name = "Unit Number")]
+        public string warrantyUnit1 { get; set; }
+        [Display(Name = "Unit Description")]
+        public string warrantyUnitDescription { get; set; }
+    }
+
+    /// <summary>
+    /// WarrantyStatu
+    /// </summary>
+    [MetadataType(typeof(WarrantyStatuMetaData))]
+    public partial class WarrantyStatu
+    {
+    }
+
+    public class WarrantyStatuMetaData
+    {
+        [Display(Name = "Issue Status")]
+        public System.Guid warrantyStatusUid { get; set; }
+        [Display(Name = "Issue Status")]
+        public string warrantyStatus { get; set; }
+        [Display(Name = "Issue Status Description")]
+        public string warrantyStatusDescription { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
 }

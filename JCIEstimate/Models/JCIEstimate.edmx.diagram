@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="73">
+      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="86">
         <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="11.875" PointY="10.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="8.625" PointY="3.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
@@ -77,6 +77,15 @@
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectUser" Width="1.5" PointX="21.375" PointY="12.375" />
         <AssociationConnector Association="JCIEstimateModel.fk_project_AspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_project_user" />
+        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyStatu" Width="1.5" PointX="5.375" PointY="0.875" />
+        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyUnit" Width="1.5" PointX="5.375" PointY="3.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyUnit_location" />
+        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyNote" Width="1.5" PointX="10.25" PointY="14.125" />
+        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyIssue" Width="1.5" PointX="25.625" PointY="6.125" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_warrantyissue_warrantystatus" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
+        <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

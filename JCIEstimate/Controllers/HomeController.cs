@@ -47,7 +47,7 @@ namespace IdentitySample.Controllers
                 projects = from cc in db.Projects
                            select cc;
             }
-            if (User.IsInRole("Warranty"))
+            else if (User.IsInRole("Warranty"))
             {
                 projects = from cc in db.Projects
                            join pu in db.ProjectUsers on cc.projectUid equals pu.projectUid

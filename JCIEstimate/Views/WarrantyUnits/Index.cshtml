@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JCIEstimate.Models.WarrantyUnit>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.locationUid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.warrantyUnit1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.warrantyUnitDescription)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.locationUid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.warrantyUnit1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.warrantyUnitDescription)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.warrantyUnitUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.warrantyUnitUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.warrantyUnitUid })
+        </td>
+    </tr>
+}
+
+</table>

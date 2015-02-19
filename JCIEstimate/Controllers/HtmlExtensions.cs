@@ -89,13 +89,39 @@ namespace JCIExtensions
             var items = enumerable.Select(f => new SelectListItem()
             {
                 Text = text(f),
-                Value = value(f)
+                Value = value(f),
+                Selected = value(f).Equals(defaultOption)
             }).ToList();
             items.Insert(0, new SelectListItem()
             {
                 Text = "-- Choose --",
-                Value = "-1"
+                Value = "00000000-0000-0000-0000-000000000000"
             });
+            return items;
+        }
+
+        public static List<SelectListItem> ToSelectList<T>(
+                    this IEnumerable<T> enumerable,
+                    Func<T, string> text,
+                    Func<T, string> value,
+                    string defaultOption,
+                    bool includeChoose)
+        {
+            var items = enumerable.Select(f => new SelectListItem()
+            {
+                Text = text(f),
+                Value = value(f),
+                Selected = value(f).Equals(defaultOption)
+            }).ToList();
+            if (includeChoose)
+            {
+                items.Insert(0, new SelectListItem()
+                {
+                    Text = "-- Choose --",
+                    Value = "00000000-0000-0000-0000-000000000000"
+                });
+            }
+            
             return items;
         }
 
