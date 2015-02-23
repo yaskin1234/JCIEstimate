@@ -4,11 +4,25 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+
+<table>
+    <tr>
+        <td>
+            <select class="filter" id="filter" name="filter">
+                @foreach (var item in ViewBag.filterList)
+                {
+                <option value="@item.value" @((item.selected) ? "selected" : "" ) >@item.text</option>                    
+                }
+            </select>
+        </td>
+    </tr>
+</table>
+
+
 <table class="table">
     <tr>
         <th>
@@ -28,6 +42,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.projectUserUid)
+        </th>
+        <th>
+            Last Comment
         </th>
         <th></th>
     </tr>
@@ -53,9 +70,17 @@
             @Html.DisplayFor(modelItem => item.ProjectUser.AspNetUser.Email)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.warrantyIssueUid }) |
-            @Html.ActionLink("Details", "Details", new { id=item.warrantyIssueUid }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.warrantyIssueUid })
+            @if (item.WarrantyNotes.Count > 0)
+            {
+                @item.WarrantyNotes.OrderBy(c => c.date).Last().warrantyNote1;
+            }
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", "WarrantyIssues", new { id = item.warrantyIssueUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="@Url.Action("Delete", "WarrantyIssues", new { id = item.warrantyIssueUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>
+            }
         </td>
     </tr>
 }

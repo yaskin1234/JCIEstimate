@@ -860,7 +860,7 @@ namespace JCIEstimate.Models
     {
         [Display(Name = "Warranty Issue")]
         public System.Guid warrantyIssueUid { get; set; }
-        [Display(Name = "Location and Unit Number")]
+        [Display(Name = "Location/Unit")]
         public System.Guid warrantyUnitUid { get; set; }
         [Display(Name = "Issue Status")]
         public System.Guid warrantyStatusUid { get; set; }
@@ -870,9 +870,10 @@ namespace JCIEstimate.Models
         public string warrantyIssue1 { get; set; }
         [Display(Name = "Assigned To")]
         public string projectUserUid { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh:mm:ss}", ApplyFormatInEditMode = true)]        
+        [DataType(DataType.DateTime)]       
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]        
         [Display(Name = "Date Created")]
-        public System.DateTime date { get; set; }        
+        public System.DateTime date { get; set; }
     }
 
 
@@ -893,7 +894,7 @@ namespace JCIEstimate.Models
         [Display(Name = "Note Text")]
         public string warrantyNote1 { get; set; }
         [Display(Name = "Date Created")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh:mm:ss}", ApplyFormatInEditMode = true)]        
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]        
         public System.DateTime date { get; set; }
     }
 

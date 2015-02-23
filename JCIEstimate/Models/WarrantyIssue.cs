@@ -26,10 +26,12 @@ namespace JCIEstimate.Models
         public string warrantyIssue1 { get; set; }
         public System.DateTime date { get; set; }
         public Nullable<System.Guid> projectUserUid { get; set; }
+        public string aspNetUserUidAsCreated { get; set; }
     
         public virtual ProjectUser ProjectUser { get; set; }
         public virtual WarrantyStatu WarrantyStatu { get; set; }
         public virtual WarrantyUnit WarrantyUnit { get; set; }
         public virtual ICollection<WarrantyNote> WarrantyNotes { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

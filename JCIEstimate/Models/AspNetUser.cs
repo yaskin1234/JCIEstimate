@@ -18,6 +18,8 @@ namespace JCIEstimate.Models
         {
             this.ContractorUsers = new HashSet<ContractorUser>();
             this.ProjectUsers = new HashSet<ProjectUser>();
+            this.WarrantyIssues = new HashSet<WarrantyIssue>();
+            this.WarrantyNotes = new HashSet<WarrantyNote>();
         }
     
         public string Id { get; set; }
@@ -36,5 +38,7 @@ namespace JCIEstimate.Models
     
         public virtual ICollection<ContractorUser> ContractorUsers { get; set; }
         public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
+        public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
+        public virtual ICollection<WarrantyNote> WarrantyNotes { get; set; }
     }
 }

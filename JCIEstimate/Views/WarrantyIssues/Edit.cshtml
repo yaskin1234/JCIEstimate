@@ -4,38 +4,42 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>WarrantyIssue</h4>
+        <h4>Warranty Issue</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.warrantyIssueUid)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.warrantyUnitUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Created By</label>
             <div class="col-md-10">
-                @Html.DropDownList("warrantyUnitUid", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })                
+                <div id="email" style="padding-top:7px;">@((Model.AspNetUser != null) ? Model.AspNetUser.Email : "") </div>                
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.warrantyStatusUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("warrantyStatusUid", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.warrantyStatusUid, "", new { @class = "text-danger" })
+                <div id="date" style="padding-top:7px;">@Model.date.ToShortDateString()</div>
+                @Html.ValidationMessageFor(model => model.date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">            
+            @Html.LabelFor(model => model.warrantyUnitUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div id="unit" style="padding-top:7px;">@Model.WarrantyUnit.Location.location1 - @Model.WarrantyUnit.warrantyUnit1</div>                           
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.warrantyIssueLocation, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.warrantyIssueLocation, new { htmlAttributes = new { @class = "form-control" } })
+                <div id="warrantyIssueLocation" style="padding-top:7px;">@Model.warrantyIssueLocation</div>
                 @Html.ValidationMessageFor(model => model.warrantyIssueLocation, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -43,10 +47,39 @@
         <div class="form-group">
             @Html.LabelFor(model => model.warrantyIssue1, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.warrantyIssue1,5, 40, new { htmlAttributes = new { @class = "form-control" } })
+                <div id="warrantyIssue1" style="padding-top:7px;">@Model.warrantyIssue1</div>                                
                 @Html.ValidationMessageFor(model => model.warrantyIssue1, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" >Comments</label>
+            <div class="col-md-10">
+                <table>
+                    @foreach (var item in ViewBag.warrantyNotes)
+                    {
+                        <tr>
+                            <th>
+                                @item.date -- @item.AspNetUser.Email
+                            </th>
+                        </tr>
+                        <tr>                            
+                            <td style="padding-right:20px;padding-left:20px; background-color:#f1f3f4;">
+                                @item.warrantyNote1                                
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.warrantyStatusUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">                
+                @Html.DropDownList("warrantyStatusUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.warrantyStatusUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.projectUserUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -54,6 +87,13 @@
                 @Html.ValidationMessageFor(model => model.projectUserUid, "", new { @class = "text-danger" })
             </div>
         </div>     
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Add Comment</label>
+            <div class="col-md-10">
+                @Html.TextArea("addComment", "", 5, 40, null)
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

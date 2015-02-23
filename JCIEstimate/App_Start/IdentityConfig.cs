@@ -86,7 +86,7 @@ namespace IdentitySample.Models
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            JCIExtensions.MCVExtensions.SendEmail(message.Destination, message.Subject, message.Body);
+            JCIExtensions.MCVExtensions.SendEmail(message.Destination, message.Subject, message.Body, true);
             return Task.FromResult(0);
         }
     }

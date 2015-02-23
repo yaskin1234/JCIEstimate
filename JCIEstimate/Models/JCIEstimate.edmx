@@ -384,6 +384,7 @@
           <Property Name="warrantyIssue" Type="nvarchar(max)" Nullable="false" />
           <Property Name="date" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="projectUserUid" Type="uniqueidentifier" />
+          <Property Name="aspNetUserUidAsCreated" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="WarrantyNote">
           <Key>
@@ -393,6 +394,7 @@
           <Property Name="warrantyIssueUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="warrantyNote" Type="nvarchar(max)" Nullable="false" />
           <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="aspNetUserUidAsCreated" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="WarrantyStatus">
           <Key>
@@ -402,6 +404,7 @@
           <Property Name="warrantyStatus" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="warrantyStatusDescription" Type="nvarchar" MaxLength="2000" Nullable="false" />
           <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="listOrder" Type="int" />
         </EntityType>
         <EntityType Name="WarrantyUnit">
           <Key>
@@ -421,6 +424,30 @@
             </Principal>
             <Dependent Role="ContractorUser">
               <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_created">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="WarrantyIssue" Type="Self.WarrantyIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WarrantyIssue">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_Notecreated">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="WarrantyNote" Type="Self.WarrantyNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WarrantyNote">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -949,6 +976,14 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="ContractorUser" EntitySet="ContractorUser" />
           </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_created" Association="Self.fk_AspNetUser_created">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="WarrantyIssue" EntitySet="WarrantyIssue" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_Notecreated" Association="Self.fk_AspNetUser_Notecreated">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="WarrantyNote" EntitySet="WarrantyNote" />
+          </AssociationSet>
           <AssociationSet Name="fk_contractor" Association="Self.fk_contractor">
             <End Role="Contractor" EntitySet="Contractor" />
             <End Role="ContractorContact" EntitySet="ContractorContact" />
@@ -1319,6 +1354,14 @@
             <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
             <End Role="WarrantyNote" EntitySet="WarrantyNotes" />
           </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_created" Association="JCIEstimateModel.fk_AspNetUser_created">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_Notecreated" Association="JCIEstimateModel.fk_AspNetUser_Notecreated">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="WarrantyNote" EntitySet="WarrantyNotes" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -1470,6 +1513,8 @@
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ContractorUsers" Relationship="JCIEstimateModel.fk_AspNetUser" FromRole="AspNetUser" ToRole="ContractorUser" />
           <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="AspNetUser" ToRole="ProjectUser" />
+          <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_AspNetUser_created" FromRole="AspNetUser" ToRole="WarrantyIssue" />
+          <NavigationProperty Name="WarrantyNotes" Relationship="JCIEstimateModel.fk_AspNetUser_Notecreated" FromRole="AspNetUser" ToRole="WarrantyNote" />
         </EntityType>
         <Association Name="fk_AspNetUser">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -2203,6 +2248,7 @@
           <Property Name="warrantyStatusDescription" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_warrantyissue_warrantystatus" FromRole="WarrantyStatu" ToRole="WarrantyIssue" />
+          <Property Name="listOrder" Type="Int32" />
         </EntityType>
         <EntityType Name="WarrantyUnit">
           <Key>
@@ -2236,6 +2282,8 @@
           <Property Name="warrantyNote1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="WarrantyIssue" Relationship="JCIEstimateModel.fk_warrantynote_warrantyissue" FromRole="WarrantyNote" ToRole="WarrantyIssue" />
+          <Property Name="aspNetUserUidAsCreated" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_Notecreated" FromRole="WarrantyNote" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="WarrantyIssue">
           <Key>
@@ -2252,6 +2300,8 @@
           <NavigationProperty Name="WarrantyStatu" Relationship="JCIEstimateModel.fk_warrantyissue_warrantystatus" FromRole="WarrantyIssue" ToRole="WarrantyStatu" />
           <NavigationProperty Name="WarrantyUnit" Relationship="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" FromRole="WarrantyIssue" ToRole="WarrantyUnit" />
           <NavigationProperty Name="WarrantyNotes" Relationship="JCIEstimateModel.fk_warrantynote_warrantyissue" FromRole="WarrantyIssue" ToRole="WarrantyNote" />
+          <Property Name="aspNetUserUidAsCreated" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created" FromRole="WarrantyIssue" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="fk_WarrantyIssue_ProjectUser">
           <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="0..1" />
@@ -2298,6 +2348,30 @@
             </Principal>
             <Dependent Role="WarrantyNote">
               <PropertyRef Name="warrantyIssueUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_created">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.WarrantyIssue" Role="WarrantyIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WarrantyIssue">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_Notecreated">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.WarrantyNote" Role="WarrantyNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WarrantyNote">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2714,6 +2788,7 @@
           <EntitySetMapping Name="WarrantyStatus">
             <EntityTypeMapping TypeName="JCIEstimateModel.WarrantyStatu">
               <MappingFragment StoreEntitySet="WarrantyStatus">
+                <ScalarProperty Name="listOrder" ColumnName="listOrder" />
                 <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
                 <ScalarProperty Name="warrantyStatusDescription" ColumnName="warrantyStatusDescription" />
                 <ScalarProperty Name="warrantyStatus" ColumnName="warrantyStatus" />
@@ -2734,6 +2809,7 @@
           <EntitySetMapping Name="WarrantyNotes">
             <EntityTypeMapping TypeName="JCIEstimateModel.WarrantyNote">
               <MappingFragment StoreEntitySet="WarrantyNote">
+                <ScalarProperty Name="aspNetUserUidAsCreated" ColumnName="aspNetUserUidAsCreated" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="warrantyNote1" ColumnName="warrantyNote" />
                 <ScalarProperty Name="warrantyIssueUid" ColumnName="warrantyIssueUid" />
@@ -2744,6 +2820,7 @@
           <EntitySetMapping Name="WarrantyIssues">
             <EntityTypeMapping TypeName="JCIEstimateModel.WarrantyIssue">
               <MappingFragment StoreEntitySet="WarrantyIssue">
+                <ScalarProperty Name="aspNetUserUidAsCreated" ColumnName="aspNetUserUidAsCreated" />
                 <ScalarProperty Name="projectUserUid" ColumnName="projectUserUid" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="warrantyIssue1" ColumnName="warrantyIssue" />

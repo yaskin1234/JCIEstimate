@@ -66,7 +66,8 @@ namespace JCIEstimate.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Estimates");
+                    return RedirectToAction("Index", "WarrantyIssues");
+                    //return RedirectToAction("Index", "Estimates");
                 }
                 
             }
@@ -77,7 +78,6 @@ namespace JCIEstimate.Controllers
         // GET: Projects/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
-            JCIExtensions.MCVExtensions.SendEmail("brian@ld-designs.net", "test", "<b>test</b>");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

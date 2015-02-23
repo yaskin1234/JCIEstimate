@@ -48,7 +48,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "warrantyStatusUid,warrantyStatus,warrantyStatusDescription,behaviorIndicator")] WarrantyStatu warrantyStatu)
+        public async Task<ActionResult> Create([Bind(Include = "warrantyStatusUid,warrantyStatus,warrantyStatusDescription,behaviorIndicator,listOrder")] WarrantyStatu warrantyStatu)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "warrantyStatusUid,warrantyStatus,warrantyStatusDescription,behaviorIndicator")] WarrantyStatu warrantyStatu)
+        public async Task<ActionResult> Edit([Bind(Include = "warrantyStatusUid,warrantyStatus,warrantyStatusDescription,behaviorIndicator,listOrder")] WarrantyStatu warrantyStatu)
         {
             if (ModelState.IsValid)
             {

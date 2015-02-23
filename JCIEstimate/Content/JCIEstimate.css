@@ -1,7 +1,4 @@
-﻿.edit-mode{
-
-}
-
-.display-mode{
-
+﻿.readOnlyDiv{
+    padding-top:18px;
+    background-color:black;       
 }

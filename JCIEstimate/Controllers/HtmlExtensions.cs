@@ -7,12 +7,14 @@ using System.Web.Mvc;
 using JCIEstimate.Models;
 using System.Data.Entity;
 using System.Net.Mail;
+using System.IO;
 
 
 namespace JCIExtensions
 {
     public static class MCVExtensions
     {
+        public static Guid pseudoNull = new Guid("00000000-0000-0000-0000-000000000000");
 
         public static void InsertOrUpdate(DbContext context, EquipmentToDo entity)
         {
@@ -60,8 +62,10 @@ namespace JCIExtensions
             SmtpClient sClient = new SmtpClient("localhost");
             sClient.Credentials = CredentialCache.DefaultNetworkCredentials;
             MailMessage m = new MailMessage(fromAddress, toAddress, subject, message);
-            sClient.Send(m);
-            
+            if (!HttpContext.Current.Request.IsLocal)
+            {
+                sClient.Send(m);
+            }
         }
         
 
@@ -143,7 +147,7 @@ namespace JCIExtensions
             return sessionProject;
         }
 
-        public static void SendEmail(string emailAddress, string subject, string body)
+        public static void SendEmail(string emailAddress, string subject, string body, bool isHtml)
         {
             
             SmtpClient smtpClient = new SmtpClient("localhost", 25);
@@ -157,19 +161,49 @@ namespace JCIExtensions
             mail.From = new MailAddress("info@bernservices.com", "Info");
             mail.To.Add(new MailAddress(emailAddress));
             mail.Subject = subject;
-            body += "<br/><br/><i><b>This email is not monitored for incoming messages.</b></i>";
+            if (isHtml)
+            {
+                body += "<br/><br/><i><b>";
+            }
+            else
+            {
+                body += "\n\n";
+            }
+            body += "This email is not monitored for incoming messages.";
+            if (isHtml)
+            {
+                body += "</b></i>";
+            }
+
             mail.Body = body;
-            mail.IsBodyHtml = true;
+            mail.IsBodyHtml = isHtml;
 
             try
             {
                 smtpClient.Send(mail);
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {                
-                
+                StreamWriter f = new StreamWriter("mailErrors.log", true);                
+                f.WriteLine("--------------" + DateTime.Now.ToString() + ": " + ex.Message);
+                f.Close();
+             //silent error for dev failures   
             }
-            
+
+        }
+
+        public static void sendEmailToProjectUsers(JCIEstimateEntities db, Guid projectUid, string subject, string body, bool isHtml)
+        {
+
+            var users = from cc in db.ProjectUsers
+                        join au in db.AspNetUsers on cc.aspNetUserUid equals au.Id
+                        where cc.projectUid == projectUid
+                        select au;
+            foreach (var item in users)
+            {
+                SendEmail(item.Email, subject, body, isHtml);
+            }
         }
     }
 }

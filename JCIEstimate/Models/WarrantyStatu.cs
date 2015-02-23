@@ -23,6 +23,7 @@ namespace JCIEstimate.Models
         public string warrantyStatus { get; set; }
         public string warrantyStatusDescription { get; set; }
         public string behaviorIndicator { get; set; }
+        public Nullable<int> listOrder { get; set; }
     
         public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
     }

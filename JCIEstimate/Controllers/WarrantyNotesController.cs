@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
+using JCIExtensions;
 
 namespace JCIEstimate.Controllers
 {
@@ -40,7 +41,12 @@ namespace JCIEstimate.Controllers
         // GET: WarrantyNotes/Create
         public ActionResult Create()
         {
-            ViewBag.warrantyIssueUid = new SelectList(db.WarrantyIssues, "warrantyIssueUid", "warrantyIssueLocation");
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            var warrantyIssues = from cc in db.WarrantyIssues
+                                 where cc.WarrantyUnit.Location.projectUid == sessionProject
+                                 select cc;
+
+            ViewBag.warrantyIssueUid = warrantyIssues.ToSelectList(c => c.WarrantyUnit.Location.location1 + " - " + c.WarrantyUnit.warrantyUnit1 + " - " + c.warrantyIssueLocation, c => c.warrantyIssueUid.ToString(), "");
             return View();
         }
 
@@ -53,6 +59,7 @@ namespace JCIEstimate.Controllers
         {
             if (ModelState.IsValid)
             {
+                warrantyNote.date = DateTime.Now;
                 warrantyNote.warrantyNoteUid = Guid.NewGuid();
                 db.WarrantyNotes.Add(warrantyNote);
                 await db.SaveChangesAsync();

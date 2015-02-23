@@ -24,70 +24,51 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") ) {
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin</a>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">System Admin</a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("Roles Admin", "Index", "RolesAdmin")</li>
                             <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>
                             <li>@Html.ActionLink("To Do Status", "Index", "ToDoStatus")</li>
                             <li>@Html.ActionLink("To Do List", "Index", "ProjectToDoes")</li>
+                            <li class="divider"></li>                            
+                            <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
+                            <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
+                            <li>@Html.ActionLink("Misc Expenses", "Index", "ExpenseMiscellaneous")</li>
+                            <li>@Html.ActionLink("Milestones", "Index", "Milestones")</li>
+                            <li>@Html.ActionLink("Milestone Actions", "Index", "MilestoneActions")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
+                            <li>@Html.ActionLink("Warranty Status", "Index", "WarrantyStatus")</li>
+                            <li>@Html.ActionLink("Equipment Tasks", "Index", "EquipmentTasks")</li>
+                            <li>@Html.ActionLink("Equipment Types", "Index", "EquipmentTypes")</li>
+                            <li>@Html.ActionLink("Intervals", "Index", "Intervals")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
+                            <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>
+                            <li>@Html.ActionLink("Project Users", "Index", "ProjectUsers")</li>
+                            <li>@Html.ActionLink("Warranty Notes", "Index", "WarrantyNotes")</li>
                         </ul>
                     </li>
-                    }
-                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">System Setup</a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
-                                <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
-                                <li>@Html.ActionLink("Misc Expenses", "Index", "ExpenseMiscellaneous")</li>
-                                <li>@Html.ActionLink("Milestones", "Index", "Milestones")</li>
-                                <li>@Html.ActionLink("Milestone Actions", "Index", "MilestoneActions")</li>
-                                <li class="divider"></li>
-                                <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
-                                <li>@Html.ActionLink("Warranty Status", "Index", "WarrantyStatus")</li>
-                                <li>@Html.ActionLink("Equipment Tasks", "Index", "EquipmentTasks")</li>
-                                <li>@Html.ActionLink("Equipment Types", "Index", "EquipmentTypes")</li>
-                                <li>@Html.ActionLink("Intervals", "Index", "Intervals")</li>
-                                <li class="divider"></li>
-                                <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
-                                <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>                                 
-                                <li>@Html.ActionLink("Project Users", "Index", "ProjectUsers")</li>
-                            </ul>
-                        </li>
-                        if (Session["projectUid"] != null)
-                        {
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project Setup</a>
-                                <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("ECMs", "Index", "ECMs")</li>                                                                        
-                                    <li>@Html.ActionLink("Locations", "Index", "Locations")</li>                                                
-                                    <li>@Html.ActionLink("Equipment", "Index", "Equipments")</li>                        
-                                    <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>                   
-                                    <li class="divider"></li>
-                                    <li>@Html.ActionLink("Construction Expenses", "Index", "ExpenseConstructions")</li>                                    
-                                    <li>@Html.ActionLink("Percentage Expenses", "Index", "ExpensePercentages")</li>                                    
-                                    <li>@Html.ActionLink("Monthly Expenses", "Index", "ExpenseMonthlies")</li> 
-                                    <li>@Html.ActionLink("Misc Expenses For Project", "Index", "ExpenseMiscellaneousProjects")</li>                                   
-                                    <li class="divider"></li>
-                                    <li>@Html.ActionLink("Warranty Units", "Index", "WarranryUnits")</li>                                   
-                                </ul>
-                            </li>
-                        }
-
-                    }
+                    }    
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
                     {
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports</a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project Setup</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Category and ECM By Contractor", "GetCategoryECMByContractor", "Reports")</li>                                      
-                                <li>@Html.ActionLink("Vert Bar Graph Summary", "GetBarGraphSummary", "Reports")</li>                                      
-                                <li>@Html.ActionLink("Bid Summary", "GetBidSummary", "Reports")</li>     
-                                <li>@Html.ActionLink("Project Grand Totals", "GetProjectGrandTotal", "Reports")</li>                                
+                                <li>@Html.ActionLink("ECMs", "Index", "ECMs")</li>
+                                <li>@Html.ActionLink("Locations", "Index", "Locations")</li>
+                                <li>@Html.ActionLink("Equipment", "Index", "Equipments")</li>
+                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Construction Expenses", "Index", "ExpenseConstructions")</li>
+                                <li>@Html.ActionLink("Percentage Expenses", "Index", "ExpensePercentages")</li>
+                                <li>@Html.ActionLink("Monthly Expenses", "Index", "ExpenseMonthlies")</li>
+                                <li>@Html.ActionLink("Misc Expenses For Project", "Index", "ExpenseMiscellaneousProjects")</li>
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Warranty Units", "Index", "WarrantyUnits")</li>
                             </ul>
                         </li>
-                    }
+                    }                          
                     
                     @if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Sales") ) && Session["projectUid"] != null)
                     {
@@ -151,11 +132,23 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Warranty</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Warranty Issues", "Index", "WarrantyIssues")</li>                                                                
-                                <li>@Html.ActionLink("Warranty Notes", "Index", "WarrantyNotes")</li>             
+                                <li>@Html.ActionLink("Warranty Issues", "Index", "WarrantyIssues")</li>                                                                                                
                             </ul>
                         </li>
-                    }                 
+                    }
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Category and ECM By Contractor", "GetCategoryECMByContractor", "Reports")</li>
+                                <li>@Html.ActionLink("Vert Bar Graph Summary", "GetBarGraphSummary", "Reports")</li>
+                                <li>@Html.ActionLink("Bid Summary", "GetBidSummary", "Reports")</li>
+                                <li>@Html.ActionLink("Project Grand Totals", "GetProjectGrandTotal", "Reports")</li>
+                            </ul>
+                        </li>
+                    }
+                    
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
