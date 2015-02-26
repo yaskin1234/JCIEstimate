@@ -17,6 +17,7 @@ namespace JCIEstimate.Models
         public WarrantyIssue()
         {
             this.WarrantyNotes = new HashSet<WarrantyNote>();
+            this.WarrantyAttachments = new HashSet<WarrantyAttachment>();
         }
     
         public System.Guid warrantyIssueUid { get; set; }
@@ -33,5 +34,6 @@ namespace JCIEstimate.Models
         public virtual WarrantyUnit WarrantyUnit { get; set; }
         public virtual ICollection<WarrantyNote> WarrantyNotes { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual ICollection<WarrantyAttachment> WarrantyAttachments { get; set; }
     }
 }

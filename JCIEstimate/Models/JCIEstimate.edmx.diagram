@@ -88,6 +88,8 @@
         <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_Notecreated" />
+        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyAttachment" Width="1.5" PointX="27.875" PointY="6.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

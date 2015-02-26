@@ -9,12 +9,32 @@ using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
 using JCIExtensions;
+using System.IO;
 
 namespace JCIEstimate.Controllers
 {
     public class WarrantyIssuesController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
+
+
+        // GET: WarrantyIssues/GetWarrantyAttachment/5
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetWarrantyAttachment(Guid warrantyAttachmentUid, string fileType)
+        {
+            var d = from cc in db.WarrantyAttachments
+                    where cc.warrantyAttachmentUid == warrantyAttachmentUid
+                    select cc.document;
+
+            var docName = from cc in db.WarrantyAttachments
+                          where cc.warrantyAttachmentUid == warrantyAttachmentUid
+                          select cc.documentName;
+
+            byte[] byteArray = d.FirstOrDefault();
+            return File(byteArray, "application/octect-stream", docName.FirstOrDefault());
+        }
+
+
 
         // GET: WarrantyIssues
         public async Task<ActionResult> Index(string filterId)
@@ -167,11 +187,11 @@ namespace JCIEstimate.Controllers
                 string subject = "New Warranty Issue Created for " + wi.Location.Project.project1;
                 string emailMessage = "";
 
-                emailMessage += "Creator: " + System.Web.HttpContext.Current.User.Identity.Name + "\n";
-                emailMessage += "Project: " + wi.Location.Project.project1 + " - " + wi.warrantyUnit1 + "\n";
-                emailMessage += "Unit: " + wi.Location.location1 + " - " + wi.warrantyUnit1 + "\n";
-                emailMessage += "Room: " + warrantyIssue.warrantyIssueLocation + "\n";
-                emailMessage += "Issue: " + warrantyIssue.warrantyIssue1 + "\n";
+                emailMessage += "Creator:\t" + System.Web.HttpContext.Current.User.Identity.Name + Environment.NewLine;
+                emailMessage += "Project:\t" + wi.Location.Project.project1 + " - " + wi.warrantyUnit1 + Environment.NewLine;
+                emailMessage += "Unit:\t\t" + wi.Location.location1 + " - " + wi.warrantyUnit1 + Environment.NewLine;
+                emailMessage += "Room:\t\t" + warrantyIssue.warrantyIssueLocation + Environment.NewLine;
+                emailMessage += "Issue:\t\t" + warrantyIssue.warrantyIssue1 + Environment.NewLine;
                 JCIExtensions.MCVExtensions.sendEmailToProjectUsers(db, wi.Location.projectUid, subject, emailMessage, false);
 
                 return RedirectToAction("Index");
@@ -198,7 +218,13 @@ namespace JCIEstimate.Controllers
             IQueryable<WarrantyUnit> warrantyUnits;
             IQueryable<ProjectUser> projectUsers;
             IQueryable<WarrantyNote> warrantyNotes;
+            IQueryable<WarrantyAttachment> warrantyAttachments;
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
+
+            warrantyAttachments = from cc in db.WarrantyAttachments
+                            where cc.warrantyIssueUid == warrantyIssue.warrantyIssueUid
+                            select cc;
 
             warrantyNotes = from cc in db.WarrantyNotes
                             where cc.warrantyIssueUid == warrantyIssue.warrantyIssueUid
@@ -213,7 +239,8 @@ namespace JCIEstimate.Controllers
                            where cn.projectUid == sessionProject                           
                            select cn;
 
-            
+
+            ViewBag.warrantyAttachments = warrantyAttachments.OrderBy(c=>c.warrantyAttachment1).ToList();
             ViewBag.warrantyNotes = warrantyNotes.Include(c => c.AspNetUser).OrderBy(c => c.date).ToList();
             ViewBag.projectUserUid = projectUsers.ToSelectList(d => d.AspNetUser.Email, d => d.projectUserUid.ToString(), warrantyIssue.projectUserUid.ToString());
             ViewBag.warrantyUnitUid = warrantyUnits.ToSelectList(d => d.Location.location1 + " - " + d.warrantyUnit1, d => d.warrantyUnitUid.ToString(), warrantyIssue.warrantyUnitUid.ToString(), false);            
@@ -227,7 +254,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "warrantyUnitUid,warrantyIssueUid,warrantyStatusUid,warrantyIssueLocation,projectUserUid,date,addComment")] WarrantyIssue warrantyIssue, string addComment)
+        public async Task<ActionResult> Edit([Bind(Include = "warrantyUnitUid,warrantyIssueUid,warrantyStatusUid,warrantyIssueLocation,projectUserUid,date,addComment,postedFile")] WarrantyIssue warrantyIssue, string addComment, HttpPostedFileBase postedFile, string warrantyAttachment1)
         {
             if (ModelState.IsValid)
             {
@@ -264,26 +291,59 @@ namespace JCIEstimate.Controllers
                     wn.aspNetUserUidAsCreated = user.First().Id;
                     wn.date = DateTime.Now;
                     wn.warrantyIssueUid = warrantyIssue.warrantyIssueUid;                    
-                    wn.warrantyNote1 = addComment;
-                    if (statusChange)
+                    wn.warrantyNote1 = "";
+                    if (statusChange) //not nullable
                     {
                         var warrantyStatus = db.WarrantyStatus.Find(warrantyIssue.warrantyStatusUid);
-                        wn.warrantyNote1 += "\n\n Status changed to " + warrantyStatus.warrantyStatus;
+                        wn.warrantyNote1 += "Status changed from " + wi.WarrantyStatu.warrantyStatus + " to " + warrantyStatus.warrantyStatus;
+                        wn.warrantyNote1 += Environment.NewLine;
                     }
-                    if (assignmentChange)
+                    if (assignmentChange) // nullable
                     {
                         var projectUser = db.ProjectUsers.Find(warrantyIssue.projectUserUid);
-                        wn.warrantyNote1 += "\n\n Assignment changed from " + ((wi.ProjectUser != null) ? wi.ProjectUser.AspNetUser.UserName : "nothing") + " to " + ((projectUser != null) ? projectUser.AspNetUser.UserName : "nothing");
+                        wn.warrantyNote1 += "Assignment changed from " + ((wi.ProjectUser != null) ? wi.ProjectUser.AspNetUser.UserName : "nothing") + " to " + ((projectUser != null) ? projectUser.AspNetUser.UserName : "nothing");
+                        wn.warrantyNote1 += Environment.NewLine;
                     }
-                    db.WarrantyNotes.Add(wn);
+                    if (!String.IsNullOrEmpty(addComment))
+                    {
+                        wn.warrantyNote1 += addComment;
+                        wn.warrantyNote1 += Environment.NewLine;
+                    }
 
                     string emailMessage = "";
-                    emailMessage += "Modified by: " + System.Web.HttpContext.Current.User.Identity.Name + "\n";
-                    emailMessage += wi.WarrantyUnit.Location.location1 + " - " + wi.WarrantyUnit.warrantyUnit1 + "  has been modified: " + wn.warrantyNote1 + "\n";
-                    
-                    string subject = "Warranty Issue Modified for project " + wn.WarrantyIssue.WarrantyUnit.Location.Project.project1;
+                    string subject = "Warranty Issue Modified for project " + Session["projectName"].ToString();
+                    emailMessage += "Modified by:\t" + System.Web.HttpContext.Current.User.Identity.Name + Environment.NewLine;
+                    emailMessage += "Unit:\t\t" + wi.WarrantyUnit.Location.location1 + " - " + wi.WarrantyUnit.warrantyUnit1 + Environment.NewLine;
+                    emailMessage += wn.warrantyNote1;
+
+                    db.WarrantyNotes.Add(wn);
                     JCIExtensions.MCVExtensions.sendEmailToProjectUsers(db, wi.WarrantyUnit.Location.projectUid, subject, emailMessage, false);
-                }                
+                }
+
+                if (postedFile != null)
+                {
+                    WarrantyAttachment wa = new WarrantyAttachment();                    
+                    int fileSize = postedFile.ContentLength;
+                    var docName = postedFile.FileName;
+                    MemoryStream target = new MemoryStream();
+                    postedFile.InputStream.CopyTo(target);
+                    byte[] data = target.ToArray();
+                    wa.document = data;
+
+                    wa.warrantyAttachmentUid = Guid.NewGuid();
+                    wa.fileType = Path.GetExtension(postedFile.FileName);
+                    wa.warrantyIssueUid = warrantyIssue.warrantyIssueUid;
+                    wa.documentName = docName;
+                    if (!String.IsNullOrEmpty(warrantyAttachment1))
+                    {
+                        wa.warrantyAttachment1 = warrantyAttachment1 + "; created on " + DateTime.Now.ToShortDateString() + "; by " + System.Web.HttpContext.Current.User.Identity.Name;                
+                    }
+                    else
+                    {
+                        wa.warrantyAttachment1 = "attachment created on " + DateTime.Now.ToShortDateString();
+                    }
+                    db.WarrantyAttachments.Add(wa);
+                }
 
                 if (warrantyIssue.projectUserUid.ToString() == "00000000-0000-0000-0000-000000000000")
                 {

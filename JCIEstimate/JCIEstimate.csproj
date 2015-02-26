@@ -387,6 +387,7 @@
     <Content Include="Images\delete_filter-128.png" />
     <Content Include="Images\edit.png" />
     <Content Include="Images\filter.png" />
+    <Content Include="Images\magnet.jpg" />
     <Content Include="Images\View_Details.png" />
     <Content Include="packages.config" />
     <Content Include="Scripts\JCIEstimate.js" />
@@ -829,6 +830,11 @@
     <Content Include="Views\WarrantyNotes\Details.cshtml" />
     <Content Include="Views\WarrantyNotes\Edit.cshtml" />
     <Content Include="Views\WarrantyNotes\Index.cshtml" />
+    <Content Include="Views\WarrantyAttachments\Create.cshtml" />
+    <Content Include="Views\WarrantyAttachments\Delete.cshtml" />
+    <Content Include="Views\WarrantyAttachments\Details.cshtml" />
+    <Content Include="Views\WarrantyAttachments\Edit.cshtml" />
+    <Content Include="Views\WarrantyAttachments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -987,6 +993,7 @@
     <Compile Include="Controllers\ScopeOfWorksController.cs" />
     <Compile Include="Controllers\ToDoStatusController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
+    <Compile Include="Controllers\WarrantyAttachmentsController.cs" />
     <Compile Include="Controllers\WarrantyIssuesController.cs" />
     <Compile Include="Controllers\WarrantyNotesController.cs" />
     <Compile Include="Controllers\WarrantyStatusController.cs" />
@@ -1121,6 +1128,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ToDoStatu.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WarrantyAttachment.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WarrantyFilterModel.cs" />

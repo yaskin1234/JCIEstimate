@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "WarrantyIssues", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -47,13 +47,50 @@
         <div class="form-group">
             @Html.LabelFor(model => model.warrantyIssue1, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div id="warrantyIssue1" style="padding-top:7px;">@Model.warrantyIssue1</div>                                
+                <div id="warrantyIssue1" style="padding-top:7px;">@Html.Raw(Model.warrantyIssue1.Replace(Environment.NewLine, @"<br/>"))</div>                                
                 @Html.ValidationMessageFor(model => model.warrantyIssue1, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2" >Comments</label>
-            <div class="col-md-10">
+            <label id="toggleControlAttachments" class="control-label col-md-2" style="color:blue;" >Show Attachments(@Model.WarrantyAttachments.Count)</label>
+            <div id="attachmentsToToggle" class="col-md-10" style="display:none;">
+                <table border="1" cellpadding="5px">
+                    <tr>
+                        <th style="background-color:#f1f3f4;">Get</th>
+                        <th style=" background-color:#f1f3f4;">
+                            Attachment description
+                        </th>
+                        <th style=" background-color:#f1f3f4;">
+                            Details
+                        </th>
+                        <th style=" background-color:#f1f3f4;">
+                            Filename
+                        </th>
+                    </tr>                    
+                    @foreach (var item in Model.WarrantyAttachments)
+                    {
+                    <tr>
+                        <td style="vertical-align:middle; padding-right:20px;">
+                            <a href="@Url.Action("GetWarrantyAttachment", "WarrantyIssues", new { warrantyAttachmentUid = item.warrantyAttachmentUid })"><img src="@Url.Content("~/Images/magnet.jpg")" height="15" width="15" alt="Click to Download" title="Click to Download" /></a>
+                        </td>
+                        <td style="vertical-align:middle;padding-right:20px;">
+                            <a href="@Url.Action("GetWarrantyAttachment", "WarrantyIssues", new { warrantyAttachmentUid = item.warrantyAttachmentUid })" title="Click to Download">@item.documentName</a>
+                            
+                        </td>
+                        <td style="vertical-align:middle;padding-right:20px;">
+                            @item.warrantyAttachment1
+                        </td>
+                        <td style="vertical-align:middle;padding-right:20px;">
+                            @item.warrantyAttachment1                            
+                        </td>
+                    </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <label id="toggleControlComments" class="control-label col-md-2" style="color:blue;">Show Comments(@Model.WarrantyNotes.Count)</label>
+            <div class="col-md-10" id="commentsToToggle" style="display:none;">
                 <table>
                     @foreach (var item in ViewBag.warrantyNotes)
                     {
@@ -62,15 +99,17 @@
                                 @item.date -- @item.AspNetUser.Email
                             </th>
                         </tr>
-                        <tr>                            
+                        <tr>
                             <td style="padding-right:20px;padding-left:20px; background-color:#f1f3f4;">
-                                @item.warrantyNote1                                
+                                @Html.Raw(item.warrantyNote1.Replace(Environment.NewLine, @"<br/>"))
                             </td>
                         </tr>
                     }
                 </table>
             </div>
         </div>
+        
+        
 
         <div class="form-group">
             @Html.LabelFor(model => model.warrantyStatusUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -87,6 +126,13 @@
                 @Html.ValidationMessageFor(model => model.projectUserUid, "", new { @class = "text-danger" })
             </div>
         </div>     
+
+        <div class="form-group">
+            @Html.Label("Add Attachment",htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("warrantyAttachment1") <input type="file" name="postedFile" id="postedFile" />                
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Add Comment</label>

@@ -65,5 +65,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<WarrantyUnit> WarrantyUnits { get; set; }
         public virtual DbSet<WarrantyNote> WarrantyNotes { get; set; }
         public virtual DbSet<WarrantyIssue> WarrantyIssues { get; set; }
+        public virtual DbSet<WarrantyAttachment> WarrantyAttachments { get; set; }
     }
 }

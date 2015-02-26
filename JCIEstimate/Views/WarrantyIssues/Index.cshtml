@@ -72,7 +72,8 @@
         <td>
             @if (item.WarrantyNotes.Count > 0)
             {
-                @item.WarrantyNotes.OrderBy(c => c.date).Last().warrantyNote1;
+                @Html.Raw(item.WarrantyNotes.OrderBy(c => c.date).Last().warrantyNote1.Replace(Environment.NewLine, @"<br/>"))
+                
             }
         </td>
         <td>

@@ -373,6 +373,17 @@
           <Property Name="toDoStatusDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
+        <EntityType Name="WarrantyAttachment">
+          <Key>
+            <PropertyRef Name="warrantyAttachmentUid" />
+          </Key>
+          <Property Name="warrantyAttachmentUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="warrantyIssueUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="warrantyAttachment" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="document" Type="varbinary(max)" Nullable="false" />
+          <Property Name="fileType" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="documentName" Type="varchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
         <EntityType Name="WarrantyIssue">
           <Key>
             <PropertyRef Name="warrantyIssueUid" />
@@ -871,6 +882,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_WarrantyAttachment_warrantyissue">
+          <End Role="WarrantyIssue" Type="Self.WarrantyIssue" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WarrantyAttachment" Type="Self.WarrantyAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WarrantyIssue">
+              <PropertyRef Name="warrantyIssueUid" />
+            </Principal>
+            <Dependent Role="WarrantyAttachment">
+              <PropertyRef Name="warrantyIssueUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_WarrantyIssue_ProjectUser">
           <End Role="ProjectUser" Type="Self.ProjectUser" Multiplicity="0..1" />
           <End Role="WarrantyIssue" Type="Self.WarrantyIssue" Multiplicity="*" />
@@ -908,7 +933,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_warrantynote_warrantyissue">
-          <End Role="WarrantyIssue" Type="Self.WarrantyIssue" Multiplicity="1" />
+          <End Role="WarrantyIssue" Type="Self.WarrantyIssue" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="WarrantyNote" Type="Self.WarrantyNote" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WarrantyIssue">
@@ -968,6 +995,7 @@
           <EntitySet Name="ScopeOfWork" EntityType="Self.ScopeOfWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestGrid" EntityType="Self.TestGrid" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ToDoStatus" EntityType="Self.ToDoStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WarrantyAttachment" EntityType="Self.WarrantyAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyIssue" EntityType="Self.WarrantyIssue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyNote" EntityType="Self.WarrantyNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyStatus" EntityType="Self.WarrantyStatus" Schema="dbo" store:Type="Tables" />
@@ -1123,6 +1151,10 @@
           <AssociationSet Name="fk_ScopeOfWork_project" Association="Self.fk_ScopeOfWork_project">
             <End Role="Project" EntitySet="Project" />
             <End Role="ScopeOfWork" EntitySet="ScopeOfWork" />
+          </AssociationSet>
+          <AssociationSet Name="fk_WarrantyAttachment_warrantyissue" Association="Self.fk_WarrantyAttachment_warrantyissue">
+            <End Role="WarrantyIssue" EntitySet="WarrantyIssue" />
+            <End Role="WarrantyAttachment" EntitySet="WarrantyAttachment" />
           </AssociationSet>
           <AssociationSet Name="fk_WarrantyIssue_ProjectUser" Association="Self.fk_WarrantyIssue_ProjectUser">
             <End Role="ProjectUser" EntitySet="ProjectUser" />
@@ -1361,6 +1393,11 @@
           <AssociationSet Name="fk_AspNetUser_Notecreated" Association="JCIEstimateModel.fk_AspNetUser_Notecreated">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="WarrantyNote" EntitySet="WarrantyNotes" />
+          </AssociationSet>
+          <EntitySet Name="WarrantyAttachments" EntityType="JCIEstimateModel.WarrantyAttachment" />
+          <AssociationSet Name="fk_WarrantyAttachment_warrantyissue" Association="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue">
+            <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
+            <End Role="WarrantyAttachment" EntitySet="WarrantyAttachments" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
@@ -2302,6 +2339,7 @@
           <NavigationProperty Name="WarrantyNotes" Relationship="JCIEstimateModel.fk_warrantynote_warrantyissue" FromRole="WarrantyIssue" ToRole="WarrantyNote" />
           <Property Name="aspNetUserUidAsCreated" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created" FromRole="WarrantyIssue" ToRole="AspNetUser" />
+          <NavigationProperty Name="WarrantyAttachments" Relationship="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" FromRole="WarrantyIssue" ToRole="WarrantyAttachment" />
         </EntityType>
         <Association Name="fk_WarrantyIssue_ProjectUser">
           <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="0..1" />
@@ -2372,6 +2410,32 @@
             </Principal>
             <Dependent Role="WarrantyNote">
               <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WarrantyAttachment">
+          <Key>
+            <PropertyRef Name="warrantyAttachmentUid" />
+          </Key>
+          <Property Name="warrantyAttachmentUid" Type="Guid" Nullable="false" />
+          <Property Name="warrantyIssueUid" Type="Guid" Nullable="false" />
+          <Property Name="warrantyAttachment1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="document" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="fileType" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="documentName" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="WarrantyIssue" Relationship="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" FromRole="WarrantyAttachment" ToRole="WarrantyIssue" />
+        </EntityType>
+        <Association Name="fk_WarrantyAttachment_warrantyissue">
+          <End Type="JCIEstimateModel.WarrantyIssue" Role="WarrantyIssue" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.WarrantyAttachment" Role="WarrantyAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WarrantyIssue">
+              <PropertyRef Name="warrantyIssueUid" />
+            </Principal>
+            <Dependent Role="WarrantyAttachment">
+              <PropertyRef Name="warrantyIssueUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2828,6 +2892,18 @@
                 <ScalarProperty Name="warrantyStatusUid" ColumnName="warrantyStatusUid" />
                 <ScalarProperty Name="warrantyUnitUid" ColumnName="warrantyUnitUid" />
                 <ScalarProperty Name="warrantyIssueUid" ColumnName="warrantyIssueUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WarrantyAttachments">
+            <EntityTypeMapping TypeName="JCIEstimateModel.WarrantyAttachment">
+              <MappingFragment StoreEntitySet="WarrantyAttachment">
+                <ScalarProperty Name="documentName" ColumnName="documentName" />
+                <ScalarProperty Name="fileType" ColumnName="fileType" />
+                <ScalarProperty Name="document" ColumnName="document" />
+                <ScalarProperty Name="warrantyAttachment1" ColumnName="warrantyAttachment" />
+                <ScalarProperty Name="warrantyIssueUid" ColumnName="warrantyIssueUid" />
+                <ScalarProperty Name="warrantyAttachmentUid" ColumnName="warrantyAttachmentUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
