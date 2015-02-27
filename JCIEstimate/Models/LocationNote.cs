@@ -12,15 +12,15 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class WarrantyNote
+    public partial class LocationNote
     {
-        public System.Guid warrantyNoteUid { get; set; }
-        public System.Guid warrantyIssueUid { get; set; }
-        public string warrantyNote1 { get; set; }
+        public System.Guid locationNoteUid { get; set; }
+        public System.Guid locationIssueUid { get; set; }
+        public string locationNote1 { get; set; }
         public System.DateTime date { get; set; }
         public string aspNetUserUidAsCreated { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
-        public virtual WarrantyIssue WarrantyIssue { get; set; }
+        public virtual LocationIssue LocationIssue { get; set; }
     }
 }

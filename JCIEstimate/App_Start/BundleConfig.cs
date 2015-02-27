@@ -11,7 +11,8 @@ namespace IdentitySample
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JCIEstimate").Include(
-            "~/Scripts/JCIEstimate.js"));
+            "~/Scripts/JCIEstimate.js",
+            "~/Scripts/jquery.labelify.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

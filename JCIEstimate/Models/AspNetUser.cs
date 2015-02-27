@@ -18,8 +18,11 @@ namespace JCIEstimate.Models
         {
             this.ContractorUsers = new HashSet<ContractorUser>();
             this.ProjectUsers = new HashSet<ProjectUser>();
-            this.WarrantyIssues = new HashSet<WarrantyIssue>();
             this.WarrantyNotes = new HashSet<WarrantyNote>();
+            this.WarrantyIssues = new HashSet<WarrantyIssue>();
+            this.LocationIssues = new HashSet<LocationIssue>();
+            this.LocationNotes = new HashSet<LocationNote>();
+            this.LocationIssues1 = new HashSet<LocationIssue>();
         }
     
         public string Id { get; set; }
@@ -38,7 +41,10 @@ namespace JCIEstimate.Models
     
         public virtual ICollection<ContractorUser> ContractorUsers { get; set; }
         public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
-        public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
         public virtual ICollection<WarrantyNote> WarrantyNotes { get; set; }
+        public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
+        public virtual ICollection<LocationIssue> LocationIssues { get; set; }
+        public virtual ICollection<LocationNote> LocationNotes { get; set; }
+        public virtual ICollection<LocationIssue> LocationIssues1 { get; set; }
     }
 }

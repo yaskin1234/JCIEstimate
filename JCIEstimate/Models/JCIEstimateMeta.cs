@@ -860,13 +860,15 @@ namespace JCIEstimate.Models
     {
         [Display(Name = "Warranty Issue")]
         public System.Guid warrantyIssueUid { get; set; }
-        [Display(Name = "Location/Unit")]
+        [Required]
+        [Display(Name = "Location/Unit")]        
         public System.Guid warrantyUnitUid { get; set; }
         [Display(Name = "Issue Status")]
-        public System.Guid warrantyStatusUid { get; set; }
-        [Display(Name = "Room Location")]
-        public string warrantyIssueLocation { get; set; }
-        [Display(Name = "Issue Description")]
+        [Required]
+        public System.Guid warrantyStatusUid { get; set; }        
+        [Display(Name = "Room Location")]        
+        public string warrantyIssueLocation { get; set; }        
+        [Display(Name = "Issue Description")]        
         public string warrantyIssue1 { get; set; }
         [Display(Name = "Assigned To")]
         public string projectUserUid { get; set; }

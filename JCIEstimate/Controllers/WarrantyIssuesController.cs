@@ -180,7 +180,16 @@ namespace JCIEstimate.Controllers
                 warrantyIssue.aspNetUserUidAsCreated = user.First().Id;
                 warrantyIssue.warrantyIssueUid = Guid.NewGuid();
                 db.WarrantyIssues.Add(warrantyIssue);
-                await db.SaveChangesAsync();
+
+                try
+                {                    
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+
+                    Session["error"] = ex.Message;
+                }
 
                 WarrantyUnit wi = new WarrantyUnit();
                 wi = db.WarrantyUnits.Find(warrantyIssue.warrantyUnitUid);
@@ -214,13 +223,21 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-
+                       
+            
             IQueryable<WarrantyUnit> warrantyUnits;
             IQueryable<ProjectUser> projectUsers;
             IQueryable<WarrantyNote> warrantyNotes;
             IQueryable<WarrantyAttachment> warrantyAttachments;
+            IQueryable<LocationIssue> locationIssues;
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
+            WarrantyUnit wu = new WarrantyUnit();
+            wu = db.WarrantyUnits.Find(warrantyIssue.warrantyUnitUid);
+
+            locationIssues = from cc in db.LocationIssues
+                             where cc.locationUid == warrantyIssue.WarrantyUnit.locationUid
+                             select cc;
 
             warrantyAttachments = from cc in db.WarrantyAttachments
                             where cc.warrantyIssueUid == warrantyIssue.warrantyIssueUid
@@ -239,7 +256,7 @@ namespace JCIEstimate.Controllers
                            where cn.projectUid == sessionProject                           
                            select cn;
 
-
+            ViewBag.locationIssues = locationIssues.OrderBy(c => c.locationIssue1).ToList();
             ViewBag.warrantyAttachments = warrantyAttachments.OrderBy(c=>c.warrantyAttachment1).ToList();
             ViewBag.warrantyNotes = warrantyNotes.Include(c => c.AspNetUser).OrderBy(c => c.date).ToList();
             ViewBag.projectUserUid = projectUsers.ToSelectList(d => d.AspNetUser.Email, d => d.projectUserUid.ToString(), warrantyIssue.projectUserUid.ToString());
@@ -256,19 +273,21 @@ namespace JCIEstimate.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "warrantyUnitUid,warrantyIssueUid,warrantyStatusUid,warrantyIssueLocation,projectUserUid,date,addComment,postedFile")] WarrantyIssue warrantyIssue, string addComment, HttpPostedFileBase postedFile, string warrantyAttachment1)
         {
+                        
             if (ModelState.IsValid)
             {
                 WarrantyIssue wi = (WarrantyIssue)Session["original"];
-                bool statusChange = (wi.warrantyStatusUid != warrantyIssue.warrantyStatusUid);
-                bool assignmentChange = false;
-
-                //disabled field needs to be set from "original" object!!
+                //disabled field needs to be set from "original" object!!                
                 warrantyIssue.warrantyIssue1 = wi.warrantyIssue1;
                 warrantyIssue.date = wi.date;
                 warrantyIssue.warrantyIssue1 = wi.warrantyIssue1;
                 warrantyIssue.warrantyIssueLocation = wi.warrantyIssueLocation;
                 warrantyIssue.warrantyUnitUid = wi.warrantyUnitUid;
                 warrantyIssue.aspNetUserUidAsCreated = wi.aspNetUserUidAsCreated;
+
+                bool statusChange = (wi.warrantyStatusUid != warrantyIssue.warrantyStatusUid);
+                bool assignmentChange = false;
+
 
                 if (wi.projectUserUid == null && warrantyIssue.projectUserUid == JCIExtensions.MCVExtensions.pseudoNull)
                 {

@@ -66,6 +66,8 @@
                                 <li>@Html.ActionLink("Misc Expenses For Project", "Index", "ExpenseMiscellaneousProjects")</li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Warranty Units", "Index", "WarrantyUnits")</li>
+                                <li>@Html.ActionLink("Location Issues", "Index", "LocationIssues")</li>
+                                <li>@Html.ActionLink("Location Notes", "Index", "LocationNotes")</li>
                             </ul>
                         </li>
                     }                          
@@ -163,6 +165,7 @@
             </ul>
             
         }
+        <div id="errorDiv" class="input-validation-error">@(Session["error"] != null ? Session["error"].ToString() : "")</div>
         <ul class="nav navbar-nav navbar-right">
             @if (Request.IsAuthenticated && (!(this.Request.Url.AbsolutePath.Equals("/") || this.Request.Url.AbsolutePath.Equals("/Home"))))
             {

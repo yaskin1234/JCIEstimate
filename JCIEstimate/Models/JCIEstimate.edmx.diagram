@@ -81,15 +81,23 @@
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyUnit" Width="1.5" PointX="5.375" PointY="3.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyUnit_location" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyNote" Width="1.5" PointX="10.25" PointY="14.125" />
-        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyIssue" Width="1.5" PointX="25.625" PointY="6.125" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_Notecreated" />
+        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyAttachment" Width="1.5" PointX="27.875" PointY="6.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyIssue" Width="1.5" PointX="25.625" PointY="6.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" />
         <AssociationConnector Association="JCIEstimateModel.fk_warrantyissue_warrantystatus" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
         <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_Notecreated" />
-        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyAttachment" Width="1.5" PointX="27.875" PointY="6.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" />
+        <EntityTypeShape EntityType="JCIEstimateModel.LocationIssue" Width="1.5" PointX="22.5" PointY="0.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.LocationNote" Width="1.5" PointX="24.75" PointY="1.25" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_createdAs" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_LocationNotecreated" />
+        <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_warrantystatus" />
+        <AssociationConnector Association="JCIEstimateModel.fk_LocationNote_locationIssue" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

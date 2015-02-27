@@ -40,3 +40,9 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+.titleTextBox{
+    font-size:small;
+    color:grey;
+    font-style:italic;
+}

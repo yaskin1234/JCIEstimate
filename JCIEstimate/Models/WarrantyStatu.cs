@@ -17,6 +17,7 @@ namespace JCIEstimate.Models
         public WarrantyStatu()
         {
             this.WarrantyIssues = new HashSet<WarrantyIssue>();
+            this.LocationIssues = new HashSet<LocationIssue>();
         }
     
         public System.Guid warrantyStatusUid { get; set; }
@@ -26,5 +27,6 @@ namespace JCIEstimate.Models
         public Nullable<int> listOrder { get; set; }
     
         public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
+        public virtual ICollection<LocationIssue> LocationIssues { get; set; }
     }
 }

@@ -32,7 +32,7 @@
         <div class="form-group">            
             @Html.LabelFor(model => model.warrantyUnitUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div id="unit" style="padding-top:7px;">@Model.WarrantyUnit.Location.location1 - @Model.WarrantyUnit.warrantyUnit1</div>                           
+                <div id="unit" style="padding-top:7px;"> @Model.WarrantyUnit.Location.location1 -- @Model.WarrantyUnit.warrantyUnit1</div>                           
             </div>
         </div>
 
@@ -51,28 +51,54 @@
                 @Html.ValidationMessageFor(model => model.warrantyIssue1, "", new { @class = "text-danger" })
             </div>
         </div>
+        <label id="attachmentCount" hidden="hidden">@Model.WarrantyAttachments.Count</label>
+        <label id="commentCount" hidden="hidden">@Model.WarrantyNotes.Count</label>
+        <label id="locationIssueCount" hidden="hidden">@Model.WarrantyUnit.Location.LocationIssues.Count</label>
+
+
+        <div class="form-group">
+            <label id="toggleControlLocationIssues" class="control-label col-md-2" style="color:blue;">Show Location Issues(@Model.WarrantyUnit.Location.LocationIssues.Count)</label>
+            <div id="locationIssuesToToggle" class="col-md-10" style="display:none;">
+                <table border="1" cellpadding="5px">
+                    <tr>
+                        <th style=" background-color:#f1f3f4;">
+                            Location Issue
+                        </th>
+                    </tr>
+                    @foreach (var item in ViewBag.locationIssues)
+                    {
+                        <tr>                            
+                            <td style="vertical-align:middle;padding-right:20px;">
+                                @item.locationIssue1
+                            </td>                            
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+
+
+
+
         <div class="form-group">
             <label id="toggleControlAttachments" class="control-label col-md-2" style="color:blue;" >Show Attachments(@Model.WarrantyAttachments.Count)</label>
             <div id="attachmentsToToggle" class="col-md-10" style="display:none;">
                 <table border="1" cellpadding="5px">
                     <tr>
-                        <th style="background-color:#f1f3f4;">Get</th>
+                        <th style=" background-color:#f1f3f4;">
+                            Filename
+                        </th>                        
                         <th style=" background-color:#f1f3f4;">
                             Attachment description
                         </th>
                         <th style=" background-color:#f1f3f4;">
-                            Details
-                        </th>
-                        <th style=" background-color:#f1f3f4;">
-                            Filename
-                        </th>
+                            Size
+                        </th>                        
                     </tr>                    
                     @foreach (var item in Model.WarrantyAttachments)
                     {
                     <tr>
-                        <td style="vertical-align:middle; padding-right:20px;">
-                            <a href="@Url.Action("GetWarrantyAttachment", "WarrantyIssues", new { warrantyAttachmentUid = item.warrantyAttachmentUid })"><img src="@Url.Content("~/Images/magnet.jpg")" height="15" width="15" alt="Click to Download" title="Click to Download" /></a>
-                        </td>
                         <td style="vertical-align:middle;padding-right:20px;">
                             <a href="@Url.Action("GetWarrantyAttachment", "WarrantyIssues", new { warrantyAttachmentUid = item.warrantyAttachmentUid })" title="Click to Download">@item.documentName</a>
                             
@@ -81,7 +107,7 @@
                             @item.warrantyAttachment1
                         </td>
                         <td style="vertical-align:middle;padding-right:20px;">
-                            @item.warrantyAttachment1                            
+                            @(item.document.Length / 1024)KB
                         </td>
                     </tr>
                     }
@@ -92,7 +118,7 @@
             <label id="toggleControlComments" class="control-label col-md-2" style="color:blue;">Show Comments(@Model.WarrantyNotes.Count)</label>
             <div class="col-md-10" id="commentsToToggle" style="display:none;">
                 <table>
-                    @foreach (var item in ViewBag.warrantyNotes)
+                    @foreach (var item in Model.WarrantyNotes)
                     {
                         <tr>
                             <th>
@@ -130,7 +156,8 @@
         <div class="form-group">
             @Html.Label("Add Attachment",htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.Editor("warrantyAttachment1") <input type="file" name="postedFile" id="postedFile" />                
+                <input class="form-control text-box single-line" id="warrantyAttachment1" name="warrantyAttachment1" type="text" title="File Description" />
+                <input type="file" name="postedFile" id="postedFile"  />                
             </div>
         </div>
 

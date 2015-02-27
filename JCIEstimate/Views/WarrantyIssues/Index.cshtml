@@ -22,6 +22,7 @@
     </tr>
 </table>
 
+@{var maxCharLength = 100;}
 
 <table class="table">
     <tr>
@@ -61,7 +62,15 @@
             @Html.DisplayFor(modelItem => item.WarrantyStatu.warrantyStatus)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.warrantyIssue1)
+            @if (item.warrantyIssue1.Length > maxCharLength)
+            {
+                @Html.DisplayFor(modelItem => item.warrantyIssue1).ToString().Substring(0, maxCharLength)
+                @Html.Raw("...")
+            }
+            else{
+                @Html.DisplayFor(modelItem => item.warrantyIssue1)
+            }
+
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.date)
@@ -71,9 +80,16 @@
         </td>
         <td>
             @if (item.WarrantyNotes.Count > 0)
-            {
-                @Html.Raw(item.WarrantyNotes.OrderBy(c => c.date).Last().warrantyNote1.Replace(Environment.NewLine, @"<br/>"))
-                
+            {                
+                if (item.WarrantyNotes.OrderBy(c => c.date).Last().warrantyNote1.Replace(Environment.NewLine, @"<br/>").Length > maxCharLength)
+                {
+                    @Html.Raw(item.WarrantyNotes.OrderBy(c => c.date).Last().warrantyNote1.Replace(Environment.NewLine, @"<br/>").ToString().Substring(0, maxCharLength))
+                    @Html.Raw("...")
+                }
+                else
+                {
+                    @Html.Raw(item.WarrantyNotes.OrderBy(c => c.date).Last().warrantyNote1.Replace(Environment.NewLine, @"<br/>"))
+                }
             }
         </td>
         <td>

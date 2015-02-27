@@ -4,9 +4,7 @@
         var url = "/WarrantyIssues/Index";
         document.location = url + "?filterId=" + selectedValue;
     })
-});
 
-$(function () {
     $("#locationUid").change(function () {
         var unitDropDown = $("#warrantyUnitUid");
         var selectedValue = $("#locationUid").val();
@@ -21,9 +19,12 @@ $(function () {
         //});
     })
 
-    $("#toggleControlAttachments").click(function () {
+    $(":text").labelify({ labelledClass: "titleTextBox" });
+
+    $("#toggleControlLocationIssues").click(function () {
 
         $header = $(this);
+        $count = document.getElementById("locationIssueCount");
         //getting the next element
         $content = $header.next();
         //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
@@ -32,7 +33,25 @@ $(function () {
             //change text of header based on visibility of content div
             $header.text(function () {
                 //change text based on condition
-                return $content.is(":visible") ? "Hide attachments" : "Show attachments";
+                return $content.is(":visible") ? "Hide Location Issues(" + $count.innerHTML + ")" : "Show Location Issues(" + $count.innerHTML + ")";
+            });
+        });
+
+    });
+
+    $("#toggleControlAttachments").click(function () {
+
+        $header = $(this);
+        $count = document.getElementById("attachmentCount");
+        //getting the next element
+        $content = $header.next();
+        //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+        $content.slideToggle(500, function () {
+            //execute this after slideToggle is done
+            //change text of header based on visibility of content div
+            $header.text(function () {
+                //change text based on condition
+                return $content.is(":visible") ? "Hide Attachments(" + $count.innerHTML + ")" : "Show Attachments(" + $count.innerHTML + ")";
             });
         });
 
@@ -41,6 +60,7 @@ $(function () {
     $("#toggleControlComments").click(function () {
 
         $header = $(this);
+        $count = document.getElementById("commentCount");
         //getting the next element
         $content = $header.next();
         //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
@@ -49,7 +69,7 @@ $(function () {
             //change text of header based on visibility of content div
             $header.text(function () {
                 //change text based on condition
-                return $content.is(":visible") ? "Hide comments" : "Show comments";
+                return $content.is(":visible") ? "Hide Comments(" + $count.innerHTML + ")" : "Show Comments(" + $count.innerHTML + ")";
             });
         });
 
