@@ -269,28 +269,6 @@
           <Property Name="locationDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <EntityType Name="LocationIssue">
-          <Key>
-            <PropertyRef Name="locationIssueUid" />
-          </Key>
-          <Property Name="locationIssueUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="aspNetUserUidAsCreated" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="locationUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="warrantyStatusUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" />
-          <Property Name="date" Type="datetime" Nullable="false" />
-          <Property Name="locationIssue" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="LocationNote">
-          <Key>
-            <PropertyRef Name="locationNoteUid" />
-          </Key>
-          <Property Name="locationNoteUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="locationIssueUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="locationNote" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="date" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="aspNetUserUidAsCreated" Type="nvarchar" MaxLength="128" Nullable="false" />
-        </EntityType>
         <EntityType Name="Milestone">
           <Key>
             <PropertyRef Name="milestoneUid" />
@@ -411,13 +389,14 @@
             <PropertyRef Name="warrantyIssueUid" />
           </Key>
           <Property Name="warrantyIssueUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="warrantyUnitUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="warrantyUnitUid" Type="uniqueidentifier" />
           <Property Name="warrantyStatusUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="warrantyIssueLocation" Type="nvarchar" MaxLength="2000" Nullable="false" />
           <Property Name="warrantyIssue" Type="nvarchar(max)" Nullable="false" />
           <Property Name="date" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="projectUserUid" Type="uniqueidentifier" />
           <Property Name="aspNetUserUidAsCreated" Type="nvarchar" MaxLength="128" />
+          <Property Name="locationUid" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="WarrantyNote">
           <Key>
@@ -468,30 +447,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="WarrantyIssue">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_createdAs">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="LocationIssue" Type="Self.LocationIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LocationIssue">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_LocationNotecreated">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="LocationNote" Type="Self.LocationNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LocationNote">
               <PropertyRef Name="aspNetUserUidAsCreated" />
             </Dependent>
           </ReferentialConstraint>
@@ -832,58 +787,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_LocationIssue_AspNetUser">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="LocationIssue" Type="Self.LocationIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LocationIssue">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LocationIssue_location">
-          <End Role="Location" Type="Self.Location" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="LocationIssue" Type="Self.LocationIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="locationUid" />
-            </Principal>
-            <Dependent Role="LocationIssue">
-              <PropertyRef Name="locationUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LocationIssue_warrantystatus">
-          <End Role="WarrantyStatus" Type="Self.WarrantyStatus" Multiplicity="1" />
-          <End Role="LocationIssue" Type="Self.LocationIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WarrantyStatus">
-              <PropertyRef Name="warrantyStatusUid" />
-            </Principal>
-            <Dependent Role="LocationIssue">
-              <PropertyRef Name="warrantyStatusUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LocationNote_locationIssue">
-          <End Role="LocationIssue" Type="Self.LocationIssue" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="LocationNote" Type="Self.LocationNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LocationIssue">
-              <PropertyRef Name="locationIssueUid" />
-            </Principal>
-            <Dependent Role="LocationNote">
-              <PropertyRef Name="locationIssueUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_milestoneAction_milestone">
           <End Role="Milestone" Type="Self.Milestone" Multiplicity="1" />
           <End Role="MilestoneAction" Type="Self.MilestoneAction" Multiplicity="*" />
@@ -994,6 +897,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_WarrantyIssue_location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="WarrantyIssue" Type="Self.WarrantyIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="WarrantyIssue">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_WarrantyIssue_ProjectUser">
           <End Role="ProjectUser" Type="Self.ProjectUser" Multiplicity="0..1" />
           <End Role="WarrantyIssue" Type="Self.WarrantyIssue" Multiplicity="*" />
@@ -1019,7 +934,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_WarrantyIssue_warrantyunit">
-          <End Role="WarrantyUnit" Type="Self.WarrantyUnit" Multiplicity="1" />
+          <End Role="WarrantyUnit" Type="Self.WarrantyUnit" Multiplicity="0..1" />
           <End Role="WarrantyIssue" Type="Self.WarrantyIssue" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WarrantyUnit">
@@ -1083,8 +998,6 @@
           <EntitySet Name="ExpensePercentage" EntityType="Self.ExpensePercentage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Interval" EntityType="Self.Interval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LocationIssue" EntityType="Self.LocationIssue" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LocationNote" EntityType="Self.LocationNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Milestone" EntityType="Self.Milestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MilestoneAction" EntityType="Self.MilestoneAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
@@ -1107,14 +1020,6 @@
           <AssociationSet Name="fk_AspNetUser_created" Association="Self.fk_AspNetUser_created">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="WarrantyIssue" EntitySet="WarrantyIssue" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_createdAs" Association="Self.fk_AspNetUser_createdAs">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="LocationIssue" EntitySet="LocationIssue" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_LocationNotecreated" Association="Self.fk_AspNetUser_LocationNotecreated">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="LocationNote" EntitySet="LocationNote" />
           </AssociationSet>
           <AssociationSet Name="fk_AspNetUser_Notecreated" Association="Self.fk_AspNetUser_Notecreated">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1228,22 +1133,6 @@
             <End Role="Project" EntitySet="Project" />
             <End Role="Location" EntitySet="Location" />
           </AssociationSet>
-          <AssociationSet Name="fk_LocationIssue_AspNetUser" Association="Self.fk_LocationIssue_AspNetUser">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="LocationIssue" EntitySet="LocationIssue" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LocationIssue_location" Association="Self.fk_LocationIssue_location">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="LocationIssue" EntitySet="LocationIssue" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LocationIssue_warrantystatus" Association="Self.fk_LocationIssue_warrantystatus">
-            <End Role="WarrantyStatus" EntitySet="WarrantyStatus" />
-            <End Role="LocationIssue" EntitySet="LocationIssue" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LocationNote_locationIssue" Association="Self.fk_LocationNote_locationIssue">
-            <End Role="LocationIssue" EntitySet="LocationIssue" />
-            <End Role="LocationNote" EntitySet="LocationNote" />
-          </AssociationSet>
           <AssociationSet Name="fk_milestoneAction_milestone" Association="Self.fk_milestoneAction_milestone">
             <End Role="Milestone" EntitySet="Milestone" />
             <End Role="MilestoneAction" EntitySet="MilestoneAction" />
@@ -1279,6 +1168,10 @@
           <AssociationSet Name="fk_WarrantyAttachment_warrantyissue" Association="Self.fk_WarrantyAttachment_warrantyissue">
             <End Role="WarrantyIssue" EntitySet="WarrantyIssue" />
             <End Role="WarrantyAttachment" EntitySet="WarrantyAttachment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_WarrantyIssue_location" Association="Self.fk_WarrantyIssue_location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="WarrantyIssue" EntitySet="WarrantyIssue" />
           </AssociationSet>
           <AssociationSet Name="fk_WarrantyIssue_ProjectUser" Association="Self.fk_WarrantyIssue_ProjectUser">
             <End Role="ProjectUser" EntitySet="ProjectUser" />
@@ -1487,20 +1380,24 @@
             <End Role="ProjectUser" EntitySet="ProjectUsers" />
           </AssociationSet>
           <EntitySet Name="WarrantyStatus" EntityType="JCIEstimateModel.WarrantyStatu" />
-          <EntitySet Name="WarrantyUnits" EntityType="JCIEstimateModel.WarrantyUnit" />
-          <AssociationSet Name="fk_WarrantyUnit_location" Association="JCIEstimateModel.fk_WarrantyUnit_location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="WarrantyUnit" EntitySet="WarrantyUnits" />
-          </AssociationSet>
           <EntitySet Name="WarrantyNotes" EntityType="JCIEstimateModel.WarrantyNote" />
           <AssociationSet Name="fk_AspNetUser_Notecreated" Association="JCIEstimateModel.fk_AspNetUser_Notecreated">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="WarrantyNote" EntitySet="WarrantyNotes" />
           </AssociationSet>
           <EntitySet Name="WarrantyAttachments" EntityType="JCIEstimateModel.WarrantyAttachment" />
+          <EntitySet Name="WarrantyUnits" EntityType="JCIEstimateModel.WarrantyUnit" />
+          <AssociationSet Name="fk_WarrantyUnit_location" Association="JCIEstimateModel.fk_WarrantyUnit_location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="WarrantyUnit" EntitySet="WarrantyUnits" />
+          </AssociationSet>
           <EntitySet Name="WarrantyIssues" EntityType="JCIEstimateModel.WarrantyIssue" />
           <AssociationSet Name="fk_AspNetUser_created" Association="JCIEstimateModel.fk_AspNetUser_created">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_WarrantyIssue_location" Association="JCIEstimateModel.fk_WarrantyIssue_location">
+            <End Role="Location" EntitySet="Locations" />
             <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
           </AssociationSet>
           <AssociationSet Name="fk_WarrantyIssue_ProjectUser" Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser">
@@ -1522,32 +1419,6 @@
           <AssociationSet Name="fk_warrantynote_warrantyissue" Association="JCIEstimateModel.fk_warrantynote_warrantyissue">
             <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
             <End Role="WarrantyNote" EntitySet="WarrantyNotes" />
-          </AssociationSet>
-          <EntitySet Name="LocationIssues" EntityType="JCIEstimateModel.LocationIssue" />
-          <EntitySet Name="LocationNotes" EntityType="JCIEstimateModel.LocationNote" />
-          <AssociationSet Name="fk_AspNetUser_createdAs" Association="JCIEstimateModel.fk_AspNetUser_createdAs">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="LocationIssue" EntitySet="LocationIssues" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_LocationNotecreated" Association="JCIEstimateModel.fk_AspNetUser_LocationNotecreated">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="LocationNote" EntitySet="LocationNotes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LocationIssue_AspNetUser" Association="JCIEstimateModel.fk_LocationIssue_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="LocationIssue" EntitySet="LocationIssues" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LocationIssue_location" Association="JCIEstimateModel.fk_LocationIssue_location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="LocationIssue" EntitySet="LocationIssues" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LocationIssue_warrantystatus" Association="JCIEstimateModel.fk_LocationIssue_warrantystatus">
-            <End Role="WarrantyStatu" EntitySet="WarrantyStatus" />
-            <End Role="LocationIssue" EntitySet="LocationIssues" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LocationNote_locationIssue" Association="JCIEstimateModel.fk_LocationNote_locationIssue">
-            <End Role="LocationIssue" EntitySet="LocationIssues" />
-            <End Role="LocationNote" EntitySet="LocationNotes" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
@@ -1627,7 +1498,7 @@
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Location" ToRole="Equipment" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Location" ToRole="Estimate" />
           <NavigationProperty Name="WarrantyUnits" Relationship="JCIEstimateModel.fk_WarrantyUnit_location" FromRole="Location" ToRole="WarrantyUnit" />
-          <NavigationProperty Name="LocationIssues" Relationship="JCIEstimateModel.fk_LocationIssue_location" FromRole="Location" ToRole="LocationIssue" />
+          <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_location" FromRole="Location" ToRole="WarrantyIssue" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -1703,9 +1574,6 @@
           <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="AspNetUser" ToRole="ProjectUser" />
           <NavigationProperty Name="WarrantyNotes" Relationship="JCIEstimateModel.fk_AspNetUser_Notecreated" FromRole="AspNetUser" ToRole="WarrantyNote" />
           <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_AspNetUser_created" FromRole="AspNetUser" ToRole="WarrantyIssue" />
-          <NavigationProperty Name="LocationIssues" Relationship="JCIEstimateModel.fk_AspNetUser_createdAs" FromRole="AspNetUser" ToRole="LocationIssue" />
-          <NavigationProperty Name="LocationNotes" Relationship="JCIEstimateModel.fk_AspNetUser_LocationNotecreated" FromRole="AspNetUser" ToRole="LocationNote" />
-          <NavigationProperty Name="LocationIssues1" Relationship="JCIEstimateModel.fk_LocationIssue_AspNetUser" FromRole="AspNetUser" ToRole="LocationIssue" />
           </EntityType>
         <Association Name="fk_AspNetUser">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -2440,31 +2308,7 @@
           <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="listOrder" Type="Int32" />
           <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_warrantyissue_warrantystatus" FromRole="WarrantyStatu" ToRole="WarrantyIssue" />
-          <NavigationProperty Name="LocationIssues" Relationship="JCIEstimateModel.fk_LocationIssue_warrantystatus" FromRole="WarrantyStatu" ToRole="LocationIssue" />
         </EntityType>
-        <EntityType Name="WarrantyUnit">
-          <Key>
-            <PropertyRef Name="warrantyUnitUid" />
-          </Key>
-          <Property Name="warrantyUnitUid" Type="Guid" Nullable="false" />
-          <Property Name="locationUid" Type="Guid" Nullable="false" />
-          <Property Name="warrantyUnit1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="warrantyUnitDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_WarrantyUnit_location" FromRole="WarrantyUnit" ToRole="Location" />
-          <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" FromRole="WarrantyUnit" ToRole="WarrantyIssue" />
-        </EntityType>
-        <Association Name="fk_WarrantyUnit_location">
-          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="JCIEstimateModel.WarrantyUnit" Role="WarrantyUnit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="locationUid" />
-            </Principal>
-            <Dependent Role="WarrantyUnit">
-              <PropertyRef Name="locationUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="WarrantyNote">
           <Key>
             <PropertyRef Name="warrantyNoteUid" />
@@ -2501,19 +2345,44 @@
           <Property Name="documentName" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="WarrantyIssue" Relationship="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" FromRole="WarrantyAttachment" ToRole="WarrantyIssue" />
         </EntityType>
+        <EntityType Name="WarrantyUnit">
+          <Key>
+            <PropertyRef Name="warrantyUnitUid" />
+          </Key>
+          <Property Name="warrantyUnitUid" Type="Guid" Nullable="false" />
+          <Property Name="locationUid" Type="Guid" Nullable="false" />
+          <Property Name="warrantyUnit1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="warrantyUnitDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_WarrantyUnit_location" FromRole="WarrantyUnit" ToRole="Location" />
+          <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" FromRole="WarrantyUnit" ToRole="WarrantyIssue" />
+        </EntityType>
+        <Association Name="fk_WarrantyUnit_location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="JCIEstimateModel.WarrantyUnit" Role="WarrantyUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="WarrantyUnit">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="WarrantyIssue">
           <Key>
             <PropertyRef Name="warrantyIssueUid" />
           </Key>
           <Property Name="warrantyIssueUid" Type="Guid" Nullable="false" />
-          <Property Name="warrantyUnitUid" Type="Guid" Nullable="false" />
+          <Property Name="warrantyUnitUid" Type="Guid" />
           <Property Name="warrantyStatusUid" Type="Guid" Nullable="false" />
           <Property Name="warrantyIssueLocation" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="warrantyIssue1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="projectUserUid" Type="Guid" />
           <Property Name="aspNetUserUidAsCreated" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="locationUid" Type="Guid" />
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created" FromRole="WarrantyIssue" ToRole="AspNetUser" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_WarrantyIssue_location" FromRole="WarrantyIssue" ToRole="Location" />
           <NavigationProperty Name="ProjectUser" Relationship="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" FromRole="WarrantyIssue" ToRole="ProjectUser" />
           <NavigationProperty Name="WarrantyAttachments" Relationship="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" FromRole="WarrantyIssue" ToRole="WarrantyAttachment" />
           <NavigationProperty Name="WarrantyStatu" Relationship="JCIEstimateModel.fk_warrantyissue_warrantystatus" FromRole="WarrantyIssue" ToRole="WarrantyStatu" />
@@ -2529,6 +2398,18 @@
             </Principal>
             <Dependent Role="WarrantyIssue">
               <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_WarrantyIssue_location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.WarrantyIssue" Role="WarrantyIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="WarrantyIssue">
+              <PropertyRef Name="locationUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2571,7 +2452,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_WarrantyIssue_warrantyunit">
-          <End Type="JCIEstimateModel.WarrantyUnit" Role="WarrantyUnit" Multiplicity="1" />
+          <End Type="JCIEstimateModel.WarrantyUnit" Role="WarrantyUnit" Multiplicity="0..1" />
           <End Type="JCIEstimateModel.WarrantyIssue" Role="WarrantyIssue" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WarrantyUnit">
@@ -2593,111 +2474,6 @@
             </Principal>
             <Dependent Role="WarrantyNote">
               <PropertyRef Name="warrantyIssueUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="LocationIssue">
-          <Key>
-            <PropertyRef Name="locationIssueUid" />
-          </Key>
-          <Property Name="locationIssueUid" Type="Guid" Nullable="false" />
-          <Property Name="aspNetUserUidAsCreated" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="locationUid" Type="Guid" Nullable="false" />
-          <Property Name="warrantyStatusUid" Type="Guid" Nullable="false" />
-          <Property Name="aspNetUserUid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="locationIssue1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_createdAs" FromRole="LocationIssue" ToRole="AspNetUser" />
-          <NavigationProperty Name="AspNetUser1" Relationship="JCIEstimateModel.fk_LocationIssue_AspNetUser" FromRole="LocationIssue" ToRole="AspNetUser" />
-          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_LocationIssue_location" FromRole="LocationIssue" ToRole="Location" />
-          <NavigationProperty Name="WarrantyStatu" Relationship="JCIEstimateModel.fk_LocationIssue_warrantystatus" FromRole="LocationIssue" ToRole="WarrantyStatu" />
-          <NavigationProperty Name="LocationNotes" Relationship="JCIEstimateModel.fk_LocationNote_locationIssue" FromRole="LocationIssue" ToRole="LocationNote" />
-        </EntityType>
-        <EntityType Name="LocationNote">
-          <Key>
-            <PropertyRef Name="locationNoteUid" />
-          </Key>
-          <Property Name="locationNoteUid" Type="Guid" Nullable="false" />
-          <Property Name="locationIssueUid" Type="Guid" Nullable="false" />
-          <Property Name="locationNote1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="date" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="aspNetUserUidAsCreated" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_LocationNotecreated" FromRole="LocationNote" ToRole="AspNetUser" />
-          <NavigationProperty Name="LocationIssue" Relationship="JCIEstimateModel.fk_LocationNote_locationIssue" FromRole="LocationNote" ToRole="LocationIssue" />
-        </EntityType>
-        <Association Name="fk_AspNetUser_createdAs">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.LocationIssue" Role="LocationIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LocationIssue">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_LocationNotecreated">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.LocationNote" Role="LocationNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LocationNote">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LocationIssue_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.LocationIssue" Role="LocationIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LocationIssue">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LocationIssue_location">
-          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="JCIEstimateModel.LocationIssue" Role="LocationIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="locationUid" />
-            </Principal>
-            <Dependent Role="LocationIssue">
-              <PropertyRef Name="locationUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LocationIssue_warrantystatus">
-          <End Type="JCIEstimateModel.WarrantyStatu" Role="WarrantyStatu" Multiplicity="1" />
-          <End Type="JCIEstimateModel.LocationIssue" Role="LocationIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WarrantyStatu">
-              <PropertyRef Name="warrantyStatusUid" />
-            </Principal>
-            <Dependent Role="LocationIssue">
-              <PropertyRef Name="warrantyStatusUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LocationNote_locationIssue">
-          <End Type="JCIEstimateModel.LocationIssue" Role="LocationIssue" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="JCIEstimateModel.LocationNote" Role="LocationNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LocationIssue">
-              <PropertyRef Name="locationIssueUid" />
-            </Principal>
-            <Dependent Role="LocationNote">
-              <PropertyRef Name="locationIssueUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3122,16 +2898,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WarrantyUnits">
-            <EntityTypeMapping TypeName="JCIEstimateModel.WarrantyUnit">
-              <MappingFragment StoreEntitySet="WarrantyUnit">
-                <ScalarProperty Name="warrantyUnitDescription" ColumnName="warrantyUnitDescription" />
-                <ScalarProperty Name="warrantyUnit1" ColumnName="warrantyUnit" />
-                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
-                <ScalarProperty Name="warrantyUnitUid" ColumnName="warrantyUnitUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="WarrantyNotes">
             <EntityTypeMapping TypeName="JCIEstimateModel.WarrantyNote">
               <MappingFragment StoreEntitySet="WarrantyNote">
@@ -3155,9 +2921,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="WarrantyUnits">
+            <EntityTypeMapping TypeName="JCIEstimateModel.WarrantyUnit">
+              <MappingFragment StoreEntitySet="WarrantyUnit">
+                <ScalarProperty Name="warrantyUnitDescription" ColumnName="warrantyUnitDescription" />
+                <ScalarProperty Name="warrantyUnit1" ColumnName="warrantyUnit" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="warrantyUnitUid" ColumnName="warrantyUnitUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="WarrantyIssues">
             <EntityTypeMapping TypeName="JCIEstimateModel.WarrantyIssue">
               <MappingFragment StoreEntitySet="WarrantyIssue">
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
                 <ScalarProperty Name="aspNetUserUidAsCreated" ColumnName="aspNetUserUidAsCreated" />
                 <ScalarProperty Name="projectUserUid" ColumnName="projectUserUid" />
                 <ScalarProperty Name="date" ColumnName="date" />
@@ -3166,30 +2943,6 @@
                 <ScalarProperty Name="warrantyStatusUid" ColumnName="warrantyStatusUid" />
                 <ScalarProperty Name="warrantyUnitUid" ColumnName="warrantyUnitUid" />
                 <ScalarProperty Name="warrantyIssueUid" ColumnName="warrantyIssueUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LocationIssues">
-            <EntityTypeMapping TypeName="JCIEstimateModel.LocationIssue">
-              <MappingFragment StoreEntitySet="LocationIssue">
-                <ScalarProperty Name="locationIssue1" ColumnName="locationIssue" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
-                <ScalarProperty Name="warrantyStatusUid" ColumnName="warrantyStatusUid" />
-                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
-                <ScalarProperty Name="aspNetUserUidAsCreated" ColumnName="aspNetUserUidAsCreated" />
-                <ScalarProperty Name="locationIssueUid" ColumnName="locationIssueUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LocationNotes">
-            <EntityTypeMapping TypeName="JCIEstimateModel.LocationNote">
-              <MappingFragment StoreEntitySet="LocationNote">
-                <ScalarProperty Name="aspNetUserUidAsCreated" ColumnName="aspNetUserUidAsCreated" />
-                <ScalarProperty Name="date" ColumnName="date" />
-                <ScalarProperty Name="locationNote1" ColumnName="locationNote" />
-                <ScalarProperty Name="locationIssueUid" ColumnName="locationIssueUid" />
-                <ScalarProperty Name="locationNoteUid" ColumnName="locationNoteUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

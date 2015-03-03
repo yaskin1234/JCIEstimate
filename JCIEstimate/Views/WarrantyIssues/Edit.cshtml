@@ -24,15 +24,20 @@
         <div class="form-group">
             @Html.LabelFor(model => model.date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div id="date" style="padding-top:7px;">@Model.date.ToShortDateString()</div>
+                <div id="date" style="padding-top:7px;">@Model.date.ToString("yyyy-MM-dd HH:mm:ss")</div>
                 @Html.ValidationMessageFor(model => model.date, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">            
-            @Html.LabelFor(model => model.warrantyUnitUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.locationUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div id="unit" style="padding-top:7px;"> @Model.WarrantyUnit.Location.location1 -- @Model.WarrantyUnit.warrantyUnit1</div>                           
+                <div id="unit" style="padding-top:7px;"> @ViewBag.location 
+                @if(ViewBag.warrantyUnit != "")
+                {                   
+                   @ViewBag.warrantyUnit
+                }
+                </div>
             </div>
         </div>
 
@@ -53,33 +58,6 @@
         </div>
         <label id="attachmentCount" hidden="hidden">@Model.WarrantyAttachments.Count</label>
         <label id="commentCount" hidden="hidden">@Model.WarrantyNotes.Count</label>
-        <label id="locationIssueCount" hidden="hidden">@Model.WarrantyUnit.Location.LocationIssues.Count</label>
-
-
-        <div class="form-group">
-            <label id="toggleControlLocationIssues" class="control-label col-md-2" style="color:blue;">Show Location Issues(@Model.WarrantyUnit.Location.LocationIssues.Count)</label>
-            <div id="locationIssuesToToggle" class="col-md-10" style="display:none;">
-                <table border="1" cellpadding="5px">
-                    <tr>
-                        <th style=" background-color:#f1f3f4;">
-                            Location Issue
-                        </th>
-                    </tr>
-                    @foreach (var item in ViewBag.locationIssues)
-                    {
-                        <tr>                            
-                            <td style="vertical-align:middle;padding-right:20px;">
-                                @item.locationIssue1
-                            </td>                            
-                        </tr>
-                    }
-                </table>
-            </div>
-        </div>
-
-
-
-
 
         <div class="form-group">
             <label id="toggleControlAttachments" class="control-label col-md-2" style="color:blue;" >Show Attachments(@Model.WarrantyAttachments.Count)</label>

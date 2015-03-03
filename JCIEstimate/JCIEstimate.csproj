@@ -836,11 +836,6 @@
     <Content Include="Views\WarrantyAttachments\Details.cshtml" />
     <Content Include="Views\WarrantyAttachments\Edit.cshtml" />
     <Content Include="Views\WarrantyAttachments\Index.cshtml" />
-    <Content Include="Views\LocationIssues\Create.cshtml" />
-    <Content Include="Views\LocationIssues\Delete.cshtml" />
-    <Content Include="Views\LocationIssues\Details.cshtml" />
-    <Content Include="Views\LocationIssues\Edit.cshtml" />
-    <Content Include="Views\LocationIssues\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -985,7 +980,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HtmlExtensions.cs" />
     <Compile Include="Controllers\IntervalsController.cs" />
-    <Compile Include="Controllers\LocationIssuesController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MilestoneActionsController.cs" />
@@ -1104,12 +1098,6 @@
     </Compile>
     <Compile Include="Models\JCIEstimateMeta.cs" />
     <Compile Include="Models\Location.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\LocationIssue.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\LocationNote.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />

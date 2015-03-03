@@ -12,19 +12,19 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class WarrantyStatu
+    public partial class EstimateException
     {
-        public WarrantyStatu()
+        public EstimateException()
         {
-            this.WarrantyIssues = new HashSet<WarrantyIssue>();
+            this.EstimateExceptionResponses = new HashSet<EstimateExceptionResponse>();
         }
     
-        public System.Guid warrantyStatusUid { get; set; }
-        public string warrantyStatus { get; set; }
-        public string warrantyStatusDescription { get; set; }
-        public string behaviorIndicator { get; set; }
-        public Nullable<int> listOrder { get; set; }
+        public System.Guid estimateExceptionUid { get; set; }
+        public int estimateExceptionID { get; set; }
+        public System.Guid estimateUid { get; set; }
+        public string estimateException1 { get; set; }
     
-        public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
+        public virtual Estimate Estimate { get; set; }
+        public virtual ICollection<EstimateExceptionResponse> EstimateExceptionResponses { get; set; }
     }
 }

@@ -18,7 +18,13 @@
                 <option value="@item.value" @((item.selected) ? "selected" : "" ) >@item.text</option>                    
                 }
             </select>
-        </td>
+        </td>        
+        @*<td>
+            <span>Search Location</span><input type="text" id="txtSearchLocation" name="txtSearchLocation" value="@ViewBag.location" />
+        </td>*@
+        @*<td>
+            <div class="btn-link" id="lnkFilter" >Filter</div>
+        </td>*@
     </tr>
 </table>
 
@@ -27,7 +33,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.WarrantyUnit.Location.location1) - @Html.DisplayNameFor(model => model.WarrantyUnit.warrantyUnit1)
+            @Html.DisplayNameFor(model => model.WarrantyUnit.Location.location1) - @Html.DisplayNameFor(model => model.WarrantyUnit.warrantyUnit1)<br/>
         </th>
         <th>
             @Html.DisplayNameFor(model => model.warrantyIssueLocation)
@@ -53,7 +59,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.WarrantyUnit.Location.location1) - @Html.DisplayFor(modelItem => item.WarrantyUnit.warrantyUnit1)
+            <div>
+                @item.Location.location1
+                @if (item.WarrantyUnit != null)
+                {
+                    if (item.WarrantyUnit.Location != null)
+                    {
+                        @item.WarrantyUnit.warrantyUnit1
+                    }
+                }
+            </div>            
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.warrantyIssueLocation)            

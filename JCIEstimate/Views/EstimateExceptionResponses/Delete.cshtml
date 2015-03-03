@@ -1,0 +1,56 @@
+﻿@model JCIEstimate.Models.EstimateExceptionResponse
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>EstimateExceptionResponse</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateExceptionResponseID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateExceptionResponseID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateExceptionResponse1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateExceptionResponse1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.responseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.responseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimateException.estimateException1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstimateException.estimateException1)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

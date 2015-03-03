@@ -21,15 +21,17 @@ namespace JCIEstimate.Models
         }
     
         public System.Guid warrantyIssueUid { get; set; }
-        public System.Guid warrantyUnitUid { get; set; }
+        public Nullable<System.Guid> warrantyUnitUid { get; set; }
         public System.Guid warrantyStatusUid { get; set; }
         public string warrantyIssueLocation { get; set; }
         public string warrantyIssue1 { get; set; }
         public System.DateTime date { get; set; }
         public Nullable<System.Guid> projectUserUid { get; set; }
         public string aspNetUserUidAsCreated { get; set; }
+        public Nullable<System.Guid> locationUid { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Location Location { get; set; }
         public virtual ProjectUser ProjectUser { get; set; }
         public virtual ICollection<WarrantyAttachment> WarrantyAttachments { get; set; }
         public virtual WarrantyStatu WarrantyStatu { get; set; }

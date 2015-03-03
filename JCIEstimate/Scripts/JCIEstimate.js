@@ -5,18 +5,28 @@
         document.location = url + "?filterId=" + selectedValue;
     })
 
+    $("#lnkFilter").click(function () {
+        var searchVal = $("#txtSearchLocation").val();q
+        var url = "/WarrantyIssues/Index";
+        document.location = url + "?location=" + searchVal;
+    })
+
     $("#locationUid").change(function () {
-        var unitDropDown = $("#warrantyUnitUid");
-        var selectedValue = $("#locationUid").val();
-        var url = "/WarrantyIssues/GetUnits?locationUid=" + selectedValue;
-        $.post(url, { locationUid: selectedValue }, function (data) {
-            $("#document").html(data);
+        var loc = $(this).val();
+        $.getJSON("/WarrantyIssues/GetUnits?locationUid=" + loc, function (result) {
+            var options = $("#warrantyUnitUid");
+            //don't forget error handling!
+            options.empty();
+            options.append($("<option />").val("00000000-0000-0000-0000-000000000000").text("-- Choose --"));
+            $.each(result, function (item) {
+                options.append($("<option />").val(this.id).text(this.name));
             });
-        //$.get(url, null, function (data) {
-        //    $.each(data, function () {
-        //        unitDropDown.append($("<option />").val(this.warrantyUnitUid).text(this.warrantyUnit1));
-        //    });
-        //});
+        });
+
+
+        $("#RoomAndLocation").show("slow", function () {
+            // Animation complete.
+        });
     })
 
     $(":text").labelify({ labelledClass: "titleTextBox" });
