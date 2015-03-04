@@ -425,8 +425,6 @@ namespace JCIEstimate.Models
     {
         [Display(Name = "Equipment")]
         public System.Guid equipmentUid { get; set; }
-        [Display(Name = "ECM")]
-        public System.Guid ecmUid { get; set; }
         [Display(Name = "Location")]
         public System.Guid locationUid { get; set; }
         [Display(Name = "Room")]

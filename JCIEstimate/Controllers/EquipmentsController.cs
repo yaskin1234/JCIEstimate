@@ -23,10 +23,10 @@ namespace JCIEstimate.Controllers
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             equipments = from cc in db.Equipments                         
-                         where cc.ECM.projectUid == sessionProject
+                         where cc.Location.projectUid == sessionProject
                          select cc;
 
-            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentType).Include(e => e.Location);
+            equipments = equipments.Include(e => e.EquipmentType).Include(e => e.Location).OrderBy(c=>c.Location.location1).ThenBy(c=>c.room).ThenBy(c=>c.equipment1);
             return View(await equipments.ToListAsync());
         }
 
@@ -98,9 +98,8 @@ namespace JCIEstimate.Controllers
                     }                    
                 }
                 return RedirectToAction("Index");
-            }
+            }           
             
-            ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", equipment.ecmUid);
             ViewBag.equipmentTypeUid = new SelectList(db.EquipmentTypes, "equipmentTypeUid", "equipmentType1", equipment.equipmentTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
             return View(equipment);
@@ -141,8 +140,7 @@ namespace JCIEstimate.Controllers
                 Text = x.equipmentTask1,
                 Value = x.equipmentTaskUid.ToString()
             });
-
-            ViewBag.ecmUid = new SelectList(ecms, "ecmUid", "ecmNumber", equipment.ecmUid);
+            
             ViewBag.equipmentTypeUid = new SelectList(db.EquipmentTypes, "equipmentTypeUid", "equipmentType1", equipment.equipmentTypeUid);
             ViewBag.locationUid = new SelectList(locations, "locationUid", "location1", equipment.locationUid);
             ViewBag.equipmentList = new SelectList(equipmentList, "Value", "Text", selectedTasks.ToList());            
@@ -199,8 +197,7 @@ namespace JCIEstimate.Controllers
                 db.Entry(equipment).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
-            }
-            ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", equipment.ecmUid);
+            }            
             ViewBag.equipmentTypeUid = new SelectList(db.EquipmentTypes, "equipmentTypeUid", "equipmentType1", equipment.equipmentTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
             return View(equipment);

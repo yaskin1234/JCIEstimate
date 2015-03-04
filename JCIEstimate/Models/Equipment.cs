@@ -20,7 +20,6 @@ namespace JCIEstimate.Models
         }
     
         public System.Guid equipmentUid { get; set; }
-        public System.Guid ecmUid { get; set; }
         public System.Guid locationUid { get; set; }
         public string room { get; set; }
         public System.Guid equipmentTypeUid { get; set; }
@@ -28,7 +27,6 @@ namespace JCIEstimate.Models
         public string jciCode { get; set; }
         public string barCode { get; set; }
     
-        public virtual ECM ECM { get; set; }
         public virtual EquipmentType EquipmentType { get; set; }
         public virtual Location Location { get; set; }
         public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }

@@ -84,6 +84,30 @@
         });
 
     });
+
+    $("#filter").kendoComboBox();
+
+    $(".gridCheckBox").click(function () {
+        $.ajax({
+            url: "/EquipmentToDoes/SaveCheckedBox",
+            type: "POST",
+            data: {
+                chkBoxName: $(this).attr("name"),
+                value: this.checked
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        }).done(function () {
+            alert("done");
+        }).fail(function () {
+            alert("fail" + data);
+        }).always(function () {
+            alert("always");
+        })
+    });
+
 });
 
 

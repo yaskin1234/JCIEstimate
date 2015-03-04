@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Bernservices</title>
     @Scripts.Render("~/bundles/jquery")    
+    @Scripts.Render("~/bundles/kendo")
     @Scripts.Render("~/bundles/JCIEstimate")    
     @Scripts.Render("~/bundles/bootstrap")
-    @Styles.Render("~/Content/css")    
+    @Styles.Render("~/Content/css")        
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/kendo/css")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -133,6 +134,15 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Warranty</a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Warranty Issues", "Index", "WarrantyIssues")</li>                                                                                                
+                            </ul>
+                        </li>
+                    }
+                    @if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Engineer")) && Session["projectUid"] != null)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Engineer</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Equipment Grid", "GridEdit", "EquipmentToDoes")</li>
                             </ul>
                         </li>
                     }

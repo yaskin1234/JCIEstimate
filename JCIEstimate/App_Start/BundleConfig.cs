@@ -30,6 +30,14 @@ namespace IdentitySample
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
             bundles.Add(new StyleBundle("~/Context/JCIEstimate.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
+                 "~/Scripts/kendo/2014.1.318/kendo.web.min.js"
+                ));
+
+            bundles.Add(new StyleBundle("~/Content/kendo/css").Include(
+        "~/Content/kendo/2014.1.318/kendo.common-bootstrap.min.css",
+        "~/Content/kendo/2014.1.318/kendo.bootstrap.min.css"));            
         }
     }
 }

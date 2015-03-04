@@ -185,10 +185,11 @@ namespace JCIEstimate.Controllers
             return View(await warrantyIssues.ToListAsync());
         }
 
-        public async Task<ActionResult> GetUnits(Guid locationUid)
+        public async Task<ActionResult> GetUnits(Guid? locationUid)
         {
             var units = from cc in db.WarrantyUnits
                         where cc.locationUid == locationUid
+                        || locationUid == null
                         select cc;
 
             return Json(
@@ -272,10 +273,6 @@ namespace JCIEstimate.Controllers
                 if (warrantyIssue.warrantyUnitUid == JCIExtensions.MCVExtensions.pseudoNull)
                 {
                     warrantyIssue.warrantyUnitUid = null;
-                }
-                if (warrantyIssue.locationUid == JCIExtensions.MCVExtensions.pseudoNull)
-                {
-                    warrantyIssue.locationUid = null;
                 }
 
                 db.WarrantyIssues.Add(warrantyIssue);
