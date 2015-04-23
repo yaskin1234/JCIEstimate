@@ -13,7 +13,7 @@
     @Styles.Render("~/Content/kendo/css")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-form">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -32,6 +32,7 @@
                             <li>@Html.ActionLink("To Do Status", "Index", "ToDoStatus")</li>
                             <li>@Html.ActionLink("To Do List", "Index", "ProjectToDoes")</li>
                             <li class="divider"></li>                            
+                            <li>@Html.ActionLink("App Data Types", "Index", "AppDataTypes")</li>
                             <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
                             <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
                             <li>@Html.ActionLink("Misc Expenses", "Index", "ExpenseMiscellaneous")</li>
@@ -59,6 +60,9 @@
                                 <li>@Html.ActionLink("ECMs", "Index", "ECMs")</li>
                                 <li>@Html.ActionLink("Locations", "Index", "Locations")</li>
                                 <li>@Html.ActionLink("Equipment", "Index", "Equipments")</li>
+                                <li>@Html.ActionLink("Equipment Attribute Type", "Index", "EquipmentAttributeTypes")</li>
+                                <li>@Html.ActionLink("Equipment Attribute", "Index", "EquipmentAttributes")</li>                                
+                                <li>@Html.ActionLink("Equipment Attribute Value", "Index", "EquipmentAttributeValues")</li>
                                 <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Construction Expenses", "Index", "ExpenseConstructions")</li>
@@ -142,7 +146,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Engineer</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Equipment Grid", "GridEdit", "EquipmentToDoes")</li>
+                                <li>@Html.ActionLink("Equipment Grid", "GridEdit", "Equipments")</li>
                             </ul>
                         </li>
                     }

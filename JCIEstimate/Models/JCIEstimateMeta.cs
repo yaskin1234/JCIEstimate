@@ -412,6 +412,24 @@ namespace JCIEstimate.Models
     }
 
     /// <summary>
+    /// EquipmentAttributeType
+    /// </summary>
+    [MetadataType(typeof(EquipmentAttributeTypeMetaData))]
+    public partial class EquipmentAttributeType
+    {
+    }
+
+    public class EquipmentAttributeTypeMetaData
+    {
+        [Display(Name = "Equipment Attribute Type")]
+        public System.Guid equipmentAttributeTypeUid { get; set; }
+        [Display(Name = "Equipment Attribute Type")]
+        public string equipmentAttributeType1 { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
+    /// <summary>
     /// Equipment
     /// </summary>
     [MetadataType(typeof(EquipmentMetaData))]
@@ -423,21 +441,30 @@ namespace JCIEstimate.Models
 
     public class EquipmentMetaData
     {
+        string _equipmentDescription;
+
         [Display(Name = "Equipment")]
         public System.Guid equipmentUid { get; set; }
-        [Display(Name = "Location")]
+        [Display(Name = "Location")]        
         public System.Guid locationUid { get; set; }
-        [Display(Name = "Room")]
-        public string room { get; set; }
-        [Display(Name = "Equipment Type")]
-        public System.Guid equipmentTypeUid { get; set; }
-        [Display(Name = "Equipment Name")]
-        public string equipment1 { get; set; }
-        [Display(Name = "JCI Code")]
-        public string jciCode { get; set; }
-        [Display(Name = "Bar Code")]
-        public string barCode { get; set; }
-
+        [Display(Name = "JCI Tag")]        
+        public string jciTag { get; set; }
+        [Display(Name = "Owner Tag")]        
+        public string ownerTag { get; set; }
+        [Display(Name = "Manufacturer")]        
+        public string manufacturer { get; set; }
+        [DataType(DataType.Date)]       
+        [Display(Name = "Install Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> installDate { get; set; }
+        [Display(Name = "Area")]        
+        public string area { get; set; }
+        [Display(Name = "Equipment Attribute Type")]
+        public string equipmentAttributeTypeUid { get; set; }
+        [Display(Name = "Serial Number")]
+        public string serialNumber { get; set; }
+        [Display(Name = "Model")]
+        public string model { get; set; }
         public Guid[] selectedTasks { get; set; }
     }
 
@@ -723,7 +750,7 @@ namespace JCIEstimate.Models
     public partial class Milestone
     {
     }
-
+        
     public class MilestoneMetaData
     {
         [Display(Name = "Milestone")]

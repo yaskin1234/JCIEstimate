@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JCIEstimate.Models.EquipmentAttributeValue>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.equipmentAttributeValue1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Equipment.jciTag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EquipmentAttribute.equipmentAttribute1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.equipmentAttributeValue1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Equipment.jciTag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EquipmentAttribute.equipmentAttribute1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.equipmentAttributeValueUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.equipmentAttributeValueUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.equipmentAttributeValueUid })
+        </td>
+    </tr>
+}
+
+</table>

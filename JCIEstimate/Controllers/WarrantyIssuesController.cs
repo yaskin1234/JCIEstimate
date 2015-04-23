@@ -35,7 +35,57 @@ namespace JCIEstimate.Controllers
             return File(byteArray, "application/octect-stream", docName.FirstOrDefault());
         }
 
+        public async Task<ActionResult> IndexPartial(string filterId, string location)
+        {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            var warrantyIssues = db.WarrantyIssues.Include(w => w.WarrantyStatu);
 
+            //apply session project predicate
+            warrantyIssues = from cc in warrantyIssues
+                             where cc.WarrantyUnit.Location.projectUid == sessionProject ||
+                                 cc.Location.projectUid == sessionProject
+                             select cc;
+
+            if (filterId == "A" || String.IsNullOrEmpty(filterId)) //all issues for project            
+            {
+                warrantyIssues = from cc in warrantyIssues
+                                 select cc;
+
+            }
+            else if (filterId == "T") //my issues for project
+            {
+                warrantyIssues = from cc in warrantyIssues
+                                 join dd in db.ProjectUsers on cc.projectUserUid equals dd.projectUserUid
+                                 join pu in db.AspNetUsers on dd.aspNetUserUid equals pu.Id
+                                 where pu.Email == HttpContext.User.Identity.Name
+                                 select cc;
+            }
+            else if (filterId.Length == 36) // received GUID for locationUid
+            {
+                warrantyIssues = from cc in warrantyIssues
+                                 where cc.WarrantyUnit.locationUid.ToString() == filterId ||
+                                 cc.locationUid.ToString() == filterId
+                                 select cc;
+            }
+            else
+            {
+                warrantyIssues = from cc in warrantyIssues // specific status for project
+                                 where cc.WarrantyStatu.behaviorIndicator == filterId
+                                 select cc;
+            }
+
+            if (location != null && location.Length > 0)
+            {
+                warrantyIssues = from cc in warrantyIssues
+                                 where cc.Location.location1.Contains(location)
+                                 select cc;
+
+            }
+
+            warrantyIssues = warrantyIssues.Include(w => w.Location).OrderBy(w => w.WarrantyUnit.Location.location1).ThenBy(w => w.WarrantyUnit.warrantyUnit1).ThenBy(w => w.WarrantyStatu.listOrder);
+
+            return PartialView(await warrantyIssues.ToListAsync());
+        }
 
         // GET: WarrantyIssues
         public async Task<ActionResult> Index(string filterId, string location)
@@ -74,8 +124,8 @@ namespace JCIEstimate.Controllers
                 aryFo.Add(wf);
             }
 
-            IQueryable<WarrantyIssue> results = warrantyIssues.GroupBy(c => (c.Location == null) ? c.WarrantyUnit.Location.location1 : c.Location.location1) 
-            .Select(v => v.FirstOrDefault());
+            IQueryable<WarrantyIssue> results = warrantyIssues.GroupBy(c => (c.Location == null) ? c.WarrantyUnit.Location.location1 : c.Location.location1)
+           .Select(v => v.FirstOrDefault());
 
             foreach (var item in results)
             {
@@ -83,7 +133,7 @@ namespace JCIEstimate.Controllers
                 WarrantyUnit wu = new WarrantyUnit();
                 wu = db.WarrantyUnits.Find(item.warrantyUnitUid);
                 Location loc = new Location();
-                loc = db.Locations.Find(item.locationUid);                
+                loc = db.Locations.Find(item.locationUid);
 
                 if (wu != null)
                 {
@@ -94,10 +144,10 @@ namespace JCIEstimate.Controllers
                         wf.selected = (wf.value == filterId);
                         aryFo.Add(wf);
                     }
-                    
+
                 }
 
-                
+
                 if (loc != null)
                 {
                     if (!aryFo.Exists(c => c.text == loc.location1))
@@ -107,8 +157,41 @@ namespace JCIEstimate.Controllers
                         wf.selected = (wf.value == filterId);
                         aryFo.Add(wf);
                     }
-                }            
+                }
             }
+
+            results = warrantyIssues.Where(c => c.WarrantyUnit != null).GroupBy(c => c.WarrantyUnit.warrantyUnit1)
+            .Select(v => v.FirstOrDefault());
+
+
+            foreach (var item in results)
+            {
+                bool isFound = false;
+                wf = new FilterOptionModel();
+                WarrantyUnit wu = new WarrantyUnit();
+                wu = db.WarrantyUnits.Find(item.warrantyUnitUid);
+
+                if (wu != null)
+                {
+                    foreach (var m in aryFo)
+                    {
+                        if (m.value == item.warrantyUnitUid.ToString())
+                        {
+                            isFound = true;
+                        }
+                    }
+                    if (isFound)
+                        if (!aryFo.Exists(c => c.text == wu.Location.location1))
+                        {
+                            wf.text = wu.Location.location1;
+                            wf.value = wu.Location.locationUid.ToString();
+                            wf.selected = (wf.value == filterId);
+                            aryFo.Add(wf);
+                        }
+
+                }
+            }
+            
 
             results = warrantyIssues.Where(c => c.WarrantyUnit != null).GroupBy(c => c.WarrantyUnit.warrantyUnit1)
             .Select(v => v.FirstOrDefault());
@@ -142,45 +225,10 @@ namespace JCIEstimate.Controllers
                 }
             }
             
-            if (filterId == "A" || String.IsNullOrEmpty(filterId)) //all issues for project
-            {
-                warrantyIssues = from cc in warrantyIssues                                 
-                                 select cc;
-
-            }
-            else if (filterId == "T") //my issues for project
-            {
-                warrantyIssues = from cc in warrantyIssues
-                                 join dd in db.ProjectUsers on cc.projectUserUid equals dd.projectUserUid
-                                 join pu in db.AspNetUsers on dd.aspNetUserUid equals pu.Id
-                                 where pu.Email == HttpContext.User.Identity.Name                                 
-                                 select cc;
-            }
-            else if (filterId.Length == 36) // received GUID for locationUid
-            {
-                warrantyIssues = from cc in warrantyIssues
-                                 where cc.WarrantyUnit.locationUid.ToString() == filterId ||
-                                 cc.locationUid.ToString() == filterId
-                                 select cc;
-            }
-            else 
-            {
-                warrantyIssues = from cc in warrantyIssues // specific status for project
-                                 where cc.WarrantyStatu.behaviorIndicator == filterId
-                                 select cc;
-            }
-
-            if (location != null && location.Length > 0)
-            {
-                warrantyIssues = from cc in warrantyIssues
-                                 where cc.Location.location1.Contains(location)                                 
-                                 select cc;
-
-            }
+          
             ViewBag.location = location;
             ViewBag.txtLocationSearch = location;
-            ViewBag.filterList = aryFo.ToList();
-            warrantyIssues = warrantyIssues.Include(w => w.Location).OrderBy(w => w.WarrantyUnit.Location.location1).ThenBy(w => w.WarrantyUnit.warrantyUnit1).ThenBy(w => w.WarrantyStatu.listOrder);
+            ViewBag.filterList = aryFo.ToList();            
             
             return View(await warrantyIssues.ToListAsync());
         }

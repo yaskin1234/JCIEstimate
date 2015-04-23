@@ -570,14 +570,18 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Images\AddItem.png" />
+    <Content Include="Images\attr.png" />
     <Content Include="Images\delete-icon.png" />
     <Content Include="Images\delete_filter-128.png" />
     <Content Include="Images\edit.png" />
     <Content Include="Images\filter.png" />
     <Content Include="Images\magnet.jpg" />
+    <Content Include="Images\tasks.png" />
     <Content Include="Images\View_Details.png" />
     <Content Include="packages.config" />
     <Content Include="Scripts\JCIEstimate.js" />
+    <Content Include="Scripts\jquery.fixedheadertable.min.js" />
+    <Content Include="Scripts\jquery.floatThead.min.js" />
     <Content Include="Scripts\jquery.labelify.js" />
     <Content Include="Scripts\kendo\2014.1.318\cultures\kendo.culture.af-ZA.min.js" />
     <Content Include="Scripts\kendo\2014.1.318\cultures\kendo.culture.af.min.js" />
@@ -1493,11 +1497,6 @@
     <Content Include="Views\EquipmentTypes\Details.cshtml" />
     <Content Include="Views\EquipmentTypes\Edit.cshtml" />
     <Content Include="Views\EquipmentTypes\Index.cshtml" />
-    <Content Include="Views\Equipments\Create.cshtml" />
-    <Content Include="Views\Equipments\Delete.cshtml" />
-    <Content Include="Views\Equipments\Details.cshtml" />
-    <Content Include="Views\Equipments\Edit.cshtml" />
-    <Content Include="Views\Equipments\Index.cshtml" />
     <Content Include="Views\EquipmentToDoes\Create.cshtml" />
     <Content Include="Views\EquipmentToDoes\Delete.cshtml" />
     <Content Include="Views\EquipmentToDoes\Details.cshtml" />
@@ -1766,7 +1765,36 @@
     <Content Include="Scripts\kendo\2014.1.318\kendo.binder.min.js.map" />
     <Content Include="Scripts\kendo\2014.1.318\kendo.autocomplete.min.js.map" />
     <Content Include="Scripts\kendo\2014.1.318\jquery.min.map" />
-    <Content Include="Views\EquipmentToDoes\GridEdit.cshtml" />
+    <Content Include="Views\WarrantyIssues\List.cshtml" />
+    <Content Include="Views\WarrantyIssues\IndexPartial.cshtml" />
+    <Content Include="Views\EquipmentAttributes\Create.cshtml" />
+    <Content Include="Views\EquipmentAttributes\Delete.cshtml" />
+    <Content Include="Views\EquipmentAttributes\Details.cshtml" />
+    <Content Include="Views\EquipmentAttributes\Edit.cshtml" />
+    <Content Include="Views\EquipmentAttributes\Index.cshtml" />
+    <Content Include="Views\EquipmentAttributeTypes\Create.cshtml" />
+    <Content Include="Views\EquipmentAttributeTypes\Delete.cshtml" />
+    <Content Include="Views\EquipmentAttributeTypes\Details.cshtml" />
+    <Content Include="Views\EquipmentAttributeTypes\Edit.cshtml" />
+    <Content Include="Views\EquipmentAttributeTypes\Index.cshtml" />
+    <Content Include="Views\EquipmentAttributeValues\Create.cshtml" />
+    <Content Include="Views\EquipmentAttributeValues\Delete.cshtml" />
+    <Content Include="Views\EquipmentAttributeValues\Details.cshtml" />
+    <Content Include="Views\EquipmentAttributeValues\Edit.cshtml" />
+    <Content Include="Views\EquipmentAttributeValues\Index.cshtml" />
+    <Content Include="Views\AppDataTypes\Create.cshtml" />
+    <Content Include="Views\AppDataTypes\Delete.cshtml" />
+    <Content Include="Views\AppDataTypes\Details.cshtml" />
+    <Content Include="Views\AppDataTypes\Edit.cshtml" />
+    <Content Include="Views\AppDataTypes\Index.cshtml" />
+    <Content Include="Views\Equipments\Create.cshtml" />
+    <Content Include="Views\Equipments\Delete.cshtml" />
+    <Content Include="Views\Equipments\Details.cshtml" />
+    <Content Include="Views\Equipments\Edit.cshtml" />
+    <Content Include="Views\Equipments\Index.cshtml" />
+    <Content Include="Views\Equipments\Index2.cshtml" />
+    <Content Include="Views\Equipments\GridEdit.cshtml" />
+    <Content Include="Views\EquipmentToDoes\SaveCheckedBox.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1885,12 +1913,16 @@
       <DependentUpon>ReportingService.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AppDataTypesController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ContractorContactsController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
     <Compile Include="Controllers\ContractorUsersController.cs" />
     <Compile Include="Controllers\ECMsController.cs" />
     <Compile Include="Controllers\EddressesController.cs" />
+    <Compile Include="Controllers\EquipmentAttributesController.cs" />
+    <Compile Include="Controllers\EquipmentAttributeTypesController.cs" />
+    <Compile Include="Controllers\EquipmentAttributeValuesController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\EquipmentTasksController.cs" />
     <Compile Include="Controllers\EquipmentToDoesController.cs" />
@@ -1935,6 +1967,9 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\AppDataType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetUser.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -1957,6 +1992,15 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Equipment.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentAttribute.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentAttributeType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentAttributeValue.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EquipmentTask.cs">

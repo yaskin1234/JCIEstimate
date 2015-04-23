@@ -1,0 +1,121 @@
+﻿@model IEnumerable<JCIEstimate.Models.Equipment>
+
+@{
+    ViewBag.Title = "Index2";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.jciTag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ownerTag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.manufacturer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.model)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.serialNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.installDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.area)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ECM.ecmNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EquipmentAttributeType.equipmentAttributeType1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.location1)
+        </th>
+        @{
+            JCIEstimate.Models.JCIEstimateEntities db1 = new JCIEstimate.Models.JCIEstimateEntities();
+            foreach (var item in db1.EquipmentAttributes)
+            {
+                foreach (var mItem in Model)
+                {
+                    if (item.equipmentAttributeTypeUid == mItem.equipmentAttributeTypeUid)
+                    {
+                        <th>
+                            @item.equipmentAttribute1
+                        </th>
+                    }
+                }
+
+            }
+        }
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.jciTag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ownerTag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.manufacturer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.serialNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.installDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.area)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ECM.ecmNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EquipmentAttributeType.equipmentAttributeType1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.location1)
+            </td>
+            @{
+        JCIEstimate.Models.JCIEstimateEntities db = new JCIEstimate.Models.JCIEstimateEntities();
+        foreach (var citem in db.EquipmentAttributes)
+        {
+            foreach (var mItem in Model)
+            {
+                if (item.equipmentAttributeTypeUid == mItem.equipmentAttributeTypeUid)
+                {
+                    <td>
+                        <input type="text" name="@citem.equipmentAttributeUid.ToString()" id="@citem.equipmentAttributeUid.ToString()" />
+                    </td>
+                }
+            }
+
+        }
+            }
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.equipmentUid }) |
+                @Html.ActionLink("Details", "Details", new { id = item.equipmentUid }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.equipmentUid })
+            </td>
+        </tr>
+    }
+
+</table>

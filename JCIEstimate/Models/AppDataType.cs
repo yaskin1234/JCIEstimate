@@ -12,14 +12,16 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EquipmentToDo
+    public partial class AppDataType
     {
-        public System.Guid equipmentToDoUid { get; set; }
-        public System.Guid equipmentUid { get; set; }
-        public System.Guid equipmentTaskUid { get; set; }
-        public Nullable<decimal> daysToComplete { get; set; }
+        public AppDataType()
+        {
+            this.EquipmentAttributes = new HashSet<EquipmentAttribute>();
+        }
     
-        public virtual EquipmentTask EquipmentTask { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public System.Guid appDataTypeUid { get; set; }
+        public string appDataType1 { get; set; }
+    
+        public virtual ICollection<EquipmentAttribute> EquipmentAttributes { get; set; }
     }
 }

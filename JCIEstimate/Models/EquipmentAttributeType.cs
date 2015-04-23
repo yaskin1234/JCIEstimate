@@ -12,22 +12,19 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ECM
+    public partial class EquipmentAttributeType
     {
-        public ECM()
+        public EquipmentAttributeType()
         {
-            this.Estimates = new HashSet<Estimate>();
+            this.EquipmentAttributes = new HashSet<EquipmentAttribute>();
             this.Equipments = new HashSet<Equipment>();
         }
     
-        public System.Guid ecmUid { get; set; }
-        public string ecmNumber { get; set; }
-        public string ecmDescription { get; set; }
-        public string ecmString { get; set; }
-        public System.Guid projectUid { get; set; }
+        public System.Guid equipmentAttributeTypeUid { get; set; }
+        public string equipmentAttributeType1 { get; set; }
+        public string behaviorIndicator { get; set; }
     
-        public virtual Project Project { get; set; }
-        public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<EquipmentAttribute> EquipmentAttributes { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }
     }
 }

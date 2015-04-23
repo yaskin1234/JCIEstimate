@@ -12,14 +12,14 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EquipmentToDo
+    public partial class EquipmentAttributeValue
     {
-        public System.Guid equipmentToDoUid { get; set; }
+        public System.Guid equipmentAttributeValueUid { get; set; }
+        public System.Guid equipmentAttributeUid { get; set; }
         public System.Guid equipmentUid { get; set; }
-        public System.Guid equipmentTaskUid { get; set; }
-        public Nullable<decimal> daysToComplete { get; set; }
+        public string equipmentAttributeValue1 { get; set; }
     
-        public virtual EquipmentTask EquipmentTask { get; set; }
+        public virtual EquipmentAttribute EquipmentAttribute { get; set; }
         public virtual Equipment Equipment { get; set; }
     }
 }

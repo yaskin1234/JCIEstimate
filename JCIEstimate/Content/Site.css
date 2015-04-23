@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
 }
 
@@ -65,8 +64,26 @@ input[type="checkbox"].input-validation-error {
 
 .gridCheckBox {
 }
+
 .GridTable {
     padding: 5px;
-    align-content: center;
+    align-content: center;    
+}
+.GridTable thead{
+    background-color:white;    
+}
+
+.GridTable td{    
     border-bottom: solid;
-}    
+}
+
+.selectedEquipmentItem{
+    background-color:lightgray;    
+}
+.selectedEquipmentItem > td{
+    font-weight:bold;
+}
+
+.unselectedEquipmentItem{
+    background-color:none;
+}

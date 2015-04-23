@@ -8,7 +8,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
-using JCIExtensions;
 
 namespace JCIEstimate.Controllers
 {
@@ -19,14 +18,49 @@ namespace JCIEstimate.Controllers
         // GET: Equipments
         public async Task<ActionResult> Index()
         {
-            IQueryable<Equipment> equipments;
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            Guid sessionProject;
 
-            equipments = from cc in db.Equipments                         
-                         where cc.Location.projectUid == sessionProject
-                         select cc;
+            sessionProject = Guid.Empty;
 
-            equipments = equipments.Include(e => e.EquipmentType).Include(e => e.Location).OrderBy(c=>c.Location.location1).ThenBy(c=>c.room).ThenBy(c=>c.equipment1);
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location);
+            ViewBag.equipmentTasks = db.EquipmentTasks;
+            ViewBag.equipmentToDoes = db.EquipmentToDoes;
+            ViewBag.equipment = equipments;
+
+            return View(await equipments.ToListAsync());
+        }
+
+        // GET: GridEdit
+        public async Task<ActionResult> GridEdit()
+        {
+            Guid sessionProject;
+
+            sessionProject = Guid.Empty;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location);
+
+            ViewBag.equipmentTasks = db.EquipmentTasks;
+            ViewBag.equipmentToDoes = db.EquipmentToDoes;
+            ViewBag.equipment = equipments;
+
             return View(await equipments.ToListAsync());
         }
 
@@ -48,22 +82,20 @@ namespace JCIEstimate.Controllers
         // GET: Equipments/Create
         public ActionResult Create()
         {
-            IQueryable<ECM> ecms;
-            IQueryable<Location> locations;
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            Guid sessionProject;
+            sessionProject = Guid.Empty;
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-            ecms = from cc in db.ECMs
-                    where cc.projectUid == sessionProject
-                    select cc;
-
-            locations = from cc in db.Locations
-                   where cc.projectUid == sessionProject
-                   select cc;
-
-            ViewBag.ecmUid = new SelectList(ecms, "ecmUid", "ecmNumber");
-            ViewBag.equipmentTypeUid = new SelectList(db.EquipmentTypes, "equipmentTypeUid", "equipmentType1");
-            ViewBag.equipmentTaskUid = new SelectList(db.EquipmentTasks, "equipmentTaskUid", "equipmentTask1");
-            ViewBag.locationUid = new SelectList(locations, "locationUid", "location1");
+            ViewBag.ecmUid = new SelectList(db.ECMs.Where(c => c.projectUid == sessionProject), "ecmUid", "ecmString");
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1");
+            ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1");
             return View();
         }
 
@@ -72,35 +104,18 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,ecmUid,locationUid,room,equipmentTypeUid,equipment1,jciCode,barCode")] Equipment equipment, params string[] selectedTasks)
+        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area")] Equipment equipment)
         {
-
-            EquipmentToDo myEQ;
-
             if (ModelState.IsValid)
             {
-                //Add equipment
                 equipment.equipmentUid = Guid.NewGuid();
                 db.Equipments.Add(equipment);
                 await db.SaveChangesAsync();
-
-                if (selectedTasks != null)
-                {
-                    //add each selected task to EquipmentToDo
-                    foreach (var item in selectedTasks)
-                    {                        
-                        myEQ = new EquipmentToDo();
-                        myEQ.equipmentToDoUid = Guid.NewGuid();
-                        myEQ.equipmentTaskUid = new Guid(item);
-                        myEQ.equipmentUid = equipment.equipmentUid;
-                        db.EquipmentToDoes.Add(myEQ);
-                        await db.SaveChangesAsync();                        
-                    }                    
-                }
                 return RedirectToAction("Index");
-            }           
-            
-            ViewBag.equipmentTypeUid = new SelectList(db.EquipmentTypes, "equipmentTypeUid", "equipmentType1", equipment.equipmentTypeUid);
+            }
+
+            ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", equipment.ecmUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
             return View(equipment);
         }
@@ -118,32 +133,20 @@ namespace JCIEstimate.Controllers
                 return HttpNotFound();
             }
 
-            IQueryable<ECM> ecms;
-            IQueryable<Location> locations;
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-
-            var selectedTasks = from cc in db.EquipmentToDoes
-                                where cc.equipmentUid == id
-                                select cc.equipmentTaskUid.ToString();
-
-            ecms = from cc in db.ECMs
-                   where cc.projectUid == sessionProject
-                   select cc;
-
-            locations = from cc in db.Locations
-                        where cc.projectUid == sessionProject
-                        select cc;
-
-            var equipmentList = db.EquipmentTasks.ToList().Select(x => new SelectListItem()
+            Guid sessionProject;
+            sessionProject = Guid.Empty;
+            if (Session["projectUid"] != null)
             {
-                Selected = selectedTasks.Contains(x.equipmentTaskUid.ToString()),
-                Text = x.equipmentTask1,
-                Value = x.equipmentTaskUid.ToString()
-            });
-            
-            ViewBag.equipmentTypeUid = new SelectList(db.EquipmentTypes, "equipmentTypeUid", "equipmentType1", equipment.equipmentTypeUid);
-            ViewBag.locationUid = new SelectList(locations, "locationUid", "location1", equipment.locationUid);
-            ViewBag.equipmentList = new SelectList(equipmentList, "Value", "Text", selectedTasks.ToList());            
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.ecmUid = new SelectList(db.ECMs.Where(c => c.projectUid == sessionProject), "ecmUid", "ecmNumber", equipment.ecmUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
+            ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1", equipment.locationUid);
             return View(equipment);
         }
 
@@ -152,53 +155,16 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,ecmUid,locationUid,room,equipmentTypeUid,equipment1,jciCode,barCode")] Equipment equipment, params string[] selectedTasks)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area")] Equipment equipment)
         {
-            EquipmentToDo myEQ;
-
-            if (ModelState.IsValid)
-            {
-                if (selectedTasks != null)
-                {
-
-                    IQueryable<EquipmentToDo> equipmentToDosToDelete;
-                    IQueryable<EquipmentTask> equipmentToDosToInsert;
-
-                    equipmentToDosToDelete = from cc in db.EquipmentToDoes
-                                             where !(selectedTasks.Any(v => cc.equipmentTaskUid.ToString().Contains(v)))
-                                             && cc.equipmentUid == equipment.equipmentUid
-                                             select cc;
-
-                    equipmentToDosToInsert = from cc in db.EquipmentTasks
-                                             where selectedTasks.Any(v => cc.equipmentTaskUid.ToString().Contains(v))                                     
-                                             select cc;                    
-
-                    //Delete
-                    foreach (var item in equipmentToDosToDelete.ToList())
-                    {
-                        myEQ = db.EquipmentToDoes.Find(item.equipmentToDoUid);
-                        db.EquipmentToDoes.Remove(myEQ);
-                        await db.SaveChangesAsync();
-                    }
-
-                    //Insert
-                    foreach (var item in equipmentToDosToInsert.ToList())
-                    {                           
-                        myEQ = new EquipmentToDo();                        
-                        myEQ.equipmentTaskUid = item.equipmentTaskUid;
-                        myEQ.equipmentUid = equipment.equipmentUid;
-                        JCIExtensions.MCVExtensions.InsertOrUpdate(db, myEQ);                                                
-                    }                    
-                }
-            }    
-
             if (ModelState.IsValid)
             {
                 db.Entry(equipment).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
-            }            
-            ViewBag.equipmentTypeUid = new SelectList(db.EquipmentTypes, "equipmentTypeUid", "equipmentType1", equipment.equipmentTypeUid);
+            }
+            ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", equipment.ecmUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
             return View(equipment);
         }

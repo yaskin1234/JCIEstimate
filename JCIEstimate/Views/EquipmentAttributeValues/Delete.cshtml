@@ -1,0 +1,48 @@
+﻿@model JCIEstimate.Models.EquipmentAttributeValue
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>EquipmentAttributeValue</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.equipmentAttributeValue1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.equipmentAttributeValue1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Equipment.jciTag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Equipment.jciTag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EquipmentAttribute.equipmentAttribute1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EquipmentAttribute.equipmentAttribute1)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

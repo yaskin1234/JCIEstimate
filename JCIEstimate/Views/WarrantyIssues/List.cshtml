@@ -1,0 +1,78 @@
+﻿@model IEnumerable<JCIEstimate.Models.WarrantyIssue>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.warrantyIssueLocation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.warrantyIssue1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.AllowableContractors)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.location1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProjectUser.aspNetUserUid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WarrantyStatu.warrantyStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WarrantyUnit.warrantyUnit1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.warrantyIssueLocation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.warrantyIssue1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.AllowableContractors)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.location1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectUser.aspNetUserUid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WarrantyStatu.warrantyStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WarrantyUnit.warrantyUnit1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.warrantyIssueUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.warrantyIssueUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.warrantyIssueUid })
+        </td>
+    </tr>
+}
+
+</table>

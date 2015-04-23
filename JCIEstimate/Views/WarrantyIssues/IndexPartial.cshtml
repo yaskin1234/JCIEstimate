@@ -1,0 +1,91 @@
+﻿@model IEnumerable<JCIEstimate.Models.WarrantyIssue>
+@{var maxCharLength = 100;}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.WarrantyUnit.Location.location1) - @Html.DisplayNameFor(model => model.WarrantyUnit.warrantyUnit1)<br />
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.warrantyIssueLocation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WarrantyStatu.warrantyStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.warrantyIssue1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectUserUid)
+        </th>
+        <th>
+            Last Comment
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <div>
+                    @item.Location.location1
+                    @if (item.WarrantyUnit != null)
+                    {
+                        if (item.WarrantyUnit.Location != null)
+                        {
+                            @item.WarrantyUnit.warrantyUnit1
+                        }
+                    }
+                </div>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.warrantyIssueLocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WarrantyStatu.warrantyStatus)
+            </td>
+            <td>
+                @if (item.warrantyIssue1.Length > maxCharLength)
+                {
+                    @Html.DisplayFor(modelItem => item.warrantyIssue1).ToString().Substring(0, maxCharLength)
+                    @Html.Raw("...")
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.warrantyIssue1)
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectUser.AspNetUser.Email)
+            </td>
+            <td>
+                @if (item.WarrantyNotes.Count > 0)
+                {
+                    if (item.WarrantyNotes.OrderBy(c => c.date).Last().warrantyNote1.Replace(Environment.NewLine, @"<br/>").Length > maxCharLength)
+                    {
+                        @Html.Raw(item.WarrantyNotes.OrderBy(c => c.date).Last().warrantyNote1.Replace(Environment.NewLine, @"<br/>").ToString().Substring(0, maxCharLength))
+                        @Html.Raw("...")
+                    }
+                    else
+                    {
+                        @Html.Raw(item.WarrantyNotes.OrderBy(c => c.date).Last().warrantyNote1.Replace(Environment.NewLine, @"<br/>"))
+                    }
+                }
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", "WarrantyIssues", new { id = item.warrantyIssueUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a href="@Url.Action("Delete", "WarrantyIssues", new { id = item.warrantyIssueUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

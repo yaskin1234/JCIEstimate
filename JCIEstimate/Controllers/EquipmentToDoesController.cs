@@ -124,36 +124,7 @@ namespace JCIEstimate.Controllers
             return View(equipmentToDo);
         }
 
-        public ActionResult GridEdit()
-        {
-            
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-
-            var equipment = from cc in db.Equipments
-                            where cc.Location.projectUid == sessionProject
-                            select cc;
-
-            var equipmentToDoes = from cc in db.EquipmentToDoes
-                                  where cc.Equipment.Location.projectUid == sessionProject
-                                  select cc;
-
-            var selectedTasks = from cc in db.EquipmentToDoes                                
-                                select cc.equipmentTaskUid.ToString();
-
-            var equipmentTasks = db.EquipmentTasks.ToList().Select(x => new SelectListItem()
-            {
-                Selected = selectedTasks.Contains(x.equipmentTaskUid.ToString()),
-                Text = x.equipmentTask1,
-                Value = x.equipmentTaskUid.ToString()
-            });
-
-            //ViewBag.equipment = equipment.ToSelectList(d => d.Location.location1 + " " + d.equipment1, d => d.equipmentUid.ToString(), "");
-            ViewBag.equipmentToDoes = equipmentToDoes;
-            ViewBag.equipment = equipment.OrderBy(c=>c.Location.location1).ThenBy(c => c.equipment1);
-            ViewBag.equipmentTasks = new SelectList(equipmentTasks, "Value", "Text", selectedTasks.ToList());
-            return View();
-        }
-
+       
         // GET: EquipmentToDoes/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {

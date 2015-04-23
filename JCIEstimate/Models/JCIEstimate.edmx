@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="JCIEstimateModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AppDataType">
+          <Key>
+            <PropertyRef Name="appDataTypeUid" />
+          </Key>
+          <Property Name="appDataTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="appDataType" Type="varchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -83,12 +90,42 @@
             <PropertyRef Name="equipmentUid" />
           </Key>
           <Property Name="equipmentUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentAttributeTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="locationUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="room" Type="nvarchar" MaxLength="2000" Nullable="false" />
-          <Property Name="equipmentTypeUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="equipment" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="jciCode" Type="nvarchar" MaxLength="200" />
-          <Property Name="barCode" Type="nvarchar" MaxLength="200" />
+          <Property Name="jciTag" Type="nvarchar" MaxLength="200" />
+          <Property Name="ownerTag" Type="nvarchar" MaxLength="200" />
+          <Property Name="manufacturer" Type="nvarchar" MaxLength="2000" />
+          <Property Name="model" Type="nvarchar" MaxLength="2000" />
+          <Property Name="serialNumber" Type="nvarchar" MaxLength="2000" />
+          <Property Name="installDate" Type="date" />
+          <Property Name="area" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="EquipmentAttribute">
+          <Key>
+            <PropertyRef Name="equipmentAttributeUid" />
+          </Key>
+          <Property Name="equipmentAttributeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentAttributeTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="appDataTypeTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentAttribute" Type="varchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="EquipmentAttributeType">
+          <Key>
+            <PropertyRef Name="equipmentAttributeTypeUid" />
+          </Key>
+          <Property Name="equipmentAttributeTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentAttributeType" Type="varchar" MaxLength="200" />
+          <Property Name="behaviorIndicator" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="EquipmentAttributeValue">
+          <Key>
+            <PropertyRef Name="equipmentAttributeValueUid" />
+          </Key>
+          <Property Name="equipmentAttributeValueUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentAttributeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentAttributeValue" Type="varchar" MaxLength="2000" />
         </EntityType>
         <EntityType Name="EquipmentTask">
           <Key>
@@ -510,15 +547,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_equipment_equipmenttype">
-          <End Role="EquipmentType" Type="Self.EquipmentType" Multiplicity="1" />
+        <Association Name="fk_equipment_AttributeType">
+          <End Role="EquipmentAttributeType" Type="Self.EquipmentAttributeType" Multiplicity="1" />
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EquipmentType">
-              <PropertyRef Name="equipmentTypeUid" />
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
             </Principal>
             <Dependent Role="Equipment">
-              <PropertyRef Name="equipmentTypeUid" />
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_ecm">
+          <End Role="ECM" Type="Self.ECM" Multiplicity="1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Equipment_equipmentAttributeUid">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="EquipmentAttributeValue" Type="Self.EquipmentAttributeValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttributeValue">
+              <PropertyRef Name="equipmentUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -531,6 +592,42 @@
             </Principal>
             <Dependent Role="Equipment">
               <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentAttribute_dataType">
+          <End Role="AppDataType" Type="Self.AppDataType" Multiplicity="1" />
+          <End Role="EquipmentAttribute" Type="Self.EquipmentAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppDataType">
+              <PropertyRef Name="appDataTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttribute">
+              <PropertyRef Name="appDataTypeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentAttribute_equipmentAttributeTypeUid">
+          <End Role="EquipmentAttributeType" Type="Self.EquipmentAttributeType" Multiplicity="1" />
+          <End Role="EquipmentAttribute" Type="Self.EquipmentAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttribute">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentAttributeValue_equipmentAttributeUid">
+          <End Role="EquipmentAttribute" Type="Self.EquipmentAttribute" Multiplicity="1" />
+          <End Role="EquipmentAttributeValue" Type="Self.EquipmentAttributeValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttribute">
+              <PropertyRef Name="equipmentAttributeUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttributeValue">
+              <PropertyRef Name="equipmentAttributeUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -959,6 +1056,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="JCIEstimateModelStoreContainer">
+          <EntitySet Name="AppDataType" EntityType="Self.AppDataType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contractor" EntityType="Self.Contractor" Schema="dbo" store:Type="Tables" />
@@ -967,6 +1065,9 @@
           <EntitySet Name="ECM" EntityType="Self.ECM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Eddress" EntityType="Self.Eddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentAttribute" EntityType="Self.EquipmentAttribute" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentAttributeType" EntityType="Self.EquipmentAttributeType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentAttributeValue" EntityType="Self.EquipmentAttributeValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentTask" EntityType="Self.EquipmentTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentToDo" EntityType="Self.EquipmentToDo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentType" EntityType="Self.EquipmentType" Schema="dbo" store:Type="Tables" />
@@ -1028,13 +1129,33 @@
             <End Role="Project" EntitySet="Project" />
             <End Role="ECM" EntitySet="ECM" />
           </AssociationSet>
-          <AssociationSet Name="fk_equipment_equipmenttype" Association="Self.fk_equipment_equipmenttype">
-            <End Role="EquipmentType" EntitySet="EquipmentType" />
+          <AssociationSet Name="fk_equipment_AttributeType" Association="Self.fk_equipment_AttributeType">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeType" />
             <End Role="Equipment" EntitySet="Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipment_ecm" Association="Self.fk_equipment_ecm">
+            <End Role="ECM" EntitySet="ECM" />
+            <End Role="Equipment" EntitySet="Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Equipment_equipmentAttributeUid" Association="Self.fk_Equipment_equipmentAttributeUid">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="EquipmentAttributeValue" EntitySet="EquipmentAttributeValue" />
           </AssociationSet>
           <AssociationSet Name="fk_equipment_location" Association="Self.fk_equipment_location">
             <End Role="Location" EntitySet="Location" />
             <End Role="Equipment" EntitySet="Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentAttribute_dataType" Association="Self.fk_EquipmentAttribute_dataType">
+            <End Role="AppDataType" EntitySet="AppDataType" />
+            <End Role="EquipmentAttribute" EntitySet="EquipmentAttribute" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentAttribute_equipmentAttributeTypeUid" Association="Self.fk_EquipmentAttribute_equipmentAttributeTypeUid">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeType" />
+            <End Role="EquipmentAttribute" EntitySet="EquipmentAttribute" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentAttributeValue_equipmentAttributeUid" Association="Self.fk_EquipmentAttributeValue_equipmentAttributeUid">
+            <End Role="EquipmentAttribute" EntitySet="EquipmentAttribute" />
+            <End Role="EquipmentAttributeValue" EntitySet="EquipmentAttributeValue" />
           </AssociationSet>
           <AssociationSet Name="fk_equipmenttodo_equipment" Association="Self.fk_equipmenttodo_equipment">
             <End Role="Equipment" EntitySet="Equipment" />
@@ -1187,7 +1308,6 @@
           <EntitySet Name="ContractorContacts" EntityType="JCIEstimateModel.ContractorContact" />
           <EntitySet Name="ContractorUsers" EntityType="JCIEstimateModel.ContractorUser" />
           <EntitySet Name="Eddresses" EntityType="JCIEstimateModel.Eddress" />
-          <EntitySet Name="EstimateStatus" EntityType="JCIEstimateModel.EstimateStatu" />
           <EntitySet Name="Locations" EntityType="JCIEstimateModel.Location" />
           <EntitySet Name="Projects" EntityType="JCIEstimateModel.Project" />
           <AssociationSet Name="fk_contractor" Association="JCIEstimateModel.fk_contractor">
@@ -1263,10 +1383,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_estimate_location" Association="JCIEstimateModel.fk_estimate_location">
             <End Role="Location" EntitySet="Locations" />
-            <End Role="Estimate" EntitySet="Estimates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_estimate_status" Association="JCIEstimateModel.fk_estimate_status">
-            <End Role="EstimateStatu" EntitySet="EstimateStatus" />
             <End Role="Estimate" EntitySet="Estimates" />
           </AssociationSet>
           <EntitySet Name="ScopeOfWorks" EntityType="JCIEstimateModel.ScopeOfWork" />
@@ -1380,12 +1496,45 @@
             <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
             <End Role="WarrantyNote" EntitySet="WarrantyNotes" />
           </AssociationSet>
-          <EntitySet Name="Equipments" EntityType="JCIEstimateModel.Equipment" />
           <EntitySet Name="EquipmentTasks" EntityType="JCIEstimateModel.EquipmentTask" />
           <EntitySet Name="EquipmentToDoes" EntityType="JCIEstimateModel.EquipmentToDo" />
-          <AssociationSet Name="fk_equipment_equipmenttype" Association="JCIEstimateModel.fk_equipment_equipmenttype">
-            <End Role="EquipmentType" EntitySet="EquipmentTypes" />
+          <AssociationSet Name="fk_equipmenttodo_equipmenttask" Association="JCIEstimateModel.fk_equipmenttodo_equipmenttask">
+            <End Role="EquipmentTask" EntitySet="EquipmentTasks" />
+            <End Role="EquipmentToDo" EntitySet="EquipmentToDoes" />
+          </AssociationSet>
+          <EntitySet Name="EstimateStatus" EntityType="JCIEstimateModel.EstimateStatu" />
+          <AssociationSet Name="fk_estimate_status" Association="JCIEstimateModel.fk_estimate_status">
+            <End Role="EstimateStatu" EntitySet="EstimateStatus" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <EntitySet Name="EquipmentAttributeTypes" EntityType="JCIEstimateModel.EquipmentAttributeType" />
+          <EntitySet Name="AppDataTypes" EntityType="JCIEstimateModel.AppDataType" />
+          <EntitySet Name="EquipmentAttributes" EntityType="JCIEstimateModel.EquipmentAttribute" />
+          <AssociationSet Name="fk_EquipmentAttribute_dataType" Association="JCIEstimateModel.fk_EquipmentAttribute_dataType">
+            <End Role="AppDataType" EntitySet="AppDataTypes" />
+            <End Role="EquipmentAttribute" EntitySet="EquipmentAttributes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentAttribute_equipmentAttributeTypeUid" Association="JCIEstimateModel.fk_EquipmentAttribute_equipmentAttributeTypeUid">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeTypes" />
+            <End Role="EquipmentAttribute" EntitySet="EquipmentAttributes" />
+          </AssociationSet>
+          <EntitySet Name="EquipmentAttributeValues" EntityType="JCIEstimateModel.EquipmentAttributeValue" />
+          <AssociationSet Name="fk_EquipmentAttributeValue_equipmentAttributeUid" Association="JCIEstimateModel.fk_EquipmentAttributeValue_equipmentAttributeUid">
+            <End Role="EquipmentAttribute" EntitySet="EquipmentAttributes" />
+            <End Role="EquipmentAttributeValue" EntitySet="EquipmentAttributeValues" />
+          </AssociationSet>
+          <EntitySet Name="Equipments" EntityType="JCIEstimateModel.Equipment" />
+          <AssociationSet Name="fk_equipment_ecm" Association="JCIEstimateModel.fk_equipment_ecm">
+            <End Role="ECM" EntitySet="ECMs" />
             <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipment_AttributeType" Association="JCIEstimateModel.fk_equipment_AttributeType">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeTypes" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Equipment_equipmentAttributeUid" Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="EquipmentAttributeValue" EntitySet="EquipmentAttributeValues" />
           </AssociationSet>
           <AssociationSet Name="fk_equipment_location" Association="JCIEstimateModel.fk_equipment_location">
             <End Role="Location" EntitySet="Locations" />
@@ -1393,10 +1542,6 @@
           </AssociationSet>
           <AssociationSet Name="fk_equipmenttodo_equipment" Association="JCIEstimateModel.fk_equipmenttodo_equipment">
             <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="EquipmentToDo" EntitySet="EquipmentToDoes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_equipmenttodo_equipmenttask" Association="JCIEstimateModel.fk_equipmenttodo_equipmenttask">
-            <End Role="EquipmentTask" EntitySet="EquipmentTasks" />
             <End Role="EquipmentToDo" EntitySet="EquipmentToDoes" />
           </AssociationSet>
           </EntityContainer>
@@ -1454,16 +1599,6 @@
           <Property Name="eddress1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="isPrimary" Type="Boolean" />
           <NavigationProperty Name="ContractorContact" Relationship="JCIEstimateModel.fk_contractorContact" FromRole="Eddress" ToRole="ContractorContact" />
-        </EntityType>
-        <EntityType Name="EstimateStatu">
-          <Key>
-            <PropertyRef Name="estimateStatusUid" />
-          </Key>
-          <Property Name="estimateStatusUid" Type="Guid" Nullable="false" />
-          <Property Name="estimateStatus" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="estimateStatusDescription" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="behaviorIndicator" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="EstimateStatu" ToRole="Estimate" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -1589,6 +1724,7 @@
           <Property Name="projectUid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="ECM" ToRole="Project" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
+          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="ECM" ToRole="Equipment" />
           </EntityType>
         <Association Name="fk_ecm_project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
@@ -1659,7 +1795,6 @@
           <Property Name="equipmentType1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="equipmentTypeDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_equipmenttype" FromRole="EquipmentType" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="ExpenseMiscellaneou">
           <Key>
@@ -1780,10 +1915,10 @@
           <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Estimate" ToRole="Contractor" />
           <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="Estimate" ToRole="ECM" />
           <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Estimate" ToRole="Location" />
-          <NavigationProperty Name="EstimateStatu" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="Estimate" ToRole="EstimateStatu" />
           <NavigationProperty Name="EstimateExceptions" Relationship="JCIEstimateModel.fk_estimateException_estimate" FromRole="Estimate" ToRole="EstimateException" />
           <NavigationProperty Name="EstimateExclusions" Relationship="JCIEstimateModel.fk_estimateExclusion_estimate" FromRole="Estimate" ToRole="EstimateExclusion" />
           <NavigationProperty Name="EstimateInclusions" Relationship="JCIEstimateModel.fk_estimateInclusion_estimate" FromRole="Estimate" ToRole="EstimateInclusion" />
+          <NavigationProperty Name="EstimateStatu" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="Estimate" ToRole="EstimateStatu" />
         </EntityType>
         <Association Name="fk_estimate_category">
           <End Type="JCIEstimateModel.Category" Role="Category" Multiplicity="1" />
@@ -1830,18 +1965,6 @@
             </Principal>
             <Dependent Role="Estimate">
               <PropertyRef Name="locationUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_estimate_status">
-          <End Type="JCIEstimateModel.EstimateStatu" Role="EstimateStatu" Multiplicity="1" />
-          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EstimateStatu">
-              <PropertyRef Name="estimateStatusUid" />
-            </Principal>
-            <Dependent Role="Estimate">
-              <PropertyRef Name="estimateStatusUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2358,21 +2481,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Equipment">
-          <Key>
-            <PropertyRef Name="equipmentUid" />
-          </Key>
-          <Property Name="equipmentUid" Type="Guid" Nullable="false" />
-          <Property Name="locationUid" Type="Guid" Nullable="false" />
-          <Property Name="room" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="equipmentTypeUid" Type="Guid" Nullable="false" />
-          <Property Name="equipment1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="jciCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="barCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EquipmentType" Relationship="JCIEstimateModel.fk_equipment_equipmenttype" FromRole="Equipment" ToRole="EquipmentType" />
-          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Equipment" ToRole="Location" />
-          <NavigationProperty Name="EquipmentToDoes" Relationship="JCIEstimateModel.fk_equipmenttodo_equipment" FromRole="Equipment" ToRole="EquipmentToDo" />
-        </EntityType>
         <EntityType Name="EquipmentTask">
           <Key>
             <PropertyRef Name="equipmentTaskUid" />
@@ -2390,18 +2498,174 @@
           <Property Name="equipmentUid" Type="Guid" Nullable="false" />
           <Property Name="equipmentTaskUid" Type="Guid" Nullable="false" />
           <Property Name="daysToComplete" Type="Decimal" Precision="11" Scale="2" />
-          <NavigationProperty Name="Equipment" Relationship="JCIEstimateModel.fk_equipmenttodo_equipment" FromRole="EquipmentToDo" ToRole="Equipment" />
           <NavigationProperty Name="EquipmentTask" Relationship="JCIEstimateModel.fk_equipmenttodo_equipmenttask" FromRole="EquipmentToDo" ToRole="EquipmentTask" />
+          <NavigationProperty Name="Equipment" Relationship="JCIEstimateModel.fk_equipmenttodo_equipment" FromRole="EquipmentToDo" ToRole="Equipment" />
         </EntityType>
-        <Association Name="fk_equipment_equipmenttype">
-          <End Type="JCIEstimateModel.EquipmentType" Role="EquipmentType" Multiplicity="1" />
+        <Association Name="fk_equipmenttodo_equipmenttask">
+          <End Type="JCIEstimateModel.EquipmentTask" Role="EquipmentTask" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentToDo" Role="EquipmentToDo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentTask">
+              <PropertyRef Name="equipmentTaskUid" />
+            </Principal>
+            <Dependent Role="EquipmentToDo">
+              <PropertyRef Name="equipmentTaskUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EstimateStatu">
+          <Key>
+            <PropertyRef Name="estimateStatusUid" />
+          </Key>
+          <Property Name="estimateStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateStatus" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="estimateStatusDescription" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="EstimateStatu" ToRole="Estimate" />
+        </EntityType>
+        <Association Name="fk_estimate_status">
+          <End Type="JCIEstimateModel.EstimateStatu" Role="EstimateStatu" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstimateStatu">
+              <PropertyRef Name="estimateStatusUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="estimateStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EquipmentAttributeType">
+          <Key>
+            <PropertyRef Name="equipmentAttributeTypeUid" />
+          </Key>
+          <Property Name="equipmentAttributeTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttributeType1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="behaviorIndicator" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EquipmentAttributes" Relationship="JCIEstimateModel.fk_EquipmentAttribute_equipmentAttributeTypeUid" FromRole="EquipmentAttributeType" ToRole="EquipmentAttribute" />
+          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_AttributeType" FromRole="EquipmentAttributeType" ToRole="Equipment" />
+        </EntityType>
+        <EntityType Name="AppDataType">
+          <Key>
+            <PropertyRef Name="appDataTypeUid" />
+          </Key>
+          <Property Name="appDataTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="appDataType1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EquipmentAttributes" Relationship="JCIEstimateModel.fk_EquipmentAttribute_dataType" FromRole="AppDataType" ToRole="EquipmentAttribute" />
+        </EntityType>
+        <EntityType Name="EquipmentAttribute">
+          <Key>
+            <PropertyRef Name="equipmentAttributeUid" />
+          </Key>
+          <Property Name="equipmentAttributeUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttributeTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="appDataTypeTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttribute1" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AppDataType" Relationship="JCIEstimateModel.fk_EquipmentAttribute_dataType" FromRole="EquipmentAttribute" ToRole="AppDataType" />
+          <NavigationProperty Name="EquipmentAttributeType" Relationship="JCIEstimateModel.fk_EquipmentAttribute_equipmentAttributeTypeUid" FromRole="EquipmentAttribute" ToRole="EquipmentAttributeType" />
+          <NavigationProperty Name="EquipmentAttributeValues" Relationship="JCIEstimateModel.fk_EquipmentAttributeValue_equipmentAttributeUid" FromRole="EquipmentAttribute" ToRole="EquipmentAttributeValue" />
+        </EntityType>
+        <Association Name="fk_EquipmentAttribute_dataType">
+          <End Type="JCIEstimateModel.AppDataType" Role="AppDataType" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentAttribute" Role="EquipmentAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppDataType">
+              <PropertyRef Name="appDataTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttribute">
+              <PropertyRef Name="appDataTypeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentAttribute_equipmentAttributeTypeUid">
+          <End Type="JCIEstimateModel.EquipmentAttributeType" Role="EquipmentAttributeType" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentAttribute" Role="EquipmentAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttribute">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EquipmentAttributeValue">
+          <Key>
+            <PropertyRef Name="equipmentAttributeValueUid" />
+          </Key>
+          <Property Name="equipmentAttributeValueUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttributeUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttributeValue1" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EquipmentAttribute" Relationship="JCIEstimateModel.fk_EquipmentAttributeValue_equipmentAttributeUid" FromRole="EquipmentAttributeValue" ToRole="EquipmentAttribute" />
+          <NavigationProperty Name="Equipment" Relationship="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" FromRole="EquipmentAttributeValue" ToRole="Equipment" />
+        </EntityType>
+        <Association Name="fk_EquipmentAttributeValue_equipmentAttributeUid">
+          <End Type="JCIEstimateModel.EquipmentAttribute" Role="EquipmentAttribute" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentAttributeValue" Role="EquipmentAttributeValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttribute">
+              <PropertyRef Name="equipmentAttributeUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttributeValue">
+              <PropertyRef Name="equipmentAttributeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="equipmentUid" />
+          </Key>
+          <Property Name="equipmentUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttributeTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="ecmUid" Type="Guid" Nullable="false" />
+          <Property Name="locationUid" Type="Guid" Nullable="false" />
+          <Property Name="jciTag" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ownerTag" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="manufacturer" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="model" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="serialNumber" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="installDate" Type="DateTime" Precision="0" />
+          <Property Name="area" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="Equipment" ToRole="ECM" />
+          <NavigationProperty Name="EquipmentAttributeType" Relationship="JCIEstimateModel.fk_equipment_AttributeType" FromRole="Equipment" ToRole="EquipmentAttributeType" />
+          <NavigationProperty Name="EquipmentAttributeValues" Relationship="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" FromRole="Equipment" ToRole="EquipmentAttributeValue" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Equipment" ToRole="Location" />
+          <NavigationProperty Name="EquipmentToDoes" Relationship="JCIEstimateModel.fk_equipmenttodo_equipment" FromRole="Equipment" ToRole="EquipmentToDo" />
+        </EntityType>
+        <Association Name="fk_equipment_ecm">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
           <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="EquipmentType">
-              <PropertyRef Name="equipmentTypeUid" />
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
             </Principal>
             <Dependent Role="Equipment">
-              <PropertyRef Name="equipmentTypeUid" />
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_AttributeType">
+          <End Type="JCIEstimateModel.EquipmentAttributeType" Role="EquipmentAttributeType" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Equipment_equipmentAttributeUid">
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentAttributeValue" Role="EquipmentAttributeValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttributeValue">
+              <PropertyRef Name="equipmentUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2426,18 +2690,6 @@
             </Principal>
             <Dependent Role="EquipmentToDo">
               <PropertyRef Name="equipmentUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_equipmenttodo_equipmenttask">
-          <End Type="JCIEstimateModel.EquipmentTask" Role="EquipmentTask" Multiplicity="1" />
-          <End Type="JCIEstimateModel.EquipmentToDo" Role="EquipmentToDo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EquipmentTask">
-              <PropertyRef Name="equipmentTaskUid" />
-            </Principal>
-            <Dependent Role="EquipmentToDo">
-              <PropertyRef Name="equipmentTaskUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2494,16 +2746,6 @@
                 <ScalarProperty Name="eddress1" ColumnName="eddress" />
                 <ScalarProperty Name="contractorContactUid" ColumnName="contractorContactUid" />
                 <ScalarProperty Name="eddressUid" ColumnName="eddressUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EstimateStatus">
-            <EntityTypeMapping TypeName="JCIEstimateModel.EstimateStatu">
-              <MappingFragment StoreEntitySet="EstimateStatus">
-                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
-                <ScalarProperty Name="estimateStatusDescription" ColumnName="estimateStatusDescription" />
-                <ScalarProperty Name="estimateStatus" ColumnName="estimateStatus" />
-                <ScalarProperty Name="estimateStatusUid" ColumnName="estimateStatusUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2877,19 +3119,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Equipments">
-            <EntityTypeMapping TypeName="JCIEstimateModel.Equipment">
-              <MappingFragment StoreEntitySet="Equipment">
-                <ScalarProperty Name="barCode" ColumnName="barCode" />
-                <ScalarProperty Name="jciCode" ColumnName="jciCode" />
-                <ScalarProperty Name="equipment1" ColumnName="equipment" />
-                <ScalarProperty Name="equipmentTypeUid" ColumnName="equipmentTypeUid" />
-                <ScalarProperty Name="room" ColumnName="room" />
-                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
-                <ScalarProperty Name="equipmentUid" ColumnName="equipmentUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="EquipmentTasks">
             <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentTask">
               <MappingFragment StoreEntitySet="EquipmentTask">
@@ -2906,6 +3135,70 @@
                 <ScalarProperty Name="equipmentTaskUid" ColumnName="equipmentTaskUid" />
                 <ScalarProperty Name="equipmentUid" ColumnName="equipmentUid" />
                 <ScalarProperty Name="equipmentToDoUid" ColumnName="equipmentToDoUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstimateStatus">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EstimateStatu">
+              <MappingFragment StoreEntitySet="EstimateStatus">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="estimateStatusDescription" ColumnName="estimateStatusDescription" />
+                <ScalarProperty Name="estimateStatus" ColumnName="estimateStatus" />
+                <ScalarProperty Name="estimateStatusUid" ColumnName="estimateStatusUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentAttributeTypes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentAttributeType">
+              <MappingFragment StoreEntitySet="EquipmentAttributeType">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="equipmentAttributeType1" ColumnName="equipmentAttributeType" />
+                <ScalarProperty Name="equipmentAttributeTypeUid" ColumnName="equipmentAttributeTypeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppDataTypes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.AppDataType">
+              <MappingFragment StoreEntitySet="AppDataType">
+                <ScalarProperty Name="appDataType1" ColumnName="appDataType" />
+                <ScalarProperty Name="appDataTypeUid" ColumnName="appDataTypeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentAttributes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentAttribute">
+              <MappingFragment StoreEntitySet="EquipmentAttribute">
+                <ScalarProperty Name="equipmentAttribute1" ColumnName="equipmentAttribute" />
+                <ScalarProperty Name="appDataTypeTypeUid" ColumnName="appDataTypeTypeUid" />
+                <ScalarProperty Name="equipmentAttributeTypeUid" ColumnName="equipmentAttributeTypeUid" />
+                <ScalarProperty Name="equipmentAttributeUid" ColumnName="equipmentAttributeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentAttributeValues">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentAttributeValue">
+              <MappingFragment StoreEntitySet="EquipmentAttributeValue">
+                <ScalarProperty Name="equipmentAttributeValue1" ColumnName="equipmentAttributeValue" />
+                <ScalarProperty Name="equipmentUid" ColumnName="equipmentUid" />
+                <ScalarProperty Name="equipmentAttributeUid" ColumnName="equipmentAttributeUid" />
+                <ScalarProperty Name="equipmentAttributeValueUid" ColumnName="equipmentAttributeValueUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipments">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Equipment">
+              <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="installDate" ColumnName="installDate" />
+                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+                <ScalarProperty Name="ownerTag" ColumnName="ownerTag" />
+                <ScalarProperty Name="jciTag" ColumnName="jciTag" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
+                <ScalarProperty Name="equipmentAttributeTypeUid" ColumnName="equipmentAttributeTypeUid" />
+                <ScalarProperty Name="equipmentUid" ColumnName="equipmentUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

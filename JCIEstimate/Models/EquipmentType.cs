@@ -14,16 +14,9 @@ namespace JCIEstimate.Models
     
     public partial class EquipmentType
     {
-        public EquipmentType()
-        {
-            this.Equipments = new HashSet<Equipment>();
-        }
-    
         public System.Guid equipmentTypeUid { get; set; }
         public string equipmentType1 { get; set; }
         public string equipmentTypeDescription { get; set; }
         public string behaviorIndicator { get; set; }
-    
-        public virtual ICollection<Equipment> Equipments { get; set; }
     }
 }

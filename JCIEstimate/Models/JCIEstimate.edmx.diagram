@@ -4,13 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="76">
+      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="73">
         <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="11.875" PointY="10.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="8.625" PointY="3.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorUser" Width="1.5" PointX="11.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="JCIEstimateModel.Eddress" Width="1.5" PointX="17.25" PointY="3.875" />
-        <EntityTypeShape EntityType="JCIEstimateModel.EstimateStatu" Width="1.5" PointX="10.5" PointY="6.25" />
         <EntityTypeShape EntityType="JCIEstimateModel.Location" Width="1.5" PointX="7.375" PointY="10.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.Project" Width="1.5" PointX="16.125" PointY="16.5" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractor" />
@@ -40,7 +39,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_status" />
         <EntityTypeShape EntityType="JCIEstimateModel.ScopeOfWork" Width="1.5" PointX="18.375" PointY="13.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_category" />
         <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_project" />
@@ -83,13 +81,24 @@
         <AssociationConnector Association="JCIEstimateModel.fk_warrantyissue_warrantystatus" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
         <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="21.375" PointY="16.25" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentTask" Width="1.5" PointX="21.375" PointY="20.75" />
-        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentToDo" Width="1.5" PointX="23.625" PointY="16.625" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_equipmenttype" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentToDo" Width="1.5" PointX="23.625" PointY="22" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipmenttask" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EstimateStatu" Width="1.5" PointX="7.375" PointY="6.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_status" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentAttributeType" Width="1.5" PointX="7.375" PointY="27.375" />
+        <EntityTypeShape EntityType="JCIEstimateModel.AppDataType" Width="1.5" PointX="0.75" PointY="15.375" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentAttribute" Width="1.5" PointX="11" PointY="19.125" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttribute_dataType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttribute_equipmentAttributeTypeUid" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentAttributeValue" Width="1.5" PointX="13.25" PointY="21.25" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttributeValue_equipmentAttributeUid" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="21.375" PointY="24" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_AttributeType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipment" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipmenttask" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
