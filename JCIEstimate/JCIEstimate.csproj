@@ -1795,6 +1795,7 @@
     <Content Include="Views\Equipments\Index2.cshtml" />
     <Content Include="Views\Equipments\GridEdit.cshtml" />
     <Content Include="Views\EquipmentToDoes\SaveCheckedBox.cshtml" />
+    <Content Include="Views\Equipments\GridEditPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

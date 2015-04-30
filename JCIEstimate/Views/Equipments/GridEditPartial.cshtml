@@ -1,0 +1,29 @@
+﻿@model IEnumerable<JCIEstimate.Models.Equipment>
+@foreach (var item in ViewBag.equipment)
+{
+    <tr>
+        <td class="GridTable"><a href="~/Equipments/Edit/@item.equipmentUid">@item.Location.location1 - @item.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.installDate).Year - @item.ECM.ecmNumber - @item.jciTag</a></td>
+        @foreach (var task in ViewBag.equipmentTasks)
+        {
+            string chked = "";
+
+            foreach (var toDo in ViewBag.equipmentToDoes)
+            {
+                if (toDo.equipmentUid == item.equipmentUid && toDo.equipmentTaskUid == task.equipmentTaskUid)
+                {
+                    chked = "CHECKED";
+                }
+            }
+            <td class="GridTable"><input class="gridCheckBox" type="checkbox" name="@(item.equipmentUid)_@(task.equipmentTaskUid)" @chked /> </td>
+        }
+        <td class="GridTable">
+            @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <a href="@Url.Action("Delete", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>
+            }
+        </td>
+
+    </tr>
+
+
+}

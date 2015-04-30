@@ -31,7 +31,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location);
+            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(c=>c.ECM.ecmNumber);
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             ViewBag.equipment = equipments;
@@ -55,13 +55,40 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location);
+            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(c => c.ECM.ecmNumber);
 
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             ViewBag.equipment = equipments;
 
             return View(await equipments.ToListAsync());
+        }
+
+        public async Task<ActionResult> GridEditPartial(string filter)
+        {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();            
+
+            //apply session project predicate
+            var equipments = from cc in db.Equipments
+                             where cc.Location.projectUid == sessionProject
+                             select cc;
+
+
+            if (filter != null && filter.Length > 0)
+            {
+                equipments = from cc in equipments
+                             where (cc.Location.location1 + " - " + cc.EquipmentAttributeType.equipmentAttributeType1 + " - " + cc.installDate.Value.Year + " - " + cc.ECM.ecmNumber + " - " + cc.jciTag).Contains(filter)
+                             select cc;
+
+            }
+
+            equipments = equipments.Include(w => w.Location).OrderBy(w => w.Location.location1).ThenBy(w => w.ECM.ecmNumber);
+
+            ViewBag.equipmentTasks = db.EquipmentTasks;
+            ViewBag.equipmentToDoes = db.EquipmentToDoes;
+            ViewBag.equipment = equipments;
+
+            return PartialView(await equipments.ToListAsync());
         }
 
         // GET: Equipments/Details/5

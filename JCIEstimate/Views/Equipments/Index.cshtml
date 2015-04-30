@@ -67,7 +67,7 @@
             @Html.DisplayFor(modelItem => item.serialNumber)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.installDate)
+            @String.Format("{0:yyyy}", item.installDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.area)

@@ -4,26 +4,33 @@
     $(".filter").change(function () {
         var selectedValue = $("#filter").val();
         var url = "/WarrantyIssues/Index";
-        $("#tblWarrantyIssues").load("/WarrantyIssues/IndexPartial?filterId=" + selectedValue);        
+        $("#tblWarrantyIssues").load("/WarrantyIssues/IndexPartial?filterId=" + escape(selectedValue));        
     })
 
-    $("#txtFilter").keypress(function () {
+    $("#txtFilter").keyup(function () {
         $val = $("#txtFilter").val();
-        if ($val.length + 1 > 2) {
-            $("#tblWarrantyIssues").load("/WarrantyIssues/IndexPartial?location=" + $val);
+        if ($val.length + 1 > 2 || $val.length == 0) {
+            $("#tblWarrantyIssues").load("/WarrantyIssues/IndexPartial?location=" + escape($val));
+        }
+    })
+
+    $("#equipmentFilter").keyup(function () {
+        $val = $("#equipmentFilter").val();
+        if ($val.length + 1 > 2 || $val.length == 0) {
+            $("#tbEquipment").load("/Equipments/GridEditPartial?filter=" + escape($val));
         }
     })
 
     $(".gridFilter").change(function () {
         var selectedValue = $("#gridFilter").val();
         var url = "/Equipments/GridEdit";
-        document.location = url + "?filterId=" + selectedValue;
+        document.location = url + "?filterId=" + escape(selectedValue);
     })
 
     $("#lnkFilter").click(function () {
         var searchVal = $("#txtSearchLocation").val();
         var url = "/WarrantyIssues/Index";
-        document.location = url + "?location=" + searchVal;
+        document.location = url + "?location=" + escape(searchVal);
     })
 
     $("#locationUid").change(function () {

@@ -252,7 +252,7 @@ namespace JCIEstimate.Controllers
             ViewBag.filteredActiveTotal = String.Format("{0:C0}", filteredActiveTotal);
             ViewBag.filteredBidTotal = String.Format("{0:C0}", filteredBidTotal);
             
-            estimates = estimates.Include(e => e.Category).Include(e => e.ECM).Include(e => e.Location).Include(e => e.Contractor).Include(e => e.EstimateStatu);            
+            estimates = estimates.Include(e => e.Category).Include(e => e.ECM).Include(e => e.Location).Include(e => e.Contractor).Include(e => e.EstimateStatu).OrderBy(c=>c.ECM.ecmNumber);            
             return View(await estimates.ToListAsync());
         }
 
