@@ -445,6 +445,8 @@ namespace JCIEstimate.Models
 
         [Display(Name = "Equipment")]
         public System.Guid equipmentUid { get; set; }
+        [Display(Name = "ECM")]
+        public System.Guid ecmUid { get; set; }
         [Display(Name = "Location")]        
         public System.Guid locationUid { get; set; }
         [Display(Name = "JCI Tag")]        
@@ -465,6 +467,8 @@ namespace JCIEstimate.Models
         public string serialNumber { get; set; }
         [Display(Name = "Model")]
         public string model { get; set; }
+        [Display(Name = "Replacement For")]
+        public string equipmentUidAsReplacement { get; set; }
         public Guid[] selectedTasks { get; set; }
     }
 

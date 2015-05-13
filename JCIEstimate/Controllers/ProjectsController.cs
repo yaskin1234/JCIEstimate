@@ -64,10 +64,13 @@ namespace JCIEstimate.Controllers
                 {
                     return RedirectToAction("Index", "WarrantyIssues");
                 }
-                else
+                else if (User.IsInRole("Contractor"))
                 {
-                    return RedirectToAction("Index", "WarrantyIssues");
-                    //return RedirectToAction("Index", "Estimates");
+                    return RedirectToAction("Index", "Estimates");
+                }
+                else // admin user
+                {                    
+                    return RedirectToAction("Index", "Estimates");
                 }
                 
             }

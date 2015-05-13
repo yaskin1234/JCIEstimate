@@ -245,7 +245,7 @@ namespace JCIEstimate.Controllers
                 {
                 id = x.warrantyUnitUid,
                 name = x.warrantyUnit1
-            }).OrderBy(c => c.id), JsonRequestBehavior.AllowGet);
+            }).OrderBy(c => c.name), JsonRequestBehavior.AllowGet);
 
             
         }
@@ -280,8 +280,8 @@ namespace JCIEstimate.Controllers
                             where true == false
                             select cc;
                         
-            ViewBag.locationUid = locations.ToSelectList(d => d.location1, d => d.locationUid.ToString(), "");
-            ViewBag.warrantyUnitUid = warrantyUnits.ToSelectList(d => d.warrantyUnit1, d => d.warrantyUnitUid.ToString(), "");
+            ViewBag.locationUid = locations.OrderBy(c=>c.location1).ToSelectList(d => d.location1, d => d.locationUid.ToString(), "");
+            ViewBag.warrantyUnitUid = warrantyUnits.OrderBy(c=>c.warrantyUnit1).ToSelectList(d => d.warrantyUnit1, d => d.warrantyUnitUid.ToString(), "");
             ViewBag.warrantyStatusUid = db.WarrantyStatus.OrderBy(d => d.listOrder).ToSelectList(d => d.warrantyStatus, d => d.warrantyStatusUid.ToString(), "");                    
             return View();
         }

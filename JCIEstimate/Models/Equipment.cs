@@ -31,11 +31,14 @@ namespace JCIEstimate.Models
         public string serialNumber { get; set; }
         public Nullable<System.DateTime> installDate { get; set; }
         public string area { get; set; }
+        public Nullable<System.Guid> equipmentUidAsReplacement { get; set; }
     
         public virtual ECM ECM { get; set; }
         public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }
         public virtual ICollection<EquipmentAttributeValue> EquipmentAttributeValues { get; set; }
         public virtual Location Location { get; set; }
         public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
+        public virtual Equipment Equipment1 { get; set; }
+        public virtual Equipment Equipment2 { get; set; }
     }
 }

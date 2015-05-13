@@ -1,5 +1,11 @@
 ﻿$(function () {
 
+    $body = $("body");
+
+    $(document).on({
+        ajaxStart: function () { $body.addClass("loading"); },
+        ajaxStop: function () { $body.removeClass("loading"); }
+    });
 
     $(".filter").change(function () {
         var selectedValue = $("#filter").val();
@@ -9,15 +15,36 @@
 
     $("#txtFilter").keyup(function () {
         $val = $("#txtFilter").val();
-        if ($val.length + 1 > 2 || $val.length == 0) {
+        if ($val.length + 1 > 2) {
             $("#tblWarrantyIssues").load("/WarrantyIssues/IndexPartial?location=" + escape($val));
         }
     })
 
-    $("#equipmentFilter").keyup(function () {
+    $("#ecms").change(function () {
+        $val = $("#cbNewOrRepalcement").val();        
+        $("#dvNewOrReplacement").show();        
+    })
+
+    $("#cbNewOrRepalcement").change(function () {
+        $val = $("#cbNewOrRepalcement").val();
+        if ($val == "New") {
+            $("#dvDetails").show();
+            $("#dvReplacement").hide();
+        }
+        if ($val == "Replacement") {
+            $("#dvReplacement").show();
+            $("#dvDetails").show();
+        }
+    })
+
+    $("#btnEquipmentGridFilter").click(function () {
         $val = $("#equipmentFilter").val();
-        if ($val.length + 1 > 2 || $val.length == 0) {
-            $("#tbEquipment").load("/Equipments/GridEditPartial?filter=" + escape($val));
+        $("#tbEquipment").load("/Equipments/GridEditPartial?filter=" + escape($val));
+    })
+
+    $("#equipmentFilter").keyup(function () {
+        if (event.keyCode == 13) {
+            $("#btnEquipmentGridFilter").click();
         }
     })
 
@@ -26,6 +53,19 @@
         var url = "/Equipments/GridEdit";
         document.location = url + "?filterId=" + escape(selectedValue);
     })
+
+    $(".tdEquipmentForEcm").click(function () {                
+        $val = this.id.split("_")[1];
+        if ($("#tdEquipmentForEcm_" + $val).html().trim() != "") {
+            $("#tdEquipmentForEcm_" + $val).empty();
+        }
+        else {
+            $("#tdEquipmentForEcm_" + $val).load("/Equipments/IndexPartial?ecmUid=" + escape($val));
+        }
+        
+    })
+
+    
 
     $("#lnkFilter").click(function () {
         var searchVal = $("#txtSearchLocation").val();
@@ -184,12 +224,7 @@
             success: function (data) {
                 alert("check " + data);
             }
-        }).done(function () {
-            alert("done");
-        }).fail(function () {
-            alert("fail" + data);
-        }).always(function () {
-            alert("always");
+        }).done(function () {            
         })
     });
 });

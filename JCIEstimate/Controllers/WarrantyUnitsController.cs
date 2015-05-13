@@ -18,7 +18,22 @@ namespace JCIEstimate.Controllers
         // GET: WarrantyUnits
         public async Task<ActionResult> Index()
         {
-            return View(await db.WarrantyUnits.ToListAsync());
+            Guid sessionProject;
+
+            sessionProject = Guid.Empty;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var warrantyUnits = db.WarrantyUnits.Where(c => c.Location.projectUid == sessionProject).OrderBy(c=>c.warrantyUnit1);
+
+            return View(await warrantyUnits.ToListAsync());
         }
 
         // GET: WarrantyUnits/Details/5
@@ -39,6 +54,20 @@ namespace JCIEstimate.Controllers
         // GET: WarrantyUnits/Create
         public ActionResult Create()
         {
+             Guid sessionProject;
+
+            sessionProject = Guid.Empty;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var locations = db.Locations.Where(c => c.projectUid == sessionProject);
+            ViewBag.locationUid = new SelectList(locations, "locationUid", "location1");
             return View();
         }
 
@@ -72,6 +101,23 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
+
+            Guid sessionProject;
+
+            sessionProject = Guid.Empty;
+
+            if (Session["projectUid"] != null)
+            {
+                sessionProject = new System.Guid(Session["projectUid"].ToString());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var locations = db.Locations.Where(c => c.projectUid == sessionProject);
+            ViewBag.locationUid = new SelectList(locations, "locationUid", "location1");
+
             return View(warrantyUnit);
         }
 

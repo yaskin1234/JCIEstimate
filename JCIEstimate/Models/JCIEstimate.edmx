@@ -100,6 +100,7 @@
           <Property Name="serialNumber" Type="nvarchar" MaxLength="2000" />
           <Property Name="installDate" Type="date" />
           <Property Name="area" Type="nvarchar" MaxLength="2000" />
+          <Property Name="equipmentUidAsReplacement" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="EquipmentAttribute">
           <Key>
@@ -568,6 +569,18 @@
             </Principal>
             <Dependent Role="Equipment">
               <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_equipmentAsReplacement">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment1" Type="Self.Equipment" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="Equipment1">
+              <PropertyRef Name="equipmentUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1137,6 +1150,10 @@
             <End Role="ECM" EntitySet="ECM" />
             <End Role="Equipment" EntitySet="Equipment" />
           </AssociationSet>
+          <AssociationSet Name="fk_equipment_equipmentAsReplacement" Association="Self.fk_equipment_equipmentAsReplacement">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="Equipment1" EntitySet="Equipment" />
+          </AssociationSet>
           <AssociationSet Name="fk_Equipment_equipmentAttributeUid" Association="Self.fk_Equipment_equipmentAttributeUid">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="EquipmentAttributeValue" EntitySet="EquipmentAttributeValue" />
@@ -1543,6 +1560,10 @@
           <AssociationSet Name="fk_equipmenttodo_equipment" Association="JCIEstimateModel.fk_equipmenttodo_equipment">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="EquipmentToDo" EntitySet="EquipmentToDoes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipment_equipmentAsReplacement" Association="JCIEstimateModel.fk_equipment_equipmentAsReplacement">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="Equipment1" EntitySet="Equipments" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
@@ -2632,6 +2653,9 @@
           <NavigationProperty Name="EquipmentAttributeValues" Relationship="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" FromRole="Equipment" ToRole="EquipmentAttributeValue" />
           <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Equipment" ToRole="Location" />
           <NavigationProperty Name="EquipmentToDoes" Relationship="JCIEstimateModel.fk_equipmenttodo_equipment" FromRole="Equipment" ToRole="EquipmentToDo" />
+          <Property Name="equipmentUidAsReplacement" Type="Guid" />
+          <NavigationProperty Name="Equipment1" Relationship="JCIEstimateModel.fk_equipment_equipmentAsReplacement" FromRole="Equipment" ToRole="Equipment1" />
+          <NavigationProperty Name="Equipment2" Relationship="JCIEstimateModel.fk_equipment_equipmentAsReplacement" FromRole="Equipment1" ToRole="Equipment" />
         </EntityType>
         <Association Name="fk_equipment_ecm">
           <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
@@ -2689,6 +2713,18 @@
               <PropertyRef Name="equipmentUid" />
             </Principal>
             <Dependent Role="EquipmentToDo">
+              <PropertyRef Name="equipmentUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_equipmentAsReplacement">
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="Equipment1">
               <PropertyRef Name="equipmentUid" />
             </Dependent>
           </ReferentialConstraint>
@@ -3188,6 +3224,7 @@
           <EntitySetMapping Name="Equipments">
             <EntityTypeMapping TypeName="JCIEstimateModel.Equipment">
               <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="equipmentUidAsReplacement" ColumnName="equipmentUidAsReplacement" />
                 <ScalarProperty Name="area" ColumnName="area" />
                 <ScalarProperty Name="installDate" ColumnName="installDate" />
                 <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />

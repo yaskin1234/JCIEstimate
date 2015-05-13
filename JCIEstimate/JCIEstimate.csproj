@@ -574,6 +574,7 @@
     <Content Include="Images\delete-icon.png" />
     <Content Include="Images\delete_filter-128.png" />
     <Content Include="Images\edit.png" />
+    <Content Include="Images\equipment.png" />
     <Content Include="Images\filter.png" />
     <Content Include="Images\magnet.jpg" />
     <Content Include="Images\tasks.png" />
@@ -1796,6 +1797,8 @@
     <Content Include="Views\Equipments\GridEdit.cshtml" />
     <Content Include="Views\EquipmentToDoes\SaveCheckedBox.cshtml" />
     <Content Include="Views\Equipments\GridEditPartial.cshtml" />
+    <Content Include="Views\Equipments\IndexPartial.cshtml" />
+    <Content Include="Views\EquipmentAttributeValues\SaveValue.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

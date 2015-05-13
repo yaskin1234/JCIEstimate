@@ -61,7 +61,7 @@ namespace JCIEstimate.Controllers
                 eq.equipmentAttributeValue1 = value;
                 db.SaveChanges();
             }
-            return View();
+            return PartialView();
         }
 
 

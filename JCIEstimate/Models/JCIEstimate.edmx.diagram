@@ -99,6 +99,7 @@
         <AssociationConnector Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipment" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_equipmentAsReplacement" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

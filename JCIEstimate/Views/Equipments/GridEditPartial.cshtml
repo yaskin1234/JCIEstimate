@@ -2,7 +2,7 @@
 @foreach (var item in ViewBag.equipment)
 {
     <tr>
-        <td class="GridTable"><a href="~/Equipments/Edit/@item.equipmentUid">@item.Location.location1 - @item.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.installDate).Year - @item.ECM.ecmNumber - @item.jciTag</a></td>
+        <td class="GridTable"><a href="~/Equipments/Edit/@item.equipmentUid?returnURL=GridEdit">@item.Location.location1 - @item.EquipmentAttributeType.equipmentAttributeType1 - @item.jciTag - @Convert.ToDateTime(item.installDate).Year - @item.ECM.ecmNumber</a></td>
         @foreach (var task in ViewBag.equipmentTasks)
         {
             string chked = "";
