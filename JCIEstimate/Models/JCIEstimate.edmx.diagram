@@ -10,14 +10,12 @@
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorUser" Width="1.5" PointX="11.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="JCIEstimateModel.Eddress" Width="1.5" PointX="17.25" PointY="3.875" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Location" Width="1.5" PointX="7.375" PointY="10.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.Project" Width="1.5" PointX="16.125" PointY="16.5" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractor_user" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractorContact" />
         <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="14.25" PointY="0.875" IsExpanded="false" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser" />
-        <AssociationConnector Association="JCIEstimateModel.fk_location_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="13.125" PointY="15.25" />
         <AssociationConnector Association="JCIEstimateModel.fk_ecm_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstruction" Width="1.5" PointX="7.625" PointY="18.625" />
@@ -38,11 +36,9 @@
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_category" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
         <EntityTypeShape EntityType="JCIEstimateModel.ScopeOfWork" Width="1.5" PointX="18.375" PointY="13.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_category" />
         <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_project" />
-        <EntityTypeShape EntityType="JCIEstimateModel.TestGrid" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseMonthly" Width="1.5" PointX="18.375" PointY="24.375" />
         <AssociationConnector Association="JCIEstimateModel.fk_ExpenseMonthly_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.EstimateException" Width="1.5" PointX="17.625" PointY="29.625" />
@@ -72,15 +68,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_Notecreated" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyAttachment" Width="1.5" PointX="27.875" PointY="6.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyUnit" Width="1.5" PointX="9.625" PointY="10.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyUnit_location" />
-        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyIssue" Width="1.5" PointX="25.625" PointY="6.625" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created" />
-        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_location" />
-        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" />
-        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" />
-        <AssociationConnector Association="JCIEstimateModel.fk_warrantyissue_warrantystatus" />
-        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
-        <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentTask" Width="1.5" PointX="21.375" PointY="20.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentToDo" Width="1.5" PointX="23.625" PointY="22" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipmenttask" />
@@ -96,10 +83,32 @@
         <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="21.375" PointY="24" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_AttributeType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_equipmentAsReplaced" />
         <AssociationConnector Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipment" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_equipmentAsReplacement" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentAttachment" Width="1.5" PointX="23.625" PointY="25.5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttachment_Equipment" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Location" Width="1.5" PointX="18.375" PointY="36.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.LocationIssue" Width="1.5" PointX="20.625" PointY="16.625" />
+        <EntityTypeShape EntityType="JCIEstimateModel.LocationNote" Width="1.5" PointX="22.875" PointY="9.25" />
+        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyIssue" Width="1.5" PointX="23.625" PointY="16.25" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_createdAs" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_LocationNotecreated" />
+        <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_location_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyUnit_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_warrantystatus" />
+        <AssociationConnector Association="JCIEstimateModel.fk_LocationNote_locationIssue" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" />
+        <AssociationConnector Association="JCIEstimateModel.fk_warrantyissue_warrantystatus" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
+        <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

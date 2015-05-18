@@ -16,8 +16,10 @@ namespace JCIEstimate.Models
     {
         public Equipment()
         {
+            this.Equipment1 = new HashSet<Equipment>();
             this.EquipmentAttributeValues = new HashSet<EquipmentAttributeValue>();
             this.EquipmentToDoes = new HashSet<EquipmentToDo>();
+            this.EquipmentAttachments = new HashSet<EquipmentAttachment>();
         }
     
         public System.Guid equipmentUid { get; set; }
@@ -31,14 +33,17 @@ namespace JCIEstimate.Models
         public string serialNumber { get; set; }
         public Nullable<System.DateTime> installDate { get; set; }
         public string area { get; set; }
-        public Nullable<System.Guid> equipmentUidAsReplacement { get; set; }
+        public Nullable<System.Guid> equipmentUidAsReplaced { get; set; }
+        public bool isNewToSite { get; set; }
+        public bool useReplacement { get; set; }
     
         public virtual ECM ECM { get; set; }
         public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }
-        public virtual ICollection<EquipmentAttributeValue> EquipmentAttributeValues { get; set; }
-        public virtual Location Location { get; set; }
-        public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
-        public virtual Equipment Equipment1 { get; set; }
+        public virtual ICollection<Equipment> Equipment1 { get; set; }
         public virtual Equipment Equipment2 { get; set; }
+        public virtual ICollection<EquipmentAttributeValue> EquipmentAttributeValues { get; set; }
+        public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
+        public virtual ICollection<EquipmentAttachment> EquipmentAttachments { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

@@ -429,6 +429,34 @@ namespace JCIEstimate.Models
         public string behaviorIndicator { get; set; }
     }
 
+
+    /// <summary>
+    /// EquipmentAttachment
+    /// </summary>
+    [MetadataType(typeof(EquipmentAttachmentMetaData))]
+    public partial class EquipmentAttachment
+    {
+    }
+
+    public class EquipmentAttachmentMetaData
+    {
+        [Display(Name = "Equipment Attachment")]
+        public System.Guid equipmentAttachmentUid { get; set; }
+        [Display(Name = "Equipment")]
+        public System.Guid equipmentUid { get; set; }
+        [Display(Name = "Description")]
+        public string equipmentAttachment1 { get; set; }
+        [Display(Name = "File")]
+        public byte[] attachment { get; set; }
+        [Display(Name = "File Type")]
+        public string fileType { get; set; }
+        [Display(Name = "Document Name")]
+        public string documentName { get; set; }
+
+        public virtual Equipment Equipment { get; set; }
+    }
+
+
     /// <summary>
     /// Equipment
     /// </summary>
@@ -441,8 +469,6 @@ namespace JCIEstimate.Models
 
     public class EquipmentMetaData
     {
-        string _equipmentDescription;
-
         [Display(Name = "Equipment")]
         public System.Guid equipmentUid { get; set; }
         [Display(Name = "ECM")]
@@ -468,8 +494,13 @@ namespace JCIEstimate.Models
         [Display(Name = "Model")]
         public string model { get; set; }
         [Display(Name = "Replacement For")]
-        public string equipmentUidAsReplacement { get; set; }
-        public Guid[] selectedTasks { get; set; }
+        public string equipmentUidAsReplaced { get; set; }
+        [Display(Name = "New To Site")]
+        public bool isNewToSite { get; set; }
+        [Display(Name = "Use Replacement")]
+        public bool useReplacement { get; set; }
+
+        public Guid[] selectedTasks { get; set; }        
     }
 
     /// <summary>

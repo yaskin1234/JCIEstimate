@@ -12,10 +12,15 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TestGrid
+    public partial class EquipmentAttachment
     {
-        public System.Guid testGridUid { get; set; }
-        public string testGrid1 { get; set; }
-        public Nullable<System.DateTime> testGridDate { get; set; }
+        public System.Guid equipmentAttachmentUid { get; set; }
+        public System.Guid equipmentUid { get; set; }
+        public string equipmentAttachment1 { get; set; }
+        public byte[] attachment { get; set; }
+        public string fileType { get; set; }
+        public string documentName { get; set; }
+    
+        public virtual Equipment Equipment { get; set; }
     }
 }

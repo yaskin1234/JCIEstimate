@@ -13,10 +13,26 @@
         $("#tblWarrantyIssues").load("/WarrantyIssues/IndexPartial?filterId=" + escape(selectedValue));        
     })
 
+    $(".equipmentFilter").change(function () {
+        var selectedValue = $("#equipmentFilter").val();
+        var url = "/Equipments/Index";
+        document.location = url + "?filterId=" + escape(selectedValue);
+    })
+
     $("#txtFilter").keyup(function () {
         $val = $("#txtFilter").val();
         if ($val.length + 1 > 2) {
             $("#tblWarrantyIssues").load("/WarrantyIssues/IndexPartial?location=" + escape($val));
+        }
+    })
+
+    $("#equipmentUidAsReplaced").change(function () {
+        var selectedValue = $(this).val();
+        if (selectedValue == "00000000-0000-0000-0000-000000000000") {
+            $("#useReplacement").attr("disabled", true);
+        }
+        else {
+            $("#useReplacement").removeAttr("disabled");
         }
     })
 
@@ -72,6 +88,15 @@
         var url = "/WarrantyIssues/Index";
         document.location = url + "?location=" + escape(searchVal);
     })
+
+    $(".NewEquipmentTasks").change(function () {
+        var uid = $(this).val();
+        var newTasks = document.getElementById("newTasks");
+        if (newTasks.value.indexOf(uid) == -1) {
+            newTasks.value = newTasks.value + uid + ",";
+        }
+    })
+    
 
     $("#locationUid").change(function () {
         var loc = $(this).val();
@@ -190,6 +215,30 @@
         });
     });
 
+    $(".toggleReplacedEquipment").click(function () {
+
+        var $td = $(this);
+        $td.removeClass("selectedEquipmentItem");
+        //getting the next element
+        var equipmentUid = $td.next().next().next().text().trim();
+        var $toHideId = "trreplace|" + equipmentUid;
+        var selectedRow = $td.parent().parent();
+        if (selectedRow.attr("class") != "selectedEquipmentItem") {
+            selectedRow.addClass("selectedEquipmentItem")
+        } else {
+            selectedRow.addClass("unselectedEquipmentItem")
+        }
+        var $toHide = $(document.getElementById($toHideId));
+        //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.        
+        $toHide.slideToggle(100, function () {
+            //execute this after slideToggle is done
+
+        });
+    });
+
+
+
+
     //$("#filter").kendoComboBox();
 
     //$("#gridFilter").kendoComboBox();
@@ -197,12 +246,30 @@
     var $table = $('#GridTable');
     $table.floatThead();
 
+    var $table1 = $('#tblEquipment');
+    $table1.floatThead();
+
     $(".gridCheckBox").click(function () {
         $.ajax({
             url: "/EquipmentToDoes/SaveCheckedBox",
             type: "POST",
             data: {
                 chkBoxName: $(this).attr("name"),
+                value: this.checked
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        })
+    });
+
+    $(".chkEngineerUseReplacement").click(function () {
+        $.ajax({
+            url: "/Equipments/SaveUseReplacement",
+            type: "POST",
+            data: {
+                id: $(this).attr("name"),
                 value: this.checked
             },
             dataType: "json",

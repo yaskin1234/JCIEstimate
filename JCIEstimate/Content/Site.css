@@ -67,7 +67,8 @@ input[type="checkbox"].input-validation-error {
 
 .GridTable {
     padding: 5px;
-    align-content: center;    
+    align-content: center;        
+
 }
 .GridTable thead{
     background-color:white;    
@@ -75,6 +76,27 @@ input[type="checkbox"].input-validation-error {
 
 .GridTable td{    
     border-bottom: solid;
+}
+
+
+.EquipmentIndexTable {
+    padding: 5px;
+    align-content: center;    
+    width: 100%;
+    margin-bottom: 20px;    
+}
+.EquipmentIndexTable thead{
+    background-color:white;    
+}
+
+.EquipmentIndexTable td{    
+    border-bottom: solid;
+}
+
+.EquipmentIndexTable th{    
+    border-bottom: solid;
+    padding-bottom:5px;
+    margin-bottom:5px;
 }
 
 .selectedEquipmentItem{
@@ -102,7 +124,7 @@ input[type="checkbox"].input-validation-error {
     height:     100%;
     width:      100%;
     background: rgba( 255, 255, 255, .8 ) 
-                url('http://i.stack.imgur.com/FhHRx.gif') 
+                url('../Images/loading.gif') 
                 50% 50% 
                 no-repeat;
 }
@@ -122,3 +144,4 @@ body.loading .modal {
 .toggleEquipmentTasks {cursor:pointer}
 .toggleEquipmentAttributes {cursor:pointer}
 .tdEquipmentForEcm {cursor:pointer}
+.toggleReplacedEquipment {cursor:pointer}

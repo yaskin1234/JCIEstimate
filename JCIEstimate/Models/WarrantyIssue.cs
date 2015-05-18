@@ -28,7 +28,7 @@ namespace JCIEstimate.Models
         public System.DateTime date { get; set; }
         public Nullable<System.Guid> projectUserUid { get; set; }
         public string aspNetUserUidAsCreated { get; set; }
-        public System.Guid locationUid { get; set; }
+        public Nullable<System.Guid> locationUid { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Location Location { get; set; }

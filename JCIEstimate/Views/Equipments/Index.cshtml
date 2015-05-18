@@ -4,280 +4,208 @@
     ViewBag.Title = "Index";
     JCIEstimate.Models.JCIEstimateEntities db = new JCIEstimate.Models.JCIEstimateEntities();
 }
-
-<h2>Index</h2>
+<select class="equipmentFilter" id="equipmentFilter" name="equipmentFilter">
+    @foreach (var item in ViewBag.filterList)
+    {
+        <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>
+    }
+</select>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th></th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location.location1)
-        </th>
-        <th>
-            ECM
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.jciTag)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ownerTag)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.manufacturer)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.model)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.serialNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.installDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.area)
-        </th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<table id="tblEquipment" class="EquipmentIndexTable">
+    <thead>
         <tr>
-            <td>
-                <img class="toggleEquipmentTasks" src="@Url.Content("~/Images/tasks.png")" alt="Click to see equipment tasks" height="15" width="15" />
-                <img class="toggleEquipmentAttributes" src="@Url.Content("~/Images/attr.png")" alt="Click to see equipment attributes" height="15" width="15" />
-                <span style="display:none">@item.equipmentUid.ToString()</span>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location.location1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ECM.ecmNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.jciTag)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ownerTag)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.manufacturer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.serialNumber)
-            </td>
-            <td>
-                @String.Format("{0:yyyy}", item.installDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.area)
-            </td>
-            <td>                
-                <a href="@Url.Action("Edit", "Equipments", new { id = item.equipmentUid, returnURL = "Index" })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
-                @*<a href="@Url.Action("Details", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/view_details.png")" height="15" width="15" alt="Click for Details" title="Click for Details" /></a>*@
-                <a href="@Url.Action("Delete", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>
-
-            </td>
-        </tr>        
-        <tr>            
-            <td colspan="11" id="tdtasks|@item.equipmentUid.ToString()" style="display:none;border:none;">
-                <table style="border-top:hidden;">
-                    <tr>
-                        @foreach (var eitem in ViewBag.equipmentTasks)
-                        {
-                            <th class="GridTable">@eitem.equipmentTask1</th>
-                        }
-                        <th>&nbsp;</th>
-                    </tr>
-                    <tr>
-                        @foreach (var task in ViewBag.equipmentTasks)
-                        {
-                            string chked = "";
-
-                            foreach (var toDo in ViewBag.equipmentToDoes)
-                            {
-                                if (toDo.equipmentUid == item.equipmentUid && toDo.equipmentTaskUid == task.equipmentTaskUid)
-                                {
-                                    chked = "CHECKED";
-                                }
-                            }
-                            <td class="GridTable"><input class="gridCheckBox" type="checkbox" name="@(item.equipmentUid)_@(task.equipmentTaskUid)" @chked /> </td>
-                        }
-                    </tr>
-                </table>
-            </td>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location.location1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isNewToSite)
+            </th>
+            <th>
+                ECM
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.jciTag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ownerTag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.manufacturer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.serialNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.installDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.area)
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
-        <tr>            
-            <td colspan="11" id="tdattr|@item.equipmentUid.ToString()" style="display:none;border:none;">
-                <table style="border-top:hidden;">
-                    @{
-                        string val = "";
-                        foreach (var citem in ViewBag.equipmentAttributes)
-                        {
-                            foreach (var mItem in Model)
-                            {
-                                if (citem.equipmentAttributeTypeUid == mItem.equipmentAttributeTypeUid && mItem.equipmentUid == item.equipmentUid)
-                                {
-                                    <tr>
-                                        <td>@citem.equipmentAttribute1</td>
-                                        <td>
-                                            @if (citem.AppDataType.appDataType1 == "Boolean")
-                                            {
-                                                foreach (var vitem in item.EquipmentAttributeValues)
-                                                {
-                                                    if (vitem.equipmentUid == item.equipmentUid && vitem.equipmentAttributeUid == citem.equipmentAttributeUid)
-                                                    {
-                                                        val = (vitem.equipmentAttributeValue1) == "true" ? "CHECKED" : "";
-                                                    }
-                                                }
-                                                <input class="equipmentAttributeValue" @val type="checkbox" name="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" id="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" />
-                                            }
-                                            else
-                                            {
-                                                foreach (var vitem in item.EquipmentAttributeValues)
-                                                {
-                                                    if (vitem.equipmentUid == item.equipmentUid && vitem.equipmentAttributeUid == citem.equipmentAttributeUid)
-                                                    {
-                                                        val = vitem.equipmentAttributeValue1;
-                                                    }
-                                                }
-                                                <input class="equipmentAttributeValue" type="text" name="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" id="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" value="@val" />
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                            }
-
-                        }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.equipmentUidAsReplaced != null)
+                    {
+                        <img class="toggleReplacedEquipment" src="@Url.Content("~/Images/replace.png")" alt="Click to see replaced equipment" height="15" width="15" />
                     }
-                    <tr>
-                        <td></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr style="display:@((item.equipmentUidAsReplacement != null) ? "normal" : "none")">
-            <td>
-                <img class="toggleEquipmentTasks" src="@Url.Content("~/Images/tasks.png")" alt="Click to see equipment tasks" height="15" width="15" />
-                <img class="toggleEquipmentAttributes" src="@Url.Content("~/Images/attr.png")" alt="Click to see equipment attributes" height="15" width="15" />
-                @foreach (var eq in db.Equipments.Where(c => c.equipmentUid == item.equipmentUidAsReplacement))
-                {
-                    <span style="display:none">@eq.equipmentUid.ToString()</span>
-                }                
-            </td>
-            <td> </td>
-            <td colspan="2">Replaced By:</td>
-            <td> </td>
-            @foreach (var eq in db.Equipments.Where(c => c.equipmentUid == item.equipmentUidAsReplacement))
+                    <img class="toggleEquipmentTasks" src="@Url.Content("~/Images/tasks.png")" alt="Click to see equipment tasks" height="15" width="15" />
+                    <img class="toggleEquipmentAttributes" src="@Url.Content("~/Images/attr.png")" alt="Click to see equipment attributes" height="15" width="15" />
+                    <span style="display:none">@item.equipmentUid.ToString()</span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.location1)
+                </td>
+                <td>
+                    <span>@((item.isNewToSite) ? "Yes" : "No")</span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ECM.ecmNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.jciTag)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ownerTag)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.manufacturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.serialNumber)
+                </td>
+                <td>
+                    @String.Format("{0:yyyy}", item.installDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.area)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "Equipments", new { id = item.equipmentUid, returnURL = "Index" })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+                    @*<a href="@Url.Action("Details", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/view_details.png")" height="15" width="15" alt="Click for Details" title="Click for Details" /></a>*@
+                    <a href="@Url.Action("Delete", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>
+
+                </td>
+            </tr>
+            <tr style="border:none;">
+                <td colspan="11" id="tdtasks|@item.equipmentUid.ToString()" style="display:none;border:none;">
+                    <table style="border-top:hidden;">
+                        <tr>
+                            @foreach (var eitem in ViewBag.equipmentTasks)
+                            {
+                                <th class="GridTable">@eitem.equipmentTask1</th>
+                            }
+                            <th>&nbsp;</th>
+                        </tr>
+                        <tr>
+                            @foreach (var task in ViewBag.equipmentTasks)
+                            {
+                                string chked = "";
+
+                                foreach (var toDo in ViewBag.equipmentToDoes)
+                                {
+                                    if (toDo.equipmentUid == item.equipmentUid && toDo.equipmentTaskUid == task.equipmentTaskUid)
+                                    {
+                                        chked = "CHECKED";
+                                    }
+                                }
+                                <td class="GridTable"><input class="gridCheckBox" type="checkbox" name="@(item.equipmentUid)_@(task.equipmentTaskUid)" @chked /> </td>
+                            }
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr style="border:none;">
+                <td colspan="11" id="tdattr|@item.equipmentUid.ToString()" style="display:none;border:none;">
+                    <table style="border-top:hidden;">
+                        @{
+                            string val = "";
+                            foreach (var citem in ViewBag.equipmentAttributes)
+                            {
+                                foreach (var mItem in Model)
+                                {
+                                    if (citem.equipmentAttributeTypeUid == mItem.equipmentAttributeTypeUid && mItem.equipmentUid == item.equipmentUid)
+                                    {
+                                        <tr>
+                                            <td>@citem.equipmentAttribute1</td>
+                                            <td>
+                                                @if (citem.AppDataType.appDataType1 == "Boolean")
+                                                {
+                                                    foreach (var vitem in item.EquipmentAttributeValues)
+                                                    {
+                                                        if (vitem.equipmentUid == item.equipmentUid && vitem.equipmentAttributeUid == citem.equipmentAttributeUid)
+                                                        {
+                                                            val = (vitem.equipmentAttributeValue1) == "true" ? "CHECKED" : "";
+                                                        }
+                                                    }
+                                                    <input class="equipmentAttributeValue" @val type="checkbox" name="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" id="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" />
+                                                }
+                                                else
+                                                {
+                                                    foreach (var vitem in item.EquipmentAttributeValues)
+                                                    {
+                                                        if (vitem.equipmentUid == item.equipmentUid && vitem.equipmentAttributeUid == citem.equipmentAttributeUid)
+                                                        {
+                                                            val = vitem.equipmentAttributeValue1;
+                                                        }
+                                                    }
+                                                    <input class="equipmentAttributeValue" type="text" name="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" id="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" value="@val" />
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            }
+                        }
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            if (item.Equipment2 != null)
             {
-                <td>
-                    <a href="@Url.Action("Edit", "Equipments", new { id = eq.equipmentUid, returnURL = "Index" })">@eq.model</a>
-                </td>
-                <td>
-                    <a href="@Url.Action("Edit", "Equipments", new { id = eq.equipmentUid, returnURL = "Index" })">@eq.manufacturer</a>
-                </td>
-                <td>
-                    <a href="@Url.Action("Edit", "Equipments", new { id = eq.equipmentUid, returnURL = "Index" })">@eq.serialNumber</a>
-                </td>
-                <td>
-                    <a href="@Url.Action("Edit", "Equipments", new { id = eq.equipmentUid, returnURL = "Index" })">@eq.installDate.Value.Year</a>
-                </td>
+                <tr style="border:none;display:none;" id="trreplace|@item.equipmentUid.ToString()">
+                    <td> </td>
+                    <td> </td>
+                    <td colspan="2">Replaces:</td>
+                    <td> </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Equipments", new { id = item.Equipment2.equipmentUid.ToString(), returnURL = "Index" })">@item.Equipment2.manufacturer</a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Equipments", new { id = item.Equipment2.equipmentUid.ToString(), returnURL = "Index" })">@item.Equipment2.model</a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Equipments", new { id = item.Equipment2.equipmentUid.ToString(), returnURL = "Index" })">@item.Equipment2.serialNumber</a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Equipments", new { id = item.Equipment2.equipmentUid.ToString(), returnURL = "Index" })">@((item.Equipment2.installDate != null) ? item.Equipment2.installDate.Value.Year.ToString() : "")</a>
+                    </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
             }
-            <td> </td>
-            <td> </td>
-        </tr>
-    <tr>
-        @foreach (var eq in db.Equipments.Where(c => c.equipmentUid == item.equipmentUidAsReplacement))
-        {
-        <td colspan="11" id="tdtasks|@eq.equipmentUid.ToString()" style="display:none;border:none;">
-            <table style="border-top:hidden;">
-                <tr>
-                    @foreach (var eitem in ViewBag.equipmentTasks)
-                    {
-                        <th class="GridTable">@eitem.equipmentTask1</th>
-                    }
-                    <th>&nbsp;</th>
-                </tr>
-                <tr>
-                    @foreach (var task in ViewBag.equipmentTasks)
-                    {
-                        string chked = "";
 
-                        foreach (var toDo in ViewBag.equipmentToDoes)
-                        {
-                            if (toDo.equipmentUid == eq.equipmentUid && toDo.equipmentTaskUid == task.equipmentTaskUid)
-                            {
-                                chked = "CHECKED";
-                            }
-                        }
-                        <td class="GridTable"><input class="gridCheckBox" type="checkbox" name="@(eq.equipmentUid)_@(task.equipmentTaskUid)" @chked /> </td>
-                    }
-                </tr>
-            </table>
-        </td>
         }
-    </tr>
-    <tr>
-        @foreach (var eq in db.Equipments.Where(c => c.equipmentUid == item.equipmentUidAsReplacement))
-        {
-        <td colspan="11" id="tdattr|@eq.equipmentUid.ToString()" style="display:none;border:none;">
-            <table style="border-top:hidden;">
-                @{
-                    val = "";
-                    foreach (var citem in ViewBag.equipmentAttributes)
-                    {
-                        foreach (var mItem in Model)
-                        {
-                            if (citem.equipmentAttributeTypeUid == mItem.equipmentAttributeTypeUid && mItem.equipmentUid == eq.equipmentUid)
-                            {
-                                <tr>
-                                    <td>@citem.equipmentAttribute1</td>
-                                    <td>
-                                        @if (citem.AppDataType.appDataType1 == "Boolean")
-                                        {
-                                            foreach (var vitem in eq.EquipmentAttributeValues)
-                                            {
-                                                if (vitem.equipmentUid == eq.equipmentUid && vitem.equipmentAttributeUid == citem.equipmentAttributeUid)
-                                                {
-                                                    val = (vitem.equipmentAttributeValue1) == "true" ? "CHECKED" : "";
-                                                }
-                                            }
-                                            <input class="equipmentAttributeValue" @val type="checkbox" name="@citem.equipmentAttributeUid.ToString()|@eq.equipmentUid.ToString()" id="@citem.equipmentAttributeUid.ToString()|@eq.equipmentUid.ToString()" />
-                                        }
-                                        else
-                                        {
-                                            foreach (var vitem in eq.EquipmentAttributeValues)
-                                            {
-                                                if (vitem.equipmentUid == item.equipmentUid && vitem.equipmentAttributeUid == citem.equipmentAttributeUid)
-                                                {
-                                                    val = vitem.equipmentAttributeValue1;
-                                                }
-                                            }
-                                            <input class="equipmentAttributeValue" type="text" name="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" id="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" value="@val" />
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        }
-
-                    }
-                }
-                <tr>
-                    <td></td>
-                </tr>
-            </table>
-        </td>
-        }
-    </tr>
-    }
-
+    </tbody>
 </table>
 

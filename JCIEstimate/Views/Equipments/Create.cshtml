@@ -25,29 +25,45 @@
                 </div>
             </div>
         </div>
-        <div id="dvNewOrReplacement" style="display:none;">
+        <div id="dvNewOrReplacement" style="display:@((Request.QueryString["equipmentUidAsReplaced"] == "") ? "none" : "normal");">
             <div class="form-group">
-                @Html.Label("New or replacement?", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.Label("Does this piece of equipment replace an existing piece?", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <select name="cbNewOrRepalcement" id="cbNewOrRepalcement" class="form-control">
-                        <option value="Choose">-- Choose --</option>
-                        <option value="New">New</option>
-                        <option value="Replacement">Replacement</option>
+                        <option value="Choose">-- Choose --</option>                        
+                        <option @((Request.QueryString["equipmentUidAsReplaced"] != "") ? "selected" : "") value="Replacement">Yes</option>
+                        <option value="New">No</option>
                     </select>
                 </div>
             </div>
         </div>
-        <div id="dvReplacement" style="display:none;">
+        <div id="dvReplacement" style="display:@((Request.QueryString["equipmentUidAsReplaced"] == "") ? "none" : "normal");">
             <div class="form-group">
-                @Html.LabelFor(model => model.equipmentUidAsReplacement, null, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.equipmentUidAsReplaced, null, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("equipmentUidAsReplacement", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.equipmentUidAsReplacement, "", new { @class = "text-danger" })
+                    @Html.DropDownList("equipmentUidAsReplaced", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.equipmentUidAsReplaced, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
         
-        <div id="dvDetails" style="display:none;">
+        <div id="dvDetails" style="display:@((Request.QueryString["equipmentUidAsReplaced"] == "") ? "none" : "normal");">
+            <div class="form-group">
+                @Html.LabelFor(model => model.isNewToSite, null, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.isNewToSite)
+                    @Html.ValidationMessageFor(model => model.isNewToSite, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.useReplacement, null, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.useReplacement)
+                    @Html.ValidationMessageFor(model => model.useReplacement, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
             <div class="form-group">
                 @Html.LabelFor(model => model.equipmentAttributeTypeUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -66,8 +82,8 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.jciTag, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.jciTag, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="col-md-10">       
+                    <input class="form-control text-box single-line" id="jciTag" name="jciTag" type="text" value="@ViewBag.jciTag">                                 
                     @Html.ValidationMessageFor(model => model.jciTag, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -117,6 +133,28 @@
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.area, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.area, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("Tasks", htmlAttributes: new { @class = "control-label col-md-2" })                
+                <div class="col-md-10">
+                    @Html.Hidden("newTasks")
+                    <table>                      
+                        <tr>
+                            @foreach (var eitem in ViewBag.equipmentTasks)
+                            {
+                                <th class="GridTable">@eitem.equipmentTask1</th>
+                            }
+                            <th>&nbsp;</th>
+                        </tr>  
+                        <tr>
+                            @foreach (var task in ViewBag.equipmentTasks)
+                            {
+                                string chked = "";
+                                <td class="NewEquipmentTasks"><input class="NewEquipmentTasks" type="checkbox" value="@(task.equipmentTaskUid)" name="@(task.equipmentTaskUid)" /> </td>
+                            }
+                        </tr>
+                    </table>
                 </div>
             </div>
             <div class="form-group">

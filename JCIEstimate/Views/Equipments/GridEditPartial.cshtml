@@ -3,6 +3,18 @@
 {
     <tr>
         <td class="GridTable"><a href="~/Equipments/Edit/@item.equipmentUid?returnURL=GridEdit">@item.Location.location1 - @item.EquipmentAttributeType.equipmentAttributeType1 - @item.jciTag - @Convert.ToDateTime(item.installDate).Year - @item.ECM.ecmNumber</a></td>
+
+        <td>
+            @if (item.equipmentUidAsReplaced == null)
+            {
+                <a href="~/Equipments/Create?returnURL=GridEdit&equipmentUidAsReplaced=@item.equipmentUid"><img src="~/Images/AddItem.png" height="15" width="15" alt="Add Replacement" /></a>
+            }
+            else
+            {
+                <input type="checkbox" name="@item.equipmentUid" class="chkEngineerUseReplacement" @((item.useReplacement) ? "CHECKED" : "") />
+            }
+            
+        </td>
         @foreach (var task in ViewBag.equipmentTasks)
         {
             string chked = "";

@@ -17,9 +17,10 @@ namespace JCIEstimate.Controllers
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
         // GET: Equipments
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string filterId)
         {
             Guid sessionProject;
+            IQueryable<Equipment> equipments;
 
             sessionProject = Guid.Empty;
 
@@ -32,11 +33,75 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(c=>c.jciTag);                            
+            //Get full equipment list
+            equipments = from cc in db.Equipments
+                         where !db.Equipments.Any(c => c.equipmentUidAsReplaced == cc.equipmentUid)
+                         && cc.Location.projectUid == sessionProject
+                         select cc;
+
+
+
+            //Build Drop down filter based on existing defined equipment
+            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
+            string[] filterPart = null;
+            string type = "";
+            string uid = Guid.Empty.ToString();
+
+            if (!String.IsNullOrEmpty(filterId))
+            {
+                filterPart = filterId.Split('|');
+                type = filterPart[0];
+                uid = filterPart[1];
+            }
+
+            FilterOptionModel wf = new FilterOptionModel();
+            wf.text = "All";
+            wf.value = "A|" + Guid.Empty.ToString();
+            wf.selected = (wf.value == filterId || String.IsNullOrEmpty(filterId));
+            aryFo.Add(wf);
+
+
+            IQueryable<Equipment> results = equipments.GroupBy(c=>c.equipmentAttributeTypeUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results)
+            {
+                wf = new FilterOptionModel();                                
+                wf.text = item.EquipmentAttributeType.equipmentAttributeType1;
+                wf.value = "E|" + item.equipmentAttributeTypeUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);                
+            }
+
+            results = equipments.GroupBy(c => c.ecmUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results)
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.ECM.ecmString;
+                wf.value = "C|" + item.ecmUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+
+            //apply filter if there is one
+            if (!String.IsNullOrEmpty(filterId))
+            {
+                if (type == "E")
+                {
+                    equipments = equipments.Where(c => c.equipmentAttributeTypeUid.ToString() == uid);
+                }
+                else if (type == "C")
+                {
+                    equipments = equipments.Where(c => c.ecmUid.ToString() == uid);
+                }
+            }
+                        
+            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2).OrderBy(c=>c.jciTag);                            
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             ViewBag.equipmentAttributes = db.EquipmentAttributes;
             ViewBag.equipment = equipments;
+            ViewBag.filterList = aryFo.ToList();
             return View(await equipments.ToListAsync());
         }
 
@@ -153,13 +218,31 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            string equipmentUidAsReplaced = Request.QueryString["equipmentUidAsReplaced"];
+            string ecmUid = "";
+            string equipmentAttributeTypeUid = "";
+            string locationUid = "";
+            string jciTag = "";
+
+            if (!String.IsNullOrEmpty(equipmentUidAsReplaced))
+            {
+                Equipment eq = db.Equipments.Find(Guid.Parse(equipmentUidAsReplaced));
+                ecmUid = eq.ecmUid.ToString();
+                equipmentAttributeTypeUid = eq.equipmentAttributeTypeUid.ToString();
+                locationUid = eq.locationUid.ToString();
+                jciTag = eq.jciTag;
+            }           
+
             var replacementEqupments = db.Equipments.Where(c => c.Location.projectUid == sessionProject);
             var ecms = db.ECMs.Where(c => c.projectUid == sessionProject).OrderBy(c=>c.ecmNumber);
 
-            ViewBag.ecms = ecms.ToSelectList(c => c.ecmString, c => c.ecmUid.ToString(), "");
-            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1");
-            ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1");
-            ViewBag.equipmentUidAsReplacement = replacementEqupments.OrderBy(c => c.jciTag).ToSelectList(d => d.jciTag + " - " + d.Location.location1, d => d.equipmentUid.ToString(), "");           
+            ViewBag.equipmentTasks = db.EquipmentTasks;
+            ViewBag.equipmentToDoes = db.EquipmentToDoes;
+            ViewBag.ecms = ecms.ToSelectList(c => c.ecmString, c => c.ecmUid.ToString(), ecmUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipmentAttributeTypeUid);
+            ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1", locationUid);
+            ViewBag.equipmentUidAsReplaced = replacementEqupments.OrderBy(c => c.jciTag).ToSelectList(d => d.jciTag + " - " + d.Location.location1, d => d.equipmentUid.ToString(), equipmentUidAsReplaced);
+            ViewBag.jciTag = jciTag;
             
             return View();
         }
@@ -169,15 +252,31 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplacement")] Equipment equipment, string ecms)
+        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,isNewToSite,useReplacement")] Equipment equipment, string ecms, string equipmentUidAsReplaced, string newTasks)
         {
             if (ModelState.IsValid)
             {
                 equipment.equipmentUid = Guid.NewGuid();
                 equipment.ecmUid = Guid.Parse(ecms);
+                if (equipmentUidAsReplaced != Guid.Empty.ToString())
+                {                    
+                    equipment.equipmentUidAsReplaced = Guid.Parse(equipmentUidAsReplaced);
+                }
+                
                 db.Equipments.Add(equipment);
+                if (newTasks.Length > 0)
+                {
+                    foreach (var guid in newTasks.Remove(newTasks.Length - 1).Split(','))
+                    {
+                        EquipmentToDo eq = new EquipmentToDo();
+                        eq.equipmentToDoUid = Guid.NewGuid();
+                        eq.equipmentTaskUid = Guid.Parse(guid);
+                        eq.equipmentUid = equipment.equipmentUid;
+                        db.EquipmentToDoes.Add(eq);
+                    }
+                }                
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction(Request.QueryString["returnURL"]);
             }
 
             ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", equipment.ecmUid);
@@ -215,7 +314,7 @@ namespace JCIEstimate.Controllers
             ViewBag.ecmUid = new SelectList(db.ECMs.Where(c => c.projectUid == sessionProject), "ecmUid", "ecmNumber", equipment.ecmUid);
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1", equipment.locationUid);
-            ViewBag.equipmentUidAsReplacement = replacementEqupments.ToSelectList(d => d.Location.location1 + " - " + d.jciTag, d => d.equipmentUid.ToString(), "");
+            ViewBag.equipmentUidAsReplaced = replacementEqupments.ToSelectList(d => d.Location.location1 + " - " + d.jciTag, d => d.equipmentUid.ToString(), equipment.equipmentUidAsReplaced.ToString());
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             return View(equipment);
@@ -226,7 +325,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplacement")] Equipment equipment, string ecms)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,useReplacement")] Equipment equipment, string ecms)
         {
             if (ModelState.IsValid)
             {
@@ -264,6 +363,43 @@ namespace JCIEstimate.Controllers
             db.Equipments.Remove(equipment);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        // GET: EquipmentToDoes/SaveUseReplacement/5
+        public async Task<ActionResult> SaveUseReplacement(string id, string value)
+        {
+
+            Equipment eq = db.Equipments.Find(Guid.Parse(id));
+
+            if (value == "true")
+            {
+                eq.useReplacement = true;
+                db.Entry(eq).State = EntityState.Modified;
+                try
+                {                    
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+            }
+            else
+            {
+                eq.useReplacement = false;
+                db.Entry(eq).State = EntityState.Modified;
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+            }
+            return View();
         }
 
         protected override void Dispose(bool disposing)

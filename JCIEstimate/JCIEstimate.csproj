@@ -576,7 +576,9 @@
     <Content Include="Images\edit.png" />
     <Content Include="Images\equipment.png" />
     <Content Include="Images\filter.png" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\magnet.jpg" />
+    <Content Include="Images\replace.png" />
     <Content Include="Images\tasks.png" />
     <Content Include="Images\View_Details.png" />
     <Content Include="packages.config" />
@@ -1799,6 +1801,13 @@
     <Content Include="Views\Equipments\GridEditPartial.cshtml" />
     <Content Include="Views\Equipments\IndexPartial.cshtml" />
     <Content Include="Views\EquipmentAttributeValues\SaveValue.cshtml" />
+    <Content Include="Views\Reports\rptEquipmentForEcm.cshtml" />
+    <Content Include="Views\Equipments\SaveUseReplacement.cshtml" />
+    <Content Include="Views\EquipmentAttachments\Create.cshtml" />
+    <Content Include="Views\EquipmentAttachments\Delete.cshtml" />
+    <Content Include="Views\EquipmentAttachments\Details.cshtml" />
+    <Content Include="Views\EquipmentAttachments\Edit.cshtml" />
+    <Content Include="Views\EquipmentAttachments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1924,6 +1933,7 @@
     <Compile Include="Controllers\ContractorUsersController.cs" />
     <Compile Include="Controllers\ECMsController.cs" />
     <Compile Include="Controllers\EddressesController.cs" />
+    <Compile Include="Controllers\EquipmentAttachmentsController.cs" />
     <Compile Include="Controllers\EquipmentAttributesController.cs" />
     <Compile Include="Controllers\EquipmentAttributeTypesController.cs" />
     <Compile Include="Controllers\EquipmentAttributeValuesController.cs" />
@@ -1996,6 +2006,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Equipment.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentAttachment.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EquipmentAttribute.cs">
@@ -2079,6 +2092,12 @@
     <Compile Include="Models\Location.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LocationIssue.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LocationNote.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Milestone.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
@@ -2102,9 +2121,6 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ScopeOfWork.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TestGrid.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ToDoStatu.cs">

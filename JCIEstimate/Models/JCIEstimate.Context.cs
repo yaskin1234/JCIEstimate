@@ -30,7 +30,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ContractorContact> ContractorContacts { get; set; }
         public virtual DbSet<ContractorUser> ContractorUsers { get; set; }
         public virtual DbSet<Eddress> Eddresses { get; set; }
-        public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<ECM> ECMs { get; set; }
@@ -44,7 +43,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ProjectToDo> ProjectToDoes { get; set; }
         public virtual DbSet<Estimate> Estimates { get; set; }
         public virtual DbSet<ScopeOfWork> ScopeOfWorks { get; set; }
-        public virtual DbSet<TestGrid> TestGrids { get; set; }
         public virtual DbSet<ExpenseMonthly> ExpenseMonthlies { get; set; }
         public virtual DbSet<EstimateException> EstimateExceptions { get; set; }
         public virtual DbSet<EstimateExceptionResponse> EstimateExceptionResponses { get; set; }
@@ -61,7 +59,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<WarrantyNote> WarrantyNotes { get; set; }
         public virtual DbSet<WarrantyAttachment> WarrantyAttachments { get; set; }
         public virtual DbSet<WarrantyUnit> WarrantyUnits { get; set; }
-        public virtual DbSet<WarrantyIssue> WarrantyIssues { get; set; }
         public virtual DbSet<EquipmentTask> EquipmentTasks { get; set; }
         public virtual DbSet<EquipmentToDo> EquipmentToDoes { get; set; }
         public virtual DbSet<EstimateStatu> EstimateStatus { get; set; }
@@ -70,5 +67,10 @@ namespace JCIEstimate.Models
         public virtual DbSet<EquipmentAttribute> EquipmentAttributes { get; set; }
         public virtual DbSet<EquipmentAttributeValue> EquipmentAttributeValues { get; set; }
         public virtual DbSet<Equipment> Equipments { get; set; }
+        public virtual DbSet<EquipmentAttachment> EquipmentAttachments { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<LocationIssue> LocationIssues { get; set; }
+        public virtual DbSet<LocationNote> LocationNotes { get; set; }
+        public virtual DbSet<WarrantyIssue> WarrantyIssues { get; set; }
     }
 }
