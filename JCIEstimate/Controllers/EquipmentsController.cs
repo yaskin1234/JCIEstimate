@@ -17,10 +17,11 @@ namespace JCIEstimate.Controllers
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
         // GET: Equipments
-        public async Task<ActionResult> Index(string filterId)
+        public async Task<ActionResult> Index(string filterId, string sort)
         {
             Guid sessionProject;
             IQueryable<Equipment> equipments;
+                
 
             sessionProject = Guid.Empty;
 
@@ -94,6 +95,56 @@ namespace JCIEstimate.Controllers
                 {
                     equipments = equipments.Where(c => c.ecmUid.ToString() == uid);
                 }
+            }            
+            
+
+            //apply sort
+            if (!String.IsNullOrEmpty(sort))
+            {
+                string[] sortParts = sort.Split('|');
+                string col = sortParts[0];
+                string order = sortParts[1];
+
+                if (col == "ECM")
+                {
+                    if (order == "desc")
+                    {
+                        equipments = equipments.OrderByDescending(c => c.ECM.ecmString);
+                    }
+                    else
+                    {
+                        equipments = equipments.OrderBy(c => c.ECM.ecmString);
+                    }
+
+                }
+
+                if (col == "Location")
+                {
+                    if (order == "desc")
+                    {
+                        equipments = equipments.OrderByDescending(c => c.Location.location1);
+                    }
+                    else
+                    {
+                        equipments = equipments.OrderBy(c => c.Location.location1);
+                    }
+
+                }
+
+                if (col == "jciTag")
+                {
+                    if (order == "desc")
+                    {
+                        equipments = equipments.OrderByDescending(c => c.jciTag);
+                    }
+                    else
+                    {
+                        equipments = equipments.OrderBy(c => c.jciTag);
+                    }
+                    
+                }
+                
+
             }
                         
             equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2).OrderBy(c=>c.jciTag);                            
@@ -153,7 +204,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(c => c.ECM.ecmNumber);
+            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(n => n.Location.location1).ThenBy(n => n.jciTag);
 
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
@@ -180,7 +231,7 @@ namespace JCIEstimate.Controllers
 
             }
 
-            equipments = equipments.Include(w => w.Location).OrderBy(w => w.Location.location1).ThenBy(w => w.ECM.ecmNumber);
+            equipments = equipments.Include(w => w.Location).OrderBy(n => n.Location.location1).ThenBy(n=>n.jciTag);
 
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
@@ -222,7 +273,7 @@ namespace JCIEstimate.Controllers
             string ecmUid = "";
             string equipmentAttributeTypeUid = "";
             string locationUid = "";
-            string jciTag = "";
+            decimal? jciTag = null;
 
             if (!String.IsNullOrEmpty(equipmentUidAsReplaced))
             {

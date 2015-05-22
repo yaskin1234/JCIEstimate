@@ -1808,6 +1808,7 @@
     <Content Include="Views\EquipmentAttachments\Details.cshtml" />
     <Content Include="Views\EquipmentAttachments\Edit.cshtml" />
     <Content Include="Views\EquipmentAttachments\Index.cshtml" />
+    <Content Include="Views\Reports\rptNewEquipment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -18,15 +18,15 @@ namespace JCIEstimate.Models
         {
             this.Equipment1 = new HashSet<Equipment>();
             this.EquipmentAttributeValues = new HashSet<EquipmentAttributeValue>();
-            this.EquipmentToDoes = new HashSet<EquipmentToDo>();
             this.EquipmentAttachments = new HashSet<EquipmentAttachment>();
+            this.EquipmentToDoes = new HashSet<EquipmentToDo>();
         }
     
         public System.Guid equipmentUid { get; set; }
         public System.Guid equipmentAttributeTypeUid { get; set; }
         public System.Guid ecmUid { get; set; }
         public System.Guid locationUid { get; set; }
-        public string jciTag { get; set; }
+        public Nullable<decimal> jciTag { get; set; }
         public string ownerTag { get; set; }
         public string manufacturer { get; set; }
         public string model { get; set; }
@@ -42,8 +42,8 @@ namespace JCIEstimate.Models
         public virtual ICollection<Equipment> Equipment1 { get; set; }
         public virtual Equipment Equipment2 { get; set; }
         public virtual ICollection<EquipmentAttributeValue> EquipmentAttributeValues { get; set; }
-        public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
-        public virtual ICollection<EquipmentAttachment> EquipmentAttachments { get; set; }
         public virtual Location Location { get; set; }
+        public virtual ICollection<EquipmentAttachment> EquipmentAttachments { get; set; }
+        public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
     }
 }

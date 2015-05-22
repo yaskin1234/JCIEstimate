@@ -66,11 +66,11 @@ namespace JCIEstimate.Models
         public virtual DbSet<AppDataType> AppDataTypes { get; set; }
         public virtual DbSet<EquipmentAttribute> EquipmentAttributes { get; set; }
         public virtual DbSet<EquipmentAttributeValue> EquipmentAttributeValues { get; set; }
-        public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<EquipmentAttachment> EquipmentAttachments { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<LocationIssue> LocationIssues { get; set; }
         public virtual DbSet<LocationNote> LocationNotes { get; set; }
         public virtual DbSet<WarrantyIssue> WarrantyIssues { get; set; }
+        public virtual DbSet<Equipment> Equipments { get; set; }
     }
 }

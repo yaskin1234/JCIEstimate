@@ -475,6 +475,7 @@ namespace JCIEstimate.Models
         public System.Guid ecmUid { get; set; }
         [Display(Name = "Location")]        
         public System.Guid locationUid { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         [Display(Name = "JCI Tag")]        
         public string jciTag { get; set; }
         [Display(Name = "Owner Tag")]        

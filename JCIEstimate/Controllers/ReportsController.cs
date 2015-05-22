@@ -17,6 +17,19 @@ namespace JCIEstimate.Controllers
             return View();
         }
 
+        public ActionResult GetNewEquipment()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptNewEquipment");
+            }
+        }
+
+
         public ActionResult GetCategoryECMByContractor()
         {
             if (Session["projectUid"] == null)

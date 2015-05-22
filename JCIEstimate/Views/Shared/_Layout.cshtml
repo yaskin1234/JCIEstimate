@@ -72,8 +72,7 @@
                                 <li>@Html.ActionLink("Misc Expenses For Project", "Index", "ExpenseMiscellaneousProjects")</li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Warranty Units", "Index", "WarrantyUnits")</li>
-                                <li class="divider"></li>
-                                <li>@Html.ActionLink("Report -- Equipment For ECM", "GetEquipmentForECM", "Reports")</li>
+                                
                             </ul>
                         </li>
                     }                          
@@ -96,9 +95,6 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contractor</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Contacts", "Index", "ContractorContacts")</li>
-                                <li>@Html.ActionLink("Email Addresses", "Index", "Eddresses")</li>
-                                <li class="divider"></li>
                                 <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>  
                                 <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>                                
                                 <li class="divider"></li>
@@ -109,7 +105,10 @@
                                 <li>@Html.ActionLink("Estimate Exceptions", "Index", "EstimateExceptions")</li>
                                 <li>@Html.ActionLink("Estimate Exception Responses", "Index", "EstimateExceptionResponses")</li>
                                 <li class="divider"></li>
-                                <li>@Html.ActionLink("Bid Summary", "getContractorSummary", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                                
+                                <li>@Html.ActionLink("Report -- Equipment List by ECM", "GetEquipmentForECM", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- New Equipment", "GetNewEquipment", "Reports")</li>
+                                
                             </ul>
                         </li>
                     }                    

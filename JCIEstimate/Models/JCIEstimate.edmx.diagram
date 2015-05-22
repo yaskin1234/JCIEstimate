@@ -80,14 +80,7 @@
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttribute_equipmentAttributeTypeUid" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentAttributeValue" Width="1.5" PointX="13.25" PointY="21.25" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttributeValue_equipmentAttributeUid" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="21.375" PointY="24" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_AttributeType" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_equipmentAsReplaced" />
-        <AssociationConnector Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipment" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentAttachment" Width="1.5" PointX="23.625" PointY="25.5" />
-        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttachment_Equipment" />
         <EntityTypeShape EntityType="JCIEstimateModel.Location" Width="1.5" PointX="18.375" PointY="36.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.LocationIssue" Width="1.5" PointX="20.625" PointY="16.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.LocationNote" Width="1.5" PointX="22.875" PointY="9.25" />
@@ -96,7 +89,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_createdAs" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_LocationNotecreated" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_AspNetUser" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_location_project" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_location" />
@@ -109,6 +101,14 @@
         <AssociationConnector Association="JCIEstimateModel.fk_warrantyissue_warrantystatus" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
         <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="23.625" PointY="28.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_AttributeType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_equipmentAsReplaced" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttachment_Equipment" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipment" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
