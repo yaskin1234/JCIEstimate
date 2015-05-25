@@ -56,9 +56,15 @@ namespace JCIEstimate.Controllers
             }
 
             FilterOptionModel wf = new FilterOptionModel();
-            wf.text = "All";
-            wf.value = "A|" + Guid.Empty.ToString();
+            wf.text = "-- Choose --";
+            wf.value = "X|" + Guid.Empty.ToString();
             wf.selected = (wf.value == filterId || String.IsNullOrEmpty(filterId));
+            aryFo.Add(wf);
+
+            wf = new FilterOptionModel();
+            wf.text = "All";
+            wf.value = "A|" + Guid.Empty.ToString().Substring(0, 35) + "1";            
+            wf.selected = (wf.value == filterId);
             aryFo.Add(wf);
 
 
@@ -95,7 +101,15 @@ namespace JCIEstimate.Controllers
                 {
                     equipments = equipments.Where(c => c.ecmUid.ToString() == uid);
                 }
-            }            
+                else if(type == "X")
+                {
+                    equipments = equipments.Where(c => c.ecmUid == Guid.Empty);
+                }
+            }
+            else
+            {
+                equipments = equipments.Where(c => c.ecmUid == Guid.Empty);
+            }
             
 
             //apply sort
@@ -141,11 +155,11 @@ namespace JCIEstimate.Controllers
                     {
                         equipments = equipments.OrderBy(c => c.jciTag);
                     }
-                    
-                }
-                
 
-            }
+                }
+
+
+            }            
                         
             equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2).OrderBy(c=>c.jciTag);                            
             ViewBag.equipmentTasks = db.EquipmentTasks;
@@ -376,11 +390,15 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,useReplacement")] Equipment equipment, string ecms)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,useReplacement")] Equipment equipment, string ecms, string equipmentUidAsReplaced)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(equipment).State = EntityState.Modified;
+                if (equipmentUidAsReplaced == Guid.Empty.ToString())
+                {
+                    equipment.equipmentUidAsReplaced = null;
+                }
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
