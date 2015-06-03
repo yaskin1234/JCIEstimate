@@ -1,0 +1,34 @@
+﻿@model JCIEstimate.Models.RfiType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RfiType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.rfiType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rfiType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.rfiTypeUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -17,6 +17,9 @@
         <th>
             @Html.DisplayNameFor(model => model.projectDescription)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aspNetUserUidAsPM)
+        </th>
         <th></th>
     </tr>
 
@@ -28,6 +31,10 @@
         <td>
             @Html.DisplayFor(modelItem => item.projectDescription)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+        </td>
+        
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.projectUid }) |
             @Html.ActionLink("Details", "Details", new { id=item.projectUid }) |

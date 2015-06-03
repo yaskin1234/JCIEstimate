@@ -1,0 +1,141 @@
+﻿@model JCIEstimate.Models.ProjectRFI
+
+@{
+    ViewBag.Title = "Edit";
+}
+<h4>Project RFI</h4>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.projectRFIUid)
+        @Html.HiddenFor(model => model.aspNetUserUidAsCreated)
+        @Html.HiddenFor(model => model.projectUid)
+        @Html.HiddenFor(model => model.dateCreated)
+        @Html.HiddenFor(model => model.contractorUid)
+        @Html.HiddenFor(model => model.ecmUid)
+        @Html.HiddenFor(model => model.rfiTypeUid)
+        <input type="hidden" name="existingAssignedTo" value="@Model.aspNetUserUidAsAssigned" />
+        <input type="hidden" name="existingRFIStatusUid" value="@Model.rfiStatusUid" />
+
+
+        <div class="form-group">
+            <div class="control-label col-md-2"><b>Created By</b></div>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.AspNetUser1.Email)                
+                @Html.ValidationMessageFor(model => model.aspNetUserUidAsCreated, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.projectUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Project.project1)                
+                @Html.ValidationMessageFor(model => model.projectUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dateCreated, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.dateCreated)                
+                @Html.ValidationMessageFor(model => model.dateCreated, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.contractorUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">                
+                @Html.DisplayFor(model => model.Contractor.contractorName)
+                @Html.ValidationMessageFor(model => model.contractorUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ecmUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">                
+                @Html.DisplayFor(model => model.ECM.ecmString)
+                @Html.ValidationMessageFor(model => model.ecmUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.rfiTypeUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.RfiType.rfiType1)                
+                @Html.ValidationMessageFor(model => model.rfiTypeUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.projectRFI1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span>@Model.projectRFI1</span>
+                <input type="hidden" name="projectRFI1" value="@Model.projectRFI1" />
+                @Html.ValidationMessageFor(model => model.projectRFI1, "", new { @class = "text-danger" })
+            </div>
+        </div>       
+
+        <div class="dl-horizontal" style="border-bottom-width:thin;"></div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.aspNetUserUidAsAssigned, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (ViewBag.isPM)
+                {
+                    @Html.DropDownList("aspNetUserUidAsAssigned", null, htmlAttributes: new { @class = "form-control" })
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.AspNetUser.Email)
+                    @Html.HiddenFor(model => model.aspNetUserUidAsAssigned)
+                }                
+                @Html.ValidationMessageFor(model => model.aspNetUserUidAsAssigned, "", new { @class = "text-danger" })
+            </div>
+        </div>        
+
+        <div class="form-group">
+            @Html.Label("RFI Status", null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("rfiStatusUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.rfiStatusUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2"><b>Insert comment</b></div>
+            <div class="col-md-10">
+                <textarea cols="20" htmlattributes="{ class = form-control }" id="projectRfiResponse" name="projectRfiResponse" style="width:inherit;" rows="5"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+        @foreach (var item in Model.ProjectRFIResponses)
+        {
+            <hr/>
+            <div class="form-group">
+                <div style="text-align:left;" class="control-label col-md-2"><b>@item.AspNetUser.Email on @item.dateCreated</b></div>
+                <div class="col-md-10">
+                    <div>@item.projectRFIResponse1</div>
+                </div>
+            </div>
+        }
+        
+        <hr/>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

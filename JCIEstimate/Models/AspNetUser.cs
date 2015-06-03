@@ -23,6 +23,11 @@ namespace JCIEstimate.Models
             this.LocationIssues = new HashSet<LocationIssue>();
             this.LocationNotes = new HashSet<LocationNote>();
             this.LocationIssues1 = new HashSet<LocationIssue>();
+            this.EquipmentNotes = new HashSet<EquipmentNote>();
+            this.ProjectRFIResponses = new HashSet<ProjectRFIResponse>();
+            this.ProjectRFIs = new HashSet<ProjectRFI>();
+            this.ProjectRFIs1 = new HashSet<ProjectRFI>();
+            this.Projects = new HashSet<Project>();
         }
     
         public string Id { get; set; }
@@ -46,5 +51,10 @@ namespace JCIEstimate.Models
         public virtual ICollection<LocationIssue> LocationIssues { get; set; }
         public virtual ICollection<LocationNote> LocationNotes { get; set; }
         public virtual ICollection<LocationIssue> LocationIssues1 { get; set; }
+        public virtual ICollection<EquipmentNote> EquipmentNotes { get; set; }
+        public virtual ICollection<ProjectRFIResponse> ProjectRFIResponses { get; set; }
+        public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
+        public virtual ICollection<ProjectRFI> ProjectRFIs1 { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
     }
 }

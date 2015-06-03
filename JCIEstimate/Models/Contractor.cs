@@ -19,6 +19,7 @@ namespace JCIEstimate.Models
             this.ContractorContacts = new HashSet<ContractorContact>();
             this.ContractorUsers = new HashSet<ContractorUser>();
             this.Estimates = new HashSet<Estimate>();
+            this.ProjectRFIs = new HashSet<ProjectRFI>();
         }
     
         public System.Guid contractorUid { get; set; }
@@ -30,5 +31,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorContact> ContractorContacts { get; set; }
         public virtual ICollection<ContractorUser> ContractorUsers { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace IdentitySample.Controllers
                 projects = from cc in db.Projects
                            select cc;
             }
-            else if (User.IsInRole("Warranty"))
+            else
             {
                 projects = from cc in db.Projects
                            join pu in db.ProjectUsers on cc.projectUid equals pu.projectUid
@@ -55,19 +55,6 @@ namespace IdentitySample.Controllers
                            where pq.UserName == System.Web.HttpContext.Current.User.Identity.Name
                            select cc;
             }
-            else
-            {
-                projects = from cc in db.Projects
-                           join dd in db.Locations on cc.projectUid equals dd.projectUid
-                           join ee in db.Estimates on dd.locationUid equals ee.locationUid
-                           join c in db.Contractors on ee.contractorUid equals c.contractorUid
-                           join cn in db.ContractorUsers on c.contractorUid equals cn.contractorUid
-                           join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
-                           where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
-                           select cc;
-                projects = projects.Distinct();
-            }
-
 
             ViewBag.projectUid = projects.ToSelectList(d => d.project1, d => d.projectUid.ToString(), "");            
             return View();
@@ -76,14 +63,14 @@ namespace IdentitySample.Controllers
         [Authorize]
         public ActionResult About()
         {
-            ViewBag.Message = "Your app description page.";
+            ViewBag.Message = "JCI Services powered by BBConsulting.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "JCI Services powered by <a href>BBConsulting</a>.";
 
             return View();
         } 

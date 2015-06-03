@@ -42,7 +42,12 @@
                             <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
                             <li>@Html.ActionLink("Warranty Status", "Index", "WarrantyStatus")</li>
                             <li>@Html.ActionLink("Equipment Tasks", "Index", "EquipmentTasks")</li>
+                            <li>@Html.ActionLink("Project Attachment Types", "Index", "ProjectAttachmentTypes")</li>
                             <li>@Html.ActionLink("Equipment Types", "Index", "EquipmentTypes")</li>
+                            <li>@Html.ActionLink("Equipment Attribute Type", "Index", "EquipmentAttributeTypes")</li>
+                            <li>@Html.ActionLink("Equipment Note Types", "Index", "EquipmentNoteTypes")</li>
+                            <li>@Html.ActionLink("RFI Types", "Index", "RFITypes")</li>
+                            <li>@Html.ActionLink("RFI Satus", "Index", "RFIStatus")</li>
                             <li>@Html.ActionLink("Intervals", "Index", "Intervals")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
@@ -56,14 +61,13 @@
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project Setup</a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu">                                
                                 <li>@Html.ActionLink("ECMs", "Index", "ECMs")</li>
                                 <li>@Html.ActionLink("Locations", "Index", "Locations")</li>
-                                <li>@Html.ActionLink("Equipment", "Index", "Equipments")</li>
-                                <li>@Html.ActionLink("Equipment Attribute Type", "Index", "EquipmentAttributeTypes")</li>
-                                <li>@Html.ActionLink("Equipment Attribute", "Index", "EquipmentAttributes")</li>                                
-                                <li>@Html.ActionLink("Equipment Attribute Value", "Index", "EquipmentAttributeValues")</li>
+                                <li>@Html.ActionLink("Equipment", "Index", "Equipments")</li>                                
+                                <li>@Html.ActionLink("Equipment Attribute", "Index", "EquipmentAttributes")</li>                                                                
                                 <li>@Html.ActionLink("Equipment Attachment", "Index", "EquipmentAttachments")</li>
+                                <li>@Html.ActionLink("Equipment Notes", "Index", "EquipmentNotes")</li>
                                 <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Construction Expenses", "Index", "ExpenseConstructions")</li>
@@ -96,7 +100,9 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contractor</a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>  
-                                <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>                                
+                                <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>            
+                                <li>@Html.ActionLink("Project Attachment", "Index", "ProjectAttachments")</li>
+                                <li>@Html.ActionLink("RFI", "Index", "ProjectRFIs")</li>                                
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Estimate Inclusions", "Index", "EstimateInclusions")</li>
                                 <li>@Html.ActionLink("Estimate Inclusion Responses", "Index", "EstimateInclusionResponses")</li>
@@ -120,6 +126,8 @@
                                 <li>@Html.ActionLink("Contacts", "Index", "ContractorContacts")</li>
                                 <li>@Html.ActionLink("Email Addresses", "Index", "Eddresses")</li>
                                 <li class="divider"></li>
+                                <li>@Html.ActionLink("Project Attachment", "Index", "ProjectAttachments")</li>
+                                <li>@Html.ActionLink("RFI", "Index", "ProjectRFIs")</li>                                
                                 <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>  
                                 <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>
                                 <li class="divider"></li>

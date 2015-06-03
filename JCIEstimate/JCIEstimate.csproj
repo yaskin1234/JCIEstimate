@@ -566,6 +566,7 @@
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
     <Content Include="Content\ReportingService.aspx" />
+    <Content Include="Emails\NewRFI.html" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -1809,6 +1810,41 @@
     <Content Include="Views\EquipmentAttachments\Edit.cshtml" />
     <Content Include="Views\EquipmentAttachments\Index.cshtml" />
     <Content Include="Views\Reports\rptNewEquipment.cshtml" />
+    <Content Include="Views\EquipmentNoteTypes\Create.cshtml" />
+    <Content Include="Views\EquipmentNoteTypes\Delete.cshtml" />
+    <Content Include="Views\EquipmentNoteTypes\Details.cshtml" />
+    <Content Include="Views\EquipmentNoteTypes\Edit.cshtml" />
+    <Content Include="Views\EquipmentNoteTypes\Index.cshtml" />
+    <Content Include="Views\EquipmentNotes\Create.cshtml" />
+    <Content Include="Views\EquipmentNotes\Delete.cshtml" />
+    <Content Include="Views\EquipmentNotes\Details.cshtml" />
+    <Content Include="Views\EquipmentNotes\Edit.cshtml" />
+    <Content Include="Views\EquipmentNotes\Index.cshtml" />
+    <Content Include="Views\ProjectAttachmentTypes\Create.cshtml" />
+    <Content Include="Views\ProjectAttachmentTypes\Delete.cshtml" />
+    <Content Include="Views\ProjectAttachmentTypes\Details.cshtml" />
+    <Content Include="Views\ProjectAttachmentTypes\Edit.cshtml" />
+    <Content Include="Views\ProjectAttachmentTypes\Index.cshtml" />
+    <Content Include="Views\ProjectAttachments\Create.cshtml" />
+    <Content Include="Views\ProjectAttachments\Delete.cshtml" />
+    <Content Include="Views\ProjectAttachments\Details.cshtml" />
+    <Content Include="Views\ProjectAttachments\Edit.cshtml" />
+    <Content Include="Views\ProjectAttachments\Index.cshtml" />
+    <Content Include="Views\RfiTypes\Create.cshtml" />
+    <Content Include="Views\RfiTypes\Delete.cshtml" />
+    <Content Include="Views\RfiTypes\Details.cshtml" />
+    <Content Include="Views\RfiTypes\Edit.cshtml" />
+    <Content Include="Views\RfiTypes\Index.cshtml" />
+    <Content Include="Views\ProjectRFIs\Create.cshtml" />
+    <Content Include="Views\ProjectRFIs\Delete.cshtml" />
+    <Content Include="Views\ProjectRFIs\Details.cshtml" />
+    <Content Include="Views\ProjectRFIs\Edit.cshtml" />
+    <Content Include="Views\ProjectRFIs\Index.cshtml" />
+    <Content Include="Views\RfiStatus\Create.cshtml" />
+    <Content Include="Views\RfiStatus\Delete.cshtml" />
+    <Content Include="Views\RfiStatus\Details.cshtml" />
+    <Content Include="Views\RfiStatus\Edit.cshtml" />
+    <Content Include="Views\RfiStatus\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1938,6 +1974,8 @@
     <Compile Include="Controllers\EquipmentAttributesController.cs" />
     <Compile Include="Controllers\EquipmentAttributeTypesController.cs" />
     <Compile Include="Controllers\EquipmentAttributeValuesController.cs" />
+    <Compile Include="Controllers\EquipmentNotesController.cs" />
+    <Compile Include="Controllers\EquipmentNoteTypesController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
     <Compile Include="Controllers\EquipmentTasksController.cs" />
     <Compile Include="Controllers\EquipmentToDoesController.cs" />
@@ -1962,12 +2000,16 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MilestoneActionsController.cs" />
     <Compile Include="Controllers\MilestonesController.cs" />
+    <Compile Include="Controllers\ProjectAttachmentsController.cs" />
     <Compile Include="Controllers\ProjectMilestoneActionsController.cs" />
     <Compile Include="Controllers\ProjectMilestonesController.cs" />
+    <Compile Include="Controllers\ProjectRFIsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ProjectToDoesController.cs" />
     <Compile Include="Controllers\ProjectUsersController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\RfiStatusController.cs" />
+    <Compile Include="Controllers\RfiTypesController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\ScopeOfWorksController.cs" />
     <Compile Include="Controllers\ToDoStatusController.cs" />
@@ -2019,6 +2061,12 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EquipmentAttributeValue.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentNote.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentNoteType.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EquipmentTask.cs">
@@ -2109,16 +2157,34 @@
     <Compile Include="Models\Project.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectAttachment.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectAttachmentType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProjectMilestone.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectMilestoneAction.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectRFI.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectRFIResponse.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProjectToDo.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectUser.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RfiStatu.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RfiType.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ScopeOfWork.cs">
@@ -2145,6 +2211,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Views\ProjectAttachmentTypesController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

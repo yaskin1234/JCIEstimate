@@ -20,6 +20,7 @@ namespace JCIEstimate.Models
             this.EquipmentAttributeValues = new HashSet<EquipmentAttributeValue>();
             this.EquipmentAttachments = new HashSet<EquipmentAttachment>();
             this.EquipmentToDoes = new HashSet<EquipmentToDo>();
+            this.EquipmentNotes = new HashSet<EquipmentNote>();
         }
     
         public System.Guid equipmentUid { get; set; }
@@ -45,5 +46,6 @@ namespace JCIEstimate.Models
         public virtual Location Location { get; set; }
         public virtual ICollection<EquipmentAttachment> EquipmentAttachments { get; set; }
         public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
+        public virtual ICollection<EquipmentNote> EquipmentNotes { get; set; }
     }
 }

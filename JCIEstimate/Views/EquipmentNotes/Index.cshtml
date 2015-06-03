@@ -1,0 +1,52 @@
+﻿@model IEnumerable<JCIEstimate.Models.EquipmentNote>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Equipment
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.equipmentNote1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EquipmentNoteType.equipmentNoteType1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>       
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Equipment.Location.location1 - @item.Equipment.jciTag - @item.Equipment.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.Equipment.installDate).Year - @item.Equipment.ECM.ecmNumber
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.equipmentNote1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EquipmentNoteType.equipmentNoteType1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.equipmentNoteUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.equipmentNoteUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.equipmentNoteUid })
+        </td>
+    </tr>
+}
+
+</table>

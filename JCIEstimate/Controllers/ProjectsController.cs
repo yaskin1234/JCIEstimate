@@ -96,6 +96,7 @@ namespace JCIEstimate.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
+            ViewBag.aspNetUserUidAsPM = db.AspNetUsers.OrderBy(c=>c.Email).ToSelectList(c=>c.Email, c=>c.Id, "");
             ViewBag.miscExpenseList = new SelectList(db.ExpenseMiscellaneous, "expenseMiscellaneousUid", "expenseMiscellaneous");
             return View();
         }       
@@ -105,7 +106,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "projectUid,project1,projectDescription")] Project project, params string[] selectedExpenses)
+        public async Task<ActionResult> Create([Bind(Include = "projectUid,project1,projectDescription,aspNetUserUidAsPM")] Project project, params string[] selectedExpenses)
         {
             ExpenseMiscellaneousProject myExpense;            
 
@@ -170,6 +171,7 @@ namespace JCIEstimate.Controllers
             }
 
             ViewBag.expenseList = new SelectList(expenseList, "Value", "Text", selectedExpenses.ToList());
+            ViewBag.aspNetUserUidAsPM = db.AspNetUsers.OrderBy(c => c.Email).ToSelectList(c => c.Email, c => c.Id, project.aspNetUserUidAsPM);            
             ViewBag.milestoneList = new SelectList(db.Milestones.OrderBy(c => c.defaultListOrder), "milestoneUid", "milestone1");
             return View(project);
         }
@@ -179,7 +181,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription")] Project project, string[] selectedExpenses, string[] selectedMilestones)
+        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription,aspNetUserUidAsPM")] Project project, string[] selectedExpenses, string[] selectedMilestones)
         {
             ExpenseMiscellaneousProject myExpense;
             ProjectMilestone myProjectMilestone;

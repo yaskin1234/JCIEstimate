@@ -181,7 +181,7 @@ namespace JCIEstimate.Models
     }
 
     /// <summary>
-    /// EstmateStatus
+    /// Project
     /// </summary>
     [MetadataType(typeof(ProjectMetaData))]
     public partial class Project
@@ -192,12 +192,35 @@ namespace JCIEstimate.Models
     {
         [Display(Name = "Project")]
         public System.Guid projectUid { get; set; }
-
         [Display(Name = "Project")]
         public string project1 { get; set; }
-
         [Display(Name = "Project Description")]
         public string projectDescription { get; set; }
+        [Display(Name = "Project Manager")]
+        public string aspNetUserUidAsPM { get; set; }
+    }
+
+
+    /// <summary>
+    /// ProjectAttachment
+    /// </summary>
+    [MetadataType(typeof(ProjectAttachmentMetaData))]
+    public partial class ProjectAttachment
+    {
+    }
+
+    public class ProjectAttachmentMetaData
+    {
+        [Display(Name = "Project Attachment")]
+        public System.Guid projectAttachmentUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Project Attachment")]
+        public string projectAttachment1 { get; set; }        
+        public byte[] attachment { get; set; }
+        public string fileType { get; set; }
+        [Display(Name = "Document Name")]
+        public string documentName { get; set; }
     }
 
     /// <summary>
@@ -429,6 +452,25 @@ namespace JCIEstimate.Models
         public string behaviorIndicator { get; set; }
     }
 
+    /// <summary>
+    /// EquipmentNoteType
+    /// </summary>
+    [MetadataType(typeof(EquipmentNoteTypeMetaData))]
+    public partial class EquipmentNoteType
+    {
+    }
+
+    public class EquipmentNoteTypeMetaData
+    {
+        [Display(Name = "Equipment Note Type")]
+        public System.Guid equipmentNoteTypeUid { get; set; }
+        [Display(Name = "Equipment Note Type")]
+        public string equipmentNoteType1 { get; set; }
+        [Display(Name = "Equipment Type Description")]
+        public string equipmentNoteTypeDescription { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
 
     /// <summary>
     /// EquipmentAttachment
@@ -454,6 +496,32 @@ namespace JCIEstimate.Models
         public string documentName { get; set; }
 
         public virtual Equipment Equipment { get; set; }
+    }
+
+    /// <summary>
+    /// EquipmentNote
+    /// </summary>
+    [MetadataType(typeof(EquipmentNoteMetaData))]
+    public partial class EquipmentNote
+    {
+    }
+
+    public class EquipmentNoteMetaData
+    {
+        [Display(Name = "Equipment Note")]
+        public System.Guid equipmentNoteUid { get; set; }
+        [Display(Name = "Equipment")]
+        public System.Guid equipmentUid { get; set; }
+        public Nullable<System.Guid> equipmentNoteTypeUid { get; set; }
+        [Display(Name = "Equipment Note")]
+        public string equipmentNote1 { get; set; }
+        [Display(Name = "Date")]
+        public System.DateTime date { get; set; }
+        [Display(Name = "Created By")]
+        public string aspNetUserUidAsCreated { get; set; }
+
+        public virtual Equipment Equipment { get; set; }
+        public virtual EquipmentNoteType EquipmentNoteType { get; set; }
     }
 
 
@@ -1001,4 +1069,77 @@ namespace JCIEstimate.Models
         [Display(Name = "Behavior Indicator")]
         public string behaviorIndicator { get; set; }
     }
+
+    /// <summary>
+    /// RfiType
+    /// </summary>
+    [MetadataType(typeof(RfiTypeMetaData))]
+    public partial class RfiType
+    {
+    }
+
+    public class RfiTypeMetaData
+    {
+        [Display(Name = "RFI Type")]
+        public System.Guid rfiTypeUid { get; set; }
+        [Display(Name = "RFI Type")]
+        public string rfiType1 { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+
+    }
+
+    /// <summary>
+    /// RfiStatu
+    /// </summary>
+    [MetadataType(typeof(RfiStatuMetaData))]
+    public partial class RfiStatu
+    {
+    }
+
+    public class RfiStatuMetaData
+    {
+        [Display(Name = "RFI Status")]
+        public System.Guid rfiStatusUid { get; set; }
+        [Display(Name = "RFI Status")]
+        public string rfiStatus { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+
+    }
+
+    /// <summary>
+    /// ProjectRFI
+    /// </summary>
+    [MetadataType(typeof(ProjectRFIMetaData))]
+    public partial class ProjectRFI
+    {
+    }
+
+    public class ProjectRFIMetaData
+    {
+        [Display(Name = "RFI")]
+        public System.Guid projectRFIUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Date Created")]
+        public System.DateTime dateCreated { get; set; }
+        [Display(Name = "Contractor")]
+        public System.Guid contractorUid { get; set; }
+        [Display(Name = "ECM")]
+        public System.Guid ecmUid { get; set; }
+        [Display(Name = "RFI Type")]
+        public System.Guid rfiTypeUid { get; set; }
+        [Display(Name = "Created By")]
+        public string aspNetUserUidAsCreated { get; set; }
+        [Display(Name = "Assigned To")]
+        public string aspNetUserUidAsAssigned { get; set; }
+        [Display(Name = "RFI")]
+        public string projectRFI1 { get; set; }
+        [Display(Name = "RFI ID")]
+        public int projectRFIID { get; set; }
+
+    }
+
+
 }

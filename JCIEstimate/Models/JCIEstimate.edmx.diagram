@@ -109,6 +109,28 @@
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttachment_Equipment" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipment" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentNoteType" Width="1.5" PointX="23.625" PointY="35.625" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentNote" Width="1.5" PointX="25.875" PointY="17.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote__aspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote_Equipment" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote__Equipmentnotetype" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectAttachment" Width="1.5" PointX="18.375" PointY="41.125" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectAttachmentType" Width="1.5" PointX="7.375" PointY="0.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectAttachment_Project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectRFIResponse" Width="1.5" PointX="24.625" PointY="3" />
+        <EntityTypeShape EntityType="JCIEstimateModel.RfiType" Width="1.5" PointX="20.125" PointY="4.625" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userRresponded" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectRFI" Width="1.5" PointX="25.375" PointY="8.375" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userAssigned" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userCreated" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_Contractor" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_ECM" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_RfiType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFIResponse_ProjectRFI" />
+        <EntityTypeShape EntityType="JCIEstimateModel.RfiStatu" Width="1.5" PointX="5.375" PointY="9.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_RfiStatus" />
+        <AssociationConnector Association="JCIEstimateModel.fk_project_PM" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

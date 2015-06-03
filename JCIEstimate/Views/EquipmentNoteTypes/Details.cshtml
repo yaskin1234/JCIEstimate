@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.EquipmentNoteType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EquipmentNoteType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.equipmentNoteType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.equipmentNoteType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.equipmentNoteTypeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.equipmentNoteTypeDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.equipmentNoteTypeUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

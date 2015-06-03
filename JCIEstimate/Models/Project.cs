@@ -25,11 +25,14 @@ namespace JCIEstimate.Models
             this.ProjectMilestones = new HashSet<ProjectMilestone>();
             this.ProjectUsers = new HashSet<ProjectUser>();
             this.Locations = new HashSet<Location>();
+            this.ProjectAttachments = new HashSet<ProjectAttachment>();
+            this.ProjectRFIs = new HashSet<ProjectRFI>();
         }
     
         public System.Guid projectUid { get; set; }
         public string project1 { get; set; }
         public string projectDescription { get; set; }
+        public string aspNetUserUidAsPM { get; set; }
     
         public virtual ICollection<ECM> ECMs { get; set; }
         public virtual ICollection<ExpenseConstruction> ExpenseConstructions { get; set; }
@@ -40,5 +43,8 @@ namespace JCIEstimate.Models
         public virtual ICollection<ProjectMilestone> ProjectMilestones { get; set; }
         public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
+        public virtual ICollection<ProjectAttachment> ProjectAttachments { get; set; }
+        public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

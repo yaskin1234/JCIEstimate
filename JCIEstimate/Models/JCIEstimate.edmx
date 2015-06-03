@@ -141,6 +141,26 @@
           <Property Name="equipmentUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="equipmentAttributeValue" Type="varchar" MaxLength="2000" />
         </EntityType>
+        <EntityType Name="EquipmentNote">
+          <Key>
+            <PropertyRef Name="equipmentNoteUid" />
+          </Key>
+          <Property Name="equipmentNoteUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentNoteTypeUid" Type="uniqueidentifier" />
+          <Property Name="equipmentNote" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="date" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="aspNetUserUidAsCreated" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EquipmentNoteType">
+          <Key>
+            <PropertyRef Name="equipmentNoteTypeUid" />
+          </Key>
+          <Property Name="equipmentNoteTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentNoteType" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="equipmentNoteTypeDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
         <EntityType Name="EquipmentTask">
           <Key>
             <PropertyRef Name="equipmentTaskUid" />
@@ -368,6 +388,26 @@
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="project" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="projectDescription" Type="nvarchar" MaxLength="200" />
+          <Property Name="aspNetUserUidAsPM" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="ProjectAttachment">
+          <Key>
+            <PropertyRef Name="projectAttachmentUid" />
+          </Key>
+          <Property Name="projectAttachmentUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectAttachment" Type="varchar" MaxLength="200" />
+          <Property Name="attachment" Type="varbinary(max)" Nullable="false" />
+          <Property Name="fileType" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="documentName" Type="varchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectAttachmentType">
+          <Key>
+            <PropertyRef Name="projectAttachmentTypeUid" />
+          </Key>
+          <Property Name="projectAttachmentTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectAttachmentType" Type="varchar" MaxLength="200" />
+          <Property Name="behaviorIndicator" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="ProjectMilestone">
           <Key>
@@ -395,6 +435,32 @@
           <Property Name="endDate" Type="date" StoreGeneratedPattern="Computed" />
           <Property Name="isRollingUp" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="ProjectRFI">
+          <Key>
+            <PropertyRef Name="projectRFIUid" />
+          </Key>
+          <Property Name="projectRFIUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="rfiTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="rfiStatusUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="aspNetUserUidAsCreated" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="aspNetUserUidAsAssigned" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="projectRFI" Type="varchar" MaxLength="4000" />
+          <Property Name="projectRFIID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectRFIResponse">
+          <Key>
+            <PropertyRef Name="projectRFIResponseUid" />
+          </Key>
+          <Property Name="projectRFIResponseUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectRFIUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" Nullable="false" />
+          <Property Name="aspNetUserUidAsResponded" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="projectRFIResponse" Type="varchar" MaxLength="2000" />
+        </EntityType>
         <EntityType Name="ProjectToDo">
           <Key>
             <PropertyRef Name="projectToDoUid" />
@@ -413,6 +479,22 @@
           <Property Name="projectUserUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RfiStatus">
+          <Key>
+            <PropertyRef Name="rfiStatusUid" />
+          </Key>
+          <Property Name="rfiStatusUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="rfiStatus" Type="varchar" MaxLength="200" />
+          <Property Name="behaviorIndicator" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="RfiType">
+          <Key>
+            <PropertyRef Name="rfiTypeUid" />
+          </Key>
+          <Property Name="rfiTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="rfiType" Type="varchar" MaxLength="200" />
+          <Property Name="behaviorIndicator" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="ScopeOfWork">
           <Key>
@@ -704,6 +786,44 @@
             </Principal>
             <Dependent Role="EquipmentAttributeValue">
               <PropertyRef Name="equipmentAttributeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Equipmentnote__aspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="EquipmentNote" Type="Self.EquipmentNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EquipmentNote">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Equipmentnote__Equipmentnotetype">
+          <End Role="EquipmentNoteType" Type="Self.EquipmentNoteType" Multiplicity="0..1" />
+          <End Role="EquipmentNote" Type="Self.EquipmentNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentNoteType">
+              <PropertyRef Name="equipmentNoteTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentNote">
+              <PropertyRef Name="equipmentNoteTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Equipmentnote_Equipment">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EquipmentNote" Type="Self.EquipmentNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="EquipmentNote">
+              <PropertyRef Name="equipmentUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1023,6 +1143,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_project_PM">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="aspNetUserUidAsPM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_project_user">
           <End Role="Project" Type="Self.Project" Multiplicity="1" />
           <End Role="ProjectUser" Type="Self.ProjectUser" Multiplicity="*" />
@@ -1031,6 +1163,18 @@
               <PropertyRef Name="projectUid" />
             </Principal>
             <Dependent Role="ProjectUser">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectAttachment_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ProjectAttachment" Type="Self.ProjectAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectAttachment">
               <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
@@ -1056,6 +1200,114 @@
             </Principal>
             <Dependent Role="ProjectMilestoneAction">
               <PropertyRef Name="projectMilestoneUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_Contractor">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ProjectRFI" Type="Self.ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_ECM">
+          <End Role="ECM" Type="Self.ECM" Multiplicity="1" />
+          <End Role="ProjectRFI" Type="Self.ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ProjectRFI" Type="Self.ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_RfiStatus">
+          <End Role="RfiStatus" Type="Self.RfiStatus" Multiplicity="1" />
+          <End Role="ProjectRFI" Type="Self.ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RfiStatus">
+              <PropertyRef Name="rfiStatusUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="rfiStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_RfiType">
+          <End Role="RfiType" Type="Self.RfiType" Multiplicity="1" />
+          <End Role="ProjectRFI" Type="Self.ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RfiType">
+              <PropertyRef Name="rfiTypeUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="rfiTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_userAssigned">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="ProjectRFI" Type="Self.ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="aspNetUserUidAsAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_userCreated">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="ProjectRFI" Type="Self.ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_userRresponded">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="ProjectRFIResponse" Type="Self.ProjectRFIResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectRFIResponse">
+              <PropertyRef Name="aspNetUserUidAsResponded" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFIResponse_ProjectRFI">
+          <End Role="ProjectRFI" Type="Self.ProjectRFI" Multiplicity="1" />
+          <End Role="ProjectRFIResponse" Type="Self.ProjectRFIResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectRFI">
+              <PropertyRef Name="projectRFIUid" />
+            </Principal>
+            <Dependent Role="ProjectRFIResponse">
+              <PropertyRef Name="projectRFIUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1197,6 +1449,8 @@
           <EntitySet Name="EquipmentAttribute" EntityType="Self.EquipmentAttribute" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentAttributeType" EntityType="Self.EquipmentAttributeType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentAttributeValue" EntityType="Self.EquipmentAttributeValue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentNote" EntityType="Self.EquipmentNote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentNoteType" EntityType="Self.EquipmentNoteType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentTask" EntityType="Self.EquipmentTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentToDo" EntityType="Self.EquipmentToDo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentType" EntityType="Self.EquipmentType" Schema="dbo" store:Type="Tables" />
@@ -1220,10 +1474,16 @@
           <EntitySet Name="Milestone" EntityType="Self.Milestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MilestoneAction" EntityType="Self.MilestoneAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectAttachment" EntityType="Self.ProjectAttachment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectAttachmentType" EntityType="Self.ProjectAttachmentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMilestone" EntityType="Self.ProjectMilestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectMilestoneAction" EntityType="Self.ProjectMilestoneAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectRFI" EntityType="Self.ProjectRFI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectRFIResponse" EntityType="Self.ProjectRFIResponse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectToDo" EntityType="Self.ProjectToDo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectUser" EntityType="Self.ProjectUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RfiStatus" EntityType="Self.RfiStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RfiType" EntityType="Self.RfiType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScopeOfWork" EntityType="Self.ScopeOfWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ToDoStatus" EntityType="Self.ToDoStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyAttachment" EntityType="Self.WarrantyAttachment" Schema="dbo" store:Type="Tables" />
@@ -1302,6 +1562,18 @@
           <AssociationSet Name="fk_EquipmentAttributeValue_equipmentAttributeUid" Association="Self.fk_EquipmentAttributeValue_equipmentAttributeUid">
             <End Role="EquipmentAttribute" EntitySet="EquipmentAttribute" />
             <End Role="EquipmentAttributeValue" EntitySet="EquipmentAttributeValue" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Equipmentnote__aspNetUser" Association="Self.fk_Equipmentnote__aspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="EquipmentNote" EntitySet="EquipmentNote" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Equipmentnote__Equipmentnotetype" Association="Self.fk_Equipmentnote__Equipmentnotetype">
+            <End Role="EquipmentNoteType" EntitySet="EquipmentNoteType" />
+            <End Role="EquipmentNote" EntitySet="EquipmentNote" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Equipmentnote_Equipment" Association="Self.fk_Equipmentnote_Equipment">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="EquipmentNote" EntitySet="EquipmentNote" />
           </AssociationSet>
           <AssociationSet Name="fk_equipmenttodo_equipment" Association="Self.fk_equipmenttodo_equipment">
             <End Role="Equipment" EntitySet="Equipment" />
@@ -1407,9 +1679,17 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="ProjectUser" EntitySet="ProjectUser" />
           </AssociationSet>
+          <AssociationSet Name="fk_project_PM" Association="Self.fk_project_PM">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
           <AssociationSet Name="fk_project_user" Association="Self.fk_project_user">
             <End Role="Project" EntitySet="Project" />
             <End Role="ProjectUser" EntitySet="ProjectUser" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectAttachment_Project" Association="Self.fk_ProjectAttachment_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectAttachment" EntitySet="ProjectAttachment" />
           </AssociationSet>
           <AssociationSet Name="fk_projectMilestone_project" Association="Self.fk_projectMilestone_project">
             <End Role="Project" EntitySet="Project" />
@@ -1418,6 +1698,42 @@
           <AssociationSet Name="fk_projectMilestoneAction_projectMilestone" Association="Self.fk_projectMilestoneAction_projectMilestone">
             <End Role="ProjectMilestone" EntitySet="ProjectMilestone" />
             <End Role="ProjectMilestoneAction" EntitySet="ProjectMilestoneAction" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_Contractor" Association="Self.fk_ProjectRFI_Contractor">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_ECM" Association="Self.fk_ProjectRFI_ECM">
+            <End Role="ECM" EntitySet="ECM" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_Project" Association="Self.fk_ProjectRFI_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_RfiStatus" Association="Self.fk_ProjectRFI_RfiStatus">
+            <End Role="RfiStatus" EntitySet="RfiStatus" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_RfiType" Association="Self.fk_ProjectRFI_RfiType">
+            <End Role="RfiType" EntitySet="RfiType" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_userAssigned" Association="Self.fk_ProjectRFI_userAssigned">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_userCreated" Association="Self.fk_ProjectRFI_userCreated">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFI" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_userRresponded" Association="Self.fk_ProjectRFI_userRresponded">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ProjectRFIResponse" EntitySet="ProjectRFIResponse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFIResponse_ProjectRFI" Association="Self.fk_ProjectRFIResponse_ProjectRFI">
+            <End Role="ProjectRFI" EntitySet="ProjectRFI" />
+            <End Role="ProjectRFIResponse" EntitySet="ProjectRFIResponse" />
           </AssociationSet>
           <AssociationSet Name="fk_projecttodo_todostatus" Association="Self.fk_projecttodo_todostatus">
             <End Role="ToDoStatus" EntitySet="ToDoStatus" />
@@ -1740,6 +2056,70 @@
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="EquipmentToDo" EntitySet="EquipmentToDoes" />
           </AssociationSet>
+          <EntitySet Name="EquipmentNoteTypes" EntityType="JCIEstimateModel.EquipmentNoteType" />
+          <EntitySet Name="EquipmentNotes" EntityType="JCIEstimateModel.EquipmentNote" />
+          <AssociationSet Name="fk_Equipmentnote__aspNetUser" Association="JCIEstimateModel.fk_Equipmentnote__aspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="EquipmentNote" EntitySet="EquipmentNotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Equipmentnote_Equipment" Association="JCIEstimateModel.fk_Equipmentnote_Equipment">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="EquipmentNote" EntitySet="EquipmentNotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Equipmentnote__Equipmentnotetype" Association="JCIEstimateModel.fk_Equipmentnote__Equipmentnotetype">
+            <End Role="EquipmentNoteType" EntitySet="EquipmentNoteTypes" />
+            <End Role="EquipmentNote" EntitySet="EquipmentNotes" />
+          </AssociationSet>
+          <EntitySet Name="ProjectAttachments" EntityType="JCIEstimateModel.ProjectAttachment" />
+          <EntitySet Name="ProjectAttachmentTypes" EntityType="JCIEstimateModel.ProjectAttachmentType" />
+          <AssociationSet Name="fk_ProjectAttachment_Project" Association="JCIEstimateModel.fk_ProjectAttachment_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectAttachment" EntitySet="ProjectAttachments" />
+          </AssociationSet>
+          <EntitySet Name="ProjectRFIResponses" EntityType="JCIEstimateModel.ProjectRFIResponse" />
+          <EntitySet Name="RfiTypes" EntityType="JCIEstimateModel.RfiType" />
+          <AssociationSet Name="fk_ProjectRFI_userRresponded" Association="JCIEstimateModel.fk_ProjectRFI_userRresponded">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectRFIResponse" EntitySet="ProjectRFIResponses" />
+          </AssociationSet>
+          <EntitySet Name="ProjectRFIs" EntityType="JCIEstimateModel.ProjectRFI" />
+          <AssociationSet Name="fk_ProjectRFI_userAssigned" Association="JCIEstimateModel.fk_ProjectRFI_userAssigned">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_userCreated" Association="JCIEstimateModel.fk_ProjectRFI_userCreated">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_Contractor" Association="JCIEstimateModel.fk_ProjectRFI_Contractor">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_ECM" Association="JCIEstimateModel.fk_ProjectRFI_ECM">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_Project" Association="JCIEstimateModel.fk_ProjectRFI_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_RfiType" Association="JCIEstimateModel.fk_ProjectRFI_RfiType">
+            <End Role="RfiType" EntitySet="RfiTypes" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFIResponse_ProjectRFI" Association="JCIEstimateModel.fk_ProjectRFIResponse_ProjectRFI">
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+            <End Role="ProjectRFIResponse" EntitySet="ProjectRFIResponses" />
+          </AssociationSet>
+          <EntitySet Name="RfiStatus" EntityType="JCIEstimateModel.RfiStatu" />
+          <AssociationSet Name="fk_ProjectRFI_RfiStatus" Association="JCIEstimateModel.fk_ProjectRFI_RfiStatus">
+            <End Role="RfiStatu" EntitySet="RfiStatus" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_project_PM" Association="JCIEstimateModel.fk_project_PM">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -1763,6 +2143,7 @@
           <NavigationProperty Name="ContractorContacts" Relationship="JCIEstimateModel.fk_contractor" FromRole="Contractor" ToRole="ContractorContact" />
           <NavigationProperty Name="ContractorUsers" Relationship="JCIEstimateModel.fk_contractor_user" FromRole="Contractor" ToRole="ContractorUser" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Contractor" ToRole="Estimate" />
+          <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_Contractor" FromRole="Contractor" ToRole="ProjectRFI" />
         </EntityType>
         <EntityType Name="ContractorContact">
           <Key>
@@ -1812,6 +2193,10 @@
           <NavigationProperty Name="ProjectMilestones" Relationship="JCIEstimateModel.fk_projectMilestone_project" FromRole="Project" ToRole="ProjectMilestone" />
           <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_user" FromRole="Project" ToRole="ProjectUser" />
           <NavigationProperty Name="Locations" Relationship="JCIEstimateModel.fk_location_project" FromRole="Project" ToRole="Location" />
+          <NavigationProperty Name="ProjectAttachments" Relationship="JCIEstimateModel.fk_ProjectAttachment_Project" FromRole="Project" ToRole="ProjectAttachment" />
+          <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_Project" FromRole="Project" ToRole="ProjectRFI" />
+          <Property Name="aspNetUserUidAsPM" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_PM" FromRole="Project" ToRole="AspNetUser" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -1873,6 +2258,11 @@
           <NavigationProperty Name="LocationIssues" Relationship="JCIEstimateModel.fk_AspNetUser_createdAs" FromRole="AspNetUser" ToRole="LocationIssue" />
           <NavigationProperty Name="LocationNotes" Relationship="JCIEstimateModel.fk_AspNetUser_LocationNotecreated" FromRole="AspNetUser" ToRole="LocationNote" />
           <NavigationProperty Name="LocationIssues1" Relationship="JCIEstimateModel.fk_LocationIssue_AspNetUser" FromRole="AspNetUser" ToRole="LocationIssue" />
+          <NavigationProperty Name="EquipmentNotes" Relationship="JCIEstimateModel.fk_Equipmentnote__aspNetUser" FromRole="AspNetUser" ToRole="EquipmentNote" />
+          <NavigationProperty Name="ProjectRFIResponses" Relationship="JCIEstimateModel.fk_ProjectRFI_userRresponded" FromRole="AspNetUser" ToRole="ProjectRFIResponse" />
+          <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_userAssigned" FromRole="AspNetUser" ToRole="ProjectRFI" />
+          <NavigationProperty Name="ProjectRFIs1" Relationship="JCIEstimateModel.fk_ProjectRFI_userCreated" FromRole="AspNetUser" ToRole="ProjectRFI" />
+          <NavigationProperty Name="Projects" Relationship="JCIEstimateModel.fk_project_PM" FromRole="AspNetUser" ToRole="Project" />
           </EntityType>
         <Association Name="fk_AspNetUser">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -1898,6 +2288,7 @@
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="ECM" ToRole="Project" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="ECM" ToRole="Equipment" />
+          <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_ECM" FromRole="ECM" ToRole="ProjectRFI" />
           </EntityType>
         <Association Name="fk_ecm_project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
@@ -2948,6 +3339,7 @@
           <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Equipment" ToRole="Location" />
           <NavigationProperty Name="EquipmentAttachments" Relationship="JCIEstimateModel.fk_EquipmentAttachment_Equipment" FromRole="Equipment" ToRole="EquipmentAttachment" />
           <NavigationProperty Name="EquipmentToDoes" Relationship="JCIEstimateModel.fk_equipmenttodo_equipment" FromRole="Equipment" ToRole="EquipmentToDo" />
+          <NavigationProperty Name="EquipmentNotes" Relationship="JCIEstimateModel.fk_Equipmentnote_Equipment" FromRole="Equipment" ToRole="EquipmentNote" />
         </EntityType>
         <Association Name="fk_equipment_ecm">
           <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
@@ -3033,6 +3425,274 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EquipmentNoteType">
+          <Key>
+            <PropertyRef Name="equipmentNoteTypeUid" />
+          </Key>
+          <Property Name="equipmentNoteTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentNoteType1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="equipmentNoteTypeDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="EquipmentNotes" Relationship="JCIEstimateModel.fk_Equipmentnote__Equipmentnotetype" FromRole="EquipmentNoteType" ToRole="EquipmentNote" />
+        </EntityType>
+        <EntityType Name="EquipmentNote">
+          <Key>
+            <PropertyRef Name="equipmentNoteUid" />
+          </Key>
+          <Property Name="equipmentNoteUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentNoteTypeUid" Type="Guid" />
+          <Property Name="equipmentNote1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="aspNetUserUidAsCreated" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_Equipmentnote__aspNetUser" FromRole="EquipmentNote" ToRole="AspNetUser" />
+          <NavigationProperty Name="Equipment" Relationship="JCIEstimateModel.fk_Equipmentnote_Equipment" FromRole="EquipmentNote" ToRole="Equipment" />
+          <NavigationProperty Name="EquipmentNoteType" Relationship="JCIEstimateModel.fk_Equipmentnote__Equipmentnotetype" FromRole="EquipmentNote" ToRole="EquipmentNoteType" />
+        </EntityType>
+        <Association Name="fk_Equipmentnote__aspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentNote" Role="EquipmentNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EquipmentNote">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Equipmentnote_Equipment">
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.EquipmentNote" Role="EquipmentNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="EquipmentNote">
+              <PropertyRef Name="equipmentUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Equipmentnote__Equipmentnotetype">
+          <End Type="JCIEstimateModel.EquipmentNoteType" Role="EquipmentNoteType" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.EquipmentNote" Role="EquipmentNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentNoteType">
+              <PropertyRef Name="equipmentNoteTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentNote">
+              <PropertyRef Name="equipmentNoteTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectAttachment">
+          <Key>
+            <PropertyRef Name="projectAttachmentUid" />
+          </Key>
+          <Property Name="projectAttachmentUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="projectAttachment1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="attachment" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="fileType" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="documentName" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectAttachment_Project" FromRole="ProjectAttachment" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="ProjectAttachmentType">
+          <Key>
+            <PropertyRef Name="projectAttachmentTypeUid" />
+          </Key>
+          <Property Name="projectAttachmentTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="projectAttachmentType1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="behaviorIndicator" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="fk_ProjectAttachment_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectAttachment" Role="ProjectAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectAttachment">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectRFIResponse">
+          <Key>
+            <PropertyRef Name="projectRFIResponseUid" />
+          </Key>
+          <Property Name="projectRFIResponseUid" Type="Guid" Nullable="false" />
+          <Property Name="projectRFIUid" Type="Guid" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="aspNetUserUidAsResponded" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="projectRFIResponse1" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectRFI_userRresponded" FromRole="ProjectRFIResponse" ToRole="AspNetUser" />
+          <NavigationProperty Name="ProjectRFI" Relationship="JCIEstimateModel.fk_ProjectRFIResponse_ProjectRFI" FromRole="ProjectRFIResponse" ToRole="ProjectRFI" />
+        </EntityType>
+        <EntityType Name="RfiType">
+          <Key>
+            <PropertyRef Name="rfiTypeUid" />
+          </Key>
+          <Property Name="rfiTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="rfiType1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="behaviorIndicator" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_RfiType" FromRole="RfiType" ToRole="ProjectRFI" />
+        </EntityType>
+        <Association Name="fk_ProjectRFI_userRresponded">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFIResponse" Role="ProjectRFIResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectRFIResponse">
+              <PropertyRef Name="aspNetUserUidAsResponded" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectRFI">
+          <Key>
+            <PropertyRef Name="projectRFIUid" />
+          </Key>
+          <Property Name="projectRFIUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <Property Name="ecmUid" Type="Guid" Nullable="false" />
+          <Property Name="rfiTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="rfiStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="aspNetUserUidAsCreated" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="aspNetUserUidAsAssigned" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="projectRFI1" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectRFI_userAssigned" FromRole="ProjectRFI" ToRole="AspNetUser" />
+          <NavigationProperty Name="AspNetUser1" Relationship="JCIEstimateModel.fk_ProjectRFI_userCreated" FromRole="ProjectRFI" ToRole="AspNetUser" />
+          <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_ProjectRFI_Contractor" FromRole="ProjectRFI" ToRole="Contractor" />
+          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_ProjectRFI_ECM" FromRole="ProjectRFI" ToRole="ECM" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectRFI_Project" FromRole="ProjectRFI" ToRole="Project" />
+          <NavigationProperty Name="RfiType" Relationship="JCIEstimateModel.fk_ProjectRFI_RfiType" FromRole="ProjectRFI" ToRole="RfiType" />
+          <NavigationProperty Name="ProjectRFIResponses" Relationship="JCIEstimateModel.fk_ProjectRFIResponse_ProjectRFI" FromRole="ProjectRFI" ToRole="ProjectRFIResponse" />
+          <NavigationProperty Name="RfiStatu" Relationship="JCIEstimateModel.fk_ProjectRFI_RfiStatus" FromRole="ProjectRFI" ToRole="RfiStatu" />
+          <Property Name="projectRFIID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="fk_ProjectRFI_userAssigned">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="aspNetUserUidAsAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_userCreated">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_Contractor">
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_ECM">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_RfiType">
+          <End Type="JCIEstimateModel.RfiType" Role="RfiType" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RfiType">
+              <PropertyRef Name="rfiTypeUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="rfiTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFIResponse_ProjectRFI">
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFIResponse" Role="ProjectRFIResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectRFI">
+              <PropertyRef Name="projectRFIUid" />
+            </Principal>
+            <Dependent Role="ProjectRFIResponse">
+              <PropertyRef Name="projectRFIUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RfiStatu">
+          <Key>
+            <PropertyRef Name="rfiStatusUid" />
+          </Key>
+          <Property Name="rfiStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="rfiStatus" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="behaviorIndicator" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_RfiStatus" FromRole="RfiStatu" ToRole="ProjectRFI" />
+        </EntityType>
+        <Association Name="fk_ProjectRFI_RfiStatus">
+          <End Type="JCIEstimateModel.RfiStatu" Role="RfiStatu" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RfiStatu">
+              <PropertyRef Name="rfiStatusUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="rfiStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_project_PM">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="aspNetUserUidAsPM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3092,6 +3752,7 @@
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="JCIEstimateModel.Project">
               <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="aspNetUserUidAsPM" ColumnName="aspNetUserUidAsPM" />
                 <ScalarProperty Name="projectDescription" ColumnName="projectDescription" />
                 <ScalarProperty Name="project1" ColumnName="project" />
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
@@ -3569,6 +4230,95 @@
                 <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
                 <ScalarProperty Name="equipmentAttributeTypeUid" ColumnName="equipmentAttributeTypeUid" />
                 <ScalarProperty Name="equipmentUid" ColumnName="equipmentUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentNoteTypes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentNoteType">
+              <MappingFragment StoreEntitySet="EquipmentNoteType">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="equipmentNoteTypeDescription" ColumnName="equipmentNoteTypeDescription" />
+                <ScalarProperty Name="equipmentNoteType1" ColumnName="equipmentNoteType" />
+                <ScalarProperty Name="equipmentNoteTypeUid" ColumnName="equipmentNoteTypeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentNotes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentNote">
+              <MappingFragment StoreEntitySet="EquipmentNote">
+                <ScalarProperty Name="aspNetUserUidAsCreated" ColumnName="aspNetUserUidAsCreated" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="equipmentNote1" ColumnName="equipmentNote" />
+                <ScalarProperty Name="equipmentNoteTypeUid" ColumnName="equipmentNoteTypeUid" />
+                <ScalarProperty Name="equipmentUid" ColumnName="equipmentUid" />
+                <ScalarProperty Name="equipmentNoteUid" ColumnName="equipmentNoteUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectAttachments">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectAttachment">
+              <MappingFragment StoreEntitySet="ProjectAttachment">
+                <ScalarProperty Name="documentName" ColumnName="documentName" />
+                <ScalarProperty Name="fileType" ColumnName="fileType" />
+                <ScalarProperty Name="attachment" ColumnName="attachment" />
+                <ScalarProperty Name="projectAttachment1" ColumnName="projectAttachment" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="projectAttachmentUid" ColumnName="projectAttachmentUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectAttachmentTypes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectAttachmentType">
+              <MappingFragment StoreEntitySet="ProjectAttachmentType">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="projectAttachmentType1" ColumnName="projectAttachmentType" />
+                <ScalarProperty Name="projectAttachmentTypeUid" ColumnName="projectAttachmentTypeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectRFIResponses">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectRFIResponse">
+              <MappingFragment StoreEntitySet="ProjectRFIResponse">
+                <ScalarProperty Name="projectRFIResponse1" ColumnName="projectRFIResponse" />
+                <ScalarProperty Name="aspNetUserUidAsResponded" ColumnName="aspNetUserUidAsResponded" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="projectRFIUid" ColumnName="projectRFIUid" />
+                <ScalarProperty Name="projectRFIResponseUid" ColumnName="projectRFIResponseUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RfiTypes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.RfiType">
+              <MappingFragment StoreEntitySet="RfiType">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="rfiType1" ColumnName="rfiType" />
+                <ScalarProperty Name="rfiTypeUid" ColumnName="rfiTypeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectRFIs">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectRFI">
+              <MappingFragment StoreEntitySet="ProjectRFI">
+                <ScalarProperty Name="projectRFIID" ColumnName="projectRFIID" />
+                <ScalarProperty Name="projectRFI1" ColumnName="projectRFI" />
+                <ScalarProperty Name="aspNetUserUidAsAssigned" ColumnName="aspNetUserUidAsAssigned" />
+                <ScalarProperty Name="aspNetUserUidAsCreated" ColumnName="aspNetUserUidAsCreated" />
+                <ScalarProperty Name="rfiStatusUid" ColumnName="rfiStatusUid" />
+                <ScalarProperty Name="rfiTypeUid" ColumnName="rfiTypeUid" />
+                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="projectRFIUid" ColumnName="projectRFIUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RfiStatus">
+            <EntityTypeMapping TypeName="JCIEstimateModel.RfiStatu">
+              <MappingFragment StoreEntitySet="RfiStatus">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="rfiStatus" ColumnName="rfiStatus" />
+                <ScalarProperty Name="rfiStatusUid" ColumnName="rfiStatusUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

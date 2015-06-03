@@ -72,5 +72,13 @@ namespace JCIEstimate.Models
         public virtual DbSet<LocationNote> LocationNotes { get; set; }
         public virtual DbSet<WarrantyIssue> WarrantyIssues { get; set; }
         public virtual DbSet<Equipment> Equipments { get; set; }
+        public virtual DbSet<EquipmentNoteType> EquipmentNoteTypes { get; set; }
+        public virtual DbSet<EquipmentNote> EquipmentNotes { get; set; }
+        public virtual DbSet<ProjectAttachment> ProjectAttachments { get; set; }
+        public virtual DbSet<ProjectAttachmentType> ProjectAttachmentTypes { get; set; }
+        public virtual DbSet<ProjectRFIResponse> ProjectRFIResponses { get; set; }
+        public virtual DbSet<RfiType> RfiTypes { get; set; }
+        public virtual DbSet<ProjectRFI> ProjectRFIs { get; set; }
+        public virtual DbSet<RfiStatu> RfiStatus { get; set; }
     }
 }

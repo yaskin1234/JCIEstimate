@@ -56,7 +56,7 @@ namespace IdentitySample.Controllers
         // GET: /Users/
         public async Task<ActionResult> Index()
         {
-            return View(await UserManager.Users.ToListAsync());
+            return View(await UserManager.Users.OrderBy(c=>c.Email).ToListAsync());
         }
 
         //
