@@ -742,7 +742,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_EquipmentAttachment_Equipment">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="EquipmentAttachment" Type="Self.EquipmentAttachment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Equipment">
@@ -828,7 +830,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_equipmenttodo_equipment">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="EquipmentToDo" Type="Self.EquipmentToDo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Equipment">

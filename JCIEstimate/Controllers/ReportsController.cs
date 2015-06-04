@@ -91,6 +91,19 @@ namespace JCIEstimate.Controllers
             }
         }
 
+        public ActionResult GetEquipmentForECMToPurchase()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                Session["userUid"] = IdentityExtensions.GetUserId(User.Identity);
+                return View("rptEquipmentForECMToPurchase");
+            }
+        }
+
         public ActionResult GetProjectGrandTotal()
         {
             if (Session["projectUid"] == null)

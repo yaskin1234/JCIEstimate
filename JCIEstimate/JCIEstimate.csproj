@@ -1845,6 +1845,7 @@
     <Content Include="Views\RfiStatus\Details.cshtml" />
     <Content Include="Views\RfiStatus\Edit.cshtml" />
     <Content Include="Views\RfiStatus\Index.cshtml" />
+    <Content Include="Views\Reports\rptEquipmentForEcmToPurchase.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
