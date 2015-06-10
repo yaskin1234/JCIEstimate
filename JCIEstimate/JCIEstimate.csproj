@@ -1846,6 +1846,12 @@
     <Content Include="Views\RfiStatus\Edit.cshtml" />
     <Content Include="Views\RfiStatus\Index.cshtml" />
     <Content Include="Views\Reports\rptEquipmentForEcmToPurchase.cshtml" />
+    <Content Include="Views\Reports\rptContractorSignoff.cshtml" />
+    <Content Include="Views\ProjectAddendums\Create.cshtml" />
+    <Content Include="Views\ProjectAddendums\Delete.cshtml" />
+    <Content Include="Views\ProjectAddendums\Details.cshtml" />
+    <Content Include="Views\ProjectAddendums\Edit.cshtml" />
+    <Content Include="Views\ProjectAddendums\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2001,6 +2007,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MilestoneActionsController.cs" />
     <Compile Include="Controllers\MilestonesController.cs" />
+    <Compile Include="Controllers\ProjectAddendumsController.cs" />
     <Compile Include="Controllers\ProjectAttachmentsController.cs" />
     <Compile Include="Controllers\ProjectMilestoneActionsController.cs" />
     <Compile Include="Controllers\ProjectMilestonesController.cs" />
@@ -2158,10 +2165,16 @@
     <Compile Include="Models\Project.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectAddendum.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProjectAttachment.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectAttachmentType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectManagerAttachment.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectMilestone.cs">

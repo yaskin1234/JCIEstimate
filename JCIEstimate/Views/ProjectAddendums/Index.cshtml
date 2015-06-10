@@ -1,0 +1,53 @@
+﻿@model IEnumerable<JCIEstimate.Models.ProjectAddendum>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.addendumId)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.dateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.aspNetUserUidAsCreated)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.projectAddendum1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.addendumId)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.dateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.projectAddendum1)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.projectAddendumUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.projectAddendumUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.projectAddendumUid })
+        </td>
+    </tr>
+}
+
+</table>

@@ -15,6 +15,9 @@
             @Html.DisplayNameFor(model => model.projectRFIID)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.RfiStatu.rfiStatus)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.dateCreated)
         </th>
         <th>
@@ -35,13 +38,18 @@
         <th>
             @Html.DisplayNameFor(model => model.RfiType.rfiType1)
         </th>
+        <th>Last Comment</th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    var rowColor = item.RfiStatu.behaviorIndicator == "A" ? "#ffeebb" : item.RfiStatu.behaviorIndicator == "N" ? "#ffaa99" : "#66dd88";
+    <tr style="background-color:@rowColor;">
         <td>
             @Html.DisplayFor(modelItem => item.projectRFIID)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.RfiStatu.rfiStatus)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.dateCreated)
@@ -63,6 +71,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RfiType.rfiType1)
+        </td>
+        <td>
+            @if (item.ProjectRFIResponses.Count > 0)
+            {
+                @Html.Raw(item.ProjectRFIResponses.OrderBy(c => c.dateCreated).Last().projectRFIResponse1.Replace(Environment.NewLine, @"<br/>"))
+            }
         </td>
         <td>
             <a href="@Url.Action("Edit", "ProjectRFIs", new { id = item.projectRFIUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>

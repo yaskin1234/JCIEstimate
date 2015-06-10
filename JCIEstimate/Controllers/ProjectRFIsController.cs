@@ -23,7 +23,8 @@ namespace JCIEstimate.Controllers
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
-            var projectRFIs = db.ProjectRFIs.Include(p => p.AspNetUser).Include(p => p.AspNetUser1).Include(p => p.Contractor).Include(p => p.ECM).Include(p => p.Project).Include(p => p.RfiType).Where(c=>c.projectUid == sessionProject).OrderBy(c=>c.projectRFIID);
+            var projectRFIs = db.ProjectRFIs.Include(p => p.AspNetUser).Include(p => p.AspNetUser1).Include(p => p.Contractor).Include(p => p.ECM).Include(p => p.Project).Include(p => p.RfiType).Where(c=>c.projectUid == sessionProject).Include(c=>c.RfiStatu).OrderBy(c=>c.projectRFIID);
+            
             return View(await projectRFIs.ToListAsync());
         }
 
@@ -74,8 +75,8 @@ namespace JCIEstimate.Controllers
             }
 
             var aspNetUserUidAsAssigned = from cc in db.AspNetUsers
-                                          join cn in db.ContractorUsers on cc.Id equals cn.aspNetUserUid
-                                          where db.Estimates.Any(c => c.contractorUid == cn.contractorUid)
+                                          join cn in db.ProjectUsers on cc.Id equals cn.aspNetUserUid              
+                                          where cn.projectUid == sessionProject
                                           select cc;
 
             ViewBag.aspNetUserUidAsAssigned = aspNetUserUidAsAssigned.OrderBy(c => c.Email).ToSelectList(c => c.Email, c => c.Id.ToString(), "");
@@ -157,11 +158,17 @@ namespace JCIEstimate.Controllers
                               where db.Estimates.Any(c => c.contractorUid == cc.contractorUid)
                               select cc;
 
+
+            var aspNetUserUidAsAssigned = from cc in db.AspNetUsers
+                                          join cn in db.ProjectUsers on cc.Id equals cn.aspNetUserUid
+                                          where cn.projectUid == sessionProject
+                                          select cc;
+
             ViewBag.isPM = (projectRFI.Project.AspNetUser.UserName == System.Web.HttpContext.Current.User.Identity.Name) ? true : false;
-            ViewBag.aspNetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "Email", projectRFI.aspNetUserUidAsAssigned);
+            ViewBag.aspNetUserUidAsAssigned = aspNetUserUidAsAssigned.OrderBy(c => c.Email).ToSelectList(c => c.Email, c => c.Id.ToString(), projectRFI.aspNetUserUidAsAssigned.ToString());
             ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", projectRFI.aspNetUserUidAsCreated);
-            ViewBag.contractorUid = contractors.OrderBy(c => c.contractorName).ToSelectList(c => c.contractorName, c => c.contractorUid.ToString(), "");
-            ViewBag.ecmUid = ecms.ToSelectList(d => d.ecmNumber + " - " + d.ecmDescription, d => d.ecmUid.ToString(), "");
+            ViewBag.contractorUid = contractors.OrderBy(c => c.contractorName).ToSelectList(c => c.contractorName, c => c.contractorUid.ToString(), projectRFI.contractorUid.ToString());
+            ViewBag.ecmUid = ecms.ToSelectList(d => d.ecmNumber + " - " + d.ecmDescription, d => d.ecmUid.ToString(), projectRFI.ecmUid.ToString());
             ViewBag.projectUid = new SelectList(projects, "projectUid", "project1", projectRFI.projectUid);
             ViewBag.rfiTypeUid = new SelectList(db.RfiTypes, "rfiTypeUid", "rfiType1", projectRFI.rfiTypeUid);
             ViewBag.rfiStatusUid = db.RfiStatus.ToSelectList(c=>c.rfiStatus, c=>c.rfiStatusUid.ToString(), projectRFI.rfiStatusUid.ToString());

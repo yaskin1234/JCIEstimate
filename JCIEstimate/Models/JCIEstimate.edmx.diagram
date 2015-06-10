@@ -131,6 +131,12 @@
         <EntityTypeShape EntityType="JCIEstimateModel.RfiStatu" Width="1.5" PointX="5.375" PointY="9.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_RfiStatus" />
         <AssociationConnector Association="JCIEstimateModel.fk_project_PM" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectAddendum" Width="1.5" PointX="18.375" PointY="44.5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectAddendum_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectAddemdum_created" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectManagerAttachment" Width="1.5" PointX="22.375" PointY="5.5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created1" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectManagerAttachment_Project" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

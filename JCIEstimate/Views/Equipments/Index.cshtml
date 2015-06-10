@@ -97,7 +97,7 @@
                     @Html.DisplayFor(modelItem => item.area)
                 </td>
                 <td>
-                    <a href="@Url.Action("Edit", "Equipments", new { id = item.equipmentUid, returnURL = "Index" })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+                    <a href="@Url.Action("Edit", "Equipments", new { id = item.equipmentUid, returnURL = "Index", returnUrlParms = "filterId=" + ViewBag.filterId })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
                     @*<a href="@Url.Action("Details", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/view_details.png")" height="15" width="15" alt="Click for Details" title="Click for Details" /></a>*@
                     <a href="@Url.Action("Delete", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>
 

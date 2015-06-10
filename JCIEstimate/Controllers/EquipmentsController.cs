@@ -21,7 +21,8 @@ namespace JCIEstimate.Controllers
         {
             Guid sessionProject;
             IQueryable<Equipment> equipments;
-                
+
+            ViewBag.filterId = filterId;
 
             sessionProject = Guid.Empty;
 
@@ -351,7 +352,7 @@ namespace JCIEstimate.Controllers
         }
 
         // GET: Equipments/Edit/5
-        public async Task<ActionResult> Edit(Guid? id, string returnURL)
+        public async Task<ActionResult> Edit(Guid? id, string returnURL, string returnUrlParms)
         {
             if (id == null)
             {
@@ -379,7 +380,7 @@ namespace JCIEstimate.Controllers
             ViewBag.ecmUid = new SelectList(db.ECMs.Where(c => c.projectUid == sessionProject), "ecmUid", "ecmNumber", equipment.ecmUid);
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1", equipment.locationUid);
-            ViewBag.equipmentUidAsReplaced = replacementEqupments.ToSelectList(d => d.Location.location1 + " - " + d.jciTag, d => d.equipmentUid.ToString(), equipment.equipmentUidAsReplaced.ToString());
+            ViewBag.equipmentUidAsReplaced = replacementEqupments.OrderBy(c=>c.jciTag).ToSelectList(d => d.Location.location1 + " - " + d.jciTag, d => d.equipmentUid.ToString(), equipment.equipmentUidAsReplaced.ToString());
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             return View(equipment);

@@ -54,6 +54,35 @@ namespace JCIEstimate.Controllers
             }
         }
 
+        public ActionResult GetContractorSignOff()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                var currentUser = IdentityExtensions.GetUserId(User.Identity);
+                var contractorUid = from cc in db.ContractorUsers
+                                    where cc.aspNetUserUid == currentUser
+                                    select cc.contractorUid;
+
+                Session["userUid"] = IdentityExtensions.GetUserId(User.Identity);                
+
+                if (contractorUid.FirstOrDefault() != Guid.Empty)
+                {
+                    ViewBag.contractorUid = contractorUid.FirstOrDefault();
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                
+
+                return View("rptContractorSignOff");
+            }
+        }        
+
         public ActionResult GetBidSummary()
         {
             if (Session["projectUid"] == null)

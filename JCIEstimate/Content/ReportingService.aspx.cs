@@ -23,15 +23,22 @@ namespace JCIEstimate.Content
                     ReportParameter rp = new ReportParameter("projectUid", Session["projectUid"].ToString());
                     ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { rp });
                     ReportViewer1.ShowExportControls = true;
-                    ReportViewer1.ShowParameterPrompts = true;            
-                    string contractorUid = Request.QueryString["contractorUid"];
-                    if (contractorUid != null) 
+                    ReportViewer1.ShowParameterPrompts = true;
+                    string userUid = Request.QueryString["userUid"];
+                    if (userUid != null) 
                     {
-                        ReportParameter cu = new ReportParameter("userUid", Session["userUid"].ToString());
+                        ReportParameter cu = new ReportParameter("userUid", userUid);
                         ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { cu });
                         ReportViewer1.ShowExportControls = true;
-                        ReportViewer1.ShowParameterPrompts = true;            
-
+                        ReportViewer1.ShowParameterPrompts = true;
+                    }
+                    string contractorUid = Request.QueryString["contractorUid"];
+                    if (contractorUid != null)
+                    {
+                        ReportParameter cu = new ReportParameter("contractorUid", contractorUid);
+                        ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { cu });
+                        ReportViewer1.ShowExportControls = true;
+                        ReportViewer1.ShowParameterPrompts = true;
                     }
 
                 }                

@@ -1141,5 +1141,30 @@ namespace JCIEstimate.Models
 
     }
 
+    /// <summary>
+    /// RfiStatu
+    /// </summary>
+    [MetadataType(typeof(ProjectAddendumMetaData))]
+    public partial class ProjectAddendum
+    {
+    }
+
+    public class ProjectAddendumMetaData
+    {
+        [Display(Name = "Addendum")]
+        public System.Guid projectAddendumUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Date Created")]
+        public System.DateTime dateCreated { get; set; }
+        [Display(Name = "Created By")]
+        public string aspNetUserUidAsCreated { get; set; }
+        [Display(Name = "Addendum")]
+        public string projectAddendum1 { get; set; }
+        [Display(Name = "Addendum ID")]
+        public int addendumId { get; set; }
+
+    }
+
 
 }

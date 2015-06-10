@@ -29,7 +29,7 @@ namespace JCIEstimate.Controllers
                    orderby cc.Category.category1, cc.documentName
                    select cc;
 
-            scopeOfWorks = scopeOfWorks.Include(s => s.Category).Include(s => s.Project);
+            scopeOfWorks = scopeOfWorks.Include(s => s.Category).Include(s => s.Project).OrderBy(c=>c.scopeOfWork1).ThenBy(c=>c.scopeOfWorkDescription);
             return View(await scopeOfWorks.ToListAsync());
         }
 

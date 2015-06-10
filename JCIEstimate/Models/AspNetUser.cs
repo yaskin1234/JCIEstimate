@@ -28,6 +28,8 @@ namespace JCIEstimate.Models
             this.ProjectRFIs = new HashSet<ProjectRFI>();
             this.ProjectRFIs1 = new HashSet<ProjectRFI>();
             this.Projects = new HashSet<Project>();
+            this.ProjectAddendums = new HashSet<ProjectAddendum>();
+            this.ProjectManagerAttachments = new HashSet<ProjectManagerAttachment>();
         }
     
         public string Id { get; set; }
@@ -56,5 +58,7 @@ namespace JCIEstimate.Models
         public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
         public virtual ICollection<ProjectRFI> ProjectRFIs1 { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<ProjectAddendum> ProjectAddendums { get; set; }
+        public virtual ICollection<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
     }
 }
