@@ -47,7 +47,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "rfiStatusUid,rfiStatus,behaviorIndicator")] RfiStatu rfiStatu)
+        public async Task<ActionResult> Create([Bind(Include = "rfiStatusUid,rfiStatus,behaviorIndicator,rowColor,listOrder")] RfiStatu rfiStatu)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "rfiStatusUid,rfiStatus,behaviorIndicator")] RfiStatu rfiStatu)
+        public async Task<ActionResult> Edit([Bind(Include = "rfiStatusUid,rfiStatus,behaviorIndicator,rowColor,listOrder")] RfiStatu rfiStatu)
         {
             if (ModelState.IsValid)
             {

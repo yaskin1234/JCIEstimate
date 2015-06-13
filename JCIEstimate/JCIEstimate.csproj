@@ -1852,6 +1852,12 @@
     <Content Include="Views\ProjectAddendums\Details.cshtml" />
     <Content Include="Views\ProjectAddendums\Edit.cshtml" />
     <Content Include="Views\ProjectAddendums\Index.cshtml" />
+    <Content Include="Views\Estimates\SaveIsActive.cshtml" />
+    <Content Include="Views\ProjectManagerAttachments\Create.cshtml" />
+    <Content Include="Views\ProjectManagerAttachments\Delete.cshtml" />
+    <Content Include="Views\ProjectManagerAttachments\Details.cshtml" />
+    <Content Include="Views\ProjectManagerAttachments\Edit.cshtml" />
+    <Content Include="Views\ProjectManagerAttachments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2009,6 +2015,7 @@
     <Compile Include="Controllers\MilestonesController.cs" />
     <Compile Include="Controllers\ProjectAddendumsController.cs" />
     <Compile Include="Controllers\ProjectAttachmentsController.cs" />
+    <Compile Include="Controllers\ProjectManagerAttachmentsController.cs" />
     <Compile Include="Controllers\ProjectMilestoneActionsController.cs" />
     <Compile Include="Controllers\ProjectMilestonesController.cs" />
     <Compile Include="Controllers\ProjectRFIsController.cs" />
@@ -2045,6 +2052,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ContractorContact.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContractorTotalsByProject.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ContractorUser.cs">
@@ -2207,6 +2217,15 @@
     <Compile Include="Models\ToDoStatu.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\v__ContractorECMByCategory.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\v__EquipmentForEcm.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\v__ExpensePercentage.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\WarrantyAttachment.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -2225,7 +2244,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Views\ProjectAttachmentTypesController.cs" />
+    <Compile Include="Controllers\ProjectAttachmentTypesController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

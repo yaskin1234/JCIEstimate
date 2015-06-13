@@ -47,7 +47,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "estimateStatusUid,estimateStatus,estimateStatusDescription,behaviorIndicator")] EstimateStatu estimateStatu)
+        public async Task<ActionResult> Create([Bind(Include = "estimateStatusUid,estimateStatus,estimateStatusDescription,behaviorIndicator,rowColor")] EstimateStatu estimateStatu)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "estimateStatusUid,estimateStatus,estimateStatusDescription,behaviorIndicator")] EstimateStatu estimateStatu)
+        public async Task<ActionResult> Edit([Bind(Include = "estimateStatusUid,estimateStatus,estimateStatusDescription,behaviorIndicator,rowColor")] EstimateStatu estimateStatu)
         {
             if (ModelState.IsValid)
             {

@@ -37,6 +37,7 @@ namespace JCIEstimate.Models
         public Nullable<System.Guid> equipmentUidAsReplaced { get; set; }
         public bool isNewToSite { get; set; }
         public bool useReplacement { get; set; }
+        public decimal price { get; set; }
     
         public virtual ECM ECM { get; set; }
         public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }

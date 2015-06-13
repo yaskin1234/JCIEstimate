@@ -252,8 +252,40 @@ namespace JCIEstimate.Controllers
             ViewBag.filteredActiveTotal = String.Format("{0:C0}", filteredActiveTotal);
             ViewBag.filteredBidTotal = String.Format("{0:C0}", filteredBidTotal);
             
-            estimates = estimates.Include(e => e.Category).Include(e => e.ECM).Include(e => e.Location).Include(e => e.Contractor).Include(e => e.EstimateStatu).OrderBy(c=>c.ECM.ecmNumber);            
+            estimates = estimates.Include(e => e.Category).Include(e => e.ECM).Include(e => e.Location).Include(e => e.Contractor).Include(c=>c.ECM.Equipments).Include(e => e.EstimateStatu).OrderBy(c=>c.ECM.ecmNumber);            
             return View(await estimates.ToListAsync());
+        }
+
+        // GET: EquipmentToDoes/SaveCheckedBox/5
+        public async Task<ActionResult> SaveIsActive(string chkBoxName, string value)
+        {
+            Estimate es = db.Estimates.Find(Guid.Parse(chkBoxName));
+            db.Entry(es).State = EntityState.Modified;
+            if (value == "true")
+            {
+                es.isActive = true;
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            else
+            {
+                es.isActive = false;
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return View();
         }
 
         // GET: Estimates/Details/5

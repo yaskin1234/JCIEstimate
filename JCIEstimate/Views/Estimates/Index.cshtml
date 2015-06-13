@@ -85,7 +85,9 @@
 
             @foreach (var item in Model)
             {
-                <tr>
+                var rowColor = item.EstimateStatu.behaviorIndicator == "S" ? "#aaffdd" : item.EstimateStatu.behaviorIndicator == "N" ? "#aaffee" : "#ddffdd";
+                <tr style="background-color:@item.EstimateStatu.rowColor;">
+
                     <td><img src="@Url.Content("~/Images/equipment.png")" class="tdEquipmentForEcm" alt="View Equipment" id="getEquipment_@item.ecmUid" height="15" width="15" /></td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Location.location1)
@@ -106,13 +108,13 @@
                         <span>@item.EstimateStatu.estimateStatus</span>
                     </td>
                     <td>
-                        <span>@String.Format("{0:C0}", item.amount)</span>
+                        <span id="@(item.estimateUid)_Amount">@String.Format("{0:C0}", item.amount)</span>
                     </td>
                     <td>
-                        <span>@item.isActive</span>
+                        <input type="checkbox" class="estimateActiveChk" name="@item.estimateUid.ToString()" @((item.isActive == true) ? "checked" : "" ) value="@item.estimateUid.ToString()" />
                     </td>
                     <td>
-                        <span>@String.Format("{0:C0}", item.activeAmount)</span>
+                        <span id="@(item.estimateUid)_ActiveAmount">@String.Format("{0:C0}", item.activeAmount)</span>
                     </td>
                     <td>
                         <span>@item.notes</span>

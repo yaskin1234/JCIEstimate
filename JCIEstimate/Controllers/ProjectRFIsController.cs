@@ -84,7 +84,7 @@ namespace JCIEstimate.Controllers
             ViewBag.ecmUid = ecms.ToSelectList(d => d.ecmNumber + " - " + d.ecmDescription, d => d.ecmUid.ToString(), "");
             ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
             ViewBag.rfiTypeUid = db.RfiTypes.ToSelectList(c => c.rfiType1, c => c.rfiTypeUid.ToString(), "");
-            ViewBag.rfiStatusUid = db.RfiStatus.ToSelectList(c => c.rfiStatus, c => c.rfiStatusUid.ToString(), "");            
+            ViewBag.rfiStatusUid = db.RfiStatus.OrderBy(c=>c.listOrder).ToSelectList(c => c.rfiStatus, c => c.rfiStatusUid.ToString(), "");            
             return View();
         }
 

@@ -22,6 +22,8 @@ namespace JCIEstimate.Models
         public System.Guid rfiStatusUid { get; set; }
         public string rfiStatus { get; set; }
         public string behaviorIndicator { get; set; }
+        public string rowColor { get; set; }
+        public Nullable<int> listOrder { get; set; }
     
         public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
     }

@@ -163,6 +163,15 @@
                             </ul>
                         </li>
                     }
+                    @if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) && Session["projectUid"] != null)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project Manager</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Project Manager Attachments", "Index", "ProjectManagerAttachments")</li>
+                            </ul>
+                        </li>
+                    }
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
                     {
                         <li class="dropdown">
@@ -185,8 +194,8 @@
         @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["bidTotal"] != null)
         {
             <ul class="nav navbar-nav navbar-left">
-                <li><a style="color:black; font-weight:500">Bid Total: @String.Format("{0:C0}", Session["bidTotal"])</a></li>
-                <li><a style="color:black; font-weight:500">Active Total: @String.Format("{0:C0}", Session["activeTotal"])</a></li>
+                <li><a style="color:black; font-weight:500">Bid Total: <span id="bidTotalSpan">@String.Format("{0:C0}", Session["bidTotal"])</span></a></li>
+                <li><a style="color:black; font-weight:500">Active Total: <span id="activeTotalSpan">@String.Format("{0:C0}", Session["activeTotal"])</span></a></li>
             </ul>
             
         }

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="73">
+      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="95">
         <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="11.875" PointY="10.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="8.625" PointY="3.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
@@ -137,6 +137,10 @@
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectManagerAttachment" Width="1.5" PointX="22.375" PointY="5.5" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created1" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectManagerAttachment_Project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorTotalsByProject" Width="1.5" PointX="3.75" PointY="13.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.v__ContractorECMByCategory" Width="1.5" PointX="5.75" PointY="13.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.v__EquipmentForEcm" Width="1.5" PointX="0.75" PointY="17.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.v__ExpensePercentage" Width="1.5" PointX="9.75" PointY="6.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

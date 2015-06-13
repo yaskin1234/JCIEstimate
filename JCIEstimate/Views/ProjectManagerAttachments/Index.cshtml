@@ -1,0 +1,50 @@
+﻿@model IEnumerable<JCIEstimate.Models.ProjectManagerAttachment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.dateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectManagerAttachment1)
+        </th> 
+        <th>
+            Get File
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.documentName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.projectManagerAttachment1)
+        </td>
+        <td>
+            @Html.ActionLink("Get Attachment", "GetProjectManagerAttachment", new { projectManagerAttachmentUid = item.projectManagerAttachmentUid })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.documentName)
+        </td>
+        <td>
+            @if (User.IsInRole("Admin"))
+            {
+                <a href="@Url.Action("Delete", "ProjectManagerAttachments", new { id = item.projectManagerAttachmentUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>
+            }            
+        </td>
+    </tr>
+}
+
+</table>

@@ -82,5 +82,9 @@ namespace JCIEstimate.Models
         public virtual DbSet<RfiStatu> RfiStatus { get; set; }
         public virtual DbSet<ProjectAddendum> ProjectAddendums { get; set; }
         public virtual DbSet<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
+        public virtual DbSet<ContractorTotalsByProject> ContractorTotalsByProjects { get; set; }
+        public virtual DbSet<v__ContractorECMByCategory> v__ContractorECMByCategory { get; set; }
+        public virtual DbSet<v__EquipmentForEcm> v__EquipmentForEcm { get; set; }
+        public virtual DbSet<v__ExpensePercentage> v__ExpensePercentage { get; set; }
     }
 }

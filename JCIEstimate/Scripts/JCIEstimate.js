@@ -72,11 +72,11 @@
 
     $(".tdEquipmentForEcm").click(function () {                
         $val = this.id.split("_")[1];
-        if ($("#tdEquipmentForEcm_" + $val).html().trim() != "") {
-            $("#tdEquipmentForEcm_" + $val).empty();
+        if ($("#getEquipment_" + $val).html().trim() != "") {
+            $("#getEquipment_" + $val).empty();
         }
         else {
-            $("#tdEquipmentForEcm_" + $val).load("/Equipments/IndexPartial?ecmUid=" + escape($val));
+            $("#getEquipment_" + $val).load("/Equipments/IndexPartial?ecmUid=" + escape($val));
         }
         
     })
@@ -261,8 +261,42 @@
             success: function (data) {
                 alert("check " + data);
             }
-        })
+        })     
     });
+
+    $(".estimateActiveChk").click(function () {
+        $.ajax({
+            url: "/Estimates/SaveIsActive",
+            type: "POST",
+            data: {
+                chkBoxName: $(this).attr("name"),
+                value: this.checked
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        })
+
+        var estimateUid = $(this).attr("name");
+        var activeAmountSpan = document.getElementById(estimateUid + "_ActiveAmount");
+        var amountSpan = document.getElementById(estimateUid + "_Amount");
+        var amount = Number(amountSpan.innerText.replace("$", "").replace(",", ""));
+        var bidTotalSpan = document.getElementById("bidTotalSpan");
+        var activeTotalSpan = document.getElementById("activeTotalSpan");
+        var bidTotal = Number(bidTotalSpan.innerText.replace("$", "").replace(/,/g, ""));
+        var activeTotal = Number(activeTotalSpan.innerText.replace("$", "").replace(/,/g, ""));
+        if (this.checked) {
+            activeAmountSpan.innerText = amountSpan.innerText;            
+            activeTotal = activeTotal + amount;
+        }
+        else {
+            activeAmountSpan.innerText = "$0";
+            activeTotal = activeTotal - amount;
+            
+        }        
+        activeTotalSpan.innerText = "$" + activeTotal.formatMoney(0, '.', ',');
+    });    
 
     $(".chkEngineerUseReplacement").click(function () {
         $.ajax({
@@ -296,7 +330,16 @@
     });
 });
 
-
+Number.prototype.formatMoney = function (c, d, t) {
+    var n = this,
+        c = isNaN(c = Math.abs(c)) ? 2 : c,
+        d = d == undefined ? "." : d,
+        t = t == undefined ? "," : t,
+        s = n < 0 ? "-" : "",
+        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+};
 //$(function () {
 //    $('#locationUid').change(function () {
 //        $.ajax({

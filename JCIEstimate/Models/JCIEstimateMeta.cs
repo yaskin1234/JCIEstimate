@@ -567,7 +567,9 @@ namespace JCIEstimate.Models
         [Display(Name = "New To Site")]
         public bool isNewToSite { get; set; }
         [Display(Name = "Use Replacement")]
-        public bool useReplacement { get; set; }
+        public bool useReplacement { get; set; }        
+        [Display(Name = "Price"), DisplayFormat(DataFormatString = "{0:C0}")]
+        public bool price { get; set; }
 
         public Guid[] selectedTasks { get; set; }        
     }
@@ -1166,5 +1168,33 @@ namespace JCIEstimate.Models
 
     }
 
+    /// <summary>
+    /// ProjectManagerAttachment
+    /// </summary>
+    [MetadataType(typeof(ProjectManagerAttachmentMetaData))]
+    public partial class ProjectManagerAttachment
+    {
+    }
+
+    public class ProjectManagerAttachmentMetaData
+    {
+        [Display(Name = "Project Manager Attachment")]
+        public System.Guid projectManagerAttachmentUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Created By")]
+        public string aspNetUserUidAsCreated { get; set; }
+        [Display(Name = "Date Created")]
+        public Nullable<System.DateTime> dateCreated { get; set; }
+        [Display(Name = "Description")]
+        public string projectManagerAttachment1 { get; set; }
+        [Display(Name = "Attachment")]
+        public byte[] attachment { get; set; }
+        [Display(Name = "File Type")]
+        public string fileType { get; set; }
+        [Display(Name = "Document Name")]
+        public string documentName { get; set; }
+
+    }
 
 }

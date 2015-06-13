@@ -12,19 +12,14 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EstimateStatu
+    public partial class v__ExpensePercentage
     {
-        public EstimateStatu()
-        {
-            this.Estimates = new HashSet<Estimate>();
-        }
-    
-        public System.Guid estimateStatusUid { get; set; }
-        public string estimateStatus { get; set; }
-        public string estimateStatusDescription { get; set; }
-        public string behaviorIndicator { get; set; }
-        public string rowColor { get; set; }
-    
-        public virtual ICollection<Estimate> Estimates { get; set; }
+        public Nullable<decimal> total { get; set; }
+        public System.Guid expensePercentageUid { get; set; }
+        public System.Guid projectUid { get; set; }
+        public string expensePercentage { get; set; }
+        public string expensePercentageDescription { get; set; }
+        public decimal percentage { get; set; }
+        public Nullable<decimal> sumActiveAmount { get; set; }
     }
 }

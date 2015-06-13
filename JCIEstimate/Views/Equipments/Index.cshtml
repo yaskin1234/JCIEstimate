@@ -46,8 +46,11 @@
                 @Html.DisplayNameFor(model => model.installDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.area)
+                @Html.DisplayNameFor(model => model.price)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.area)
+            </th>            
             <th></th>
             <th></th>
             <th></th>
@@ -92,6 +95,9 @@
                 </td>
                 <td>
                     @String.Format("{0:yyyy}", item.installDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.price)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.area)
