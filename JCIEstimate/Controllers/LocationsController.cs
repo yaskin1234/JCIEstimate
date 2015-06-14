@@ -19,21 +19,7 @@ namespace JCIEstimate.Controllers
         public async Task<ActionResult> Index()
         {
             IQueryable<Location> locations;
-            Guid sessionProject;
-
-            if (Session["projectUid"] == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                sessionProject = new System.Guid(DBNull.Value.ToString()); 
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             locations = from cc in db.Locations
                         where cc.projectUid == sessionProject
                         select cc;
@@ -61,16 +47,8 @@ namespace JCIEstimate.Controllers
         public ActionResult Create()
         {
             IQueryable<Project> projects;
-            Guid sessionProject;
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                sessionProject = new System.Guid(DBNull.Value.ToString());
-            }
             projects = from cc in db.Projects
                         where cc.projectUid == sessionProject
                         select cc;
@@ -95,16 +73,8 @@ namespace JCIEstimate.Controllers
             }
 
             IQueryable<Project> projects;
-            Guid sessionProject;
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                sessionProject = new System.Guid(DBNull.Value.ToString());
-            }
             projects = from cc in db.Projects
                        where cc.projectUid == sessionProject
                        select cc;
@@ -127,16 +97,8 @@ namespace JCIEstimate.Controllers
                 return HttpNotFound();
             }
             IQueryable<Project> projects;
-            Guid sessionProject;
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                sessionProject = new System.Guid(DBNull.Value.ToString());
-            }
             projects = from cc in db.Projects
                        where cc.projectUid == sessionProject
                        select cc;
@@ -159,16 +121,8 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
             IQueryable<Project> projects;
-            Guid sessionProject;
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                sessionProject = new System.Guid(DBNull.Value.ToString());
-            }
             projects = from cc in db.Projects
                        where cc.projectUid == sessionProject
                        select cc;

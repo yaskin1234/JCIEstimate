@@ -5,10 +5,16 @@
 }
 
 <h2>Assign Equipment Tasks</h2>
+
 <table>
     <tr>
         <td>
-            <input type="text" name="equipmentFilter" title="search" id="equipmentFilter" value="" /><input type="button" id="btnEquipmentGridFilter" name="btnEquipmentGridFilter" value="Filter" />
+            <select class="equipmentFilter" id="equipmentFilter" name="equipmentFilter">
+                @foreach (var item in ViewBag.filterList)
+                {
+                    <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>
+                }
+            </select>
         </td>
     </tr>
 </table>

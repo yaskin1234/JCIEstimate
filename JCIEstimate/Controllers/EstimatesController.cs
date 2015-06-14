@@ -34,42 +34,42 @@ namespace JCIEstimate.Controllers
 
 
         // GET: Estimates
-        public async Task<ActionResult> Index(int page = 1, string sort = "", string sortDir = "ASC", 
-            string location = null, string ecm = null, string category = null, string contractor = null, string status = null, string active = null,
-            string filterSubmit = null
-            )
+        public async Task<ActionResult> Index(string filterId, string sort)
         {
             IQueryable<Estimate> estimates;            
-            Guid sessionProject;
+            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
-            sessionProject = Guid.Empty;
+            estimates = from cc in db.Estimates.Where(c => c.estimateUid == Guid.Empty)
+                        select cc;
 
-            if (Session["projectUid"] != null)
+            if (filterId == null)
             {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
+                if (Session["estimateFilterId"] != null)
+                {
+                    filterId = Session["estimateFilterId"].ToString();
+                }
             }
             else
             {
-                return RedirectToAction("Index", "Home");
-            }
-
-            if (User.IsInRole("Admin"))
-            {
-                estimates = from cc in db.Estimates    
-                            join dd in db.Locations on cc.locationUid equals dd.locationUid                            
-                            where dd.projectUid == sessionProject
-                            select cc;
-            }
-            else
-            {
-                estimates = from cc in db.Estimates
-                            join dd in db.Locations on cc.locationUid equals dd.locationUid                            
-                            join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
-                            join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
-                            where dd.projectUid == sessionProject 
-                            && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
-                            select cc;                
-            }            
+                if (User.IsInRole("Admin"))
+                {
+                    estimates = from cc in db.Estimates
+                                join dd in db.Locations on cc.locationUid equals dd.locationUid
+                                where dd.projectUid == sessionProject
+                                select cc;
+                }
+                else
+                {
+                    estimates = from cc in db.Estimates
+                                join dd in db.Locations on cc.locationUid equals dd.locationUid
+                                join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
+                                join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
+                                where dd.projectUid == sessionProject
+                                && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                                select cc;
+                }      
+            }     
 
             //Aggregates
             decimal? activeTotal = 0;
@@ -90,157 +90,9 @@ namespace JCIEstimate.Controllers
             Session["activeTotal"] = activeTotal;
             Session["bidTotal"] = bidTotal;
 
-            #region="filter"            
-            if (sort == "Contractor")
-            {                
-                if (sortDir == "ASC")
-                {
-                    estimates = from ee in estimates
-                                orderby ee.Contractor.contractorName ascending
-                                select ee;
-                }
-                else
-                {
-                    estimates = from ee in estimates
-                                orderby ee.Contractor.contractorName descending
-                                select ee;
-                }
-                
-            }
-            else if (sort == "Location")
-            {
-                if (sortDir == "ASC")
-                {
-                    estimates = from ee in estimates
-                                orderby ee.Location.location1 ascending
-                                select ee;
-                }
-                else
-                {
-                    estimates = from ee in estimates
-                                orderby ee.Location.location1 descending
-                                select ee;
-                }
-
-            }
-            else if (sort == "Category")
-            {
-                if (sortDir == "ASC")
-                {
-                    estimates = from ee in estimates
-                                orderby ee.Category.category1 ascending
-                                select ee;
-                }
-                else
-                {
-                    estimates = from ee in estimates
-                                orderby ee.Category.category1 descending
-                                select ee;
-                }
-
-            }
-            else if (sort == "ECM")
-            {
-                if (sortDir == "ASC")
-                {
-                    estimates = from ee in estimates
-                                orderby ee.ECM.ecmNumber ascending
-                                select ee;
-                }
-                else
-                {
-                    estimates = from ee in estimates
-                                orderby ee.ECM.ecmNumber descending
-                                select ee;
-                }
-
-            }
-            else if (sort == "Active?")
-            {
-                if (sortDir == "ASC")
-                {
-                    estimates = from ee in estimates
-                                orderby ee.isActive ascending
-                                select ee;
-                }
-                else
-                {
-                    estimates = from ee in estimates
-                                orderby ee.isActive descending
-                                select ee;
-                }
-
-            }
-            else if (sort == "Amount")
-            {
-                if (sortDir == "ASC")
-                {
-                    estimates = from ee in estimates
-                                orderby ee.amount ascending
-                                select ee;
-                }
-                else
-                {
-                    estimates = from ee in estimates
-                                orderby ee.amount descending
-                                select ee;
-                }
-
-            }
-            else if (sort == "Active Amount")
-            {
-                if (sortDir == "ASC")
-                {
-                    estimates = from ee in estimates
-                                orderby ee.activeAmount ascending
-                                select ee;
-                }
-                else
-                {
-                    estimates = from ee in estimates
-                                orderby ee.activeAmount descending
-                                select ee;
-                }
-
-            }
-            else
-            {
-                estimates = estimates.OrderBy(m => m.Location.location1).ThenBy(m => m.ECM.ecmString).ThenBy(m => m.Contractor.contractorName);
-            }
-            #endregion
-
-            if (filterSubmit != "clear")            
-            {
-                if (location != null)
-                {
-                    estimates = estimates.Where(m => m.Location.location1.Contains(location));
-                }
-
-                if (ecm != null)
-                {
-                    estimates = estimates.Where(m => m.ECM.ecmString.Contains(ecm));
-                }
-
-                if (contractor != null)
-                {
-                    estimates = estimates.Where(m => m.Contractor.contractorName.Contains(contractor));
-                }
-
-                if (category != null)
-                {
-                    estimates = estimates.Where(m => m.Category.category1.Contains(category));
-                }
-
-                if (status != null)
-                {
-                    estimates = estimates.Where(m => m.EstimateStatu.estimateStatus.Contains(status));
-                }
-
-                if (active != null)
-                {
-                    estimates = estimates.Where(m => m.isActive == true);
-                }
-            }
+            aryFo = buildFilterDropDown(filterId, db.Estimates.Where(c=>c.Location.projectUid == sessionProject));
+            estimates = applyFilter(filterId, estimates);
+            estimates = estimates.OrderBy(m => m.Location.location1).ThenBy(m => m.ECM.ecmString).ThenBy(m => m.Contractor.contractorName);
 
             if (estimates.Count() > 0)
             {
@@ -252,8 +104,126 @@ namespace JCIEstimate.Controllers
             ViewBag.filteredActiveTotal = String.Format("{0:C0}", filteredActiveTotal);
             ViewBag.filteredBidTotal = String.Format("{0:C0}", filteredBidTotal);
             
-            estimates = estimates.Include(e => e.Category).Include(e => e.ECM).Include(e => e.Location).Include(e => e.Contractor).Include(c=>c.ECM.Equipments).Include(e => e.EstimateStatu).OrderBy(c=>c.ECM.ecmNumber);            
+            estimates = estimates.Include(e => e.Category).Include(e => e.ECM).Include(e => e.Location).Include(e => e.Contractor).Include(c=>c.ECM.Equipments).Include(e => e.EstimateStatu).OrderBy(c=>c.ECM.ecmNumber);
+            ViewBag.filterList = aryFo.ToList();
             return View(await estimates.ToListAsync());
+        }
+
+        private List<FilterOptionModel> buildFilterDropDown(string filterId, IQueryable<Estimate> estimates)
+        {
+            //Build Drop down filter based on existing defined equipment
+            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
+            string[] filterPart = null;
+            string type = "";
+            string uid = Guid.Empty.ToString();
+
+            if (!String.IsNullOrEmpty(filterId))
+            {
+                filterPart = filterId.Split('|');
+                type = filterPart[0];
+                uid = filterPart[1];
+            }
+
+            FilterOptionModel wf = new FilterOptionModel();
+            wf.text = "-- Choose --";
+            wf.value = "X|" + Guid.Empty.ToString();
+            wf.selected = (wf.value == filterId || String.IsNullOrEmpty(filterId));
+            aryFo.Add(wf);
+
+            wf = new FilterOptionModel();
+            wf.text = "All";
+            wf.value = "A|" + Guid.Empty.ToString().Substring(0, 35) + "1";
+            wf.selected = (wf.value == filterId);
+            aryFo.Add(wf);
+
+
+            IQueryable<Estimate> results = estimates.GroupBy(c => c.locationUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results.OrderBy(c => c.Location.location1))
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.Location.location1;
+                wf.value = "L|" + item.locationUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+
+            results = estimates.GroupBy(c => c.ecmUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results.OrderBy(c => c.ECM.ecmNumber))
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.ECM.ecmString;
+                wf.value = "E|" + item.ecmUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+
+            results = estimates.GroupBy(c => c.contractorUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results.OrderBy(c => c.Contractor.contractorName))
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.Contractor.contractorName;
+                wf.value = "C|" + item.contractorUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+
+            results = estimates.GroupBy(c => c.estimateStatusUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results.OrderBy(c => c.EstimateStatu.estimateStatus))
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.EstimateStatu.estimateStatus;
+                wf.value = "S|" + item.estimateStatusUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+
+            return aryFo;
+        }
+
+        private IQueryable<Estimate> applyFilter(string filterId, IQueryable<Estimate> estimates)
+        {
+            //apply filter if there is one
+            string[] filterPart = null;
+            string type = "";
+            string uid = Guid.Empty.ToString();
+            if (!String.IsNullOrEmpty(filterId))
+            {
+                filterPart = filterId.Split('|');
+                type = filterPart[0];
+                uid = filterPart[1];
+
+                if (type == "L")
+                {
+                    estimates = estimates.Where(c => c.locationUid.ToString() == uid);
+                }
+                else if(type == "E")
+                {
+                    estimates = estimates.Where(c => c.ecmUid.ToString() == uid);
+                }
+                else if (type == "C")
+                {
+                    estimates = estimates.Where(c => c.contractorUid.ToString() == uid);
+                }
+                else if (type == "S")
+                {
+                    estimates = estimates.Where(c => c.estimateStatusUid.ToString() == uid);
+                }
+                else if (type == "X")
+                {
+                    estimates = estimates.Where(c => c.ecmUid == Guid.Empty);
+                }
+            }
+            else
+            {
+                estimates = estimates.Where(c => c.ecmUid == Guid.Empty);
+            }
+            Session["estimatefilterId"] = filterId;
+            
+            return estimates;
         }
 
         // GET: EquipmentToDoes/SaveCheckedBox/5
@@ -310,18 +280,7 @@ namespace JCIEstimate.Controllers
             IQueryable<Location> locations;
             IQueryable<ECM> ecms;
             IQueryable<Contractor> contractors;
-            Guid sessionProject;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                Url.Action("Index", "Home");
-            }           
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             ecms = from cc in db.ECMs
                    where cc.projectUid == sessionProject
@@ -388,7 +347,7 @@ namespace JCIEstimate.Controllers
             IQueryable<Location> locations;
             IQueryable<ECM> ecms;
             IQueryable<Contractor> contractors;
-            Guid sessionProject;
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             if (id == null)
             {
@@ -398,16 +357,7 @@ namespace JCIEstimate.Controllers
             if (estimate == null)
             {
                 return HttpNotFound();
-            }
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                sessionProject = new System.Guid(DBNull.Value.ToString());
-            }
+            }            
             
             locations = from cc in db.Locations
                         where cc.projectUid == sessionProject

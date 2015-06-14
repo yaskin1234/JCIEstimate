@@ -44,12 +44,7 @@ namespace JCIEstimate.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            Guid sessionProject;
-            sessionProject = Guid.Empty;
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
             return View();
@@ -79,12 +74,7 @@ namespace JCIEstimate.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ProjectAttachment projectAttachment, HttpPostedFileBase postedFile)
         {
-            Guid sessionProject;
-            sessionProject = Guid.Empty;
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             
             if (ModelState.IsValid)
             {

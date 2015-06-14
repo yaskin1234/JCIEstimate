@@ -19,18 +19,7 @@ namespace JCIEstimate.Controllers
         public async Task<ActionResult> Index()
         {
             IQueryable<ECM> ecms;
-            Guid sessionProject;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             ecms = from cc in db.ECMs
                         where cc.projectUid == sessionProject
@@ -59,18 +48,7 @@ namespace JCIEstimate.Controllers
         public ActionResult Create()
         {
             IQueryable<Project> projects;
-            Guid sessionProject;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             projects = from cc in db.Projects
                    where cc.projectUid == sessionProject
@@ -112,18 +90,7 @@ namespace JCIEstimate.Controllers
             }
 
             IQueryable<Project> projects;
-            Guid sessionProject;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             projects = from cc in db.Projects
                        where cc.projectUid == sessionProject

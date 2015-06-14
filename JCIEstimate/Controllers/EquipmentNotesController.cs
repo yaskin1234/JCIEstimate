@@ -89,18 +89,7 @@ namespace JCIEstimate.Controllers
                 return HttpNotFound();
             }
 
-            Guid sessionProject;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject);
             equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(c => c.jciTag);
 

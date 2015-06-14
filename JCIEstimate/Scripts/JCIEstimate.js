@@ -19,6 +19,12 @@
         document.location = url + "?filterId=" + escape(selectedValue);
     })
 
+    $(".estimateFilter").change(function () {
+        var selectedValue = $("#estimateFilter").val();
+        var url = "/Estimates/Index";
+        document.location = url + "?filterId=" + escape(selectedValue);
+    })
+
     $("#txtFilter").keyup(function () {
         $val = $("#txtFilter").val();
         if ($val.length + 1 > 2) {

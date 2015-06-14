@@ -18,18 +18,7 @@ namespace JCIEstimate.Controllers
         // GET: WarrantyUnits
         public async Task<ActionResult> Index()
         {
-            Guid sessionProject;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             var warrantyUnits = db.WarrantyUnits.Where(c => c.Location.projectUid == sessionProject).OrderBy(c=>c.warrantyUnit1);
 
@@ -54,18 +43,7 @@ namespace JCIEstimate.Controllers
         // GET: WarrantyUnits/Create
         public ActionResult Create()
         {
-             Guid sessionProject;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             var locations = db.Locations.Where(c => c.projectUid == sessionProject);
             ViewBag.locationUid = new SelectList(locations, "locationUid", "location1");
             return View();
@@ -102,18 +80,7 @@ namespace JCIEstimate.Controllers
                 return HttpNotFound();
             }
 
-            Guid sessionProject;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             var locations = db.Locations.Where(c => c.projectUid == sessionProject);
             ViewBag.locationUid = new SelectList(locations, "locationUid", "location1");

@@ -169,9 +169,8 @@
     </div>    
 }
 
-<div>
-    <a href="/Equipments/@Request.Params["returnURL"].ToString()?@Request.Params["returnUrlParms"].ToString()">Back To List</a>
-    @Html.ActionLink("Back to List", Request.Params["returnURL"].ToString() + "?" + Request.Params["returnUrlParms"].ToString());
+<div>    
+    @Html.ActionLink("Back to List", "Index")    
 </div>
 
 @section Scripts {

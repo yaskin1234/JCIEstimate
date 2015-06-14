@@ -18,82 +18,52 @@ namespace JCIEstimate.Controllers
 
         // GET: Equipments
         public async Task<ActionResult> Index(string filterId, string sort)
-        {
-            Guid sessionProject;
+        {            
             IQueryable<Equipment> equipments;
+            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
+            if (filterId == null)
+            {
+                if (Session["equipmentFilterId"] != null)
+                {
+                    filterId = Session["equipmentFilterId"].ToString();
+                }
+            }
 
             ViewBag.filterId = filterId;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
 
             //Get full equipment list
             equipments = from cc in db.Equipments
                          where !db.Equipments.Any(c => c.equipmentUidAsReplaced == cc.equipmentUid)
                          && cc.Location.projectUid == sessionProject
-                         select cc;
+                         select cc;            
+            
+            aryFo = buildFilterDropDown(filterId, equipments);            
+            equipments = applyFilter(filterId, equipments);
+            equipments = applySorts(sort, equipments);
+                        
+            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2).OrderBy(c=>c.jciTag);                            
+            ViewBag.equipmentTasks = db.EquipmentTasks;
+            ViewBag.equipmentToDoes = db.EquipmentToDoes;
+            ViewBag.equipmentAttributes = db.EquipmentAttributes;
+            ViewBag.equipment = equipments;
+            ViewBag.filterList = aryFo.ToList();
+            return View(await equipments.ToListAsync());
+        }
 
-
-
-            //Build Drop down filter based on existing defined equipment
-            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
+        private IQueryable<Equipment> applyFilter(string filterId, IQueryable<Equipment> equipments)
+        {
+            //apply filter if there is one
             string[] filterPart = null;
             string type = "";
             string uid = Guid.Empty.ToString();
-
             if (!String.IsNullOrEmpty(filterId))
             {
                 filterPart = filterId.Split('|');
                 type = filterPart[0];
                 uid = filterPart[1];
-            }
 
-            FilterOptionModel wf = new FilterOptionModel();
-            wf.text = "-- Choose --";
-            wf.value = "X|" + Guid.Empty.ToString();
-            wf.selected = (wf.value == filterId || String.IsNullOrEmpty(filterId));
-            aryFo.Add(wf);
-
-            wf = new FilterOptionModel();
-            wf.text = "All";
-            wf.value = "A|" + Guid.Empty.ToString().Substring(0, 35) + "1";            
-            wf.selected = (wf.value == filterId);
-            aryFo.Add(wf);
-
-
-            IQueryable<Equipment> results = equipments.GroupBy(c=>c.equipmentAttributeTypeUid).Select(v => v.FirstOrDefault());
-
-            foreach (var item in results)
-            {
-                wf = new FilterOptionModel();                                
-                wf.text = item.EquipmentAttributeType.equipmentAttributeType1;
-                wf.value = "E|" + item.equipmentAttributeTypeUid.ToString();
-                wf.selected = (wf.value == filterId);
-                aryFo.Add(wf);                
-            }
-
-            results = equipments.GroupBy(c => c.ecmUid).Select(v => v.FirstOrDefault());
-
-            foreach (var item in results)
-            {
-                wf = new FilterOptionModel();
-                wf.text = item.ECM.ecmString;
-                wf.value = "C|" + item.ecmUid.ToString();
-                wf.selected = (wf.value == filterId);
-                aryFo.Add(wf);
-            }
-
-            //apply filter if there is one
-            if (!String.IsNullOrEmpty(filterId))
-            {
                 if (type == "E")
                 {
                     equipments = equipments.Where(c => c.equipmentAttributeTypeUid.ToString() == uid);
@@ -102,7 +72,7 @@ namespace JCIEstimate.Controllers
                 {
                     equipments = equipments.Where(c => c.ecmUid.ToString() == uid);
                 }
-                else if(type == "X")
+                else if (type == "X")
                 {
                     equipments = equipments.Where(c => c.ecmUid == Guid.Empty);
                 }
@@ -111,8 +81,12 @@ namespace JCIEstimate.Controllers
             {
                 equipments = equipments.Where(c => c.ecmUid == Guid.Empty);
             }
-            
+            Session["equipmentfilterId"] = filterId;
+            return equipments;
+        }
 
+        private IQueryable<Equipment> applySorts(string sort, IQueryable<Equipment> equipments)
+        {
             //apply sort
             if (!String.IsNullOrEmpty(sort))
             {
@@ -158,33 +132,65 @@ namespace JCIEstimate.Controllers
                     }
 
                 }
+            }     
+            return equipments;
+        }
+
+        private List<FilterOptionModel> buildFilterDropDown(string filterId, IQueryable<Equipment> equipments)
+        {
+            //Build Drop down filter based on existing defined equipment
+            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
+            string[] filterPart = null;
+            string type = "";
+            string uid = Guid.Empty.ToString();
+
+            if (!String.IsNullOrEmpty(filterId))
+            {
+                filterPart = filterId.Split('|');
+                type = filterPart[0];
+                uid = filterPart[1];
+            }
+
+            FilterOptionModel wf = new FilterOptionModel();
+            wf.text = "-- Choose --";
+            wf.value = "X|" + Guid.Empty.ToString();
+            wf.selected = (wf.value == filterId || String.IsNullOrEmpty(filterId));
+            aryFo.Add(wf);
+
+            wf = new FilterOptionModel();
+            wf.text = "All";
+            wf.value = "A|" + Guid.Empty.ToString().Substring(0, 35) + "1";
+            wf.selected = (wf.value == filterId);
+            aryFo.Add(wf);
 
 
-            }            
-                        
-            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2).OrderBy(c=>c.jciTag);                            
-            ViewBag.equipmentTasks = db.EquipmentTasks;
-            ViewBag.equipmentToDoes = db.EquipmentToDoes;
-            ViewBag.equipmentAttributes = db.EquipmentAttributes;
-            ViewBag.equipment = equipments;
-            ViewBag.filterList = aryFo.ToList();
-            return View(await equipments.ToListAsync());
+            IQueryable<Equipment> results = equipments.GroupBy(c => c.equipmentAttributeTypeUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results.OrderBy(c => c.EquipmentAttributeType.equipmentAttributeType1))
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.EquipmentAttributeType.equipmentAttributeType1;
+                wf.value = "E|" + item.equipmentAttributeTypeUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+
+            results = equipments.GroupBy(c => c.ecmUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results.OrderBy(c => c.ECM.ecmNumber))
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.ECM.ecmString;
+                wf.value = "C|" + item.ecmUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+            return aryFo;
         }
 
         public async Task<ActionResult> IndexPartial(string ecmUid)
         {
-            Guid sessionProject;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject);
 
@@ -193,8 +199,7 @@ namespace JCIEstimate.Controllers
                 equipments = equipments.Where(c => c.ecmUid.ToString() == ecmUid);
             }
             
-            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(c => c.jciTag);
-
+            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(c => c.jciTag);            
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             ViewBag.equipmentAttributes = db.EquipmentAttributes;
@@ -204,23 +209,16 @@ namespace JCIEstimate.Controllers
         }
 
         // GET: GridEdit
-        public async Task<ActionResult> GridEdit()
+        public async Task<ActionResult> GridEdit(string filter, string filterId, string sort)
         {
-            Guid sessionProject;
-
-            sessionProject = Guid.Empty;
-
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(n => n.Location.location1).ThenBy(n => n.jciTag);
-
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
+            
+            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location);
+            aryFo = buildFilterDropDown(filterId, equipments);
+            equipments = applyFilter(filterId, equipments);
+            equipments = applySorts(sort, equipments);
+            ViewBag.filterList = aryFo.ToList();
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             ViewBag.equipment = equipments;
@@ -228,9 +226,10 @@ namespace JCIEstimate.Controllers
             return View(await equipments.ToListAsync());
         }
 
-        public async Task<ActionResult> GridEditPartial(string filter)
+        public async Task<ActionResult> GridEditPartial(string filter, string filterId, string sort)
         {
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();            
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
 
             //apply session project predicate
             var equipments = from cc in db.Equipments
@@ -238,16 +237,12 @@ namespace JCIEstimate.Controllers
                              select cc;
 
 
-            if (filter != null && filter.Length > 0 && filter != "search")
-            {
-                equipments = from cc in equipments
-                             where (cc.Location.location1 + " - " + cc.EquipmentAttributeType.equipmentAttributeType1 + " - " + cc.installDate.Value.Year + " - " + cc.ECM.ecmNumber + " - " + cc.jciTag).Contains(filter)
-                             select cc;
-
-            }
-
+            equipments = applyFilter(filterId, equipments);
             equipments = equipments.Include(w => w.Location).OrderBy(n => n.Location.location1).ThenBy(n=>n.jciTag);
 
+            aryFo = buildFilterDropDown(filterId, equipments);
+
+            ViewBag.filterList = aryFo.ToList();
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             ViewBag.equipment = equipments;
@@ -273,17 +268,7 @@ namespace JCIEstimate.Controllers
         // GET: Equipments/Create
         public ActionResult Create()
         {
-            Guid sessionProject;
-            sessionProject = Guid.Empty;
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             string equipmentUidAsReplaced = Request.QueryString["equipmentUidAsReplaced"];
             string ecmUid = "";
             string equipmentAttributeTypeUid = "";
@@ -352,7 +337,7 @@ namespace JCIEstimate.Controllers
         }
 
         // GET: Equipments/Edit/5
-        public async Task<ActionResult> Edit(Guid? id, string returnURL, string returnUrlParms)
+        public async Task<ActionResult> Edit(Guid? id, string returnURL)
         {
             if (id == null)
             {
@@ -364,16 +349,7 @@ namespace JCIEstimate.Controllers
                 return HttpNotFound();
             }
 
-            Guid sessionProject;
-            sessionProject = Guid.Empty;
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             var replacementEqupments = db.Equipments.Where(c => c.Location.projectUid == sessionProject);
 

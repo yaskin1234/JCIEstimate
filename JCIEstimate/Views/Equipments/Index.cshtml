@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
     JCIEstimate.Models.JCIEstimateEntities db = new JCIEstimate.Models.JCIEstimateEntities();
 }
-<select class="equipmentFilter" id="equipmentFilter" name="equipmentFilter">
+<select class="estimateFilter" id="estimateFilter" name="estimateFilter">
     @foreach (var item in ViewBag.filterList)
     {
         <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>
@@ -40,7 +40,7 @@
                 @Html.DisplayNameFor(model => model.model)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.serialNumber)
+                @Html.DisplayNameFor(model => model.EquipmentAttributeType.equipmentAttributeType1)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.installDate)
@@ -91,7 +91,7 @@
                     @Html.DisplayFor(modelItem => item.model)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.serialNumber)
+                    @Html.DisplayFor(modelItem => item.EquipmentAttributeType.equipmentAttributeType1)
                 </td>
                 <td>
                     @String.Format("{0:yyyy}", item.installDate)
@@ -103,7 +103,7 @@
                     @Html.DisplayFor(modelItem => item.area)
                 </td>
                 <td>
-                    <a href="@Url.Action("Edit", "Equipments", new { id = item.equipmentUid, returnURL = "Index", returnUrlParms = "filterId=" + ViewBag.filterId })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+                    <a href="@Url.Action("Edit", "Equipments", new { id = item.equipmentUid, returnURL = "Index" })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
                     @*<a href="@Url.Action("Details", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/view_details.png")" height="15" width="15" alt="Click for Details" title="Click for Details" /></a>*@
                     <a href="@Url.Action("Delete", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>
 

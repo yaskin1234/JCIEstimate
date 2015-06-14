@@ -42,17 +42,7 @@ namespace JCIEstimate.Controllers
         // GET: EquipmentAttachments/Create
         public ActionResult Create()
         {
-            Guid sessionProject;
-            sessionProject = Guid.Empty;
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             var equipments = from cc in db.Equipments
                              where cc.Location.projectUid == sessionProject
                              select cc;
@@ -84,16 +74,8 @@ namespace JCIEstimate.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(EquipmentAttachment equipmentAttachment, HttpPostedFileBase postedFile)
         {
-            Guid sessionProject;
-            sessionProject = Guid.Empty;
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
             if (ModelState.IsValid)
             {
                 if (postedFile != null)
@@ -135,17 +117,7 @@ namespace JCIEstimate.Controllers
                 return HttpNotFound();
             }
 
-            Guid sessionProject;
-            sessionProject = Guid.Empty;
-            if (Session["projectUid"] != null)
-            {
-                sessionProject = new System.Guid(Session["projectUid"].ToString());
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             var equipments = from cc in db.Equipments
                              where cc.Location.projectUid == sessionProject
                              select cc;
