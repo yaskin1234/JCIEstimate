@@ -9,7 +9,7 @@
 <table>
     <tr>
         <td>
-            <select class="equipmentFilter" id="equipmentFilter" name="equipmentFilter">
+            <select class="equipmentGridFilter" id="equipmentGridFilter" name="equipmentGridFilter">
                 @foreach (var item in ViewBag.filterList)
                 {
                     <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>

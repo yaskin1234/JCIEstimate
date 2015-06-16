@@ -50,25 +50,24 @@ namespace JCIEstimate.Controllers
                     filterId = Session["estimateFilterId"].ToString();
                 }
             }
+
+
+            if (User.IsInRole("Admin"))
+            {
+                estimates = from cc in db.Estimates
+                            join dd in db.Locations on cc.locationUid equals dd.locationUid
+                            where dd.projectUid == sessionProject
+                            select cc;
+            }
             else
             {
-                if (User.IsInRole("Admin"))
-                {
-                    estimates = from cc in db.Estimates
-                                join dd in db.Locations on cc.locationUid equals dd.locationUid
-                                where dd.projectUid == sessionProject
-                                select cc;
-                }
-                else
-                {
-                    estimates = from cc in db.Estimates
-                                join dd in db.Locations on cc.locationUid equals dd.locationUid
-                                join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
-                                join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
-                                where dd.projectUid == sessionProject
-                                && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
-                                select cc;
-                }      
+                estimates = from cc in db.Estimates
+                            join dd in db.Locations on cc.locationUid equals dd.locationUid
+                            join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
+                            join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
+                            where dd.projectUid == sessionProject
+                            && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                            select cc;
             }     
 
             //Aggregates
@@ -221,7 +220,7 @@ namespace JCIEstimate.Controllers
             {
                 estimates = estimates.Where(c => c.ecmUid == Guid.Empty);
             }
-            Session["estimatefilterId"] = filterId;
+            Session["estimateFilterId"] = filterId;
             
             return estimates;
         }

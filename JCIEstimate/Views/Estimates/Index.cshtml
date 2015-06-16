@@ -6,7 +6,7 @@
 
 }
 
-<select class="equipmentFilter" id="equipmentFilter" name="equipmentFilter">
+<select class="estimateFilter" id="estimateFilter" name="estimateFilter">
     @foreach (var item in ViewBag.filterList)
     {
         <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>
@@ -92,7 +92,7 @@
 
                 @foreach (var item in Model)
                 {
-                    var rowColor = item.EstimateStatu.behaviorIndicator == "S" ? "#aaffdd" : item.EstimateStatu.behaviorIndicator == "N" ? "#aaffee" : "#ddffdd";
+                    var rowColor = item.EstimateStatu.behaviorIndicator == "S" ? "#aaffdd" : item.EstimateStatu.behaviorIndicator == "N" ? "#ffbbbb" : "#ddffdd";
                     <tr style="background-color:@item.EstimateStatu.rowColor;">
 
                         <td><img src="@Url.Content("~/Images/equipment.png")" class="tdEquipmentForEcm" alt="View Equipment" id="getEquipment_@item.ecmUid" height="15" width="15" /></td>
@@ -140,7 +140,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td id="tdEquipmentForEcm_@item.ecmUid" colspan="100" />
+                        <td id="tdEquipmentForEcm_@item.ecmUid" colspan="100" style="display:none;" />
                     </tr>
                 }
 

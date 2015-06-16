@@ -18,6 +18,9 @@
             @Html.DisplayNameFor(model => model.date)
         </th>
         <th>
+            Age
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.projectUserUid)
         </th>
         <th>
@@ -60,6 +63,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @(Convert.ToInt32((DateTime.Now - item.date).TotalDays))d
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProjectUser.AspNetUser.Email)

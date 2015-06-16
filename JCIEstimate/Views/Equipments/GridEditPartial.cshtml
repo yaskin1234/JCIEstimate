@@ -2,8 +2,7 @@
 @foreach (var item in ViewBag.equipment)
 {
     <tr>
-        <td class="GridTable"><a href="~/Equipments/Edit/@item.equipmentUid?returnURL=GridEdit">@item.Location.location1 - @item.jciTag - @item.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.installDate).Year - @item.ECM.ecmNumber</a></td>        
-        <td>tonnage</td>
+        <td class="GridTable"><a href="~/Equipments/Edit/@item.equipmentUid?returnURL=GridEdit">@item.Location.location1 - @item.jciTag - @item.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.installDate).Year - @item.ECM.ecmNumber</a></td>                
         <td>
             @if (item.equipmentUidAsReplaced == null)
             {

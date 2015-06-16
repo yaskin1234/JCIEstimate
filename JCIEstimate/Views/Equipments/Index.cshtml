@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
     JCIEstimate.Models.JCIEstimateEntities db = new JCIEstimate.Models.JCIEstimateEntities();
 }
-<select class="estimateFilter" id="estimateFilter" name="estimateFilter">
+<select class="equipmentFilter" id="equipmentFilter" name="equipmentFilter">
     @foreach (var item in ViewBag.filterList)
     {
         <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>
@@ -40,7 +40,7 @@
                 @Html.DisplayNameFor(model => model.model)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EquipmentAttributeType.equipmentAttributeType1)
+                Type
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.installDate)
@@ -59,7 +59,8 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            var rowColor = item.isNewToSite ? "#ffbbbb" : "#ddffdd";
+            <tr style="background-color:@rowColor;">
                 <td>
                     @if (item.equipmentUidAsReplaced != null)
                     {

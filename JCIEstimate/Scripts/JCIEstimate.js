@@ -19,6 +19,12 @@
         document.location = url + "?filterId=" + escape(selectedValue);
     })
 
+    $(".equipmentGridFilter").change(function () {
+        var selectedValue = $("#equipmentGridFilter").val();
+        var url = "/Equipments/GridEdit";
+        document.location = url + "?filterId=" + escape(selectedValue);
+    })
+
     $(".estimateFilter").change(function () {
         var selectedValue = $("#estimateFilter").val();
         var url = "/Estimates/Index";
@@ -80,9 +86,11 @@
         $val = this.id.split("_")[1];
         if ($("#getEquipment_" + $val).html().trim() != "") {
             $("#getEquipment_" + $val).empty();
+            $(this.parentNode).css({ "style": "display:none;" });
         }
         else {
             $("#getEquipment_" + $val).load("/Equipments/IndexPartial?ecmUid=" + escape($val));
+            $(this.parentNode).css({ "style": "display:normal;" });
         }
         
     })
@@ -283,7 +291,7 @@
                 alert("check " + data);
             }
         })
-
+        
         var estimateUid = $(this).attr("name");
         var activeAmountSpan = document.getElementById(estimateUid + "_ActiveAmount");
         var amountSpan = document.getElementById(estimateUid + "_Amount");
@@ -302,6 +310,11 @@
             
         }        
         activeTotalSpan.innerText = "$" + activeTotal.formatMoney(0, '.', ',');
+        if (this.checked) {
+            $(this.parentNode.parentNode).css({ "background-color": "#ddffdd" });
+        } else {
+            $(this.parentNode.parentNode).css({ "background-color": "#ffbbbb" });
+        }
     });    
 
     $(".chkEngineerUseReplacement").click(function () {

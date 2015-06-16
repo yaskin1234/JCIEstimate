@@ -211,13 +211,30 @@ namespace JCIEstimate.Controllers
         // GET: GridEdit
         public async Task<ActionResult> GridEdit(string filter, string filterId, string sort)
         {
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            IQueryable<Equipment> equipments;
             List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
-            
-            var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location);
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
+            if (filterId == null)
+            {
+                if (Session["equipmentFilterId"] != null)
+                {
+                    filterId = Session["equipmentFilterId"].ToString();
+                }
+            }
+
+            ViewBag.filterId = filterId;
+
+            //Get full equipment list
+            equipments = from cc in db.Equipments
+                         where !db.Equipments.Any(c => c.equipmentUidAsReplaced == cc.equipmentUid)
+                         && cc.Location.projectUid == sessionProject
+                         select cc;
+
             aryFo = buildFilterDropDown(filterId, equipments);
             equipments = applyFilter(filterId, equipments);
             equipments = applySorts(sort, equipments);
+            
             ViewBag.filterList = aryFo.ToList();
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;

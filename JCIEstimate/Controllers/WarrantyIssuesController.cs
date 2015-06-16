@@ -82,7 +82,7 @@ namespace JCIEstimate.Controllers
 
             }
 
-            warrantyIssues = warrantyIssues.Include(w => w.Location).OrderBy(w => w.WarrantyUnit.Location.location1).ThenBy(w => w.WarrantyUnit.warrantyUnit1).ThenBy(w => w.WarrantyStatu.listOrder);
+            warrantyIssues = warrantyIssues.Include(w => w.Location).OrderByDescending(w => w.date);
 
             return PartialView(await warrantyIssues.ToListAsync());
         }
@@ -193,8 +193,7 @@ namespace JCIEstimate.Controllers
             }
             
 
-            results = warrantyIssues.Where(c => c.WarrantyUnit != null).GroupBy(c => c.WarrantyUnit.warrantyUnit1)
-            .Select(v => v.FirstOrDefault());
+            results = warrantyIssues.Where(c => c.WarrantyUnit != null).GroupBy(c => c.WarrantyUnit.warrantyUnit1).Select(v => v.FirstOrDefault());
 
             
             foreach (var item in results)
@@ -228,9 +227,9 @@ namespace JCIEstimate.Controllers
           
             ViewBag.location = location;
             ViewBag.txtLocationSearch = location;
-            ViewBag.filterList = aryFo.ToList();            
-            
-            return View(await warrantyIssues.ToListAsync());
+            ViewBag.filterList = aryFo.ToList();
+
+            return View(await warrantyIssues.OrderByDescending(c => c.date).ToListAsync());
         }
 
         public async Task<ActionResult> GetUnits(Guid? locationUid)
