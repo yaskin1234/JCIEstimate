@@ -46,7 +46,7 @@ namespace JCIEstimate.Controllers
             equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2).OrderBy(c=>c.jciTag);                            
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
-            ViewBag.equipmentAttributes = db.EquipmentAttributes;
+            ViewBag.equipmentAttributes = db.EquipmentAttributes.OrderBy(c=>c.equipmentAttribute1);
             ViewBag.equipment = equipments;
             ViewBag.filterList = aryFo.ToList();
             return View(await equipments.ToListAsync());
@@ -238,9 +238,9 @@ namespace JCIEstimate.Controllers
             ViewBag.filterList = aryFo.ToList();
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
-            ViewBag.equipment = equipments;
+            ViewBag.equipment = equipments.OrderBy(c=>c.jciTag);
 
-            return View(await equipments.ToListAsync());
+            return View(await equipments.OrderBy(c => c.jciTag).ToListAsync());
         }
 
         public async Task<ActionResult> GridEditPartial(string filter, string filterId, string sort)
@@ -262,9 +262,9 @@ namespace JCIEstimate.Controllers
             ViewBag.filterList = aryFo.ToList();
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
-            ViewBag.equipment = equipments;
+            ViewBag.equipment = equipments.OrderBy(c => c.jciTag);
 
-            return PartialView(await equipments.ToListAsync());
+            return PartialView(await equipments.OrderBy(c => c.jciTag).ToListAsync());
         }
 
         // GET: Equipments/Details/5
@@ -384,7 +384,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,useReplacement,price")] Equipment equipment, string ecms, string equipmentUidAsReplaced)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,price,useReplacement")] Equipment equipment, string ecms, string equipmentUidAsReplaced)
         {
             if (ModelState.IsValid)
             {

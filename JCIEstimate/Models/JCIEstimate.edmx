@@ -58,6 +58,19 @@
           <Property Name="firstName" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="lastName" Type="varchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="ContractorSignoff">
+          <Key>
+            <PropertyRef Name="contractorSignoffUid" />
+          </Key>
+          <Property Name="contractorSignoffUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="aspNetUserUidAsCreated" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" />
+          <Property Name="typedName" Type="varchar" MaxLength="200" />
+          <Property Name="attachment" Type="varbinary(max)" Nullable="false" />
+          <Property Name="fileType" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="documentName" Type="varchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
         <EntityType Name="ContractorUser">
           <Key>
             <PropertyRef Name="contractorUserUid" />
@@ -750,6 +763,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_AspNetUser_created2">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="ContractorSignoff" Type="Self.ContractorSignoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContractorSignoff">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_AspNetUser_createdAs">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="LocationIssue" Type="Self.LocationIssue" Multiplicity="*" />
@@ -819,6 +844,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="Eddress">
               <PropertyRef Name="contractorContactUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorSignoff_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ContractorSignoff" Type="Self.ContractorSignoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ContractorSignoff">
+              <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -935,7 +972,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_EquipmentAttributeValue_equipmentAttributeUid">
-          <End Role="EquipmentAttribute" Type="Self.EquipmentAttribute" Multiplicity="1" />
+          <End Role="EquipmentAttribute" Type="Self.EquipmentAttribute" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="EquipmentAttributeValue" Type="Self.EquipmentAttributeValue" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EquipmentAttribute">
@@ -1636,6 +1675,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contractor" EntityType="Self.Contractor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorContact" EntityType="Self.ContractorContact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorSignoff" EntityType="Self.ContractorSignoff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorUser" EntityType="Self.ContractorUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ECM" EntityType="Self.ECM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Eddress" EntityType="Self.Eddress" Schema="dbo" store:Type="Tables" />
@@ -1771,6 +1811,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="ProjectManagerAttachment" EntitySet="ProjectManagerAttachment" />
           </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_created2" Association="Self.fk_AspNetUser_created2">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ContractorSignoff" EntitySet="ContractorSignoff" />
+          </AssociationSet>
           <AssociationSet Name="fk_AspNetUser_createdAs" Association="Self.fk_AspNetUser_createdAs">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="LocationIssue" EntitySet="LocationIssue" />
@@ -1794,6 +1838,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_contractorContact" Association="Self.fk_contractorContact">
             <End Role="ContractorContact" EntitySet="ContractorContact" />
             <End Role="Eddress" EntitySet="Eddress" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorSignoff_Project" Association="Self.fk_ContractorSignoff_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ContractorSignoff" EntitySet="ContractorSignoff" />
           </AssociationSet>
           <AssociationSet Name="fk_ecm_project" Association="Self.fk_ecm_project">
             <End Role="Project" EntitySet="Project" />
@@ -2426,6 +2474,15 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="v__ContractorECMByCategory" EntityType="JCIEstimateModel.v__ContractorECMByCategory" />
           <EntitySet Name="v__EquipmentForEcm" EntityType="JCIEstimateModel.v__EquipmentForEcm" />
           <EntitySet Name="v__ExpensePercentage" EntityType="JCIEstimateModel.v__ExpensePercentage" />
+          <EntitySet Name="ContractorSignoffs" EntityType="JCIEstimateModel.ContractorSignoff" />
+          <AssociationSet Name="fk_AspNetUser_created2" Association="JCIEstimateModel.fk_AspNetUser_created2">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ContractorSignoff" EntitySet="ContractorSignoffs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorSignoff_Project" Association="JCIEstimateModel.fk_ContractorSignoff_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ContractorSignoff" EntitySet="ContractorSignoffs" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -2505,6 +2562,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_PM" FromRole="Project" ToRole="AspNetUser" />
           <NavigationProperty Name="ProjectAddendums" Relationship="JCIEstimateModel.fk_ProjectAddendum_project" FromRole="Project" ToRole="ProjectAddendum" />
           <NavigationProperty Name="ProjectManagerAttachments" Relationship="JCIEstimateModel.fk_ProjectManagerAttachment_Project" FromRole="Project" ToRole="ProjectManagerAttachment" />
+          <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_ContractorSignoff_Project" FromRole="Project" ToRole="ContractorSignoff" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -2573,6 +2631,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="Projects" Relationship="JCIEstimateModel.fk_project_PM" FromRole="AspNetUser" ToRole="Project" />
           <NavigationProperty Name="ProjectAddendums" Relationship="JCIEstimateModel.fk_ProjectAddemdum_created" FromRole="AspNetUser" ToRole="ProjectAddendum" />
           <NavigationProperty Name="ProjectManagerAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created1" FromRole="AspNetUser" ToRole="ProjectManagerAttachment" />
+          <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_AspNetUser_created2" FromRole="AspNetUser" ToRole="ContractorSignoff" />
           </EntityType>
         <Association Name="fk_AspNetUser">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -4188,6 +4247,45 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="percentage" Type="Decimal" Nullable="false" Precision="11" Scale="6" />
           <Property Name="sumActiveAmount" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
+        <EntityType Name="ContractorSignoff">
+          <Key>
+            <PropertyRef Name="contractorSignoffUid" />
+          </Key>
+          <Property Name="contractorSignoffUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="aspNetUserUidAsCreated" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <Property Name="typedName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="attachment" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="fileType" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="documentName" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created2" FromRole="ContractorSignoff" ToRole="AspNetUser" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ContractorSignoff_Project" FromRole="ContractorSignoff" ToRole="Project" />
+        </EntityType>
+        <Association Name="fk_AspNetUser_created2">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorSignoff" Role="ContractorSignoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContractorSignoff">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorSignoff_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorSignoff" Role="ContractorSignoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ContractorSignoff">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4923,6 +5021,20 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
                 <ScalarProperty Name="expensePercentageUid" ColumnName="expensePercentageUid" />
                 <ScalarProperty Name="total" ColumnName="total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorSignoffs">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorSignoff">
+              <MappingFragment StoreEntitySet="ContractorSignoff">
+                <ScalarProperty Name="documentName" ColumnName="documentName" />
+                <ScalarProperty Name="fileType" ColumnName="fileType" />
+                <ScalarProperty Name="attachment" ColumnName="attachment" />
+                <ScalarProperty Name="typedName" ColumnName="typedName" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="aspNetUserUidAsCreated" ColumnName="aspNetUserUidAsCreated" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="contractorSignoffUid" ColumnName="contractorSignoffUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

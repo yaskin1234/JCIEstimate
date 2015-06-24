@@ -30,7 +30,8 @@
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
+        var rowColor = item.WarrantyStatu.behaviorIndicator == "N" ? "#ffbbbb" : item.WarrantyStatu.behaviorIndicator == "R" ? "#aaffdd" : "#ddffdd";
+        <tr style="background-color:@rowColor;">
             <td>
                 <div>
                     @item.Location.location1

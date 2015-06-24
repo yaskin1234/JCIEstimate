@@ -16,6 +16,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.equipmentUid)
+        @Html.HiddenFor(model => model.useReplacement)
 
         <div class="form-group">
             @Html.LabelFor(model => model.equipmentUidAsReplaced, null, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -23,15 +24,7 @@
                 @Html.DropDownList("equipmentUidAsReplaced", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.equipmentUidAsReplaced, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.useReplacement, null, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.CheckBoxFor(model => model.useReplacement, htmlAttributes: new { @disabled = "disabled" })
-                @Html.ValidationMessageFor(model => model.useReplacement, "", new { @class = "text-danger" })
-            </div>
-        </div>        
+        </div>     
 
         <div class="form-group">
             @Html.LabelFor(model => model.equipmentAttributeTypeUid, null, htmlAttributes: new { @class = "control-label col-md-2" })

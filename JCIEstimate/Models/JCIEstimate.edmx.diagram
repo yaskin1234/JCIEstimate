@@ -141,6 +141,9 @@
         <EntityTypeShape EntityType="JCIEstimateModel.v__ContractorECMByCategory" Width="1.5" PointX="5.75" PointY="13.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.v__EquipmentForEcm" Width="1.5" PointX="0.75" PointY="17.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.v__ExpensePercentage" Width="1.5" PointX="9.75" PointY="6.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoff" Width="1.5" PointX="22.375" PointY="1.5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created2" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Project" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -115,7 +115,7 @@
                                 <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                                
                                 <li>@Html.ActionLink("Report -- Equipment List by ECM", "GetEquipmentForECM", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- New Equipment", "GetEquipmentForECMToPurchase", "Reports")</li>
-                                
+                                <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>                                
                             </ul>
                         </li>
                     }                    
@@ -141,7 +141,10 @@
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                
                                 <li>@Html.ActionLink("Report -- New Equipment", "GetEquipmentForECMToPurchase", "Reports")</li>
-                                <li>@Html.ActionLink("Report -- Signoff", "GetContractorSignOff", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>            
+                                @*<li>@Html.ActionLink("Report -- Signoff", "GetContractorSignOff", "Reports")</li>*@
+                                <li>@Html.ActionLink("Signoff", "ContractorSignOff", "ContractorSignOffs")</li>
+                                <li>@Html.ActionLink("Signed", "Index", "ContractorSignOffs")</li>
                             </ul>
                         </li>
                     }        

@@ -86,5 +86,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<v__ContractorECMByCategory> v__ContractorECMByCategory { get; set; }
         public virtual DbSet<v__EquipmentForEcm> v__EquipmentForEcm { get; set; }
         public virtual DbSet<v__ExpensePercentage> v__ExpensePercentage { get; set; }
+        public virtual DbSet<ContractorSignoff> ContractorSignoffs { get; set; }
     }
 }

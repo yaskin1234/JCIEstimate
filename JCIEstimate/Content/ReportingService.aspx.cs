@@ -39,7 +39,6 @@ namespace JCIEstimate.Content
                         ReportViewer1.ShowExportControls = true;
                         ReportViewer1.ShowParameterPrompts = true;
                     }
-
                 }                
             }
         }

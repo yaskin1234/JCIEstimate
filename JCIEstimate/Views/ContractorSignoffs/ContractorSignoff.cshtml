@@ -1,0 +1,156 @@
+﻿@model JCIEstimate.Models.ContractorSignoff
+@{
+    ViewBag.Title = "ContractorSignoff";
+}
+
+@using (Html.BeginForm("ContractorSignoff", "ContractorSignoffs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+@Html.AntiForgeryToken()
+<h2>Signoff</h2>
+
+<h3>Estimates</h3>
+<p>The following estimates have been reviewed for completeness</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Contractor</th>        
+            <th>ECM</th>        
+            <th>Location</th>        
+            <th>Category</th>        
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+    System.Collections.Generic.List<JCIEstimate.Models.Estimate> estimates = ViewBag.estimates;
+        }
+        @foreach (var item in estimates)
+        {        
+        <tr>
+            <td>
+                @item.Contractor.contractorName
+            </td>
+            <td>
+                @item.ECM.ecmString
+            </td>
+            <td>
+                @item.Location.location1
+            </td>
+            <td>
+                @item.Category.category1
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.amount)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<h3>RFIs</h3>
+<p>The following RFIs have been requested for this project and have been reviewed where appropriate</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>RFI ID</th>
+            <th>RFI Status</th>
+            <th>Last Comment</th>            
+        </tr>
+    </thead>
+    <tbody>
+        @{            
+            System.Collections.Generic.List<JCIEstimate.Models.ProjectRFI> projectRFIs = ViewBag.projectRFIs;
+        }
+        
+        @foreach (var item in projectRFIs)
+        {
+            <tr>
+                <td>
+                    @item.projectRFIID
+                </td>
+                <td>
+                    @item.projectRFI1
+                </td>
+                <td>
+                    @if (item.ProjectRFIResponses.Count > 0)
+                    {
+                        @Html.Raw(item.ProjectRFIResponses.OrderBy(c => c.dateCreated).Last().projectRFIResponse1.Replace(Environment.NewLine, @"<br/>"))
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Addendums</h3>
+<p>The following addendums have been reviewed</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Addendum ID</th>
+            <th>Date Created</th>
+            <th>Project Addendum</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            System.Collections.Generic.List<JCIEstimate.Models.ProjectAddendum> projectAddendums = ViewBag.projectAddendums;
+        }
+
+        @foreach (var item in projectAddendums)
+        {
+            <tr>
+                <td>
+                    @item.addendumId
+                </td>
+                <td>
+                    @item.dateCreated
+                </td>
+                <td>
+                    @item.projectAddendum1
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Scope Documents</h3>
+<p>The following scope documents have been reviewed where appropriate</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Scope Of Work Description</th>
+            <th>Category</th>
+            <th>Document Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            System.Collections.Generic.List<JCIEstimate.Models.ScopeOfWork> scopeOfWorks = ViewBag.scopeOfWorks;
+        }
+
+        @foreach (var item in scopeOfWorks)
+        {
+            <tr>
+                <td>
+                    @item.scopeOfWorkDescription
+                </td>
+                <td>
+                    @item.Category.category1
+                </td>
+                <td>
+                    @item.documentName
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Certification</h3>
+<p><b>I certify that I have read and understand all RFIs, addendums, and scopes referenced in this document.  <br />
+    I also certify that my estimates are accurate and complete.</b></p>
+<p>
+    Please type your name and click SIGN. <input type="text" name="signedName" id="signedName" />&nbsp;&nbsp;
+    <input type="submit" value="SIGN" class="btn btn-default" />    
+</p>
+}

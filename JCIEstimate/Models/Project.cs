@@ -29,6 +29,7 @@ namespace JCIEstimate.Models
             this.ProjectRFIs = new HashSet<ProjectRFI>();
             this.ProjectAddendums = new HashSet<ProjectAddendum>();
             this.ProjectManagerAttachments = new HashSet<ProjectManagerAttachment>();
+            this.ContractorSignoffs = new HashSet<ContractorSignoff>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -50,5 +51,6 @@ namespace JCIEstimate.Models
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<ProjectAddendum> ProjectAddendums { get; set; }
         public virtual ICollection<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
+        public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
     }
 }

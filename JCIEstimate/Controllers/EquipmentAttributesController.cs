@@ -18,7 +18,7 @@ namespace JCIEstimate.Controllers
         // GET: EquipmentAttributes
         public async Task<ActionResult> Index()
         {
-            var equipmentAttributes = db.EquipmentAttributes.Include(e => e.AppDataType).Include(e => e.EquipmentAttributeType);
+            var equipmentAttributes = db.EquipmentAttributes.Include(e => e.AppDataType).Include(e => e.EquipmentAttributeType).OrderBy(c=>c.equipmentAttribute1);
             return View(await equipmentAttributes.ToListAsync());
         }
 

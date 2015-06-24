@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using JCIEstimate.Models;
 using JCIExtensions;
 using System.Linq;
+using Microsoft.AspNet.Identity;
+using System.IO;
 
 namespace JCIEstimate.Controllers
 {
@@ -339,6 +341,8 @@ namespace JCIEstimate.Controllers
             ViewBag.estimateStatusUid = new SelectList(db.EstimateStatus, "estimateStatusUid", "estimateStatus");
             return View(estimate);
         }
+
+       
 
         // GET: Estimates/Edit/5
         public async Task<ActionResult> Edit(Guid? id)

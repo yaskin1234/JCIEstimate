@@ -1,0 +1,69 @@
+﻿@model IEnumerable<JCIEstimate.Models.ContractorSignoff>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.dateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.typedName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.attachment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fileType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.documentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.AllowableContractors)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.typedName)
+        </td>
+        <td>
+            @Html.ActionLink("Get Attachment", "GetContractorSignoff", new { contractorSignOffUid = item.contractorSignoffUid })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fileType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.documentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.AllowableContractors)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.project1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.contractorSignoffUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.contractorSignoffUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.contractorSignoffUid })
+        </td>
+    </tr>
+}
+
+</table>
