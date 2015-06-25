@@ -22,7 +22,29 @@ namespace JCIEstimate.Controllers
         // GET: ContractorSignoffs
         public async Task<ActionResult> Index()
         {
-            var contractorSignoffs = db.ContractorSignoffs.Include(c => c.AspNetUser).Include(c => c.Project);
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            IQueryable<ContractorSignoff> contractorSignoffs;
+
+            if (User.IsInRole("Admin"))
+            {
+                contractorSignoffs = from cc in db.ContractorSignoffs
+                                     where cc.projectUid == sessionProject
+                                     select cc;
+            }
+            else
+            {
+                contractorSignoffs = from cc in db.ContractorSignoffs
+                                        join cq in db.AspNetUsers on cc.aspNetUserUidAsCreated equals cq.Id
+                                        where cc.projectUid == sessionProject
+                                        && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                                        select cc;
+            }
+            
+            
+            
+
+
+            contractorSignoffs = contractorSignoffs.OrderByDescending(c => c.dateCreated).Include(c => c.AspNetUser).Include(c => c.Project);
             return View(await contractorSignoffs.ToListAsync());
         }
 
@@ -56,6 +78,7 @@ namespace JCIEstimate.Controllers
             IQueryable<ProjectRFI> projectRFIs;
             IQueryable<ProjectAddendum> projectAddendums;
             IQueryable<ScopeOfWork> scopeOfWorks;
+            IQueryable<AspNetUser> loggedInUser;
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             estimates = from cc in db.Estimates
@@ -65,6 +88,10 @@ namespace JCIEstimate.Controllers
                         where dd.projectUid == sessionProject
                         && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
                         select cc;
+
+            loggedInUser = from cc in db.AspNetUsers
+                               where cc.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                               select cc;
 
             projectRFIs = from cc in db.ProjectRFIs
                           where cc.projectUid == sessionProject
@@ -82,6 +109,9 @@ namespace JCIEstimate.Controllers
             ViewBag.projectRFIs = projectRFIs.OrderBy(c => c.projectRFIID).ToList();
             ViewBag.projectAddendums = projectAddendums.OrderBy(c => c.addendumId).ToList();
             ViewBag.estimates = estimates.OrderBy(c => c.ECM.ecmNumber).ToList();
+            ViewBag.contractorName = estimates.First().Contractor.contractorName;
+            ViewBag.projectName = estimates.First().ECM.Project.project1;
+            ViewBag.loggedInUser = loggedInUser.First().Email;
 
             return View();
         }
@@ -89,21 +119,19 @@ namespace JCIEstimate.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetContractorSignoff(Guid contractorSignoffUid, string fileType)
         {
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-            string directory = "JCIEstimate";
-            string reportName = "ContractorSignoff";
-            
-            
-            string saveFolder = "Signoffs";
-            string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=excel&projectUId=" + sessionProject.ToString();
-            string saveFile = Server.MapPath("\\" + saveFolder ) + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";
-                        
-            //saveFile = saveFolder + "Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";
-            SaveFileFromURL(addressRoot, saveFile, 600000, CredentialCache.DefaultNetworkCredentials);
-            byte[] byteArray = System.IO.File.ReadAllBytes(saveFile);
-            return File(byteArray, "application/octect-stream", saveFile);
-            
-        }
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();            
+
+            var d = from cc in db.ContractorSignoffs
+                    where cc.contractorSignoffUid == contractorSignoffUid
+                    select cc.attachment;
+
+            var docName = from cc in db.ContractorSignoffs
+                          where cc.contractorSignoffUid == contractorSignoffUid
+                          select cc.documentName;
+
+            byte[] byteArray = d.FirstOrDefault();
+            return File(byteArray, "application/octect-stream", docName.FirstOrDefault());
+        }   
 
         // POST: ContractorSignoff/ContractorSignoff
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -115,21 +143,6 @@ namespace JCIEstimate.Controllers
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             if (ModelState.IsValid)
             {
-                string directory = "JCIEstimate";
-                string reportName = "ContractorSignoff";
-
-
-                string saveFolder = "Signoffs";
-                string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=excel&projectUid=" + sessionProject.ToString();
-                string saveFile = "";
-
-                //saveFile = saveFolder + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";
-                saveFile = Server.MapPath("\\" + saveFolder) + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";
-                
-                SaveFileFromURL(addressRoot, saveFile, 600000, CredentialCache.DefaultNetworkCredentials);
-                byte[] byteArray = System.IO.File.ReadAllBytes(saveFile);
-
-                var currentUser = IdentityExtensions.GetUserId(User.Identity);
                 if (!String.IsNullOrEmpty(signedName))
                 {
 
@@ -141,15 +154,31 @@ namespace JCIEstimate.Controllers
                                 join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                                 where dd.projectUid == sessionProject
                                 && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
-                                select cc;               
+                                select cc;              
+                    string directory = "JCIEstimate";
+                    string reportName = "ContractorSignoff";
 
+                    string saveFolder = "Signoffs";
+                    string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=word&projectUid=" + sessionProject.ToString() + "&contractorUid=" + estimates.First().contractorUid.ToString() + "&typedName=" + signedName;
+                    string saveFile = "";
+
+                    //saveFile = saveFolder + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";
+                    saveFile = Server.MapPath("\\" + saveFolder) + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".doc";
+                
+                    SaveFileFromURL(addressRoot, saveFile, 600000, CredentialCache.DefaultNetworkCredentials);
+                    byte[] byteArray = System.IO.File.ReadAllBytes(saveFile);
+
+                    var currentUser = IdentityExtensions.GetUserId(User.Identity);
+
+                    DateTime dateCreated = DateTime.Now;
 
                     contractorSignoff.contractorSignoffUid = Guid.NewGuid();
                     contractorSignoff.projectUid = sessionProject;
                     contractorSignoff.attachment = byteArray;
-                    contractorSignoff.dateCreated = DateTime.Now;
-                    contractorSignoff.fileType = "xls";
-                    contractorSignoff.documentName = estimates.First().Contractor.contractorName + "_" + contractorSignoff.dateCreated + "." + contractorSignoff.fileType;
+                    contractorSignoff.dateCreated = dateCreated;
+                    contractorSignoff.fileType = "doc";
+                    contractorSignoff.typedName = signedName;
+                    contractorSignoff.documentName = estimates.First().Contractor.contractorName + "_" + String.Format("{0:yyyyMMddHHmmss}", dateCreated) + "." + contractorSignoff.fileType;
                     contractorSignoff.aspNetUserUidAsCreated = currentUser;
 
                     ViewBag.estimates = estimates.OrderBy(c => c.ECM.ecmNumber).ToList();                   
@@ -176,7 +205,7 @@ namespace JCIEstimate.Controllers
                     }                    
                 }
                 
-                return RedirectToAction("Index");
+                return Redirect("/ContractorSignoffs/Index");
             }
 
             return View(contractorSignoff);
@@ -284,30 +313,18 @@ namespace JCIEstimate.Controllers
             try
             {
                 // Get the web response
-                HttpWebResponse MyResponse = (HttpWebResponse)MyRequest.GetResponse();
+                HttpWebResponse MyResponse = (HttpWebResponse)MyRequest.GetResponse();                
 
                 // Make sure the response is valid
                 if (HttpStatusCode.OK == MyResponse.StatusCode)
                 {
-                    // Open the response stream                    
-                    MemoryStream ms = new MemoryStream();
-                    MyResponse.GetResponseStream().CopyTo(ms);
-                        // Open the destination file
+                    // Open the response stream               
+                    Stream input = MyResponse.GetResponseStream();
+                    // Open the destination file
                     using (FileStream MyFileStream = new FileStream(destinationFileName, FileMode.OpenOrCreate, FileAccess.Write))
                     {
-                        // Create a 4K buffer to chunk the file
-                        byte[] MyBuffer = new byte[4096];
-                        int BytesRead;
-                        // Read the chunk of the web response into the buffer
-                        while (0 < (BytesRead = ms.Read(MyBuffer, 0, MyBuffer.Length)))
-                        {
-                            // Write the chunk from the buffer to the file
-                            MyFileStream.Write(MyBuffer, 0, BytesRead);
-                        }
-                        ms.Flush();
-                        ms.Close();
+                        input.CopyTo(MyFileStream);
                     }
-                    
                 }
             }
                 

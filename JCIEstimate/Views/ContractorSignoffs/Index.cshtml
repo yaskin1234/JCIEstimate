@@ -6,9 +6,6 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -21,16 +18,10 @@
             @Html.DisplayNameFor(model => model.attachment)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.fileType)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.documentName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AspNetUser.AllowableContractors)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Project.project1)
+            Created By
         </th>
         <th></th>
     </tr>
@@ -44,24 +35,22 @@
             @Html.DisplayFor(modelItem => item.typedName)
         </td>
         <td>
-            @Html.ActionLink("Get Attachment", "GetContractorSignoff", new { contractorSignOffUid = item.contractorSignoffUid })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fileType)
-        </td>
+            @Html.ActionLink("Get Attachment", "GetContractorSignoff", new { contractorSignoffUid = item.contractorSignoffUid })
+        </td>        
         <td>
             @Html.DisplayFor(modelItem => item.documentName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AspNetUser.AllowableContractors)
+            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Project.project1)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.contractorSignoffUid }) |
-            @Html.ActionLink("Details", "Details", new { id=item.contractorSignoffUid }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.contractorSignoffUid })
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ActionLink("Edit", "Edit", new { id=item.contractorSignoffUid }) 
+                @Html.ActionLink("Details", "Details", new { id=item.contractorSignoffUid })
+                @Html.ActionLink("Delete", "Delete", new { id=item.contractorSignoffUid })    
+            }
+            
         </td>
     </tr>
 }

@@ -6,7 +6,7 @@
 @using (Html.BeginForm("ContractorSignoff", "ContractorSignoffs", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 @Html.AntiForgeryToken()
-<h2>Signoff</h2>
+<h2>@ViewBag.projectName Signoff for @ViewBag.contractorName by @ViewBag.loggedInUser </h2>
 
 <h3>Estimates</h3>
 <p>The following estimates have been reviewed for completeness</p>

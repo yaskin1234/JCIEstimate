@@ -31,6 +31,7 @@ namespace JCIEstimate.Models
             this.ProjectAddendums = new HashSet<ProjectAddendum>();
             this.ProjectManagerAttachments = new HashSet<ProjectManagerAttachment>();
             this.ContractorSignoffs = new HashSet<ContractorSignoff>();
+            this.ContractorSignoffAttachments = new HashSet<ContractorSignoffAttachment>();
         }
     
         public string Id { get; set; }
@@ -62,5 +63,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ProjectAddendum> ProjectAddendums { get; set; }
         public virtual ICollection<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
         public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
+        public virtual ICollection<ContractorSignoffAttachment> ContractorSignoffAttachments { get; set; }
     }
 }

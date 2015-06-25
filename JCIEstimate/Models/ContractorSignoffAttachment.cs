@@ -12,24 +12,18 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ContractorSignoff
+    public partial class ContractorSignoffAttachment
     {
-        public ContractorSignoff()
-        {
-            this.ContractorSignoffAttachments = new HashSet<ContractorSignoffAttachment>();
-        }
-    
+        public System.Guid contractorSignoffAttachmentUid { get; set; }
         public System.Guid contractorSignoffUid { get; set; }
-        public System.Guid projectUid { get; set; }
         public string aspNetUserUidAsCreated { get; set; }
         public Nullable<System.DateTime> dateCreated { get; set; }
-        public string typedName { get; set; }
+        public string contractorSignoffAttachment1 { get; set; }
         public byte[] attachment { get; set; }
         public string fileType { get; set; }
         public string documentName { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Project Project { get; set; }
-        public virtual ICollection<ContractorSignoffAttachment> ContractorSignoffAttachments { get; set; }
+        public virtual ContractorSignoff ContractorSignoff { get; set; }
     }
 }

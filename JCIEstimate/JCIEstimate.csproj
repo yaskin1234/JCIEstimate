@@ -1872,6 +1872,11 @@
     <Content Include="Views\ContractorSignoffs\Details.cshtml" />
     <Content Include="Views\ContractorSignoffs\Edit.cshtml" />
     <Content Include="Views\ContractorSignoffs\Index.cshtml" />
+    <Content Include="Views\ContractorSignoffAttachments\Create.cshtml" />
+    <Content Include="Views\ContractorSignoffAttachments\Delete.cshtml" />
+    <Content Include="Views\ContractorSignoffAttachments\Details.cshtml" />
+    <Content Include="Views\ContractorSignoffAttachments\Edit.cshtml" />
+    <Content Include="Views\ContractorSignoffAttachments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1994,6 +1999,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ContractorContactsController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
+    <Compile Include="Controllers\ContractorSignoffAttachmentsController.cs" />
     <Compile Include="Controllers\ContractorSignoffsController.cs" />
     <Compile Include="Controllers\ContractorUsersController.cs" />
     <Compile Include="Controllers\ECMsController.cs" />
@@ -2070,6 +2076,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ContractorSignoff.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContractorSignoffAttachment.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ContractorTotalsByProject.cs">

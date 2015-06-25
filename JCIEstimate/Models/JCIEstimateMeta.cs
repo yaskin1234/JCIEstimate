@@ -1197,4 +1197,33 @@ namespace JCIEstimate.Models
 
     }
 
+    /// <summary>
+    /// ContractorSignoff
+    /// </summary>
+    [MetadataType(typeof(ContractorSignoffMetaData))]
+    public partial class ContractorSignoff
+    {
+    }
+
+    public class ContractorSignoffMetaData
+    {
+        [Display(Name = "Contractor Signoff")]
+        public System.Guid contractorSignoffUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Created By")]
+        public string aspNetUserUidAsCreated { get; set; }
+        [Display(Name = "Date Created")]
+        public Nullable<System.DateTime> dateCreated { get; set; }
+        [Display(Name = "Signed By")]
+        public string typedName { get; set; }
+        [Display(Name = "Signoff Report")]
+        public byte[] attachment { get; set; }
+        [Display(Name = "File Type")]
+        public string fileType { get; set; }
+        [Display(Name = "Document Name")]
+        public string documentName { get; set; }
+
+    }
+
 }
