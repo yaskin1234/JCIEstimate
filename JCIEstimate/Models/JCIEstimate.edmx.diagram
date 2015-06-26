@@ -147,6 +147,12 @@
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffAttachment" Width="1.5" PointX="24.625" PointY="0.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created4" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffAttachment_contractorSignoffUid" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Contractor" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorDraw" Width="1.5" PointX="26.375" PointY="14" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorDraw_Contractor" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorDraw_Project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorDrawSchedule" Width="1.5" PointX="28.625" PointY="14.25" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorDrawSchedule_ContractorDraw" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

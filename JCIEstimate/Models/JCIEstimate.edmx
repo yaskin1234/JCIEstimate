@@ -58,6 +58,24 @@
           <Property Name="firstName" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="lastName" Type="varchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="ContractorDraw">
+          <Key>
+            <PropertyRef Name="contractorDrawUid" />
+          </Key>
+          <Property Name="contractorDrawUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ContractorDrawSchedule">
+          <Key>
+            <PropertyRef Name="contractorDrawScheduleUid" />
+          </Key>
+          <Property Name="contractorDrawScheduleUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorDrawUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="drawPeriod" Type="int" />
+          <Property Name="amount" Type="int" />
+        </EntityType>
         <EntityType Name="ContractorSignoff">
           <Key>
             <PropertyRef Name="contractorSignoffUid" />
@@ -70,6 +88,7 @@
           <Property Name="attachment" Type="varbinary(max)" Nullable="false" />
           <Property Name="fileType" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="documentName" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="ContractorSignoffAttachment">
           <Key>
@@ -417,6 +436,7 @@
           <Property Name="project" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="projectDescription" Type="nvarchar" MaxLength="200" />
           <Property Name="aspNetUserUidAsPM" Type="nvarchar" MaxLength="128" />
+          <Property Name="projectDurationInMonths" Type="int" />
         </EntityType>
         <EntityType Name="ProjectAddendum">
           <Key>
@@ -869,6 +889,54 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="Eddress">
               <PropertyRef Name="contractorContactUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorDraw_Contractor">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ContractorDraw" Type="Self.ContractorDraw" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorDraw">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorDraw_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ContractorDraw" Type="Self.ContractorDraw" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ContractorDraw">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorDrawSchedule_ContractorDraw">
+          <End Role="ContractorDraw" Type="Self.ContractorDraw" Multiplicity="1" />
+          <End Role="ContractorDrawSchedule" Type="Self.ContractorDrawSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorDraw">
+              <PropertyRef Name="contractorDrawUid" />
+            </Principal>
+            <Dependent Role="ContractorDrawSchedule">
+              <PropertyRef Name="contractorDrawUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorSignoff_Contractor">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ContractorSignoff" Type="Self.ContractorSignoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorSignoff">
+              <PropertyRef Name="contractorUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1712,6 +1780,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contractor" EntityType="Self.Contractor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorContact" EntityType="Self.ContractorContact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorDraw" EntityType="Self.ContractorDraw" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorDrawSchedule" EntityType="Self.ContractorDrawSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorSignoff" EntityType="Self.ContractorSignoff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorSignoffAttachment" EntityType="Self.ContractorSignoffAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorUser" EntityType="Self.ContractorUser" Schema="dbo" store:Type="Tables" />
@@ -1880,6 +1950,22 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_contractorContact" Association="Self.fk_contractorContact">
             <End Role="ContractorContact" EntitySet="ContractorContact" />
             <End Role="Eddress" EntitySet="Eddress" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorDraw_Contractor" Association="Self.fk_ContractorDraw_Contractor">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="ContractorDraw" EntitySet="ContractorDraw" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorDraw_Project" Association="Self.fk_ContractorDraw_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ContractorDraw" EntitySet="ContractorDraw" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorDrawSchedule_ContractorDraw" Association="Self.fk_ContractorDrawSchedule_ContractorDraw">
+            <End Role="ContractorDraw" EntitySet="ContractorDraw" />
+            <End Role="ContractorDrawSchedule" EntitySet="ContractorDrawSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorSignoff_Contractor" Association="Self.fk_ContractorSignoff_Contractor">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="ContractorSignoff" EntitySet="ContractorSignoff" />
           </AssociationSet>
           <AssociationSet Name="fk_ContractorSignoff_Project" Association="Self.fk_ContractorSignoff_Project">
             <End Role="Project" EntitySet="Project" />
@@ -2538,6 +2624,24 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ContractorSignoff" EntitySet="ContractorSignoffs" />
             <End Role="ContractorSignoffAttachment" EntitySet="ContractorSignoffAttachments" />
           </AssociationSet>
+          <AssociationSet Name="fk_ContractorSignoff_Contractor" Association="JCIEstimateModel.fk_ContractorSignoff_Contractor">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="ContractorSignoff" EntitySet="ContractorSignoffs" />
+          </AssociationSet>
+          <EntitySet Name="ContractorDraws" EntityType="JCIEstimateModel.ContractorDraw" />
+          <AssociationSet Name="fk_ContractorDraw_Contractor" Association="JCIEstimateModel.fk_ContractorDraw_Contractor">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="ContractorDraw" EntitySet="ContractorDraws" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorDraw_Project" Association="JCIEstimateModel.fk_ContractorDraw_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ContractorDraw" EntitySet="ContractorDraws" />
+          </AssociationSet>
+          <EntitySet Name="ContractorDrawSchedules" EntityType="JCIEstimateModel.ContractorDrawSchedule" />
+          <AssociationSet Name="fk_ContractorDrawSchedule_ContractorDraw" Association="JCIEstimateModel.fk_ContractorDrawSchedule_ContractorDraw">
+            <End Role="ContractorDraw" EntitySet="ContractorDraws" />
+            <End Role="ContractorDrawSchedule" EntitySet="ContractorDrawSchedules" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -2562,6 +2666,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorUsers" Relationship="JCIEstimateModel.fk_contractor_user" FromRole="Contractor" ToRole="ContractorUser" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Contractor" ToRole="Estimate" />
           <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_Contractor" FromRole="Contractor" ToRole="ProjectRFI" />
+          <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_ContractorSignoff_Contractor" FromRole="Contractor" ToRole="ContractorSignoff" />
+          <NavigationProperty Name="ContractorDraws" Relationship="JCIEstimateModel.fk_ContractorDraw_Contractor" FromRole="Contractor" ToRole="ContractorDraw" />
         </EntityType>
         <EntityType Name="ContractorContact">
           <Key>
@@ -2618,6 +2724,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ProjectAddendums" Relationship="JCIEstimateModel.fk_ProjectAddendum_project" FromRole="Project" ToRole="ProjectAddendum" />
           <NavigationProperty Name="ProjectManagerAttachments" Relationship="JCIEstimateModel.fk_ProjectManagerAttachment_Project" FromRole="Project" ToRole="ProjectManagerAttachment" />
           <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_ContractorSignoff_Project" FromRole="Project" ToRole="ContractorSignoff" />
+          <NavigationProperty Name="ContractorDraws" Relationship="JCIEstimateModel.fk_ContractorDraw_Project" FromRole="Project" ToRole="ContractorDraw" />
+          <Property Name="projectDurationInMonths" Type="Int32" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -4318,6 +4426,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created2" FromRole="ContractorSignoff" ToRole="AspNetUser" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ContractorSignoff_Project" FromRole="ContractorSignoff" ToRole="Project" />
           <NavigationProperty Name="ContractorSignoffAttachments" Relationship="JCIEstimateModel.fk_ContractorSignoffAttachment_contractorSignoffUid" FromRole="ContractorSignoff" ToRole="ContractorSignoffAttachment" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_ContractorSignoff_Contractor" FromRole="ContractorSignoff" ToRole="Contractor" />
         </EntityType>
         <Association Name="fk_AspNetUser_created2">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -4382,6 +4492,76 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_ContractorSignoff_Contractor">
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorSignoff" Role="ContractorSignoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorSignoff">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ContractorDraw">
+          <Key>
+            <PropertyRef Name="contractorDrawUid" />
+          </Key>
+          <Property Name="contractorDrawUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_ContractorDraw_Contractor" FromRole="ContractorDraw" ToRole="Contractor" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ContractorDraw_Project" FromRole="ContractorDraw" ToRole="Project" />
+          <NavigationProperty Name="ContractorDrawSchedules" Relationship="JCIEstimateModel.fk_ContractorDrawSchedule_ContractorDraw" FromRole="ContractorDraw" ToRole="ContractorDrawSchedule" />
+        </EntityType>
+        <Association Name="fk_ContractorDraw_Contractor">
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorDraw" Role="ContractorDraw" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorDraw">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorDraw_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorDraw" Role="ContractorDraw" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ContractorDraw">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ContractorDrawSchedule">
+          <Key>
+            <PropertyRef Name="contractorDrawScheduleUid" />
+          </Key>
+          <Property Name="contractorDrawScheduleUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorDrawUid" Type="Guid" Nullable="false" />
+          <Property Name="drawPeriod" Type="Int32" />
+          <Property Name="amount" Type="Int32" />
+          <NavigationProperty Name="ContractorDraw" Relationship="JCIEstimateModel.fk_ContractorDrawSchedule_ContractorDraw" FromRole="ContractorDrawSchedule" ToRole="ContractorDraw" />
+        </EntityType>
+        <Association Name="fk_ContractorDrawSchedule_ContractorDraw">
+          <End Type="JCIEstimateModel.ContractorDraw" Role="ContractorDraw" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorDrawSchedule" Role="ContractorDrawSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorDraw">
+              <PropertyRef Name="contractorDrawUid" />
+            </Principal>
+            <Dependent Role="ContractorDrawSchedule">
+              <PropertyRef Name="contractorDrawUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4441,6 +4621,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="JCIEstimateModel.Project">
               <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="projectDurationInMonths" ColumnName="projectDurationInMonths" />
                 <ScalarProperty Name="aspNetUserUidAsPM" ColumnName="aspNetUserUidAsPM" />
                 <ScalarProperty Name="projectDescription" ColumnName="projectDescription" />
                 <ScalarProperty Name="project1" ColumnName="project" />
@@ -5123,6 +5304,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="ContractorSignoffs">
             <EntityTypeMapping TypeName="JCIEstimateModel.ContractorSignoff">
               <MappingFragment StoreEntitySet="ContractorSignoff">
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
                 <ScalarProperty Name="documentName" ColumnName="documentName" />
                 <ScalarProperty Name="fileType" ColumnName="fileType" />
                 <ScalarProperty Name="attachment" ColumnName="attachment" />
@@ -5145,6 +5327,26 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="aspNetUserUidAsCreated" ColumnName="aspNetUserUidAsCreated" />
                 <ScalarProperty Name="contractorSignoffUid" ColumnName="contractorSignoffUid" />
                 <ScalarProperty Name="contractorSignoffAttachmentUid" ColumnName="contractorSignoffAttachmentUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorDraws">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorDraw">
+              <MappingFragment StoreEntitySet="ContractorDraw">
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="contractorDrawUid" ColumnName="contractorDrawUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorDrawSchedules">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorDrawSchedule">
+              <MappingFragment StoreEntitySet="ContractorDrawSchedule">
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="drawPeriod" ColumnName="drawPeriod" />
+                <ScalarProperty Name="contractorDrawUid" ColumnName="contractorDrawUid" />
+                <ScalarProperty Name="contractorDrawScheduleUid" ColumnName="contractorDrawScheduleUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

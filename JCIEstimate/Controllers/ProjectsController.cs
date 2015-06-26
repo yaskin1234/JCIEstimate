@@ -106,7 +106,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "projectUid,project1,projectDescription,aspNetUserUidAsPM")] Project project, params string[] selectedExpenses)
+        public async Task<ActionResult> Create([Bind(Include = "projectUid,project1,projectDescription,aspNetUserUidAsPM,projectDurationInMonths")] Project project, params string[] selectedExpenses)
         {
             ExpenseMiscellaneousProject myExpense;            
 
@@ -181,7 +181,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription,aspNetUserUidAsPM")] Project project, string[] selectedExpenses, string[] selectedMilestones)
+        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription,aspNetUserUidAsPM,projectDurationInMonths")] Project project, string[] selectedExpenses, string[] selectedMilestones)
         {
             ExpenseMiscellaneousProject myExpense;
             ProjectMilestone myProjectMilestone;

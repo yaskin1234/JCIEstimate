@@ -1,0 +1,49 @@
+﻿@model IEnumerable<JCIEstimate.Models.ContractorDraw>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
+    
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.dateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contractor.contractorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contractor.contractorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.project1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.contractorDrawUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.contractorDrawUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.contractorDrawUid })
+        </td>
+    </tr>
+}
+
+</table>

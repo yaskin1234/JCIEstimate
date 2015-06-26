@@ -27,9 +27,11 @@ namespace JCIEstimate.Models
         public byte[] attachment { get; set; }
         public string fileType { get; set; }
         public string documentName { get; set; }
+        public System.Guid contractorUid { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Project Project { get; set; }
         public virtual ICollection<ContractorSignoffAttachment> ContractorSignoffAttachments { get; set; }
+        public virtual Contractor Contractor { get; set; }
     }
 }

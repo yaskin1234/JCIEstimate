@@ -1877,6 +1877,12 @@
     <Content Include="Views\ContractorSignoffAttachments\Details.cshtml" />
     <Content Include="Views\ContractorSignoffAttachments\Edit.cshtml" />
     <Content Include="Views\ContractorSignoffAttachments\Index.cshtml" />
+    <Content Include="Views\ContractorDraws\Create.cshtml" />
+    <Content Include="Views\ContractorDraws\Delete.cshtml" />
+    <Content Include="Views\ContractorDraws\Details.cshtml" />
+    <Content Include="Views\ContractorDraws\Edit.cshtml" />
+    <Content Include="Views\ContractorDraws\Index.cshtml" />
+    <Content Include="Views\ContractorDraws\SaveDrawScheduleAmount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1998,6 +2004,7 @@
     <Compile Include="Controllers\AppDataTypesController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ContractorContactsController.cs" />
+    <Compile Include="Controllers\ContractorDrawsController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
     <Compile Include="Controllers\ContractorSignoffAttachmentsController.cs" />
     <Compile Include="Controllers\ContractorSignoffsController.cs" />
@@ -2073,6 +2080,12 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ContractorContact.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContractorDraw.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContractorDrawSchedule.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ContractorSignoff.cs">

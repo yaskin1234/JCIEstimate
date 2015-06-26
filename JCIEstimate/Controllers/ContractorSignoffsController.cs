@@ -172,6 +172,7 @@ namespace JCIEstimate.Controllers
 
                     DateTime dateCreated = DateTime.Now;
 
+                    contractorSignoff.contractorUid = estimates.First().contractorUid;
                     contractorSignoff.contractorSignoffUid = Guid.NewGuid();
                     contractorSignoff.projectUid = sessionProject;
                     contractorSignoff.attachment = byteArray;

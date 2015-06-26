@@ -39,6 +39,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.projectDurationInMonths, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.projectDurationInMonths, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.projectDurationInMonths, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="col-md-2 control-label">
                 Select Misc Expenses
             </label>

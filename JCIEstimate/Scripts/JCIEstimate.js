@@ -278,6 +278,21 @@
         })     
     });
 
+    $(".contractorSchedule").change(function () {
+        $.ajax({
+            url: "/ContractorDraws/SaveDrawScheduleAmount",
+            type: "POST",
+            data: {
+                id: $(this).attr("name"),
+                value: $(this).val()
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        })
+    });
+    
     $(".estimateActiveChk").click(function () {
         $.ajax({
             url: "/Estimates/SaveIsActive",

@@ -30,12 +30,14 @@ namespace JCIEstimate.Models
             this.ProjectAddendums = new HashSet<ProjectAddendum>();
             this.ProjectManagerAttachments = new HashSet<ProjectManagerAttachment>();
             this.ContractorSignoffs = new HashSet<ContractorSignoff>();
+            this.ContractorDraws = new HashSet<ContractorDraw>();
         }
     
         public System.Guid projectUid { get; set; }
         public string project1 { get; set; }
         public string projectDescription { get; set; }
         public string aspNetUserUidAsPM { get; set; }
+        public Nullable<int> projectDurationInMonths { get; set; }
     
         public virtual ICollection<ECM> ECMs { get; set; }
         public virtual ICollection<ExpenseConstruction> ExpenseConstructions { get; set; }
@@ -52,5 +54,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ProjectAddendum> ProjectAddendums { get; set; }
         public virtual ICollection<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
         public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
+        public virtual ICollection<ContractorDraw> ContractorDraws { get; set; }
     }
 }

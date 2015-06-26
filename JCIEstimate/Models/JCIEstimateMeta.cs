@@ -1226,4 +1226,49 @@ namespace JCIEstimate.Models
 
     }
 
+
+    /// <summary>
+    /// ContractorDraw
+    /// </summary>
+    [MetadataType(typeof(ContractorDrawMetaData))]
+    public partial class ContractorDraw
+    {
+    }
+
+    public class ContractorDrawMetaData
+    {
+        [Display(Name = "Contractor Draw")]
+        public System.Guid contractorDrawUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Contractor")]
+        public System.Guid contractorUid { get; set; }
+        [Display(Name = "Date Created")]
+        public Nullable<System.DateTime> dateCreated { get; set; }
+
+    }
+
+
+    /// <summary>
+    /// ContractorDraw
+    /// </summary>
+    [MetadataType(typeof(ContractorDrawScheduleMetaData))]
+    public partial class ContractorDrawSchedule
+    {
+    }
+
+    public class ContractorDrawScheduleMetaData
+    {
+        [Display(Name = "Contractor Draw Schedule")]
+        public System.Guid contractorDrawScheduleUid { get; set; }
+        [Display(Name = "Contractor Draw")]
+        public System.Guid contractorDrawUid { get; set; }
+        [Display(Name = "Draw Period")]
+        public Nullable<int> drawPeriod { get; set; }
+        [Display(Name = "Amount")]
+        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
+        public Nullable<int> amount { get; set; }
+
+    }
+
 }
