@@ -57,6 +57,7 @@ namespace JCIEstimate.Controllers
         }
 
         // GET: ContractorDraws/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
@@ -74,6 +75,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Create([Bind(Include = "contractorDrawUid,projectUid,contractorUid,dateCreated")] ContractorDraw contractorDraw)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
@@ -88,7 +90,7 @@ namespace JCIEstimate.Controllers
                                               select cc.projectDurationInMonths;
                 if (projectDurationInMonths.First().HasValue)
                 {
-                    int count = projectDurationInMonths.First().GetValueOrDefault();
+                    int count = 30;
                     for (int i = 0; i < count; i++)
                     {
                         ContractorDrawSchedule drawSchedule = new ContractorDrawSchedule();
@@ -121,7 +123,7 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
             }
 
-            return View();
+            return Json(String.Format("{0:C0}", cds.ContractorDraw.ContractorDrawSchedules.Sum(c => c.amount)));
         }
 
         // GET: ContractorDraws/Edit/5
@@ -141,6 +143,7 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.runningTotal = contractorDraw.ContractorDrawSchedules.Sum(c => c.amount);
             ViewBag.drawSchedules = contractorDraw.ContractorDrawSchedules.OrderBy(c => c.drawPeriod);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", contractorDraw.contractorUid);
             ViewBag.projectUid = new SelectList(projects, "projectUid", "project1", contractorDraw.projectUid);

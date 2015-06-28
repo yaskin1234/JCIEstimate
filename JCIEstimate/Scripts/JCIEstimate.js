@@ -278,19 +278,20 @@
         })     
     });
 
-    $(".contractorSchedule").change(function () {
+    $(".contractorSchedule").change(function () {        
         $.ajax({
-            url: "/ContractorDraws/SaveDrawScheduleAmount",
+            url: "/ContractorDraws/SaveDrawScheduleAmount",            
             type: "POST",
             data: {
                 id: $(this).attr("name"),
                 value: $(this).val()
             },
-            dataType: "json",
-            success: function (data) {
-                alert("check " + data);
-            }
+            dataType: "json"
         })
+        .always(function (data) {
+            var ele = document.getElementById("runningTotal");
+            $(ele).text(data);
+        });
     });
     
     $(".estimateActiveChk").click(function () {

@@ -232,6 +232,21 @@ namespace JCIEstimate.Controllers
             return View(contractorSignoff);
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetContractorSignoffAttachment(Guid contractorSignoffAttachmentUid, string fileType)
+        {
+            var d = from cc in db.ContractorSignoffAttachments
+                    where cc.contractorSignoffAttachmentUid == contractorSignoffAttachmentUid
+                    select cc.attachment;
+
+            var docName = from cc in db.ContractorSignoffAttachments
+                          where cc.contractorSignoffAttachmentUid == contractorSignoffAttachmentUid
+                          select cc.documentName;
+
+            byte[] byteArray = d.FirstOrDefault();
+            return File(byteArray, "application/octect-stream", docName.FirstOrDefault());
+        }
+
         // GET: ContractorSignoffs/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
@@ -244,6 +259,7 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.signoffAttachments = contractorSignoff.ContractorSignoffAttachments.OrderByDescending(c => c.dateCreated);
             ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", contractorSignoff.aspNetUserUidAsCreated);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", contractorSignoff.projectUid);
             return View(contractorSignoff);
@@ -254,11 +270,34 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "contractorSignoffUid,projectUid,aspNetUserUidAsCreated,dateCreated,typedName,attachment,fileType,documentName")] ContractorSignoff contractorSignoff)
+        public async Task<ActionResult> Edit([Bind(Include = "contractorSignoffUid")] ContractorSignoff contractorSignoff, HttpPostedFileBase postedFile, string attachmentDescription)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(contractorSignoff).State = EntityState.Modified;
+                if (postedFile != null)
+                {
+                    var userUid = from cc in db.AspNetUsers
+                                  where cc.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                                  select cc.Id;
+                    ContractorSignoffAttachment csa = new ContractorSignoffAttachment();
+                    csa.contractorSignoffAttachmentUid = Guid.NewGuid();
+
+                    int fileSize = postedFile.ContentLength;
+                    MemoryStream target = new MemoryStream();
+                    postedFile.InputStream.CopyTo(target);
+                    byte[] data = target.ToArray();
+                    csa.attachment = data;
+                    
+                    
+                    csa.aspNetUserUidAsCreated = userUid.First();
+                    csa.contractorSignoffUid = contractorSignoff.contractorSignoffUid;
+                    csa.dateCreated = DateTime.Now;
+                    csa.fileType = Path.GetExtension(postedFile.FileName);
+                    csa.documentName = postedFile.FileName;                    
+                    csa.contractorSignoffAttachment1 = attachmentDescription;
+                    db.ContractorSignoffAttachments.Add(csa);
+                }
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

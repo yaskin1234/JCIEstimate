@@ -18,7 +18,25 @@ namespace JCIEstimate.Controllers
         // GET: ContractorSignoffAttachments
         public async Task<ActionResult> Index()
         {
-            var contractorSignoffAttachments = db.ContractorSignoffAttachments.Include(c => c.AspNetUser).Include(c => c.ContractorSignoff);
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
+            IQueryable<ContractorSignoffAttachment> contractorSignoffAttachments;
+            if (User.IsInRole("Admin"))
+            {
+                contractorSignoffAttachments = from cc in db.ContractorSignoffAttachments
+                            where cc.ContractorSignoff.projectUid == sessionProject
+                            select cc;
+            }
+            else
+            {
+                contractorSignoffAttachments = from cc in db.ContractorSignoffAttachments                            
+                            join cn in db.ContractorUsers on cc.ContractorSignoff.contractorUid equals cn.contractorUid
+                            join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
+                            where cc.ContractorSignoff.projectUid == sessionProject
+                            && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                            select cc;
+            }
+            contractorSignoffAttachments = contractorSignoffAttachments.OrderByDescending(c => c.dateCreated).Include(c => c.AspNetUser).Include(c => c.ContractorSignoff);
             return View(await contractorSignoffAttachments.ToListAsync());
         }
 
@@ -40,10 +58,10 @@ namespace JCIEstimate.Controllers
         // GET: ContractorSignoffAttachments/Create
         public ActionResult Create()
         {
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors");
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email");
             ViewBag.contractorSignoffUid = new SelectList(db.ContractorSignoffs, "contractorSignoffUid", "aspNetUserUidAsCreated");
             return View();
-        }
+        }        
 
         // POST: ContractorSignoffAttachments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

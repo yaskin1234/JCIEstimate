@@ -39,8 +39,12 @@
             </div>
         </div>
         <h4>Draw Schedule</h4>
-        <div class="form-group">            
+        <div class="form-group">        
             <table class="table">
+                <tr>
+                    <th>Total</th>
+                    <th><span id="runningTotal">@String.Format("{0:C0}", ViewBag.runningTotal)</span></th>
+                </tr>
                 <tr>
                     <th>Period</th>
                     <th>Amount</th>
@@ -57,6 +61,10 @@
                         </td>
                     </tr>
                 }
+                <tr>
+                    <th>Total</th>
+                    <th><span id="runningTotal">@String.Format("{0:C0}", ViewBag.runningTotal)</span></th>
+                </tr>
             </table>
         </div>
     </div>
