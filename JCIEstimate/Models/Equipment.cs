@@ -39,7 +39,6 @@ namespace JCIEstimate.Models
         public bool useReplacement { get; set; }
         public decimal price { get; set; }
     
-        public virtual ECM ECM { get; set; }
         public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }
         public virtual ICollection<Equipment> Equipment1 { get; set; }
         public virtual Equipment Equipment2 { get; set; }
@@ -48,5 +47,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<EquipmentAttachment> EquipmentAttachments { get; set; }
         public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
         public virtual ICollection<EquipmentNote> EquipmentNotes { get; set; }
+        public virtual ECM ECM { get; set; }
     }
 }

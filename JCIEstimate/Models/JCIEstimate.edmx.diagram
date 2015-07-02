@@ -16,8 +16,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_contractorContact" />
         <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="14.25" PointY="0.875" IsExpanded="false" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="13.125" PointY="15.25" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ecm_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstruction" Width="1.5" PointX="7.625" PointY="18.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.Interval" Width="1.5" PointX="0.75" PointY="0.875" />
@@ -35,7 +33,6 @@
         <EntityTypeShape EntityType="JCIEstimateModel.Estimate" Width="1.5" PointX="15.375" PointY="8.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_category" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
         <EntityTypeShape EntityType="JCIEstimateModel.ScopeOfWork" Width="1.5" PointX="18.375" PointY="13.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_category" />
         <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_project" />
@@ -102,7 +99,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
         <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
         <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="23.625" PointY="28.875" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_AttributeType" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_equipmentAsReplaced" />
         <AssociationConnector Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" />
@@ -124,7 +120,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userAssigned" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userCreated" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_Contractor" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_ECM" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_RfiType" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFIResponse_ProjectRFI" />
@@ -153,6 +148,11 @@
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorDraw_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorDrawSchedule" Width="1.5" PointX="28.625" PointY="14.25" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorDrawSchedule_ContractorDraw" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="18.375" PointY="48.625" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ecm_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_ECM" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -34,11 +34,11 @@ namespace JCIEstimate.Models
     
         public virtual Category Category { get; set; }
         public virtual Contractor Contractor { get; set; }
-        public virtual ECM ECM { get; set; }
         public virtual ICollection<EstimateException> EstimateExceptions { get; set; }
         public virtual ICollection<EstimateExclusion> EstimateExclusions { get; set; }
         public virtual ICollection<EstimateInclusion> EstimateInclusions { get; set; }
         public virtual EstimateStatu EstimateStatu { get; set; }
         public virtual Location Location { get; set; }
+        public virtual ECM ECM { get; set; }
     }
 }

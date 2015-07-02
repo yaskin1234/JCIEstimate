@@ -1882,6 +1882,7 @@
     <Content Include="Views\ContractorDraws\Details.cshtml" />
     <Content Include="Views\ContractorDraws\Edit.cshtml" />
     <Content Include="Views\ContractorDraws\Index.cshtml" />
+    <Content Include="Views\Reports\rptECMList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

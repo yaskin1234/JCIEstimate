@@ -42,6 +42,18 @@ namespace JCIEstimate.Controllers
             }
         }
 
+        public ActionResult GetECMList()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptECMList");
+            }
+        }
+
         public ActionResult GetEstimateSummary()
         {
             if (Session["projectUid"] == null)

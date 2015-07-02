@@ -16,20 +16,20 @@ namespace JCIEstimate.Models
     {
         public ECM()
         {
-            this.Estimates = new HashSet<Estimate>();
             this.Equipments = new HashSet<Equipment>();
+            this.Estimates = new HashSet<Estimate>();
             this.ProjectRFIs = new HashSet<ProjectRFI>();
         }
     
         public System.Guid ecmUid { get; set; }
-        public string ecmNumber { get; set; }
+        public decimal ecmNumber { get; set; }
         public string ecmDescription { get; set; }
-        public string ecmString { get; set; }
         public System.Guid projectUid { get; set; }
+        public string ecmString { get; set; }
     
         public virtual Project Project { get; set; }
-        public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }
+        public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
     }
 }

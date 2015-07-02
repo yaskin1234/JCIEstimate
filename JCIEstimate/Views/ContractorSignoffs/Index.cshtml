@@ -18,13 +18,10 @@
             @Html.DisplayNameFor(model => model.typedName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.attachment)
+            Logged in as
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.documentName)
-        </th>
-        <th>
-            Created By
+            View Report
         </th>
         <th></th>
     </tr>
@@ -41,14 +38,11 @@
             @Html.DisplayFor(modelItem => item.typedName)
         </td>
         <td>
-            @Html.ActionLink("Get Attachment", "GetContractorSignoff", new { contractorSignoffUid = item.contractorSignoffUid })
-        </td>        
-        <td>
-            @Html.DisplayFor(modelItem => item.documentName)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.AspNetUser.Email)
         </td>
+        <td>
+            @Html.ActionLink("Get Signoff", "GetContractorSignoff", new { contractorSignoffUid = item.contractorSignoffUid })
+        </td>        
         <td>
             <a href="@Url.Action("Edit", "ContractorSignoffs", new { id = item.contractorSignoffUid })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>                
             

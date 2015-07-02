@@ -32,7 +32,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<Eddress> Eddresses { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<ECM> ECMs { get; set; }
         public virtual DbSet<ExpenseConstruction> ExpenseConstructions { get; set; }
         public virtual DbSet<Interval> Intervals { get; set; }
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
@@ -90,5 +89,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ContractorSignoffAttachment> ContractorSignoffAttachments { get; set; }
         public virtual DbSet<ContractorDraw> ContractorDraws { get; set; }
         public virtual DbSet<ContractorDrawSchedule> ContractorDrawSchedules { get; set; }
+        public virtual DbSet<ECM> ECMs { get; set; }
     }
 }
