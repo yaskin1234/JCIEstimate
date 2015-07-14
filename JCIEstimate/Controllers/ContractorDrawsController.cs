@@ -84,22 +84,18 @@ namespace JCIEstimate.Controllers
                 contractorDraw.contractorDrawUid = Guid.NewGuid();
                 contractorDraw.dateCreated = DateTime.Now;
                 db.ContractorDraws.Add(contractorDraw);
-                // add draw schedule based on projectDurationInMonths
-                var projectDurationInMonths = from cc in db.Projects
-                                              where cc.projectUid == sessionProject
-                                              select cc.projectDurationInMonths;
-                if (projectDurationInMonths.First().HasValue)
+                
+                
+                int count = 31;
+                for (int i = 0; i < count; i++)
                 {
-                    int count = 30;
-                    for (int i = 0; i < count; i++)
-                    {
-                        ContractorDrawSchedule drawSchedule = new ContractorDrawSchedule();
-                        drawSchedule.contractorDrawScheduleUid = Guid.NewGuid();
-                        drawSchedule.contractorDrawUid = contractorDraw.contractorDrawUid;
-                        drawSchedule.drawPeriod = i + 1;
-                        db.ContractorDrawSchedules.Add(drawSchedule);
-                    }
+                    ContractorDrawSchedule drawSchedule = new ContractorDrawSchedule();
+                    drawSchedule.contractorDrawScheduleUid = Guid.NewGuid();
+                    drawSchedule.contractorDrawUid = contractorDraw.contractorDrawUid;
+                    drawSchedule.drawPeriod = i;
+                    db.ContractorDrawSchedules.Add(drawSchedule);
                 }
+                
                 
 
                 await db.SaveChangesAsync();

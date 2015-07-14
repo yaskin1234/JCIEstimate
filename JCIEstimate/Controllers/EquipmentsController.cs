@@ -98,11 +98,11 @@ namespace JCIEstimate.Controllers
                 {
                     if (order == "desc")
                     {
-                        equipments = equipments.OrderByDescending(c => c.ECM.ecmString);
+                        equipments = equipments.OrderByDescending(c => c.ECM.ecmNumber);
                     }
                     else
                     {
-                        equipments = equipments.OrderBy(c => c.ECM.ecmString);
+                        equipments = equipments.OrderBy(c => c.ECM.ecmNumber);
                     }
 
                 }

@@ -1883,6 +1883,18 @@
     <Content Include="Views\ContractorDraws\Edit.cshtml" />
     <Content Include="Views\ContractorDraws\Index.cshtml" />
     <Content Include="Views\Reports\rptECMList.cshtml" />
+    <Content Include="Views\Reports\rptActiveEstimates.cshtml" />
+    <Content Include="Views\ExpenseTypes\Create.cshtml" />
+    <Content Include="Views\ExpenseTypes\Delete.cshtml" />
+    <Content Include="Views\ExpenseTypes\Details.cshtml" />
+    <Content Include="Views\ExpenseTypes\Edit.cshtml" />
+    <Content Include="Views\ExpenseTypes\Index.cshtml" />
+    <Content Include="Views\ExpenseConstructionDraws\Create.cshtml" />
+    <Content Include="Views\ExpenseConstructionDraws\Delete.cshtml" />
+    <Content Include="Views\ExpenseConstructionDraws\Details.cshtml" />
+    <Content Include="Views\ExpenseConstructionDraws\Edit.cshtml" />
+    <Content Include="Views\ExpenseConstructionDraws\Index.cshtml" />
+    <Content Include="Views\Reports\rptDrawSchedules.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2029,11 +2041,13 @@
     <Compile Include="Controllers\EstimateInclusionsController.cs" />
     <Compile Include="Controllers\EstimatesController.cs" />
     <Compile Include="Controllers\EstimateStatusController.cs" />
+    <Compile Include="Controllers\ExpenseConstructionDrawsController.cs" />
     <Compile Include="Controllers\ExpenseConstructionsController.cs" />
     <Compile Include="Controllers\ExpenseMiscellaneousController.cs" />
     <Compile Include="Controllers\ExpenseMiscellaneousProjectsController.cs" />
     <Compile Include="Controllers\ExpenseMonthliesController.cs" />
     <Compile Include="Controllers\ExpensePercentagesController.cs" />
+    <Compile Include="Controllers\ExpenseTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HtmlExtensions.cs" />
     <Compile Include="Controllers\IntervalsController.cs" />
@@ -2164,6 +2178,12 @@
     <Compile Include="Models\ExpenseConstruction.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExpenseConstructionDraw.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExpenseConstructionDrawSchedule.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ExpenseMiscellaneou.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -2174,6 +2194,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExpensePercentage.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExpenseType.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />

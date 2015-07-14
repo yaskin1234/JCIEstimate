@@ -327,6 +327,25 @@
           <Property Name="intervalUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="total" Type="money" StoreGeneratedPattern="Computed" />
+          <Property Name="expenseTypeUid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="ExpenseConstructionDraw">
+          <Key>
+            <PropertyRef Name="expenseConstructionDrawUid" />
+          </Key>
+          <Property Name="expenseConstructionDrawUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="expenseTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="dateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ExpenseConstructionDrawSchedule">
+          <Key>
+            <PropertyRef Name="expenseConstructionDrawScheduleUid" />
+          </Key>
+          <Property Name="expenseConstructionDrawScheduleUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="expenseConstructionDrawUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="drawPeriod" Type="int" />
+          <Property Name="amount" Type="int" />
         </EntityType>
         <EntityType Name="ExpenseMiscellaneous">
           <Key>
@@ -357,6 +376,7 @@
           <Property Name="daysPerMonth" Type="int" Nullable="false" />
           <Property Name="projectDurationInMonths" Type="int" Nullable="false" />
           <Property Name="total" Type="money" StoreGeneratedPattern="Computed" />
+          <Property Name="expenseTypeUid" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ExpensePercentage">
           <Key>
@@ -367,6 +387,15 @@
           <Property Name="expensePercentage" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="expensePercentageDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="percentage" Type="decimal" Precision="11" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExpenseType">
+          <Key>
+            <PropertyRef Name="expenseTypeUid" />
+          </Key>
+          <Property Name="expenseTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="expenseType" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="expenseTypeDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <EntityType Name="Interval">
           <Key>
@@ -437,6 +466,10 @@
           <Property Name="projectDescription" Type="nvarchar" MaxLength="200" />
           <Property Name="aspNetUserUidAsPM" Type="nvarchar" MaxLength="128" />
           <Property Name="projectDurationInMonths" Type="int" />
+          <Property Name="downPayment" Type="int" Nullable="false" />
+          <Property Name="contractAmount" Type="int" Nullable="false" />
+          <Property Name="startDate" Type="date" />
+          <Property Name="drawPeriods" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ProjectAddendum">
           <Key>
@@ -1290,6 +1323,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_expenseConstruction_ExpenseType">
+          <End Role="ExpenseType" Type="Self.ExpenseType" Multiplicity="0..1" />
+          <End Role="ExpenseConstruction" Type="Self.ExpenseConstruction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseType">
+              <PropertyRef Name="expenseTypeUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstruction">
+              <PropertyRef Name="expenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_expenseConstruction_interval">
           <End Role="Interval" Type="Self.Interval" Multiplicity="1" />
           <End Role="ExpenseConstruction" Type="Self.ExpenseConstruction" Multiplicity="*" />
@@ -1314,6 +1359,44 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_ExpenseConstructionDraw_ExpenseConstructionType">
+          <End Role="ExpenseType" Type="Self.ExpenseType" Multiplicity="1" />
+          <End Role="ExpenseConstructionDraw" Type="Self.ExpenseConstructionDraw" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseType">
+              <PropertyRef Name="expenseTypeUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstructionDraw">
+              <PropertyRef Name="expenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ExpenseConstructionDraw_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ExpenseConstructionDraw" Type="Self.ExpenseConstructionDraw" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstructionDraw">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw">
+          <End Role="ExpenseConstructionDraw" Type="Self.ExpenseConstructionDraw" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ExpenseConstructionDrawSchedule" Type="Self.ExpenseConstructionDrawSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseConstructionDraw">
+              <PropertyRef Name="expenseConstructionDrawUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstructionDrawSchedule">
+              <PropertyRef Name="expenseConstructionDrawUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_expensemiscellaneousproject_expensemiscellaneous">
           <End Role="ExpenseMiscellaneous" Type="Self.ExpenseMiscellaneous" Multiplicity="1" />
           <End Role="ExpenseMiscellaneousProject" Type="Self.ExpenseMiscellaneousProject" Multiplicity="*" />
@@ -1335,6 +1418,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="ExpenseMiscellaneousProject">
               <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ExpenseMonthly_ExpenseType">
+          <End Role="ExpenseType" Type="Self.ExpenseType" Multiplicity="0..1" />
+          <End Role="ExpenseConstruction" Type="Self.ExpenseConstruction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseType">
+              <PropertyRef Name="expenseTypeUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstruction">
+              <PropertyRef Name="expenseTypeUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1810,10 +1905,13 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="EstimateInclusionResponse" EntityType="Self.EstimateInclusionResponse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstimateStatus" EntityType="Self.EstimateStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseConstruction" EntityType="Self.ExpenseConstruction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseConstructionDraw" EntityType="Self.ExpenseConstructionDraw" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseConstructionDrawSchedule" EntityType="Self.ExpenseConstructionDrawSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseMiscellaneous" EntityType="Self.ExpenseMiscellaneous" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseMiscellaneousProject" EntityType="Self.ExpenseMiscellaneousProject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseMonthly" EntityType="Self.ExpenseMonthly" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpensePercentage" EntityType="Self.ExpensePercentage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseType" EntityType="Self.ExpenseType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Interval" EntityType="Self.Interval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationIssue" EntityType="Self.LocationIssue" Schema="dbo" store:Type="Tables" />
@@ -2083,6 +2181,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="EstimateInclusion" EntitySet="EstimateInclusion" />
             <End Role="EstimateInclusionResponse" EntitySet="EstimateInclusionResponse" />
           </AssociationSet>
+          <AssociationSet Name="fk_expenseConstruction_ExpenseType" Association="Self.fk_expenseConstruction_ExpenseType">
+            <End Role="ExpenseType" EntitySet="ExpenseType" />
+            <End Role="ExpenseConstruction" EntitySet="ExpenseConstruction" />
+          </AssociationSet>
           <AssociationSet Name="fk_expenseConstruction_interval" Association="Self.fk_expenseConstruction_interval">
             <End Role="Interval" EntitySet="Interval" />
             <End Role="ExpenseConstruction" EntitySet="ExpenseConstruction" />
@@ -2091,6 +2193,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Project" EntitySet="Project" />
             <End Role="ExpenseConstruction" EntitySet="ExpenseConstruction" />
           </AssociationSet>
+          <AssociationSet Name="fk_ExpenseConstructionDraw_ExpenseConstructionType" Association="Self.fk_ExpenseConstructionDraw_ExpenseConstructionType">
+            <End Role="ExpenseType" EntitySet="ExpenseType" />
+            <End Role="ExpenseConstructionDraw" EntitySet="ExpenseConstructionDraw" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ExpenseConstructionDraw_Project" Association="Self.fk_ExpenseConstructionDraw_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ExpenseConstructionDraw" EntitySet="ExpenseConstructionDraw" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw" Association="Self.fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw">
+            <End Role="ExpenseConstructionDraw" EntitySet="ExpenseConstructionDraw" />
+            <End Role="ExpenseConstructionDrawSchedule" EntitySet="ExpenseConstructionDrawSchedule" />
+          </AssociationSet>
           <AssociationSet Name="fk_expensemiscellaneousproject_expensemiscellaneous" Association="Self.fk_expensemiscellaneousproject_expensemiscellaneous">
             <End Role="ExpenseMiscellaneous" EntitySet="ExpenseMiscellaneous" />
             <End Role="ExpenseMiscellaneousProject" EntitySet="ExpenseMiscellaneousProject" />
@@ -2098,6 +2212,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_expensemiscellaneousproject_project" Association="Self.fk_expensemiscellaneousproject_project">
             <End Role="Project" EntitySet="Project" />
             <End Role="ExpenseMiscellaneousProject" EntitySet="ExpenseMiscellaneousProject" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ExpenseMonthly_ExpenseType" Association="Self.fk_ExpenseMonthly_ExpenseType">
+            <End Role="ExpenseType" EntitySet="ExpenseType" />
+            <End Role="ExpenseConstruction" EntitySet="ExpenseConstruction" />
           </AssociationSet>
           <AssociationSet Name="fk_ExpenseMonthly_project" Association="Self.fk_ExpenseMonthly_project">
             <End Role="Project" EntitySet="Project" />
@@ -2646,6 +2764,33 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ECM" EntitySet="ECMs" />
             <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
           </AssociationSet>
+          <EntitySet Name="ExpenseTypes" EntityType="JCIEstimateModel.ExpenseType" />
+          <AssociationSet Name="fk_expenseConstruction_ExpenseType" Association="JCIEstimateModel.fk_expenseConstruction_ExpenseType">
+            <End Role="ExpenseType" EntitySet="ExpenseTypes" />
+            <End Role="ExpenseConstruction" EntitySet="ExpenseConstructions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ExpenseMonthly_ExpenseType" Association="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType">
+            <End Role="ExpenseType" EntitySet="ExpenseTypes" />
+            <End Role="ExpenseConstruction" EntitySet="ExpenseConstructions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ExpenseMonthly_ExpenseType1" Association="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType1">
+            <End Role="ExpenseType" EntitySet="ExpenseTypes" />
+            <End Role="ExpenseMonthly" EntitySet="ExpenseMonthlies" />
+          </AssociationSet>
+          <EntitySet Name="ExpenseConstructionDrawSchedules" EntityType="JCIEstimateModel.ExpenseConstructionDrawSchedule" />
+          <EntitySet Name="ExpenseConstructionDraws" EntityType="JCIEstimateModel.ExpenseConstructionDraw" />
+          <AssociationSet Name="fk_ExpenseConstructionDraw_ExpenseConstructionType" Association="JCIEstimateModel.fk_ExpenseConstructionDraw_ExpenseConstructionType">
+            <End Role="ExpenseType" EntitySet="ExpenseTypes" />
+            <End Role="ExpenseConstructionDraw" EntitySet="ExpenseConstructionDraws" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ExpenseConstructionDraw_Project" Association="JCIEstimateModel.fk_ExpenseConstructionDraw_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ExpenseConstructionDraw" EntitySet="ExpenseConstructionDraws" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw" Association="JCIEstimateModel.fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw">
+            <End Role="ExpenseConstructionDraw" EntitySet="ExpenseConstructionDraws" />
+            <End Role="ExpenseConstructionDrawSchedule" EntitySet="ExpenseConstructionDrawSchedules" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -2730,6 +2875,11 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorDraws" Relationship="JCIEstimateModel.fk_ContractorDraw_Project" FromRole="Project" ToRole="ContractorDraw" />
           <Property Name="projectDurationInMonths" Type="Int32" />
           <NavigationProperty Name="ECMs" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="Project" ToRole="ECM" />
+          <Property Name="downPayment" Type="Int32" Nullable="false" />
+          <Property Name="contractAmount" Type="Int32" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="ExpenseConstructionDraws" Relationship="JCIEstimateModel.fk_ExpenseConstructionDraw_Project" FromRole="Project" ToRole="ExpenseConstructionDraw" />
+          <Property Name="drawPeriods" Type="Int32" Nullable="false" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -2827,6 +2977,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="total" Type="Decimal" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_expenseConstruction_project" FromRole="ExpenseConstruction" ToRole="Project" />
           <NavigationProperty Name="Interval" Relationship="JCIEstimateModel.fk_expenseConstruction_interval" FromRole="ExpenseConstruction" ToRole="Interval" />
+          <Property Name="expenseTypeUid" Type="Guid" />
+          <NavigationProperty Name="ExpenseType" Relationship="JCIEstimateModel.fk_expenseConstruction_ExpenseType" FromRole="ExpenseConstruction" ToRole="ExpenseType" />
+          <NavigationProperty Name="ExpenseType1" Relationship="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType" FromRole="ExpenseConstruction" ToRole="ExpenseType" />
         </EntityType>
         <Association Name="fk_expenseConstruction_project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
@@ -3072,6 +3225,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="projectDurationInMonths" Type="Int32" Nullable="false" />
           <Property Name="total" Type="Decimal" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ExpenseMonthly_project" FromRole="ExpenseMonthly" ToRole="Project" />
+          <Property Name="expenseTypeUid" Type="Guid" />
+          <NavigationProperty Name="ExpenseType" Relationship="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType1" FromRole="ExpenseMonthly" ToRole="ExpenseType" />
         </EntityType>
         <Association Name="fk_ExpenseMonthly_project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
@@ -4566,6 +4721,115 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ExpenseType">
+          <Key>
+            <PropertyRef Name="expenseTypeUid" />
+          </Key>
+          <Property Name="expenseTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="expenseType1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="expenseTypeDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="ExpenseConstructions" Relationship="JCIEstimateModel.fk_expenseConstruction_ExpenseType" FromRole="ExpenseType" ToRole="ExpenseConstruction" />
+          <NavigationProperty Name="ExpenseConstructions1" Relationship="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType" FromRole="ExpenseType" ToRole="ExpenseConstruction" />
+          <NavigationProperty Name="ExpenseMonthlies" Relationship="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType1" FromRole="ExpenseType" ToRole="ExpenseMonthly" />
+          <NavigationProperty Name="ExpenseConstructionDraws" Relationship="JCIEstimateModel.fk_ExpenseConstructionDraw_ExpenseConstructionType" FromRole="ExpenseType" ToRole="ExpenseConstructionDraw" />
+        </EntityType>
+        <Association Name="fk_expenseConstruction_ExpenseType">
+          <End Type="JCIEstimateModel.ExpenseType" Role="ExpenseType" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ExpenseConstruction" Role="ExpenseConstruction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseType">
+              <PropertyRef Name="expenseTypeUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstruction">
+              <PropertyRef Name="expenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ExpenseMonthly_ExpenseType">
+          <End Type="JCIEstimateModel.ExpenseType" Role="ExpenseType" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ExpenseConstruction" Role="ExpenseConstruction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseType">
+              <PropertyRef Name="expenseTypeUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstruction">
+              <PropertyRef Name="expenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ExpenseMonthly_ExpenseType1">
+          <End Type="JCIEstimateModel.ExpenseType" Role="ExpenseType" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ExpenseMonthly" Role="ExpenseMonthly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseType">
+              <PropertyRef Name="expenseTypeUid" />
+            </Principal>
+            <Dependent Role="ExpenseMonthly">
+              <PropertyRef Name="expenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ExpenseConstructionDrawSchedule">
+          <Key>
+            <PropertyRef Name="expenseConstructionDrawScheduleUid" />
+          </Key>
+          <Property Name="expenseConstructionDrawScheduleUid" Type="Guid" Nullable="false" />
+          <Property Name="expenseConstructionDrawUid" Type="Guid" Nullable="false" />
+          <Property Name="drawPeriod" Type="Int32" />
+          <Property Name="amount" Type="Int32" />
+          <NavigationProperty Name="ExpenseConstructionDraw" Relationship="JCIEstimateModel.fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw" FromRole="ExpenseConstructionDrawSchedule" ToRole="ExpenseConstructionDraw" />
+        </EntityType>
+        <EntityType Name="ExpenseConstructionDraw">
+          <Key>
+            <PropertyRef Name="expenseConstructionDrawUid" />
+          </Key>
+          <Property Name="expenseConstructionDrawUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="expenseTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ExpenseType" Relationship="JCIEstimateModel.fk_ExpenseConstructionDraw_ExpenseConstructionType" FromRole="ExpenseConstructionDraw" ToRole="ExpenseType" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ExpenseConstructionDraw_Project" FromRole="ExpenseConstructionDraw" ToRole="Project" />
+          <NavigationProperty Name="ExpenseConstructionDrawSchedules" Relationship="JCIEstimateModel.fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw" FromRole="ExpenseConstructionDraw" ToRole="ExpenseConstructionDrawSchedule" />
+        </EntityType>
+        <Association Name="fk_ExpenseConstructionDraw_ExpenseConstructionType">
+          <End Type="JCIEstimateModel.ExpenseType" Role="ExpenseType" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ExpenseConstructionDraw" Role="ExpenseConstructionDraw" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseType">
+              <PropertyRef Name="expenseTypeUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstructionDraw">
+              <PropertyRef Name="expenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ExpenseConstructionDraw_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ExpenseConstructionDraw" Role="ExpenseConstructionDraw" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstructionDraw">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw">
+          <End Type="JCIEstimateModel.ExpenseConstructionDraw" Role="ExpenseConstructionDraw" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.ExpenseConstructionDrawSchedule" Role="ExpenseConstructionDrawSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseConstructionDraw">
+              <PropertyRef Name="expenseConstructionDrawUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstructionDrawSchedule">
+              <PropertyRef Name="expenseConstructionDrawUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4625,6 +4889,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="JCIEstimateModel.Project">
               <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="drawPeriods" ColumnName="drawPeriods" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="contractAmount" ColumnName="contractAmount" />
+                <ScalarProperty Name="downPayment" ColumnName="downPayment" />
                 <ScalarProperty Name="projectDurationInMonths" ColumnName="projectDurationInMonths" />
                 <ScalarProperty Name="aspNetUserUidAsPM" ColumnName="aspNetUserUidAsPM" />
                 <ScalarProperty Name="projectDescription" ColumnName="projectDescription" />
@@ -4655,6 +4923,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="ExpenseConstructions">
             <EntityTypeMapping TypeName="JCIEstimateModel.ExpenseConstruction">
               <MappingFragment StoreEntitySet="ExpenseConstruction">
+                <ScalarProperty Name="expenseTypeUid" ColumnName="expenseTypeUid" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="intervalUid" ColumnName="intervalUid" />
@@ -4772,6 +5041,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="ExpenseMonthlies">
             <EntityTypeMapping TypeName="JCIEstimateModel.ExpenseMonthly">
               <MappingFragment StoreEntitySet="ExpenseMonthly">
+                <ScalarProperty Name="expenseTypeUid" ColumnName="expenseTypeUid" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="projectDurationInMonths" ColumnName="projectDurationInMonths" />
                 <ScalarProperty Name="daysPerMonth" ColumnName="daysPerMonth" />
@@ -5351,6 +5621,36 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="ecmDescription" ColumnName="ecmDescription" />
                 <ScalarProperty Name="ecmNumber" ColumnName="ecmNumber" />
                 <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseTypes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ExpenseType">
+              <MappingFragment StoreEntitySet="ExpenseType">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="expenseTypeDescription" ColumnName="expenseTypeDescription" />
+                <ScalarProperty Name="expenseType1" ColumnName="expenseType" />
+                <ScalarProperty Name="expenseTypeUid" ColumnName="expenseTypeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseConstructionDrawSchedules">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ExpenseConstructionDrawSchedule">
+              <MappingFragment StoreEntitySet="ExpenseConstructionDrawSchedule">
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="drawPeriod" ColumnName="drawPeriod" />
+                <ScalarProperty Name="expenseConstructionDrawUid" ColumnName="expenseConstructionDrawUid" />
+                <ScalarProperty Name="expenseConstructionDrawScheduleUid" ColumnName="expenseConstructionDrawScheduleUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseConstructionDraws">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ExpenseConstructionDraw">
+              <MappingFragment StoreEntitySet="ExpenseConstructionDraw">
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="expenseTypeUid" ColumnName="expenseTypeUid" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="expenseConstructionDrawUid" ColumnName="expenseConstructionDrawUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

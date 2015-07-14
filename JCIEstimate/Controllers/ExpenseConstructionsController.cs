@@ -56,7 +56,8 @@ namespace JCIEstimate.Controllers
                         select cc;
 
             ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
-            ViewBag.intervalUid = new SelectList(db.Intervals, "intervalUid", "interval1");            
+            ViewBag.intervalUid = new SelectList(db.Intervals, "intervalUid", "interval1");
+            ViewBag.expenseTypeUid = new SelectList(db.ExpenseTypes, "expenseTypeUid", "expenseType1");            
             return View();
         }
 
@@ -65,7 +66,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "expenseConstructionUid,projectUid,expenseConstruction1,expenseConstructionDescription,rate,intervalUid,quantity,total")] ExpenseConstruction expenseConstruction)
+        public async Task<ActionResult> Create([Bind(Include = "expenseConstructionUid,projectUid,expenseConstruction1,expenseConstructionDescription,rate,intervalUid,quantity,total,expenseTypeUid")] ExpenseConstruction expenseConstruction)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +101,8 @@ namespace JCIEstimate.Controllers
                        select cc;
 
             ViewBag.projectUid = new SelectList(projects, "projectUid", "project1", expenseConstruction.projectUid);
-            ViewBag.intervalUid = new SelectList(db.Intervals, "intervalUid", "interval1", expenseConstruction.intervalUid);            
+            ViewBag.intervalUid = new SelectList(db.Intervals, "intervalUid", "interval1", expenseConstruction.intervalUid);
+            ViewBag.expenseTypeUid = new SelectList(db.ExpenseTypes, "expenseTypeUid", "expenseType1", expenseConstruction.expenseTypeUid);            
             return View(expenseConstruction);
         }
 
@@ -109,7 +111,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "expenseConstructionUid,projectUid,expenseConstruction1,expenseConstructionDescription,rate,intervalUid,quantity,total")] ExpenseConstruction expenseConstruction)
+        public async Task<ActionResult> Edit([Bind(Include = "expenseConstructionUid,projectUid,expenseConstruction1,expenseConstructionDescription,rate,intervalUid,quantity,total,expenseTypeUid")] ExpenseConstruction expenseConstruction)
         {
             if (ModelState.IsValid)
             {

@@ -11,133 +11,108 @@ using JCIEstimate.Models;
 
 namespace JCIEstimate.Controllers
 {
-    public class ECMsController : Controller
+    public class ExpenseTypesController : Controller
     {
-        private JCIEstimateEntities db = new JCIEstimateEntities();        
+        private JCIEstimateEntities db = new JCIEstimateEntities();
 
-        // GET: ECMs
+        // GET: ExpenseTypes
         public async Task<ActionResult> Index()
         {
-            IQueryable<ECM> ecms;
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-
-            ecms = from cc in db.ECMs
-                        where cc.projectUid == sessionProject
-                        orderby cc.ecmNumber
-                        select cc;
-            var eCMs = ecms.Include(e => e.Project);
-            return View(await eCMs.ToListAsync());
+            return View(await db.ExpenseTypes.ToListAsync());
         }
 
-        // GET: ECMs/Details/5
+        // GET: ExpenseTypes/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ECM eCM = await db.ECMs.FindAsync(id);
-            if (eCM == null)
+            ExpenseType expenseType = await db.ExpenseTypes.FindAsync(id);
+            if (expenseType == null)
             {
                 return HttpNotFound();
             }
-            return View(eCM);
+            return View(expenseType);
         }
 
-        // GET: ECMs/Create
+        // GET: ExpenseTypes/Create
         public ActionResult Create()
         {
-            IQueryable<Project> projects;
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-
-            projects = from cc in db.Projects
-                   where cc.projectUid == sessionProject
-                   select cc;
-            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
             return View();
         }
 
-        // POST: ECMs/Create
+        // POST: ExpenseTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectUid")] ECM eCM)
+        public async Task<ActionResult> Create([Bind(Include = "expenseTypeUid,expenseType1,expenseTypeDescription,behaviorIndicator")] ExpenseType expenseType)
         {
             if (ModelState.IsValid)
             {
-                eCM.ecmUid = Guid.NewGuid();
-                db.ECMs.Add(eCM);
+                expenseType.expenseTypeUid = Guid.NewGuid();
+                db.ExpenseTypes.Add(expenseType);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", eCM.projectUid);
-            return View(eCM);
+            return View(expenseType);
         }
 
-        // GET: ECMs/Edit/5
+        // GET: ExpenseTypes/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ECM eCM = await db.ECMs.FindAsync(id);
-            if (eCM == null)
+            ExpenseType expenseType = await db.ExpenseTypes.FindAsync(id);
+            if (expenseType == null)
             {
                 return HttpNotFound();
             }
-
-            IQueryable<Project> projects;
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-
-            projects = from cc in db.Projects
-                       where cc.projectUid == sessionProject
-                       select cc;
-            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1", eCM.projectUid);            
-            return View(eCM);
+            return View(expenseType);
         }
 
-        // POST: ECMs/Edit/5
+        // POST: ExpenseTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectUid")] ECM eCM)
+        public async Task<ActionResult> Edit([Bind(Include = "expenseTypeUid,expenseType1,expenseTypeDescription,behaviorIndicator")] ExpenseType expenseType)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(eCM).State = EntityState.Modified;
+                db.Entry(expenseType).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", eCM.projectUid);
-            return View(eCM);
+            return View(expenseType);
         }
 
-        // GET: ECMs/Delete/5
+        // GET: ExpenseTypes/Delete/5
         public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ECM eCM = await db.ECMs.FindAsync(id);
-            if (eCM == null)
+            ExpenseType expenseType = await db.ExpenseTypes.FindAsync(id);
+            if (expenseType == null)
             {
                 return HttpNotFound();
             }
-            return View(eCM);
+            return View(expenseType);
         }
 
-        // POST: ECMs/Delete/5
+        // POST: ExpenseTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
-            ECM eCM = await db.ECMs.FindAsync(id);
-            db.ECMs.Remove(eCM);
+            ExpenseType expenseType = await db.ExpenseTypes.FindAsync(id);
+            db.ExpenseTypes.Remove(expenseType);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

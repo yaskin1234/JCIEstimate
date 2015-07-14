@@ -153,6 +153,15 @@
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_ECM" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ExpenseType" Width="1.5" PointX="12.375" PointY="6.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_ExpenseType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType1" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstructionDrawSchedule" Width="1.5" PointX="23.625" PointY="38.375" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstructionDraw" Width="1.5" PointX="26.375" PointY="21.375" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ExpenseConstructionDraw_ExpenseConstructionType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ExpenseConstructionDraw_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

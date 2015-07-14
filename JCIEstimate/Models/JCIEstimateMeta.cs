@@ -196,8 +196,19 @@ namespace JCIEstimate.Models
         public string project1 { get; set; }
         [Display(Name = "Project Description")]
         public string projectDescription { get; set; }
-        [Display(Name = "Project Manager")]
+        [Display(Name = "Project Manager")]        
         public string aspNetUserUidAsPM { get; set; }
+        [Display(Name = "Down Payment")]
+        public int downPayment { get; set; }
+        [Display(Name = "Contract Amount")]
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        public int contractAmount { get; set; }        
+        [Display(Name = "Draw start Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]       
+        public DateTime startDate { get; set; }
+        [Display(Name = "Draw Periods")]
+        public int drawPeriods { get; set; }
     }
 
 
@@ -1269,6 +1280,48 @@ namespace JCIEstimate.Models
         [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         public Nullable<int> amount { get; set; }
 
+    }
+
+
+    /// <summary>
+    /// ExpenseConstructionDraw
+    /// </summary>
+    [MetadataType(typeof(ExpenseConstructionDrawMetaData))]
+    public partial class ExpenseConstructionDraw
+    {
+    }
+
+    public class ExpenseConstructionDrawMetaData
+    {
+        [Display(Name = "Expense Construction Draw")]
+        public System.Guid expenseConstructionDrawUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Expense Type")]
+        public System.Guid expenseTypeUid { get; set; }
+        [Display(Name = "Date Created")]
+        public Nullable<System.DateTime> dateCreated { get; set; }
+
+    }
+
+    /// <summary>
+    /// ExpenseType
+    /// </summary>
+    [MetadataType(typeof(ExpenseTypeMetaData))]
+    public partial class ExpenseType
+    {
+    }
+
+    public class ExpenseTypeMetaData
+    {
+        [Display(Name = "Expense Type")]
+        public System.Guid expenseTypeUid { get; set; }
+        [Display(Name = "Expense Type")]
+        public string expenseType1 { get; set; }
+        [Display(Name = "Expense Type Description")]
+        public string expenseTypeDescription { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
     }
 
 }

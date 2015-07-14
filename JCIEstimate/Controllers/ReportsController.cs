@@ -145,6 +145,33 @@ namespace JCIEstimate.Controllers
             }
         }
 
+        public ActionResult GetDrawSchedules()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                Session["userUid"] = IdentityExtensions.GetUserId(User.Identity);
+                return View("rptDrawSchedules");
+            }
+        }
+
+
+        public ActionResult GetActiveEstimates()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                Session["userUid"] = IdentityExtensions.GetUserId(User.Identity);
+                return View("rptActiveEstimates");
+            }
+        }
+
         public ActionResult GetEquipmentForECMToPurchase()
         {
             if (Session["projectUid"] == null)

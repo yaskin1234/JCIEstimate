@@ -293,6 +293,37 @@
             $(ele).text(data);
         });
     });
+
+    $(".expenseConstructionSchedule").change(function () {
+        $.ajax({
+            url: "/ExpenseConstructionDraws/SaveExpenseConstructionDrawScheduleAmount",
+            type: "POST",
+            data: {
+                id: $(this).attr("name"),
+                value: $(this).val()
+            },
+            dataType: "json"
+        })
+        .always(function (data) {            
+            var aryData = data.split('|');
+            var ele;
+            ele = document.getElementById("expenseAmount");
+            $(ele).text(aryData[0]);
+            ele = document.getElementById("expenseConstructionDrawRunningTotal");
+            $(ele).text(aryData[1]);
+            ele = document.getElementById("expenseConstructionAmountRemaining");
+            $(ele).text(aryData[2]);
+
+            ele = document.getElementById("expenseAmount2");
+            $(ele).text(aryData[0]);
+            ele = document.getElementById("expenseConstructionDrawRunningTotal2");
+            $(ele).text(aryData[1]);
+            ele = document.getElementById("expenseConstructionAmountRemaining2");
+            $(ele).text(aryData[2]);
+        });
+    });
+
+    
     
     $(".estimateActiveChk").click(function () {
         $.ajax({

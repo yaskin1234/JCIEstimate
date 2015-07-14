@@ -12,19 +12,20 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ExpenseMonthly
+    public partial class ExpenseConstructionDraw
     {
-        public System.Guid expenseMonthlyUid { get; set; }
-        public System.Guid projectUid { get; set; }
-        public string expenseMonthly1 { get; set; }
-        public string expenseMonthlyDescription { get; set; }
-        public decimal ratePerDay { get; set; }
-        public int daysPerMonth { get; set; }
-        public int projectDurationInMonths { get; set; }
-        public Nullable<decimal> total { get; set; }
-        public Nullable<System.Guid> expenseTypeUid { get; set; }
+        public ExpenseConstructionDraw()
+        {
+            this.ExpenseConstructionDrawSchedules = new HashSet<ExpenseConstructionDrawSchedule>();
+        }
     
-        public virtual Project Project { get; set; }
+        public System.Guid expenseConstructionDrawUid { get; set; }
+        public System.Guid projectUid { get; set; }
+        public System.Guid expenseTypeUid { get; set; }
+        public Nullable<System.DateTime> dateCreated { get; set; }
+    
         public virtual ExpenseType ExpenseType { get; set; }
+        public virtual Project Project { get; set; }
+        public virtual ICollection<ExpenseConstructionDrawSchedule> ExpenseConstructionDrawSchedules { get; set; }
     }
 }

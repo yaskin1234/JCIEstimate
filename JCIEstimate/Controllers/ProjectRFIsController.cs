@@ -52,7 +52,7 @@ namespace JCIEstimate.Controllers
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             var ecms = from cc in db.ECMs
                        where cc.projectUid == sessionProject
-                       orderby cc.ecmString
+                       orderby cc.ecmNumber
                        select cc;
 
             var projects = from cc in db.Projects

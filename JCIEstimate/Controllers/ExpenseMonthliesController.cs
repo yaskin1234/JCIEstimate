@@ -43,7 +43,8 @@ namespace JCIEstimate.Controllers
         {
 
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-            ViewBag.projectUid = new SelectList(db.Projects.Where(m => m.projectUid == sessionProject), "projectUid", "project1");            
+            ViewBag.projectUid = new SelectList(db.Projects.Where(m => m.projectUid == sessionProject), "projectUid", "project1");
+            ViewBag.expenseTypeUid = new SelectList(db.ExpenseTypes, "expenseTypeUid", "expenseType1");     
             return View();
         }
 
@@ -52,7 +53,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "expenseMonthlyUid,projectUid,expenseMonthly1,expenseMonthlyDescription,ratePerDay,daysPerMonth,projectDurationInMonths,total")] ExpenseMonthly expenseMonthly)
+        public async Task<ActionResult> Create([Bind(Include = "expenseMonthlyUid,projectUid,expenseMonthly1,expenseMonthlyDescription,ratePerDay,daysPerMonth,projectDurationInMonths,total,expenseTypeUid")] ExpenseMonthly expenseMonthly)
         {
             if (ModelState.IsValid)
             {
@@ -79,6 +80,7 @@ namespace JCIEstimate.Controllers
                 return HttpNotFound();
             }
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", expenseMonthly.projectUid);
+            ViewBag.expenseTypeUid = new SelectList(db.ExpenseTypes, "expenseTypeUid", "expenseType1", expenseMonthly.expenseTypeUid);     
             return View(expenseMonthly);
         }
 
@@ -87,7 +89,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "expenseMonthlyUid,projectUid,expenseMonthly1,expenseMonthlyDescription,ratePerDay,daysPerMonth,projectDurationInMonths,total")] ExpenseMonthly expenseMonthly)
+        public async Task<ActionResult> Edit([Bind(Include = "expenseMonthlyUid,projectUid,expenseMonthly1,expenseMonthlyDescription,ratePerDay,daysPerMonth,projectDurationInMonths,total,expenseTypeUid")] ExpenseMonthly expenseMonthly)
         {
             if (ModelState.IsValid)
             {

@@ -1,0 +1,99 @@
+﻿@model JCIEstimate.Models.ExpenseConstructionDraw
+
+@{
+    ViewBag.Title = "Edit";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken() 
+    
+    <div class="form-horizontal">
+        <h4>ExpenseConstructionDraw</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.expenseConstructionDrawUid)
+        @Html.HiddenFor(model => model.expenseTypeUid)
+        @Html.HiddenFor(model => model.projectUid)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.projectUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Model.Project.project1
+                @Html.ValidationMessageFor(model => model.projectUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.expenseTypeUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Model.ExpenseType.expenseType1
+                @Html.ValidationMessageFor(model => model.expenseTypeUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dateCreated, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.dateCreated, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.dateCreated, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <h4>Draw Schedule</h4>
+        <div class="form-group">
+            <table class="table">
+                <tr>
+                    <td>Expense Amount</td>
+                    <td><span id="expenseAmount">@String.Format("{0:C0}", ViewBag.expenseAmount)</span></td>
+                </tr>
+                <tr>
+                    <td>Amount Allocated</td>
+                    <td><span id="expenseConstructionDrawRunningTotal">@String.Format("{0:C0}", ViewBag.runningTotal)</span></td>
+                </tr>
+                <tr>
+                    <th>Amount Remaining</th>
+                    <th><span id="expenseConstructionAmountRemaining">@String.Format("{0:C0}",ViewBag.expenseAmount - ViewBag.runningTotal)</span></th>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <th>Period</th>
+                    <th>Amount</th>
+                </tr>                
+                @foreach (var item in ViewBag.drawSchedules)
+                {
+                    <tr>
+                        <td>
+                            @item.drawPeriod -- @String.Format("{0:MM/yyyy}", ViewBag.startDate.AddMonths(item.drawPeriod-1))
+                        </td>
+                        <td>
+                            $<input class="expenseConstructionSchedule" type="text" name="@item.expenseConstructionDrawScheduleUid" value="@item.amount" />
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td>Expense Amount</td>
+                    <td><span id="expenseAmount2">@String.Format("{0:C0}", ViewBag.expenseAmount)</span></td>
+                </tr>
+                <tr>
+                    <td>Amount Allocated</td>
+                    <td><span id="expenseConstructionDrawRunningTotal2">@String.Format("{0:C0}", ViewBag.runningTotal)</span></td>
+                </tr>
+                <tr>
+                    <th>Amount Remaining</th>
+                    <th><span id="expenseConstructionAmountRemaining2">@String.Format("{0:C0}", ViewBag.expenseAmount - ViewBag.runningTotal)</span></th>
+                </tr>
+            </table>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

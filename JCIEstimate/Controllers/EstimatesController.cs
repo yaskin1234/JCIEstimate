@@ -93,7 +93,7 @@ namespace JCIEstimate.Controllers
 
             aryFo = buildFilterDropDown(filterId, db.Estimates.Where(c=>c.Location.projectUid == sessionProject));
             estimates = applyFilter(filterId, estimates);
-            estimates = estimates.OrderBy(m => m.Location.location1).ThenBy(m => m.ECM.ecmString).ThenBy(m => m.Contractor.contractorName);
+            estimates = estimates.OrderBy(m => m.Location.location1).ThenBy(m => m.ECM.ecmNumber).ThenBy(m => m.Contractor.contractorName);
 
             if (estimates.Count() > 0)
             {
@@ -285,7 +285,7 @@ namespace JCIEstimate.Controllers
 
             ecms = from cc in db.ECMs
                    where cc.projectUid == sessionProject
-                   orderby cc.ecmString
+                   orderby cc.ecmNumber
                    select cc;
 
             locations = from cc in db.Locations
@@ -370,7 +370,7 @@ namespace JCIEstimate.Controllers
 
             ecms = from cc in db.ECMs
                    where cc.projectUid == sessionProject
-                   orderby cc.ecmString
+                   orderby cc.ecmNumber
                    select cc;
 
             if (!User.IsInRole("Admin"))

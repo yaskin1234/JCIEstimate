@@ -22,8 +22,11 @@ namespace JCIEstimate.Models
         public System.Guid intervalUid { get; set; }
         public int quantity { get; set; }
         public Nullable<decimal> total { get; set; }
+        public Nullable<System.Guid> expenseTypeUid { get; set; }
     
         public virtual Project Project { get; set; }
         public virtual Interval Interval { get; set; }
+        public virtual ExpenseType ExpenseType { get; set; }
+        public virtual ExpenseType ExpenseType1 { get; set; }
     }
 }

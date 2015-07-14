@@ -31,6 +31,7 @@ namespace JCIEstimate.Models
             this.ContractorSignoffs = new HashSet<ContractorSignoff>();
             this.ContractorDraws = new HashSet<ContractorDraw>();
             this.ECMs = new HashSet<ECM>();
+            this.ExpenseConstructionDraws = new HashSet<ExpenseConstructionDraw>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -38,6 +39,10 @@ namespace JCIEstimate.Models
         public string projectDescription { get; set; }
         public string aspNetUserUidAsPM { get; set; }
         public Nullable<int> projectDurationInMonths { get; set; }
+        public int downPayment { get; set; }
+        public int contractAmount { get; set; }
+        public Nullable<System.DateTime> startDate { get; set; }
+        public int drawPeriods { get; set; }
     
         public virtual ICollection<ExpenseConstruction> ExpenseConstructions { get; set; }
         public virtual ICollection<ExpenseMiscellaneousProject> ExpenseMiscellaneousProjects { get; set; }
@@ -55,5 +60,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
         public virtual ICollection<ContractorDraw> ContractorDraws { get; set; }
         public virtual ICollection<ECM> ECMs { get; set; }
+        public virtual ICollection<ExpenseConstructionDraw> ExpenseConstructionDraws { get; set; }
     }
 }

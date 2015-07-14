@@ -106,7 +106,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "projectUid,project1,projectDescription,aspNetUserUidAsPM,projectDurationInMonths")] Project project, params string[] selectedExpenses)
+        public async Task<ActionResult> Create([Bind(Include = "projectUid,project1,projectDescription,aspNetUserUidAsPM,projectDurationInMonths,downPayment,contractAmount,startDate,drawPeriods")] Project project, params string[] selectedExpenses)
         {
             ExpenseMiscellaneousProject myExpense;            
 
@@ -181,7 +181,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription,aspNetUserUidAsPM,projectDurationInMonths")] Project project, string[] selectedExpenses, string[] selectedMilestones)
+        public async Task<ActionResult> Edit([Bind(Include = "projectUid,project1,projectDescription,aspNetUserUidAsPM,projectDurationInMonths,downPayment,contractAmount,startDate,drawPeriods")] Project project, string[] selectedExpenses, string[] selectedMilestones)
         {
             ExpenseMiscellaneousProject myExpense;
             ProjectMilestone myProjectMilestone;
@@ -260,9 +260,34 @@ namespace JCIEstimate.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(project).State = EntityState.Modified;
+                if (project.contractAmount == null)
+                {
+                    project.contractAmount = 0;
+                }                
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+                       
+            var expenseList = db.ExpenseMiscellaneous.ToList().Select(x => new SelectListItem()
+            {
+                Selected = selectedExpenses.Contains(x.expenseMiscellaneousUid.ToString()),
+                Text = x.expenseMiscellaneous,
+                Value = x.expenseMiscellaneousUid.ToString()
+            });
+
+            var projectHasMilestones = db.ProjectMilestones.Where(d => d.projectUid == project.projectUid);
+            if (projectHasMilestones.Count() > 0)
+            {
+                ViewBag.hasProjectMilestones = true;
+            }
+            else
+            {
+                ViewBag.hasProjectMilestones = false;
+            }
+
+            ViewBag.expenseList = new SelectList(expenseList, "Value", "Text", selectedExpenses.ToList());
+            ViewBag.aspNetUserUidAsPM = db.AspNetUsers.OrderBy(c => c.Email).ToSelectList(c => c.Email, c => c.Id, project.aspNetUserUidAsPM);
+            ViewBag.milestoneList = new SelectList(db.Milestones.OrderBy(c => c.defaultListOrder), "milestoneUid", "milestone1"); 
             return View(project);
         }
 

@@ -18,6 +18,9 @@
             @Html.DisplayNameFor(model => model.expenseMonthlyDescription)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.expenseTypeUid)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.ratePerDay)
         </th>
         <th>
@@ -39,6 +42,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.expenseMonthlyDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpenseType.expenseType1)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ratePerDay)

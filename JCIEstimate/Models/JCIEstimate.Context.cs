@@ -90,5 +90,8 @@ namespace JCIEstimate.Models
         public virtual DbSet<ContractorDraw> ContractorDraws { get; set; }
         public virtual DbSet<ContractorDrawSchedule> ContractorDrawSchedules { get; set; }
         public virtual DbSet<ECM> ECMs { get; set; }
+        public virtual DbSet<ExpenseType> ExpenseTypes { get; set; }
+        public virtual DbSet<ExpenseConstructionDrawSchedule> ExpenseConstructionDrawSchedules { get; set; }
+        public virtual DbSet<ExpenseConstructionDraw> ExpenseConstructionDraws { get; set; }
     }
 }

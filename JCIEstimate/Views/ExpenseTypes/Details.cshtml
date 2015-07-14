@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.ExpenseType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ExpenseType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.expenseType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expenseType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expenseTypeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expenseTypeDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.expenseTypeUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
