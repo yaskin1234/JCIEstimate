@@ -554,7 +554,11 @@ namespace JCIEstimate.Models
         public System.Guid ecmUid { get; set; }
         [Display(Name = "Location")]        
         public System.Guid locationUid { get; set; }
-        [DisplayFormat(DataFormatString = "{0:N0}")]
+        [Display(Name = "Heat Type")]
+        public System.Guid heatTypeUid { get; set; }
+        [Display(Name = "Control Type")]
+        public System.Guid controlTypeUid { get; set; }
+        [DisplayFormat(DataFormatString = "{0:###########}", ApplyFormatInEditMode = true)]
         [Display(Name = "JCI Tag")]        
         public string jciTag { get; set; }
         [Display(Name = "Owner Tag")]        
@@ -1322,6 +1326,11 @@ namespace JCIEstimate.Models
         public string expenseTypeDescription { get; set; }
         [Display(Name = "Behavior Indicator")]
         public string behaviorIndicator { get; set; }
+    }
+
+    public class JCIAttachment
+    {
+        public IEnumerable<HttpPostedFileBase> Files { get; set; }
     }
 
 }

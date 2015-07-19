@@ -70,6 +70,27 @@
         $("#tbEquipment").load("/Equipments/GridEditPartial?filter=" + escape($val));
     })
 
+    $("#btnJCITagSearch").click(function () {
+        $val = $("#jciTag").val();
+        document.location = "/Equipments/AddPicturesForEquipment?jciTag=" + escape($val);
+    })
+
+    $("#jciTag").keypress(function (e) {
+        if (e.which == 13) {
+            $("#btnJCITagSearch").click();
+            return false;
+        }
+    })
+
+    
+
+    $("#equipmentAttributeTypeUid").change(function () {
+        $val = $("#equipmentAttributeTypeUid").val();
+
+        $("#engineerCreateAttributes").load("/Equipments/GetAttributesForType?equipmentAttributeTypeUid=" + escape($val));
+        $("#engineerCreateAttributes").css({ "style": "display:normal;" });
+    })    
+
     $("#equipmentFilter").keyup(function () {
         if (event.keyCode == 13) {
             $("#btnEquipmentGridFilter").click();
@@ -186,7 +207,7 @@
 
         currentySelectedEquipment = $td;
     });
-
+    
     $(".toggleEquipmentAttributes").click(function () {
 
         var $td = $(this);
@@ -378,6 +399,7 @@
             }
         })
     });
+
 
     $(".equipmentAttributeValue").focusout(function () {
         $.ajax({

@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using JCIEstimate.Models;
 using System.IO;
 using JCIExtensions;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace JCIEstimate.Controllers
 {
@@ -21,7 +23,7 @@ namespace JCIEstimate.Controllers
         public async Task<ActionResult> Index()
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-            var projectAttachments = db.ProjectAttachments.Where(c=>c.projectUid == sessionProject).Include(p => p.Project);
+            var projectAttachments = db.ProjectAttachments.Where(c=>c.projectUid == sessionProject).Include(p => p.Project).OrderBy(c=>c.projectAttachment1);
             return View(await projectAttachments.ToListAsync());
         }
 
@@ -104,6 +106,7 @@ namespace JCIEstimate.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(Guid? id)
         {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -112,9 +115,12 @@ namespace JCIEstimate.Controllers
             if (projectAttachment == null)
             {
                 return HttpNotFound();
-            }            
+            }
+            var projects = from cc in db.Projects
+                           where cc.projectUid == sessionProject
+                           select cc;
 
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectAttachment.projectUid);
+            ViewBag.projectUid = new SelectList(projects, "projectUid", "project1", projectAttachment.projectUid);
             return View(projectAttachment);
         }
 
@@ -124,13 +130,30 @@ namespace JCIEstimate.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "projectAttachmentUid,projectUid,projectAttachment1,attachment,fileType,documentName")] ProjectAttachment projectAttachment)
+        public async Task<ActionResult> Edit([Bind(Include = "projectAttachmentUid,projectUid,projectAttachment1,fileType,documentName,attachment")] ProjectAttachment projectAttachment)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(projectAttachment).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}",
+                                                    validationError.PropertyName,
+                                                    validationError.ErrorMessage);
+                        }
+                    }
+                }
+                
+                
             }
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectAttachment.projectUid);
             return View(projectAttachment);

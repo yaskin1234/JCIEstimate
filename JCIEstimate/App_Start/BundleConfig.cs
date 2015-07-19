@@ -12,7 +12,7 @@ namespace IdentitySample
 
             bundles.Add(new ScriptBundle("~/bundles/JCIEstimate").Include(
             "~/Scripts/JCIEstimate.js",
-            "~/Scripts/jquery.labelify.js",
+            "~/Scripts/jquery.labelify.js",            
             "~/Scripts/jquery.floatThead.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

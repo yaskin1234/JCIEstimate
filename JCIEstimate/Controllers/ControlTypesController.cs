@@ -11,108 +11,108 @@ using JCIEstimate.Models;
 
 namespace JCIEstimate.Controllers
 {
-    public class EquipmentAttributeTypesController : Controller
+    public class ControlTypesController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
-        // GET: EquipmentAttributeTypes
+        // GET: ControlTypes
         public async Task<ActionResult> Index()
         {
-            return View(await db.EquipmentAttributeTypes.ToListAsync());
+            return View(await db.ControlTypes.ToListAsync());
         }
 
-        // GET: EquipmentAttributeTypes/Details/5
+        // GET: ControlTypes/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EquipmentAttributeType equipmentAttributeType = await db.EquipmentAttributeTypes.FindAsync(id);
-            if (equipmentAttributeType == null)
+            ControlType controlType = await db.ControlTypes.FindAsync(id);
+            if (controlType == null)
             {
                 return HttpNotFound();
             }
-            return View(equipmentAttributeType);
-        }       
+            return View(controlType);
+        }
 
-        // GET: EquipmentAttributeTypes/Create
+        // GET: ControlTypes/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: EquipmentAttributeTypes/Create
+        // POST: ControlTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentAttributeTypeUid,equipmentAttributeType1,behaviorIndicator")] EquipmentAttributeType equipmentAttributeType)
+        public async Task<ActionResult> Create([Bind(Include = "controlTypeUid,controlType1,controlTypeDescription,behaviorIndicator")] ControlType controlType)
         {
             if (ModelState.IsValid)
             {
-                equipmentAttributeType.equipmentAttributeTypeUid = Guid.NewGuid();
-                db.EquipmentAttributeTypes.Add(equipmentAttributeType);
+                controlType.controlTypeUid = Guid.NewGuid();
+                db.ControlTypes.Add(controlType);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(equipmentAttributeType);
+            return View(controlType);
         }
 
-        // GET: EquipmentAttributeTypes/Edit/5
+        // GET: ControlTypes/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EquipmentAttributeType equipmentAttributeType = await db.EquipmentAttributeTypes.FindAsync(id);
-            if (equipmentAttributeType == null)
+            ControlType controlType = await db.ControlTypes.FindAsync(id);
+            if (controlType == null)
             {
                 return HttpNotFound();
             }
-            return View(equipmentAttributeType);
+            return View(controlType);
         }
 
-        // POST: EquipmentAttributeTypes/Edit/5
+        // POST: ControlTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentAttributeTypeUid,equipmentAttributeType1,behaviorIndicator")] EquipmentAttributeType equipmentAttributeType)
+        public async Task<ActionResult> Edit([Bind(Include = "controlTypeUid,controlType1,controlTypeDescription,behaviorIndicator")] ControlType controlType)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(equipmentAttributeType).State = EntityState.Modified;
+                db.Entry(controlType).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(equipmentAttributeType);
+            return View(controlType);
         }
 
-        // GET: EquipmentAttributeTypes/Delete/5
+        // GET: ControlTypes/Delete/5
         public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EquipmentAttributeType equipmentAttributeType = await db.EquipmentAttributeTypes.FindAsync(id);
-            if (equipmentAttributeType == null)
+            ControlType controlType = await db.ControlTypes.FindAsync(id);
+            if (controlType == null)
             {
                 return HttpNotFound();
             }
-            return View(equipmentAttributeType);
+            return View(controlType);
         }
 
-        // POST: EquipmentAttributeTypes/Delete/5
+        // POST: ControlTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
-            EquipmentAttributeType equipmentAttributeType = await db.EquipmentAttributeTypes.FindAsync(id);
-            db.EquipmentAttributeTypes.Remove(equipmentAttributeType);
+            ControlType controlType = await db.ControlTypes.FindAsync(id);
+            db.ControlTypes.Remove(controlType);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

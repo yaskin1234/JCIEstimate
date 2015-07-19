@@ -1,0 +1,15 @@
+﻿@model IEnumerable<JCIEstimate.Models.EquipmentAttribute>
+
+<table class="table" id="tblAttributes">
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.equipmentAttribute1)
+        </td>
+        <td>
+            <input type="text" name="@item.equipmentAttributeUid" value="" />            
+        </td>
+    </tr>
+}
+
+</table>

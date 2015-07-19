@@ -50,6 +50,8 @@
                             <li>@Html.ActionLink("RFI Types", "Index", "RFITypes")</li>
                             <li>@Html.ActionLink("RFI Satus", "Index", "RFIStatus")</li>
                             <li>@Html.ActionLink("Intervals", "Index", "Intervals")</li>
+                            <li>@Html.ActionLink("Heat Types", "Index", "HeatTypes")</li>
+                            <li>@Html.ActionLink("Control Types", "Index", "ControlTypes")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
                             <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>
@@ -88,7 +90,7 @@
                         </li>
                     }                          
                     
-                    @if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Sales") ) && Session["projectUid"] != null)
+                    @*@if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Sales") ) && Session["projectUid"] != null)
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sales</a>
@@ -99,7 +101,7 @@
                                 <li>@Html.ActionLink("Report -- Milestone Actions", "GetProjectMilestoneActions", "Reports")</li>
                             </ul>
                         </li>
-                    }
+                    }*@
 
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
                     {
@@ -172,6 +174,8 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Engineer</a>
                             <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Create JCI Tag", "EngineerCreate", "Equipments")</li>
+                                <li>@Html.ActionLink("Add Pictures", "AddPicturesForEquipment", "Equipments")</li>
                                 <li>@Html.ActionLink("Equipment Grid", "GridEdit", "Equipments")</li>
                             </ul>
                         </li>

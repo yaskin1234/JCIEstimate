@@ -1,0 +1,117 @@
+﻿@model JCIEstimate.Models.Equipment
+
+@{
+    ViewBag.Title = "New JCI Tag";
+}
+
+@using (Html.BeginForm("EngineerCreate", "Equipments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Create New JCI Tag</h4>
+        <hr />        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.jciTag, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.jciTag, new { htmlAttributes = new { @class = "form-control" } })<span class="field-validation-error" id="saveResult">@ViewBag.result</span>
+                @Html.ValidationMessageFor(model => model.jciTag, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.ownerTag, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ownerTag, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ownerTag, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Equipment Type", null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("equipmentAttributeTypeUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.equipmentAttributeTypeUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2"><b>Equipment Attributes</b></div>
+            <div class="col-md-10" id="engineerCreateAttributes">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.locationUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("locationUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.locationUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.controlTypeUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("controlTypeUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.controlTypeUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.model, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.model, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.model, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.serialNumber, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.serialNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.serialNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Add Pictures", null, htmlAttributes: new { @class = "control-label col-md-2"  })
+            <div class="col-md-10">
+                <input type="file" name="pics" multiple class="btn btn-default" />                
+            </div>
+        </div>        
+        @if (Model != null)
+        {
+            <table class="table">
+                @foreach (var item in Model.EquipmentAttachments)
+                {
+                    <tr>
+                        <td>@item.equipmentAttachment1</td>
+                        <td><img src="@Url.Action("showImage", "Equipments", new { id = item.equipmentAttachmentUid } )" alt="test" /></td>
+                    </tr>
+                }
+
+            </table>
+        }        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <span style="color:green;" id="loadingMessage"></span>
+                <input type="submit" id="btnSubmitEquipmentPicture" value="Save and Review" class="btn btn-default" onclick="collectAttributeValues();this.style.visibility = 'hidden'; document.getElementById('loadingMessage').innerHTML = 'loading...';" ondblclick="    this.style.visibility = 'hidden'; document.getElementById('loadingMessage').innerHTML = 'loading...';" />
+            </div>
+        </div>
+
+
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

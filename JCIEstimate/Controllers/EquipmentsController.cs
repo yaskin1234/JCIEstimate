@@ -9,12 +9,23 @@ using System.Web;
 using System.Web.Mvc;
 using JCIExtensions;
 using JCIEstimate.Models;
+using System.IO;
 
 namespace JCIEstimate.Controllers
 {
     public class EquipmentsController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
+
+        public async Task<ActionResult> GetAttributesForType(Guid equipmentAttributeTypeUid)
+        {
+
+            var attributes = from cc in db.EquipmentAttributes
+                             where cc.equipmentAttributeTypeUid == equipmentAttributeTypeUid
+                             select cc;
+
+            return PartialView(await attributes.ToListAsync());
+        }
 
         // GET: Equipments
         public async Task<ActionResult> Index(string filterId, string sort)
@@ -74,12 +85,12 @@ namespace JCIEstimate.Controllers
                 }
                 else if (type == "X")
                 {
-                    equipments = equipments.Where(c => c.ecmUid == Guid.Empty);
+                    equipments = equipments.Where(c=>c.equipmentUid == null);
                 }
             }
             else
             {
-                equipments = equipments.Where(c => c.ecmUid == Guid.Empty);
+                equipments = equipments.Where(c => c.equipmentUid == null);
             }
             Session["equipmentfilterId"] = filterId;
             return equipments;
@@ -177,7 +188,7 @@ namespace JCIEstimate.Controllers
 
             results = equipments.GroupBy(c => c.ecmUid).Select(v => v.FirstOrDefault());
 
-            foreach (var item in results.OrderBy(c => c.ECM.ecmNumber))
+            foreach (var item in results.Where(c=>c.ecmUid != null).OrderBy(c => c.ECM.ecmNumber))
             {
                 wf = new FilterOptionModel();
                 wf.text = item.ECM.ecmString;
@@ -207,6 +218,234 @@ namespace JCIEstimate.Controllers
 
             return PartialView(await equipments.ToListAsync());
         }
+
+        // GET: Equipments/EngineerEdit/5
+        public async Task<ActionResult> EngineerEdit(Guid? id, string returnURL,IEnumerable<HttpPostedFileBase> pics)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Equipment equipment = await db.Equipments.FindAsync(id);
+            if (equipment == null)
+            {
+                return HttpNotFound();
+            }
+
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
+            var replacementEqupments = db.Equipments.Where(c => c.Location.projectUid == sessionProject);
+
+            var equipmentAttributeValues = from cc in db.EquipmentAttributeValues
+                                           where cc.equipmentUid == equipment.equipmentUid
+                                           select cc;
+
+            //add pictures
+            foreach (var file in pics)
+            {
+                if (file != null)
+                {
+                    EquipmentAttachment ea = new EquipmentAttachment();
+                    int fileSize = file.ContentLength;
+                    MemoryStream target = new MemoryStream();
+                    file.InputStream.CopyTo(target);
+                    byte[] data = target.ToArray();
+                    ea.attachment = data;
+                    ea.fileType = Path.GetExtension(file.FileName);
+                    var docName = MCVExtensions.MakeValidFileName(file.FileName);
+                    ea.documentName = docName;
+                    ea.equipmentAttachmentUid = Guid.NewGuid();
+                    ea.equipmentUid = equipment.equipmentUid;
+                    ea.equipmentAttachment1 = Path.GetFileNameWithoutExtension(docName);
+                    db.EquipmentAttachments.Add(ea);
+                }
+            }
+            try
+            {
+                await db.SaveChangesAsync();
+                ViewBag.result = "Tag " + equipment.jciTag.ToString() + " added successfully";
+                Response.Redirect("/Equipments/EngineerEdit?id=" + equipment.equipmentUid.ToString() + "&returnURL=EngineerCreate");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.result = "Tag " + equipment.jciTag.ToString() + " failed with error:" + ex.Message;
+            }
+
+            ViewBag.equipmentAttributeValues = equipmentAttributeValues;
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
+            ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject).OrderBy(c=>c.location1), "locationUid", "location1", equipment.locationUid);
+            ViewBag.heatTypeUid = new SelectList(db.HeatTypes, "heatTypeUid", "heatType1", equipment.heatTypeUid);
+            ViewBag.controlTypeUid = new SelectList(db.ControlTypes, "controlTypeUid", "controlType1", equipment.controlTypeUid);            
+            return View(equipment);
+        }
+
+        // GET: Equipments/EngineerCreate        
+        public ActionResult EngineerCreate()
+        {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();                        
+            decimal? jciTag = null;
+
+            ViewBag.equipmentAttributes = db.EquipmentAttributes.OrderBy(c => c.equipmentAttribute1);            
+            ViewBag.equipmentAttributeTypeUid = db.EquipmentAttributeTypes.OrderBy(c=>c.equipmentAttributeType1).ToSelectList(c => c.equipmentAttributeType1, c => c.equipmentAttributeTypeUid.ToString(), "");
+
+            ViewBag.locationUid = db.Locations.Where(c => c.projectUid == sessionProject).OrderBy(c=>c.location1).ToSelectList(c => c.location1, c => c.locationUid.ToString(), "");
+            ViewBag.heatTypeUid = db.HeatTypes.ToSelectList(c => c.heatType1, c => c.heatTypeUid.ToString(), "");
+            ViewBag.controlTypeUid = db.ControlTypes.ToSelectList(c => c.controlType1, c => c.controlTypeUid.ToString(), "");           
+            ViewBag.jciTag = jciTag;
+
+            return View();
+        }
+
+        // POST: Equipments/EngineerCreate
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EngineerCreate([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,locationUid,jciTag,heatTypeUid,controlTypeUid,ownerTag,model,serialNumber")] Equipment equipment, IEnumerable<HttpPostedFileBase> pics)
+        {
+            Guid sessionProject = MCVExtensions.getSessionProject();
+
+
+
+            var existingJCITag = from cc in db.Equipments
+                                 where cc.Location.projectUid == sessionProject
+                                 && cc.jciTag == equipment.jciTag
+                                 select cc;
+            if (existingJCITag.Count() == 0)
+            {
+                if (ModelState.IsValid)
+                {
+                    equipment.equipmentUid = Guid.NewGuid();
+                    db.Equipments.Add(equipment);
+
+                    //add attributes
+                    foreach (var f in Request.Form)
+                    {
+                        if (f.ToString().Length == 36 && Request[f.ToString()].ToString() != "")
+                        {
+                            EquipmentAttributeValue eav = new EquipmentAttributeValue();
+                            eav.equipmentAttributeUid = Guid.Parse(f.ToString());
+                            eav.equipmentAttributeValue1 = Request[f.ToString()];
+                            eav.equipmentUid = equipment.equipmentUid;
+                            eav.equipmentAttributeValueUid = Guid.NewGuid();
+                            db.EquipmentAttributeValues.Add(eav);
+                        }
+
+                    }
+
+                    //add pictures
+                    foreach (var file in pics)
+                    {
+                        if (file != null)
+                        {
+                            EquipmentAttachment ea = new EquipmentAttachment();
+                            int fileSize = file.ContentLength;
+                            MemoryStream target = new MemoryStream();
+                            file.InputStream.CopyTo(target);
+                            byte[] data = target.ToArray();
+                            ea.attachment = data;
+                            ea.fileType = Path.GetExtension(file.FileName);
+                            var docName = MCVExtensions.MakeValidFileName(file.FileName);
+                            ea.documentName = docName;
+                            ea.equipmentAttachmentUid = Guid.NewGuid();
+                            ea.equipmentUid = equipment.equipmentUid;
+                            ea.equipmentAttachment1 = Path.GetFileNameWithoutExtension(docName);
+                            db.EquipmentAttachments.Add(ea);
+                        }
+                    }
+                    try
+                    {
+                        await db.SaveChangesAsync();
+                        ViewBag.result = "Tag " + equipment.jciTag.ToString() + " added successfully";
+                        Response.Redirect("/Equipments/EngineerEdit?id=" + equipment.equipmentUid.ToString() + "&returnURL=EngineerCreate");                        
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.result = "Tag " + equipment.jciTag.ToString() + " failed with error:" + ex.Message;
+                    }
+                }
+            }
+            else
+            {
+                var nextJCITag = from cc in db.Equipments
+                                 where cc.Location.projectUid == sessionProject
+                                 select cc.jciTag;
+                
+                ViewBag.result = "JCI Tag already exists. Please choose another";
+            }
+
+            ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", equipment.ecmUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
+            ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
+            ViewBag.heatTypeUid = new SelectList(db.HeatTypes, "heatTypeUid", "heatType1",equipment.heatTypeUid);
+            ViewBag.controlTypeUid = new SelectList(db.ControlTypes, "controlTypeUid", "controlType1", equipment.controlTypeUid);           
+            
+            return View(equipment);
+        }
+
+        // POST: Equipments/AddPicturesForEquipment
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddPicturesForEquipment([Bind(Include = "equipmentUid,jciTag")] Equipment equipment, IEnumerable<HttpPostedFileBase> pics)
+        {
+            Guid sessionProject = MCVExtensions.getSessionProject();
+          
+            if (ModelState.IsValid)
+            {
+                //add pictures
+                foreach (var file in pics)
+                {
+                    if (file != null)
+                    {
+                        EquipmentAttachment ea = new EquipmentAttachment();                        
+                        int fileSize = file.ContentLength;
+                        MemoryStream target = new MemoryStream();
+                        file.InputStream.CopyTo(target);
+                        byte[] data = target.ToArray();
+                        ea.attachment = data;
+                        ea.fileType = Path.GetExtension(file.FileName);
+                        var docName = MCVExtensions.MakeValidFileName(file.FileName);
+                        ea.documentName = docName;
+                        ea.equipmentAttachmentUid = Guid.NewGuid();
+                        ea.equipmentUid = equipment.equipmentUid;
+                        ea.equipmentAttachment1 = Path.GetFileNameWithoutExtension(docName);
+                        db.EquipmentAttachments.Add(ea);
+                    }
+                }
+                try
+                {
+                    await db.SaveChangesAsync();
+                    ViewBag.result = "Picture added successfully";
+                    var jciTag = from cc in db.Equipments
+                                 where cc.equipmentUid == equipment.equipmentUid
+                                 select cc.jciTag;
+
+                    Response.Redirect("/Equipments/AddPicturesForEquipment?jciTag=" + Convert.ToInt16(jciTag.FirstOrDefault()));
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.result = "Tag " + equipment.jciTag.ToString() + " failed with error:" + ex.Message;
+                }
+            }
+            
+            
+
+            return View(equipment);
+        }
+
+
+        public ActionResult showImage(string id)
+        {
+            var image = from cc in db.EquipmentAttachments
+                        where cc.equipmentAttachmentUid.ToString() == id
+                        select cc;
+
+            var stream = new MemoryStream(image.FirstOrDefault().attachment.ToArray());
+            return new FileStreamResult(stream, "image/jpeg");
+        }
+        
 
         // GET: GridEdit
         public async Task<ActionResult> GridEdit(string filter, string filterId, string sort)
@@ -243,6 +482,33 @@ namespace JCIEstimate.Controllers
             return View(await equipments.OrderBy(c => c.jciTag).ToListAsync());
         }
 
+        public async Task<ActionResult> AddPicturesForEquipment(int? jciTag)
+        {
+            Equipment equipment;
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
+            if (jciTag != null)
+            {
+                var equipments = from cc in db.Equipments
+                                 where cc.jciTag == jciTag
+                                 && cc.Location.projectUid == sessionProject
+                                 select cc;
+                if (equipments.Count() > 0)
+                {
+                    equipment = equipments.First();
+                }
+                else
+                {
+                    equipment = null;
+                }
+            }
+            else
+            {
+                equipment = null;
+            }
+            return View(equipment);
+        }
+        
         public async Task<ActionResult> GridEditPartial(string filter, string filterId, string sort)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
@@ -322,15 +588,24 @@ namespace JCIEstimate.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,isNewToSite,useReplacement,price")] Equipment equipment, string ecms, string equipmentUidAsReplaced, string newTasks)
         {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             if (ModelState.IsValid)
             {
-                equipment.equipmentUid = Guid.NewGuid();
-                equipment.ecmUid = Guid.Parse(ecms);
+                equipment.equipmentUid = Guid.NewGuid();                
+                if (ecms == Guid.Empty.ToString())
+                {
+                    equipment.ecmUid = null;
+                }
+                else
+	            {
+                    equipment.ecmUid = Guid.Parse(ecms);
+	            }                
+                
                 if (equipmentUidAsReplaced != Guid.Empty.ToString())
                 {                    
                     equipment.equipmentUidAsReplaced = Guid.Parse(equipmentUidAsReplaced);
                 }
-                
+               
                 db.Equipments.Add(equipment);
                 if (newTasks.Length > 0)
                 {
@@ -342,8 +617,9 @@ namespace JCIEstimate.Controllers
                         eq.equipmentUid = equipment.equipmentUid;
                         db.EquipmentToDoes.Add(eq);
                     }
-                }                
-                await db.SaveChangesAsync();
+                }
+                await db.SaveChangesAsync();               
+                
                 return RedirectToAction(Request.QueryString["returnURL"]);
             }
 
@@ -368,8 +644,14 @@ namespace JCIEstimate.Controllers
 
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
+            
             var replacementEqupments = db.Equipments.Where(c => c.Location.projectUid == sessionProject);
 
+            var equipmentAttributeValues = from cc in db.EquipmentAttributeValues
+                                           where cc.equipmentUid == equipment.equipmentUid
+                                           select cc;
+
+            ViewBag.equipmentAttributeValues = equipmentAttributeValues;
             ViewBag.ecmUid = new SelectList(db.ECMs.Where(c => c.projectUid == sessionProject), "ecmUid", "ecmNumber", equipment.ecmUid);
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1", equipment.locationUid);
@@ -393,6 +675,11 @@ namespace JCIEstimate.Controllers
                 {
                     equipment.equipmentUidAsReplaced = null;
                 }
+
+
+
+
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

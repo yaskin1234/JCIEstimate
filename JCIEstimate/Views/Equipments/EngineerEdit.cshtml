@@ -1,0 +1,119 @@
+﻿@model JCIEstimate.Models.Equipment
+
+@{
+    ViewBag.Title = "Review New Tag";
+}
+
+@using (Html.BeginForm("EngineerEdit", "Equipments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <div>@Html.ActionLink("Edit equipment", "Edit", new { id = Model.equipmentUid }) | @Html.ActionLink("Create New Tag", "EngineerCreate")</div>
+        <hr />        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.jciTag, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.jciTag, new { htmlAttributes = new { @class = "form-control" } })<span class="field-validation-error" id="saveResult">@ViewBag.result</span>
+                @Html.ValidationMessageFor(model => model.jciTag, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.equipmentAttributeTypeUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span>@Model.EquipmentAttributeType.equipmentAttributeType1</span>                                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2"><b>Equipment Attributes</b></div>
+                <div class="col-md-10">
+                    <table class="table" id="tblAttributes">
+                        @foreach (var item in ViewBag.equipmentAttributeValues)
+                    {
+                            <tr>
+                                <td>
+                                    @item.EquipmentAttribute.equipmentAttribute1
+                                </td>
+                                <td>
+                                    @item.equipmentAttributeValue1
+                                </td>
+                            </tr>
+                    }
+                    </table>
+                </div>
+            </div>
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.locationUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Model.Location.location1                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.controlTypeUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Model.ControlType.controlType1
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ownerTag, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ownerTag, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ownerTag, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.model, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.model, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.model, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.serialNumber, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.serialNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.serialNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        @if (Model != null)
+        {
+            <table class="table">
+                @foreach (var item in Model.EquipmentAttachments)
+                {
+                    <tr>
+                        <td>@item.equipmentAttachment1</td>
+                        <td><img height="100px" width="100ox" src="@Url.Action("showImage", "Equipments", new { id = item.equipmentAttachmentUid } )" alt="test" /></td>
+                    </tr>
+                }
+
+            </table>
+            @*<div>
+                <div class="col-md-10">Add Pictures</div>
+                <input type="file" id="pics" name="pics" multiple class="btn btn-default" />
+                <input type="submit" name="submit" value="Save Pictures" class="btn btn-default" />
+            </div>*@
+        }    
+
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

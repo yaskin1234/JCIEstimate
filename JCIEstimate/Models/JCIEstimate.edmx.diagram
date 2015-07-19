@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="95">
+      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="53">
         <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="11.875" PointY="10.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="8.625" PointY="3.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
@@ -98,17 +98,9 @@
         <AssociationConnector Association="JCIEstimateModel.fk_warrantyissue_warrantystatus" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
         <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="23.625" PointY="28.875" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_AttributeType" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_equipmentAsReplaced" />
-        <AssociationConnector Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_location" />
-        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttachment_Equipment" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipment" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentNoteType" Width="1.5" PointX="23.625" PointY="35.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentNote" Width="1.5" PointX="25.875" PointY="17.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote__aspNetUser" />
-        <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote_Equipment" />
         <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote__Equipmentnotetype" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectAttachment" Width="1.5" PointX="18.375" PointY="41.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectAttachmentType" Width="1.5" PointX="7.375" PointY="0.75" />
@@ -148,11 +140,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorDraw_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorDrawSchedule" Width="1.5" PointX="28.625" PointY="14.25" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorDrawSchedule_ContractorDraw" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="18.375" PointY="48.625" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ecm_project" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_ECM" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseType" Width="1.5" PointX="12.375" PointY="6.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_ExpenseType" />
         <AssociationConnector Association="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType" />
@@ -162,6 +149,23 @@
         <AssociationConnector Association="JCIEstimateModel.fk_ExpenseConstructionDraw_ExpenseConstructionType" />
         <AssociationConnector Association="JCIEstimateModel.fk_ExpenseConstructionDraw_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="18.375" PointY="48.125" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="20.625" PointY="37.375" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ecm_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_ECM" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_AttributeType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_equipmentAsReplaced" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttachment_Equipment" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote_Equipment" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipment" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ControlType" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.HeatType" Width="1.5" PointX="12.75" PointY="13.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_controlType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_HeatType" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

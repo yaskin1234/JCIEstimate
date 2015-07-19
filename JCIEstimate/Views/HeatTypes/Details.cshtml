@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.HeatType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HeatType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.heatType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.heatType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.heatTypeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.heatTypeDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.heatTypeUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

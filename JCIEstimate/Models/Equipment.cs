@@ -19,13 +19,13 @@ namespace JCIEstimate.Models
             this.Equipment1 = new HashSet<Equipment>();
             this.EquipmentAttributeValues = new HashSet<EquipmentAttributeValue>();
             this.EquipmentAttachments = new HashSet<EquipmentAttachment>();
-            this.EquipmentToDoes = new HashSet<EquipmentToDo>();
             this.EquipmentNotes = new HashSet<EquipmentNote>();
+            this.EquipmentToDoes = new HashSet<EquipmentToDo>();
         }
     
         public System.Guid equipmentUid { get; set; }
         public System.Guid equipmentAttributeTypeUid { get; set; }
-        public System.Guid ecmUid { get; set; }
+        public Nullable<System.Guid> ecmUid { get; set; }
         public System.Guid locationUid { get; set; }
         public Nullable<decimal> jciTag { get; set; }
         public string ownerTag { get; set; }
@@ -37,16 +37,20 @@ namespace JCIEstimate.Models
         public Nullable<System.Guid> equipmentUidAsReplaced { get; set; }
         public bool isNewToSite { get; set; }
         public bool useReplacement { get; set; }
-        public decimal price { get; set; }
+        public Nullable<decimal> price { get; set; }
+        public Nullable<System.Guid> heatTypeUid { get; set; }
+        public Nullable<System.Guid> controlTypeUid { get; set; }
     
+        public virtual ECM ECM { get; set; }
         public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }
         public virtual ICollection<Equipment> Equipment1 { get; set; }
         public virtual Equipment Equipment2 { get; set; }
         public virtual ICollection<EquipmentAttributeValue> EquipmentAttributeValues { get; set; }
         public virtual Location Location { get; set; }
         public virtual ICollection<EquipmentAttachment> EquipmentAttachments { get; set; }
-        public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
         public virtual ICollection<EquipmentNote> EquipmentNotes { get; set; }
-        public virtual ECM ECM { get; set; }
+        public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
+        public virtual ControlType ControlType { get; set; }
+        public virtual HeatType HeatType { get; set; }
     }
 }

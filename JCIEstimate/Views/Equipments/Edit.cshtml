@@ -7,7 +7,7 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Equipments", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -31,6 +31,25 @@
             <div class="col-md-10">
                 @Html.DropDownList("equipmentAttributeTypeUid", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.equipmentAttributeTypeUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2"><b>Equipment Attributes</b></div>
+            <div class="col-md-10">
+                <table class="table" id="tblAttributes">
+                    @foreach (var item in ViewBag.equipmentAttributeValues)
+                    {
+                        <tr>
+                            <td>
+                                @item.EquipmentAttribute.equipmentAttribute1
+                            </td>
+                            <td>
+                                @item.equipmentAttributeValue1
+                            </td>
+                        </tr>
+                    }
+                </table>
             </div>
         </div>
 
@@ -145,13 +164,36 @@
                                     chked = "CHECKED";
                                 }
                             }
-                            <td class="GridTable"><input class="gridCheckBox" type="checkbox" name="@(Model.equipmentUid)_@(task.equipmentTaskUid)" @chked /> </td>
+                            <td class="GridTable"><input class="gridCheckBox" type="checkbox" name="@(Model.equipmentUid)_@(task.equipmentTaskUid)" @chked /> </td>                            
                         }
                     </tr>
                 </table>
             </div>
-        </div>
+        </div>        
 
+        @*<div class="form-group">
+            @Html.Label("Add Pictures", null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="pics" multiple class="btn btn-default" />
+            </div>
+        </div>*@        
+
+
+        @if (Model != null)
+        {
+            <table class="table">
+                @foreach (var item in Model.EquipmentAttachments)
+                {
+                    <tr>
+                        <td>@item.equipmentAttachment1</td>
+                        <td><img height="100px" width="100ox" src="@Url.Action("showImage", "Equipments", new { id = item.equipmentAttachmentUid } )" alt="test" /></td>
+                        <td><a href="@Url.Action("Delete", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a></td>
+                    </tr>
+                }
+
+            </table>
+        }
+        
         
 
         <div class="form-group">

@@ -585,6 +585,7 @@
     <Content Include="Images\equipment.png" />
     <Content Include="Images\filter.png" />
     <Content Include="Images\loading.gif" />
+    <Content Include="Images\loading2.gif" />
     <Content Include="Images\magnet.jpg" />
     <Content Include="Images\replace.png" />
     <Content Include="Images\tasks.png" />
@@ -1895,6 +1896,20 @@
     <Content Include="Views\ExpenseConstructionDraws\Edit.cshtml" />
     <Content Include="Views\ExpenseConstructionDraws\Index.cshtml" />
     <Content Include="Views\Reports\rptDrawSchedules.cshtml" />
+    <Content Include="Views\Equipments\EngineerCreate.cshtml" />
+    <Content Include="Views\HeatTypes\Create.cshtml" />
+    <Content Include="Views\HeatTypes\Delete.cshtml" />
+    <Content Include="Views\HeatTypes\Details.cshtml" />
+    <Content Include="Views\HeatTypes\Edit.cshtml" />
+    <Content Include="Views\HeatTypes\Index.cshtml" />
+    <Content Include="Views\ControlTypes\Create.cshtml" />
+    <Content Include="Views\ControlTypes\Delete.cshtml" />
+    <Content Include="Views\ControlTypes\Details.cshtml" />
+    <Content Include="Views\ControlTypes\Edit.cshtml" />
+    <Content Include="Views\ControlTypes\Index.cshtml" />
+    <Content Include="Views\Equipments\EngineerEdit.cshtml" />
+    <Content Include="Views\Equipments\GetAttributesForType.cshtml" />
+    <Content Include="Views\Equipments\AddPicturesForEquipment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2021,6 +2036,7 @@
     <Compile Include="Controllers\ContractorSignoffAttachmentsController.cs" />
     <Compile Include="Controllers\ContractorSignoffsController.cs" />
     <Compile Include="Controllers\ContractorUsersController.cs" />
+    <Compile Include="Controllers\ControlTypesController.cs" />
     <Compile Include="Controllers\ECMsController.cs" />
     <Compile Include="Controllers\EddressesController.cs" />
     <Compile Include="Controllers\EquipmentAttachmentsController.cs" />
@@ -2048,6 +2064,7 @@
     <Compile Include="Controllers\ExpenseMonthliesController.cs" />
     <Compile Include="Controllers\ExpensePercentagesController.cs" />
     <Compile Include="Controllers\ExpenseTypesController.cs" />
+    <Compile Include="Controllers\HeatTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HtmlExtensions.cs" />
     <Compile Include="Controllers\IntervalsController.cs" />
@@ -2112,6 +2129,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ContractorUser.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ControlType.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ECM.cs">
@@ -2197,6 +2217,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExpenseType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HeatType.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />

@@ -11,108 +11,108 @@ using JCIEstimate.Models;
 
 namespace JCIEstimate.Controllers
 {
-    public class EquipmentAttributeTypesController : Controller
+    public class HeatTypesController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
-        // GET: EquipmentAttributeTypes
+        // GET: HeatTypes
         public async Task<ActionResult> Index()
         {
-            return View(await db.EquipmentAttributeTypes.ToListAsync());
+            return View(await db.HeatTypes.ToListAsync());
         }
 
-        // GET: EquipmentAttributeTypes/Details/5
+        // GET: HeatTypes/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EquipmentAttributeType equipmentAttributeType = await db.EquipmentAttributeTypes.FindAsync(id);
-            if (equipmentAttributeType == null)
+            HeatType heatType = await db.HeatTypes.FindAsync(id);
+            if (heatType == null)
             {
                 return HttpNotFound();
             }
-            return View(equipmentAttributeType);
-        }       
+            return View(heatType);
+        }
 
-        // GET: EquipmentAttributeTypes/Create
+        // GET: HeatTypes/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: EquipmentAttributeTypes/Create
+        // POST: HeatTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentAttributeTypeUid,equipmentAttributeType1,behaviorIndicator")] EquipmentAttributeType equipmentAttributeType)
+        public async Task<ActionResult> Create([Bind(Include = "heatTypeUid,heatType1,heatTypeDescription,behaviorIndicator")] HeatType heatType)
         {
             if (ModelState.IsValid)
             {
-                equipmentAttributeType.equipmentAttributeTypeUid = Guid.NewGuid();
-                db.EquipmentAttributeTypes.Add(equipmentAttributeType);
+                heatType.heatTypeUid = Guid.NewGuid();
+                db.HeatTypes.Add(heatType);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(equipmentAttributeType);
+            return View(heatType);
         }
 
-        // GET: EquipmentAttributeTypes/Edit/5
+        // GET: HeatTypes/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EquipmentAttributeType equipmentAttributeType = await db.EquipmentAttributeTypes.FindAsync(id);
-            if (equipmentAttributeType == null)
+            HeatType heatType = await db.HeatTypes.FindAsync(id);
+            if (heatType == null)
             {
                 return HttpNotFound();
             }
-            return View(equipmentAttributeType);
+            return View(heatType);
         }
 
-        // POST: EquipmentAttributeTypes/Edit/5
+        // POST: HeatTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentAttributeTypeUid,equipmentAttributeType1,behaviorIndicator")] EquipmentAttributeType equipmentAttributeType)
+        public async Task<ActionResult> Edit([Bind(Include = "heatTypeUid,heatType1,heatTypeDescription,behaviorIndicator")] HeatType heatType)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(equipmentAttributeType).State = EntityState.Modified;
+                db.Entry(heatType).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(equipmentAttributeType);
+            return View(heatType);
         }
 
-        // GET: EquipmentAttributeTypes/Delete/5
+        // GET: HeatTypes/Delete/5
         public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EquipmentAttributeType equipmentAttributeType = await db.EquipmentAttributeTypes.FindAsync(id);
-            if (equipmentAttributeType == null)
+            HeatType heatType = await db.HeatTypes.FindAsync(id);
+            if (heatType == null)
             {
                 return HttpNotFound();
             }
-            return View(equipmentAttributeType);
+            return View(heatType);
         }
 
-        // POST: EquipmentAttributeTypes/Delete/5
+        // POST: HeatTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
-            EquipmentAttributeType equipmentAttributeType = await db.EquipmentAttributeTypes.FindAsync(id);
-            db.EquipmentAttributeTypes.Remove(equipmentAttributeType);
+            HeatType heatType = await db.HeatTypes.FindAsync(id);
+            db.HeatTypes.Remove(heatType);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
