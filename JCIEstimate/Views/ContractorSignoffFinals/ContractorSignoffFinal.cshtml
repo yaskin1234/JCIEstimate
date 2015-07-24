@@ -1,13 +1,13 @@
-﻿@model JCIEstimate.Models.ContractorSignoff
+﻿@model JCIEstimate.Models.ContractorSignoffFinal
 @{
-    ViewBag.Title = "ContractorSignoff";
+    ViewBag.Title = "ContractorSignoffFinal";
 }
 
-@using (Html.BeginForm("ContractorSignoff", "ContractorSignoffs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("ContractorSignoffFinal", "ContractorSignoffFinals", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 @Html.AntiForgeryToken()
     
-<h2>@ViewBag.projectName Signoff for @ViewBag.contractorName by @ViewBag.loggedInUser </h2>
+<h2>Final @ViewBag.projectName Signoff for @ViewBag.contractorName by @ViewBag.loggedInUser </h2>
 
 <h3>Estimates</h3>
 <p>The following estimates have been reviewed for completeness</p>

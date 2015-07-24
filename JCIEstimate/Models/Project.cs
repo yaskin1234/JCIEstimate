@@ -28,10 +28,11 @@ namespace JCIEstimate.Models
             this.ProjectRFIs = new HashSet<ProjectRFI>();
             this.ProjectAddendums = new HashSet<ProjectAddendum>();
             this.ProjectManagerAttachments = new HashSet<ProjectManagerAttachment>();
-            this.ContractorSignoffs = new HashSet<ContractorSignoff>();
             this.ContractorDraws = new HashSet<ContractorDraw>();
             this.ExpenseConstructionDraws = new HashSet<ExpenseConstructionDraw>();
             this.ECMs = new HashSet<ECM>();
+            this.ContractorSignoffs = new HashSet<ContractorSignoff>();
+            this.ContractorSignoffFinals = new HashSet<ContractorSignoffFinal>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -57,9 +58,10 @@ namespace JCIEstimate.Models
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<ProjectAddendum> ProjectAddendums { get; set; }
         public virtual ICollection<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
-        public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
         public virtual ICollection<ContractorDraw> ContractorDraws { get; set; }
         public virtual ICollection<ExpenseConstructionDraw> ExpenseConstructionDraws { get; set; }
         public virtual ICollection<ECM> ECMs { get; set; }
+        public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
+        public virtual ICollection<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
     }
 }

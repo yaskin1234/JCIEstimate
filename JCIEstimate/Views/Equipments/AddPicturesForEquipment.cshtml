@@ -20,8 +20,11 @@
             <div ><b>Search using JCI Tag</b></div>
             <div class="col-md-10">
                 <input type="text" id="jciTag" name="jciTag" value="" class="form-control" />
-                <input id="btnJCITagSearch" type="button" value="Search" class="btn btn-default" />
+                <input id="btnJCITagSearch" type="button" value="Search" class="btn btn-default" />                
             </div>
+        </div>
+        <div id="dvPossibleMatches">
+
         </div>
         @if (Model != null) { 
         <table class="table">
@@ -83,7 +86,7 @@
             <div>
                 <div class="col-md-10">Add Pictures</div>
                 <input type="file" name="pics" multiple class="btn btn-default" />                
-                <input type="submit" name="submit" value="Save Pictures" class="btn btn-default" />
+                <input type="submit" name="submit" value="Upload Pictures" class="btn btn-default" onclick="collectAttributeValues();this.style.visibility = 'hidden'; document.getElementById('loadingMessage').innerHTML = 'loading...';" ondblclick="    this.style.visibility = 'hidden'; document.getElementById('loadingMessage').innerHTML = 'loading...';" />
             </div>
         </div>
             

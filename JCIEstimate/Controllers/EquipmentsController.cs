@@ -23,7 +23,7 @@ namespace JCIEstimate.Controllers
             var attributes = from cc in db.EquipmentAttributes
                              where cc.equipmentAttributeTypeUid == equipmentAttributeTypeUid
                              select cc;
-
+            
             return PartialView(await attributes.ToListAsync());
         }
 
@@ -54,7 +54,7 @@ namespace JCIEstimate.Controllers
             equipments = applyFilter(filterId, equipments);
             equipments = applySorts(sort, equipments);
                         
-            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2).OrderBy(c=>c.jciTag);                            
+            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2).OrderBy(c=>c.Location.location1).ThenBy(c=>c.EquipmentAttributeType.equipmentAttributeType1).ThenBy(c=>c.jciTag);
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             ViewBag.equipmentAttributes = db.EquipmentAttributes.OrderBy(c=>c.equipmentAttribute1);
@@ -220,7 +220,7 @@ namespace JCIEstimate.Controllers
         }
 
         // GET: Equipments/EngineerEdit/5
-        public async Task<ActionResult> EngineerEdit(Guid? id, string returnURL,IEnumerable<HttpPostedFileBase> pics)
+        public async Task<ActionResult> EngineerEdit(Guid? id, string returnURL)
         {
             if (id == null)
             {
@@ -240,37 +240,6 @@ namespace JCIEstimate.Controllers
                                            where cc.equipmentUid == equipment.equipmentUid
                                            select cc;
 
-            //add pictures
-            foreach (var file in pics)
-            {
-                if (file != null)
-                {
-                    EquipmentAttachment ea = new EquipmentAttachment();
-                    int fileSize = file.ContentLength;
-                    MemoryStream target = new MemoryStream();
-                    file.InputStream.CopyTo(target);
-                    byte[] data = target.ToArray();
-                    ea.attachment = data;
-                    ea.fileType = Path.GetExtension(file.FileName);
-                    var docName = MCVExtensions.MakeValidFileName(file.FileName);
-                    ea.documentName = docName;
-                    ea.equipmentAttachmentUid = Guid.NewGuid();
-                    ea.equipmentUid = equipment.equipmentUid;
-                    ea.equipmentAttachment1 = Path.GetFileNameWithoutExtension(docName);
-                    db.EquipmentAttachments.Add(ea);
-                }
-            }
-            try
-            {
-                await db.SaveChangesAsync();
-                ViewBag.result = "Tag " + equipment.jciTag.ToString() + " added successfully";
-                Response.Redirect("/Equipments/EngineerEdit?id=" + equipment.equipmentUid.ToString() + "&returnURL=EngineerCreate");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.result = "Tag " + equipment.jciTag.ToString() + " failed with error:" + ex.Message;
-            }
-
             ViewBag.equipmentAttributeValues = equipmentAttributeValues;
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject).OrderBy(c=>c.location1), "locationUid", "location1", equipment.locationUid);
@@ -278,6 +247,57 @@ namespace JCIEstimate.Controllers
             ViewBag.controlTypeUid = new SelectList(db.ControlTypes, "controlTypeUid", "controlType1", equipment.controlTypeUid);            
             return View(equipment);
         }
+
+        // POST: Equipments/EngineerEdit
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EngineerEdit([Bind(Include = "equipmentUid,jciTag")] Equipment equipment, IEnumerable<HttpPostedFileBase> pics)
+        {
+            Guid sessionProject = MCVExtensions.getSessionProject();
+
+            if (ModelState.IsValid)
+            {
+                //add pictures
+                foreach (var file in pics)
+                {
+                    if (file != null)
+                    {
+                        EquipmentAttachment ea = new EquipmentAttachment();
+                        int fileSize = file.ContentLength;
+                        MemoryStream target = new MemoryStream();
+                        file.InputStream.CopyTo(target);
+                        byte[] data = target.ToArray();
+                        ea.attachment = data;
+                        ea.fileType = Path.GetExtension(file.FileName);
+                        var docName = MCVExtensions.MakeValidFileName(file.FileName);
+                        ea.documentName = docName;
+                        ea.equipmentAttachmentUid = Guid.NewGuid();
+                        ea.equipmentUid = equipment.equipmentUid;
+                        ea.equipmentAttachment1 = Path.GetFileNameWithoutExtension(docName);
+                        db.EquipmentAttachments.Add(ea);
+                    }
+                }
+                try
+                {
+                    await db.SaveChangesAsync();
+                    ViewBag.result = "Picture added successfully";
+                    var jciTag = from cc in db.Equipments
+                                 where cc.equipmentUid == equipment.equipmentUid
+                                 select cc.jciTag;
+
+                    Response.Redirect("/Equipments/EngineerEdit?id=" + equipment.equipmentUid.ToString());
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.result = "Tag " + equipment.jciTag.ToString() + " failed with error:" + ex.Message;
+                }
+            }
+            return View(equipment);
+        }
+
+
 
         // GET: Equipments/EngineerCreate        
         public ActionResult EngineerCreate()
@@ -290,7 +310,8 @@ namespace JCIEstimate.Controllers
 
             ViewBag.locationUid = db.Locations.Where(c => c.projectUid == sessionProject).OrderBy(c=>c.location1).ToSelectList(c => c.location1, c => c.locationUid.ToString(), "");
             ViewBag.heatTypeUid = db.HeatTypes.ToSelectList(c => c.heatType1, c => c.heatTypeUid.ToString(), "");
-            ViewBag.controlTypeUid = db.ControlTypes.ToSelectList(c => c.controlType1, c => c.controlTypeUid.ToString(), "");           
+            ViewBag.controlTypeUid = db.ControlTypes.ToSelectList(c => c.controlType1, c => c.controlTypeUid.ToString(), "");
+            ViewBag.equipmentConditionUid = db.EquipmentConditions.ToSelectList(c => c.equipmentCondition1, c => c.equipmentConditionUid.ToString(), "");
             ViewBag.jciTag = jciTag;
 
             return View();
@@ -301,7 +322,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EngineerCreate([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,locationUid,jciTag,heatTypeUid,controlTypeUid,ownerTag,model,serialNumber")] Equipment equipment, IEnumerable<HttpPostedFileBase> pics)
+        public async Task<ActionResult> EngineerCreate([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,locationUid,jciTag,heatTypeUid,controlTypeUid,ownerTag,model,serialNumber,equipmentConditionUid")] Equipment equipment, IEnumerable<HttpPostedFileBase> pics)
         {
             Guid sessionProject = MCVExtensions.getSessionProject();
 
@@ -374,10 +395,11 @@ namespace JCIEstimate.Controllers
                 ViewBag.result = "JCI Tag already exists. Please choose another";
             }
 
-            ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", equipment.ecmUid);
+            ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).ToSelectList(c => c.ecmString, c => c.ecmUid.ToString(), equipment.ecmUid.ToString());
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
             ViewBag.heatTypeUid = new SelectList(db.HeatTypes, "heatTypeUid", "heatType1",equipment.heatTypeUid);
+            ViewBag.equipmentConditionUid = db.EquipmentConditions.ToSelectList(c => c.equipmentCondition1, c => c.equipmentConditionUid.ToString(), "");
             ViewBag.controlTypeUid = new SelectList(db.ControlTypes, "controlTypeUid", "controlType1", equipment.controlTypeUid);           
             
             return View(equipment);
@@ -490,9 +512,11 @@ namespace JCIEstimate.Controllers
             if (jciTag != null)
             {
                 var equipments = from cc in db.Equipments
-                                 where cc.jciTag == jciTag
+                                 where cc.jciTag.ToString().StartsWith(jciTag.ToString())
                                  && cc.Location.projectUid == sessionProject
+                                 orderby cc.jciTag
                                  select cc;
+
                 if (equipments.Count() > 0)
                 {
                     equipment = equipments.First();
@@ -586,7 +610,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,isNewToSite,useReplacement,price")] Equipment equipment, string ecms, string equipmentUidAsReplaced, string newTasks)
+        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,isNewToSite,useReplacement,price,equipmentConditionUid")] Equipment equipment, string ecms, string equipmentUidAsReplaced, string newTasks)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             if (ModelState.IsValid)
@@ -623,7 +647,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction(Request.QueryString["returnURL"]);
             }
 
-            ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", equipment.ecmUid);
+            ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).ToSelectList(c => c.ecmString, c => c.ecmUid.ToString(), "");
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
             return View(equipment);
@@ -652,10 +676,11 @@ namespace JCIEstimate.Controllers
                                            select cc;
 
             ViewBag.equipmentAttributeValues = equipmentAttributeValues;
-            ViewBag.ecmUid = new SelectList(db.ECMs.Where(c => c.projectUid == sessionProject), "ecmUid", "ecmNumber", equipment.ecmUid);
+            ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).ToSelectList(c=>c.ecmString, c=>c.ecmUid.ToString() , equipment.ecmUid.ToString());
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1", equipment.locationUid);
             ViewBag.equipmentUidAsReplaced = replacementEqupments.OrderBy(c=>c.jciTag).ToSelectList(d => d.Location.location1 + " - " + d.jciTag, d => d.equipmentUid.ToString(), equipment.equipmentUidAsReplaced.ToString());
+            ViewBag.equipmentConditionUid = new SelectList(db.EquipmentConditions, "equipmentConditionUid", "equipmentCondition1", equipment.equipmentConditionUid);
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             return View(equipment);
@@ -666,8 +691,10 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,price,useReplacement")] Equipment equipment, string ecms, string equipmentUidAsReplaced)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,price,useReplacement,equipmentConditionUid")] Equipment equipment, string ecms, string equipmentUidAsReplaced)
         {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
             if (ModelState.IsValid)
             {
                 db.Entry(equipment).State = EntityState.Modified;
@@ -675,16 +702,17 @@ namespace JCIEstimate.Controllers
                 {
                     equipment.equipmentUidAsReplaced = null;
                 }
-
-
-
-
+                if (equipment.ecmUid.ToString() == Guid.Empty.ToString())
+                {
+                    equipment.ecmUid = null;
+                }
 
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", equipment.ecmUid);
+            ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).ToSelectList(c => c.ecmString, c => c.ecmUid.ToString(), equipment.ecmUid.ToString());
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
+            ViewBag.equipmentConditionUid = new SelectList(db.EquipmentConditions, "equipmentConditionUid", "equipmentCondition1", equipment.equipmentConditionUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
             return View(equipment);
         }

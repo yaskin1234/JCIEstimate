@@ -1328,9 +1328,40 @@ namespace JCIEstimate.Models
         public string behaviorIndicator { get; set; }
     }
 
-    public class JCIAttachment
+    /// <summary>
+    /// EquipmentCondition
+    /// </summary>
+    [MetadataType(typeof(EquipmentConditionMetaData))]
+    public partial class EquipmentCondition
     {
-        public IEnumerable<HttpPostedFileBase> Files { get; set; }
+    }
+
+    public class EquipmentConditionMetaData
+    {
+        [Display(Name = "Equipment Condition")]
+        public System.Guid equipmentConditionUid { get; set; }
+        [Display(Name = "Equipment Condition")]
+        public string equipmentCondition1 { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
+    /// <summary>
+    /// ContractorSignoffFinal
+    /// </summary>
+    [MetadataType(typeof(ContractorSignoffFinalMetaData))]
+    public partial class ContractorSignoffFinal
+    {
+    }
+
+    public class ContractorSignoffFinalMetaData
+    {
+        [Display(Name = "Contractor Signoff Final")]
+        public System.Guid contractorSignoffFinalUid { get; set; }
+        [Display(Name = "Signed Name")]
+        public string typedName { get; set; }
+        [Display(Name = "Date Created")]
+        public Nullable<System.DateTime> dateCreated { get; set; }
     }
 
 }

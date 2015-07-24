@@ -1,0 +1,114 @@
+﻿@model JCIEstimate.Models.ContractorSignoffFinal
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit", "ContractorSignoffFinals", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Contractor Signoff</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.contractorSignoffFinalUid)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.projectUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">                
+                @Html.DisplayFor(model => model.Project.project1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.projectUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.aspNetUserUidAsCreated, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">                
+                @Html.DisplayFor(model => model.AspNetUser.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.aspNetUserUidAsCreated, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dateCreated, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.dateCreated, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.dateCreated, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.documentName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.documentName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.documentName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <h4 id="">Add Attachment</h4>
+        <div id="contractorSignoffFinalAttachmentsToToggle">
+            <div class="form-group">
+                @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("attachmentDescription")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Choose File", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" name="postedFile" id="postedFile" />
+                </div>
+            </div>
+        </div>
+
+        <h4>Existing Attachments</h4>
+        <table class="table">
+            <tr>
+                <th>
+                    Date Created
+                </th>
+                <th>
+                    Description
+                </th>                
+                <th>
+                    File Name
+                </th>                
+                <th>
+                    Get Attachment
+                </th>
+            </tr>
+        @foreach (var item in ViewBag.signoffFinalAttachments)
+        {
+            <tr>
+                <td>
+                    @item.dateCreated
+                </td>
+                <td>
+                    @item.contractorSignoffFinalAttachment1
+                </td>                
+                <td>
+                    @item.documentName
+                </td>        
+                <td>
+                    @Html.ActionLink("Get Attachment", "GetContractorSignoffFinalAttachment", new { contractorSignoffFinalAttachmentUid = item.contractorSignoffFinalAttachmentUid })
+                </td>
+            </tr>
+        }    
+        </table>
+        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

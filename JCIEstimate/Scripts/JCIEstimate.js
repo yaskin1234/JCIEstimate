@@ -5,7 +5,8 @@
     $(document).on({
         ajaxStart: function () { $body.addClass("loading"); },
         ajaxStop: function () { $body.removeClass("loading"); }
-    });
+
+    })
 
     $(".filter").change(function () {
         var selectedValue = $("#filter").val();
@@ -74,6 +75,14 @@
         $val = $("#jciTag").val();
         document.location = "/Equipments/AddPicturesForEquipment?jciTag=" + escape($val);
     })
+    
+    $("#btnJCITagSearch").click(function () {
+        $val = $("#jciTag").val();
+        document.location = "/Equipments/AddPicturesForEquipment?jciTag=" + escape($val);
+    })
+
+    
+
 
     $("#jciTag").keypress(function (e) {
         if (e.which == 13) {

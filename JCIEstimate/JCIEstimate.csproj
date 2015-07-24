@@ -1910,6 +1910,17 @@
     <Content Include="Views\Equipments\EngineerEdit.cshtml" />
     <Content Include="Views\Equipments\GetAttributesForType.cshtml" />
     <Content Include="Views\Equipments\AddPicturesForEquipment.cshtml" />
+    <Content Include="Views\EquipmentConditions\Create.cshtml" />
+    <Content Include="Views\EquipmentConditions\Delete.cshtml" />
+    <Content Include="Views\EquipmentConditions\Details.cshtml" />
+    <Content Include="Views\EquipmentConditions\Edit.cshtml" />
+    <Content Include="Views\EquipmentConditions\Index.cshtml" />
+    <Content Include="Views\ContractorSignoffFinals\Create.cshtml" />
+    <Content Include="Views\ContractorSignoffFinals\Delete.cshtml" />
+    <Content Include="Views\ContractorSignoffFinals\Details.cshtml" />
+    <Content Include="Views\ContractorSignoffFinals\Edit.cshtml" />
+    <Content Include="Views\ContractorSignoffFinals\Index.cshtml" />
+    <Content Include="Views\ContractorSignoffFinals\ContractorSignoffFinal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2034,6 +2045,7 @@
     <Compile Include="Controllers\ContractorDrawsController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
     <Compile Include="Controllers\ContractorSignoffAttachmentsController.cs" />
+    <Compile Include="Controllers\ContractorSignoffFinalsController.cs" />
     <Compile Include="Controllers\ContractorSignoffsController.cs" />
     <Compile Include="Controllers\ContractorUsersController.cs" />
     <Compile Include="Controllers\ControlTypesController.cs" />
@@ -2043,6 +2055,7 @@
     <Compile Include="Controllers\EquipmentAttributesController.cs" />
     <Compile Include="Controllers\EquipmentAttributeTypesController.cs" />
     <Compile Include="Controllers\EquipmentAttributeValuesController.cs" />
+    <Compile Include="Controllers\EquipmentConditionsController.cs" />
     <Compile Include="Controllers\EquipmentNotesController.cs" />
     <Compile Include="Controllers\EquipmentNoteTypesController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
@@ -2125,6 +2138,12 @@
     <Compile Include="Models\ContractorSignoffAttachment.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ContractorSignoffFinal.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContractorSignoffFinalAttachment.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ContractorTotalsByProject.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -2153,6 +2172,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EquipmentAttributeValue.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentCondition.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EquipmentNote.cs">

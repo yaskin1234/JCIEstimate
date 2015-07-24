@@ -40,6 +40,7 @@ namespace JCIEstimate.Models
         public Nullable<decimal> price { get; set; }
         public Nullable<System.Guid> heatTypeUid { get; set; }
         public Nullable<System.Guid> controlTypeUid { get; set; }
+        public Nullable<System.Guid> equipmentConditionUid { get; set; }
     
         public virtual ECM ECM { get; set; }
         public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }
@@ -52,5 +53,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
         public virtual ControlType ControlType { get; set; }
         public virtual HeatType HeatType { get; set; }
+        public virtual EquipmentCondition EquipmentCondition { get; set; }
     }
 }

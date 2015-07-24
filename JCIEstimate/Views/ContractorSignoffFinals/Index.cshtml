@@ -1,0 +1,59 @@
+﻿@model IEnumerable<JCIEstimate.Models.ContractorSignoffFinal>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Contractor.contractorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.typedName)
+        </th>
+        <th>
+            Logged in as
+        </th>
+        <th>
+            View Report
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contractor.contractorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.typedName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Get Final Signoff", "GetContractorSignoffFinal", new { contractorSignoffFinalUid = item.contractorSignoffFinalUid })
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", "ContractorSignoffFinals", new { id = item.contractorSignoffFinalUid })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a href="@Url.Action("Delete", "ContractorSignoffFinals", new { id = item.contractorSignoffFinalUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>

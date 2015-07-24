@@ -20,8 +20,9 @@ namespace JCIEstimate.Models
             this.ContractorUsers = new HashSet<ContractorUser>();
             this.Estimates = new HashSet<Estimate>();
             this.ProjectRFIs = new HashSet<ProjectRFI>();
-            this.ContractorSignoffs = new HashSet<ContractorSignoff>();
             this.ContractorDraws = new HashSet<ContractorDraw>();
+            this.ContractorSignoffs = new HashSet<ContractorSignoff>();
+            this.ContractorSignoffFinals = new HashSet<ContractorSignoffFinal>();
         }
     
         public System.Guid contractorUid { get; set; }
@@ -34,7 +35,8 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorUser> ContractorUsers { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
-        public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
         public virtual ICollection<ContractorDraw> ContractorDraws { get; set; }
+        public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
+        public virtual ICollection<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
     }
 }

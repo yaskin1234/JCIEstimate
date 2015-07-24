@@ -59,6 +59,13 @@
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.manufacturer, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.manufacturer, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.manufacturer, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.model, null, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -73,6 +80,14 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.serialNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.serialNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Equipment Condition", null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("equipmentConditionUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.equipmentConditionUid, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -99,7 +114,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <span style="color:green;" id="loadingMessage"></span>
-                <input type="submit" id="btnSubmitEquipmentPicture" value="Save and Review" class="btn btn-default" onclick="collectAttributeValues();this.style.visibility = 'hidden'; document.getElementById('loadingMessage').innerHTML = 'loading...';" ondblclick="    this.style.visibility = 'hidden'; document.getElementById('loadingMessage').innerHTML = 'loading...';" />
+                <input type="submit" id="btnSubmitEquipmentPicture" value="Save and Review" class="btn btn-default" onclick="this.style.visibility = 'hidden'; document.getElementById('loadingMessage').innerHTML = 'loading...';" ondblclick="    this.style.visibility = 'hidden'; document.getElementById('loadingMessage').innerHTML = 'loading...';" />
             </div>
         </div>
 

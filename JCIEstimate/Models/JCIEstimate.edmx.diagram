@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="53">
+      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="78">
         <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="11.875" PointY="10.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="8.625" PointY="3.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
@@ -128,13 +128,6 @@
         <EntityTypeShape EntityType="JCIEstimateModel.v__ContractorECMByCategory" Width="1.5" PointX="5.75" PointY="13.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.v__EquipmentForEcm" Width="1.5" PointX="0.75" PointY="17.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.v__ExpensePercentage" Width="1.5" PointX="9.75" PointY="6.75" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoff" Width="1.5" PointX="22.375" PointY="1.5" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created2" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Project" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffAttachment" Width="1.5" PointX="24.625" PointY="0.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created4" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffAttachment_contractorSignoffUid" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Contractor" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorDraw" Width="1.5" PointX="26.375" PointY="14" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorDraw_Contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorDraw_Project" />
@@ -166,6 +159,22 @@
         <EntityTypeShape EntityType="JCIEstimateModel.HeatType" Width="1.5" PointX="12.75" PointY="13.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_controlType" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_HeatType" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentCondition" Width="1.5" PointX="12.375" PointY="16.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_Condition" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoff" Width="1.5" PointX="22.375" PointY="0.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created2" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Contractor" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffAttachment" Width="1.5" PointX="24.625" PointY="0.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created4" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffAttachment_contractorSignoffUid" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffFinal" Width="1.5" PointX="27.375" PointY="2" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffFinalAttachment" Width="1.5" PointX="29.625" PointY="1.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created3" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffFinal_Contractor" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffFinal_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffFinalAttachment_contractorSignoffFinalUid" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

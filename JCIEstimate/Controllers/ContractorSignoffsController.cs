@@ -87,7 +87,7 @@ namespace JCIEstimate.Controllers
                         join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                         where dd.projectUid == sessionProject
                         && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
-                        select cc;
+                        select cc;                        
 
             loggedInUser = from cc in db.AspNetUsers
                                where cc.UserName == System.Web.HttpContext.Current.User.Identity.Name
@@ -104,7 +104,7 @@ namespace JCIEstimate.Controllers
             scopeOfWorks = from cc in db.ScopeOfWorks
                            where cc.projectUid == sessionProject
                            select cc;
-
+            
             ViewBag.scopeOfWorks = scopeOfWorks.OrderBy(c => c.scopeOfWorkDescription).ThenBy(c => c.Category.category1).ThenBy(c => c.documentName).ToList();
             ViewBag.projectRFIs = projectRFIs.OrderBy(c => c.projectRFIID).ToList();
             ViewBag.projectAddendums = projectAddendums.OrderBy(c => c.addendumId).ToList();

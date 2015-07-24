@@ -7,7 +7,15 @@
             @Html.DisplayFor(modelItem => item.equipmentAttribute1)
         </td>
         <td>
-            <input type="text" name="@item.equipmentAttributeUid" value="" />            
+            @if (item.AppDataType.appDataType1 == "Boolean")
+            {
+                <input type="checkbox" name="@item.equipmentAttributeUid" />
+            }
+            else
+            {
+                <input type="text" name="@item.equipmentAttributeUid" value="" />
+            }
+            
         </td>
     </tr>
 }
