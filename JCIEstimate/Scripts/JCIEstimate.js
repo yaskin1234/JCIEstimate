@@ -308,6 +308,21 @@
         })     
     });
 
+    $(".completionCheckBox").click(function () {
+        $.ajax({
+            url: "/LocationCompletionCategories/SaveCheckedBox",
+            type: "POST",
+            data: {
+                chkBoxName: $(this).attr("name"),
+                value: this.checked
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        })
+    });
+
     $(".contractorSchedule").change(function () {        
         $.ajax({
             url: "/ContractorDraws/SaveDrawScheduleAmount",            

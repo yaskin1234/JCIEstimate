@@ -159,7 +159,7 @@ namespace JCIEstimate.Controllers
                     string reportName = "ContractorSignoff";
 
                     string saveFolder = "Signoffs";
-                    string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=word&projectUid=" + sessionProject.ToString() + "&contractorUid=" + estimates.First().contractorUid.ToString() + "&typedName=" + signedName;
+                    string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=word&projectUid=" + sessionProject.ToString() + "&contractorUid=" + estimates.First().contractorUid.ToString() + "&typedName=" + signedName + "&isActive=0";
                     string saveFile = "";
 
                     //saveFile = saveFolder + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";

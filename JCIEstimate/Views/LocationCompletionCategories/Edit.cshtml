@@ -1,0 +1,55 @@
+﻿@model JCIEstimate.Models.LocationCompletionCategory
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+<h2>Assign Completions</h2>
+
+<table id="CompletionTable" class="CompletionTable">
+    <thead>
+        <tr>
+            <th>&nbsp;</th>
+            @foreach (var item in ViewBag.completionCategories)
+            {
+                <th class="categoryHeaders">@item.completionCategory1</th>
+            }            
+        </tr>
+    </thead>
+    <tbody id="tbCompletion">
+        @foreach (var item in ViewBag.locations)
+        {
+            <tr>
+                <td class="CompletionTable">@item.location1</td>
+                @foreach (var cc in ViewBag.completionCategories)
+                {
+                    string chked = "";
+
+                    foreach (var lcc in ViewBag.locationCompletionCategories)
+                    {
+                        if (lcc.locationUid == item.locationUid && lcc.completionCategoryUid == cc.completionCategoryUid)
+                        {
+                            chked = "CHECKED";
+                        }
+                    }
+                    <td class="GridTable"><input class="completionCheckBox" type="checkbox" name="@(item.locationUid)_@(cc.completionCategoryUid)" @chked /> </td>
+                }
+                <td class="CompletionTable"></td>
+
+            </tr>
+
+
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

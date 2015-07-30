@@ -53,6 +53,7 @@
                             <li>@Html.ActionLink("Heat Types", "Index", "HeatTypes")</li>
                             <li>@Html.ActionLink("Control Types", "Index", "ControlTypes")</li>
                             <li>@Html.ActionLink("Equipment Condition", "Index", "EquipmentConditions")</li>
+                            <li>@Html.ActionLink("Completion Categories", "Index", "CompletionCategories")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
                             <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>
@@ -128,6 +129,7 @@
                                 <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>                                
                                 <li class="divider"></li>
                                 <li><a href="/ContractorSignoffs/Index">View signed proposals</a></li>
+                                <li>@Html.ActionLink("Generate Final Signoffs", "GenerateSignoff", "ContractorSignoffFinals")</li>
                                 <li><a href="/ContractorSignoffFinals/Index">View signed final proposals</a></li>
                             </ul>
                         </li>
@@ -158,8 +160,7 @@
                                 <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>                                            
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Proposal Signature", "ContractorSignoff", "ContractorSignoffs")</li>
-                                <li><a href="/ContractorSignoffs/Index">View signed proposals</a></li>
-                                <li>@Html.ActionLink("Final Proposal Signature", "ContractorSignoffFinal", "ContractorSignoffFinals")</li>
+                                <li><a href="/ContractorSignoffs/Index">View signed proposals</a></li>                                
                                 <li><a href="/ContractorSignoffFinals/Index">View signed final proposals</a></li>
                                 
                             </ul>
@@ -182,6 +183,7 @@
                                 <li>@Html.ActionLink("Create JCI Tag", "EngineerCreate", "Equipments")</li>
                                 <li>@Html.ActionLink("Add Pictures", "AddPicturesForEquipment", "Equipments")</li>
                                 <li>@Html.ActionLink("Equipment Grid", "GridEdit", "Equipments")</li>
+                                <li>@Html.ActionLink("Location Completion Grid", "Edit", "LocationCompletionCategories")</li>
                             </ul>
                         </li>
                     }

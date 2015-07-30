@@ -1921,6 +1921,17 @@
     <Content Include="Views\ContractorSignoffFinals\Edit.cshtml" />
     <Content Include="Views\ContractorSignoffFinals\Index.cshtml" />
     <Content Include="Views\ContractorSignoffFinals\ContractorSignoffFinal.cshtml" />
+    <Content Include="Views\ContractorSignoffFinals\GenerateSignoff.cshtml" />
+    <Content Include="Views\CompletionCategories\Create.cshtml" />
+    <Content Include="Views\CompletionCategories\Delete.cshtml" />
+    <Content Include="Views\CompletionCategories\Details.cshtml" />
+    <Content Include="Views\CompletionCategories\Edit.cshtml" />
+    <Content Include="Views\CompletionCategories\Index.cshtml" />
+    <Content Include="Views\LocationCompletionCategories\Create.cshtml" />
+    <Content Include="Views\LocationCompletionCategories\Delete.cshtml" />
+    <Content Include="Views\LocationCompletionCategories\Details.cshtml" />
+    <Content Include="Views\LocationCompletionCategories\Edit.cshtml" />
+    <Content Include="Views\LocationCompletionCategories\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2041,6 +2052,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppDataTypesController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CompletionCategoriesController.cs" />
     <Compile Include="Controllers\ContractorContactsController.cs" />
     <Compile Include="Controllers\ContractorDrawsController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
@@ -2081,6 +2093,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HtmlExtensions.cs" />
     <Compile Include="Controllers\IntervalsController.cs" />
+    <Compile Include="Controllers\LocationCompletionCategoriesController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MilestoneActionsController.cs" />
@@ -2118,6 +2131,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CompletionCategory.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Contractor.cs">
@@ -2267,6 +2283,9 @@
     <Compile Include="Models\Location.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LocationCompletionCategory.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LocationIssue.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -2326,9 +2345,6 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\v__ContractorECMByCategory.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\v__EquipmentForEcm.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\v__ExpensePercentage.cs">

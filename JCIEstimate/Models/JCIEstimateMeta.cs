@@ -1364,4 +1364,44 @@ namespace JCIEstimate.Models
         public Nullable<System.DateTime> dateCreated { get; set; }
     }
 
+
+    /// <summary>
+    /// CompletionCategory
+    /// </summary>
+    [MetadataType(typeof(CompletionCategoryMetaData))]
+    public partial class CompletionCategoryFinal
+    {
+    }
+
+    public class CompletionCategoryMetaData
+    {
+        [Display(Name = "Completion Category")]
+        public System.Guid completionCategoryUid { get; set; }
+        [Display(Name = "Completion Category")]
+        public string completionCategory1 { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
+
+    /// <summary>
+    /// LocationCompletionCategory
+    /// </summary>
+    [MetadataType(typeof(LocationCompletionCategoryMetaData))]
+    public partial class LocationCompletionCategoryFinal
+    {
+    }
+
+    public class LocationCompletionCategoryMetaData
+    {
+        [Display(Name = "Location Completion Category")]
+        public System.Guid locationCompletionCategoryUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Location")]
+        public System.Guid locationUid { get; set; }
+        [Display(Name = "Completion Category")]
+        public System.Guid completionCategoryUid { get; set; }
+    }
+
 }

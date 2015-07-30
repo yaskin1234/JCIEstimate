@@ -79,6 +79,21 @@ input[type="checkbox"].input-validation-error {
 }
 
 
+.CompletionTable {
+    padding: 5px;
+    align-content: center;        
+
+}
+.CompletionTable thead{
+    background-color:white;    
+}
+
+.CompletionTable td{    
+    border-bottom: solid;
+}
+
+
+
 .EquipmentIndexTable {
     padding: 5px;
     align-content: center;    
@@ -145,3 +160,8 @@ body.loading .modal {
 .toggleEquipmentAttributes {cursor:pointer}
 .tdEquipmentForEcm {cursor:pointer}
 .toggleReplacedEquipment {cursor:pointer}
+
+.vertical-text {
+	transform: rotate(45deg);
+	transform-origin: left top 0;
+}

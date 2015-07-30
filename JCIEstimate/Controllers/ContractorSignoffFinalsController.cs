@@ -22,9 +22,38 @@ namespace JCIEstimate.Controllers
         // GET: ContractorSignoffFinals
         public async Task<ActionResult> Index()
         {
-            var contractorSignoffFinals = db.ContractorSignoffFinals.Include(c => c.AspNetUser).Include(c => c.Contractor).Include(c => c.Project);
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            IQueryable<ContractorSignoffFinal> contractorSignoffFinals;
+            if (User.IsInRole("Admin"))
+            {
+                contractorSignoffFinals = db.ContractorSignoffFinals.Include(c => c.AspNetUser).Include(c => c.Contractor).Include(c => c.Project).OrderBy(c => c.dateCreated);
+            }
+            else
+            {
+                contractorSignoffFinals = from cc in db.ContractorSignoffFinals                            
+                                          join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
+                                          join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
+                                          where cc.projectUid == sessionProject
+                                          && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                                          select cc;
+                contractorSignoffFinals = contractorSignoffFinals.Include(c => c.AspNetUser).Include(c => c.Contractor).Include(c => c.Project).OrderBy(c => c.dateCreated);
+            }
+            
             return View(await contractorSignoffFinals.ToListAsync());
         }
+
+        // GET: GenerateSignoff
+        public async Task<ActionResult> GenerateSignoff()
+        {
+
+            var contractors = db.Estimates.GroupBy(c => c.contractorUid)
+                .Select(grp => grp.FirstOrDefault()).Include(c=>c.Contractor).OrderBy(c=>c.Contractor.contractorName);
+
+            ViewBag.contractorUid = contractors.ToSelectList(c=>c.Contractor.contractorName, c=>c.contractorUid.ToString(), "");            
+
+            return View();
+        }
+
 
         // GET: ContractorSignoff/ContractorSignoff
         public async Task<ActionResult> ContractorSignoffFinal()
@@ -72,69 +101,60 @@ namespace JCIEstimate.Controllers
             return View();
         }
 
-        // POST: ContractorSignoff/ContractorSignoffFinal
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ContractorSignoffFinal([Bind(Include = "ContractorSignoffFinalUid,projectUid,aspNetUserUidAsCreated,dateCreated,typedName,attachment,fileType,documentName")] ContractorSignoffFinal contractorSignoffFinal, string signedName)
+
+        private void CreateFinalSignoff(string contractorUid)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-            if (ModelState.IsValid)
-            {
-                if (!String.IsNullOrEmpty(signedName))
+            ContractorSignoffFinal contractorSignoffFinal = new ContractorSignoffFinal();
+            
+                IQueryable<Estimate> estimates;
+
+                estimates = from cc in db.Estimates
+                            join dd in db.Locations on cc.locationUid equals dd.locationUid                            
+                            where dd.projectUid == sessionProject
+                            && cc.contractorUid.ToString() == contractorUid
+                            where cc.isActive == true
+                            select cc;
+
+                string directory = "JCIEstimate";
+                string reportName = "ContractorSignoff";
+
+                string saveFolder = "Signoffs";
+                string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=word&projectUid=" + sessionProject.ToString() + "&contractorUid=" + estimates.First().contractorUid.ToString() + "&typedName=" + "N/A" + "&isActive=1";
+                string saveFile = "";
+
+                //saveFile = saveFolder + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";
+                saveFile = Server.MapPath("\\" + saveFolder) + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".doc";
+
+                SaveFileFromURL(addressRoot, saveFile, 600000, CredentialCache.DefaultNetworkCredentials);
+                byte[] byteArray = System.IO.File.ReadAllBytes(saveFile);
+
+                var currentUser = IdentityExtensions.GetUserId(User.Identity);
+
+                DateTime dateCreated = DateTime.Now;
+
+                contractorSignoffFinal.contractorUid = estimates.First().contractorUid;
+                contractorSignoffFinal.contractorSignoffFinalUid = Guid.NewGuid();
+                contractorSignoffFinal.projectUid = sessionProject;
+                contractorSignoffFinal.attachment = byteArray;
+                contractorSignoffFinal.dateCreated = dateCreated;
+                contractorSignoffFinal.fileType = "doc";
+                contractorSignoffFinal.typedName = "N/A";
+                contractorSignoffFinal.documentName = estimates.First().Contractor.contractorName + "_" + String.Format("{0:yyyyMMddHHmmss}", dateCreated) + "." + contractorSignoffFinal.fileType;
+                contractorSignoffFinal.aspNetUserUidAsCreated = currentUser;
+
+                ViewBag.estimates = estimates.OrderBy(c => c.ECM.ecmNumber).ToList();
+
+
+                if (1==1)
                 {
-
-                    IQueryable<Estimate> estimates;
-
-                    estimates = from cc in db.Estimates
-                                join dd in db.Locations on cc.locationUid equals dd.locationUid
-                                join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
-                                join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
-                                where dd.projectUid == sessionProject
-                                && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
-                                where cc.isActive == true
-                                select cc;
-
-                    string directory = "JCIEstimate";
-                    string reportName = "ContractorSignoff";
-
-                    string saveFolder = "Signoffs";
-                    string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=word&projectUid=" + sessionProject.ToString() + "&contractorUid=" + estimates.First().contractorUid.ToString() + "&typedName=" + signedName + "&isActive=1";
-                    string saveFile = "";
-
-                    //saveFile = saveFolder + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";
-                    saveFile = Server.MapPath("\\" + saveFolder) + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".doc";
-
-                    SaveFileFromURL(addressRoot, saveFile, 600000, CredentialCache.DefaultNetworkCredentials);
-                    byte[] byteArray = System.IO.File.ReadAllBytes(saveFile);
-
-                    var currentUser = IdentityExtensions.GetUserId(User.Identity);
-
-                    DateTime dateCreated = DateTime.Now;
-
-                    contractorSignoffFinal.contractorUid = estimates.First().contractorUid;
-                    contractorSignoffFinal.contractorSignoffFinalUid = Guid.NewGuid();
-                    contractorSignoffFinal.projectUid = sessionProject;
-                    contractorSignoffFinal.attachment = byteArray;
-                    contractorSignoffFinal.dateCreated = dateCreated;
-                    contractorSignoffFinal.fileType = "doc";
-                    contractorSignoffFinal.typedName = signedName;
-                    contractorSignoffFinal.documentName = estimates.First().Contractor.contractorName + "_" + String.Format("{0:yyyyMMddHHmmss}", dateCreated) + "." + contractorSignoffFinal.fileType;
-                    contractorSignoffFinal.aspNetUserUidAsCreated = currentUser;
-
-                    ViewBag.estimates = estimates.OrderBy(c => c.ECM.ecmNumber).ToList();
-
-
-                }
                 db.ContractorSignoffFinals.Add(contractorSignoffFinal);
                 try
                 {
-                    await db.SaveChangesAsync();
+                    db.SaveChanges();
                 }
                 catch (DbEntityValidationException ex)
                 {
-
                     foreach (var item in ex.EntityValidationErrors)
                     {
                         foreach (var item2 in item.ValidationErrors)
@@ -145,11 +165,29 @@ namespace JCIEstimate.Controllers
 
                         }
                     }
-                }
-
-                return Redirect("/ContractorSignoffFinals/Index");
+                }                
             }
+        }
+        
+        // POST: ContractorSignoff/ContractorSignoffFinal
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> GenerateSignoff(ContractorSignoffFinal contractorSignoffFinal, string contractorUid)
+        {
+            CreateFinalSignoff(contractorUid);
 
+            var contractors = db.Estimates.GroupBy(c => c.contractorUid)
+                .Select(grp => grp.FirstOrDefault()).Include(c => c.Contractor).OrderBy(c => c.Contractor.contractorName);
+
+            ViewBag.contractorUid = contractors.ToSelectList(c => c.Contractor.contractorName, c => c.contractorUid.ToString(), "");
+
+            var cName = from cc in db.Contractors
+                           where cc.contractorUid.ToString() == contractorUid
+                           select cc.contractorName;
+
+            ViewBag.message = cName.FirstOrDefault() + " generated successfully.";
             return View(contractorSignoffFinal);
         }
 
@@ -327,6 +365,7 @@ namespace JCIEstimate.Controllers
             }
             base.Dispose(disposing);
         }
+
 
         public static bool SaveFileFromURL(string url, string destinationFileName, int timeoutInSeconds, NetworkCredential nc)
         {

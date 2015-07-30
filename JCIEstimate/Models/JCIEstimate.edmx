@@ -38,6 +38,14 @@
           <Property Name="category" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="categoryDescription" Type="nvarchar" MaxLength="2000" />
         </EntityType>
+        <EntityType Name="CompletionCategory">
+          <Key>
+            <PropertyRef Name="completionCategoryUid" />
+          </Key>
+          <Property Name="completionCategoryUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="completionCategory" Type="varchar" MaxLength="200" />
+          <Property Name="behaviorIndicator" Type="varchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="Contractor">
           <Key>
             <PropertyRef Name="contractorUid" />
@@ -471,6 +479,15 @@
           <Property Name="locationDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
+        <EntityType Name="LocationCompletionCategory">
+          <Key>
+            <PropertyRef Name="locationCompletionCategoryUid" />
+          </Key>
+          <Property Name="locationCompletionCategoryUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="locationUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="completionCategoryUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="LocationIssue">
           <Key>
             <PropertyRef Name="locationIssueUid" />
@@ -798,40 +815,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ContractorECMByCategory' does n
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'JCIEstimate.dbo.v__EquipmentForEcm' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v__EquipmentForEcm">
-          <Key>
-            <PropertyRef Name="equipmentUid" />
-            <PropertyRef Name="projectUid" />
-            <PropertyRef Name="project" />
-            <PropertyRef Name="locationUid" />
-            <PropertyRef Name="location" />
-            <PropertyRef Name="ecmUId" />
-            <PropertyRef Name="ecmString" />
-            <PropertyRef Name="isNewToSite" />
-            <PropertyRef Name="useReplacement" />
-          </Key>
-          <Property Name="equipmentUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="equipmentUidAsReplaced" Type="uniqueidentifier" />
-          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="project" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="locationUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="location" Type="nvarchar" MaxLength="1000" Nullable="false" />
-          <Property Name="ecmUId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmString" Type="nvarchar" MaxLength="403" Nullable="false" />
-          <Property Name="isNewToSite" Type="bit" Nullable="false" />
-          <Property Name="useReplacement" Type="bit" Nullable="false" />
-          <Property Name="jciTag" Type="decimal" Precision="11" Scale="2" />
-          <Property Name="ownerTag" Type="nvarchar" MaxLength="200" />
-          <Property Name="manufacturer" Type="nvarchar" MaxLength="2000" />
-          <Property Name="equipmentAttributeType" Type="varchar" MaxLength="200" />
-          <Property Name="model" Type="nvarchar" MaxLength="2000" />
-          <Property Name="serialNumber" Type="nvarchar" MaxLength="2000" />
-          <Property Name="tons" Type="varchar" MaxLength="2000" />
-          <Property Name="EER" Type="varchar" MaxLength="2000" />
-          <Property Name="VAC" Type="varchar" MaxLength="2000" />
-          <Property Name="year" Type="int" />
-          <Property Name="phase" Type="varchar" MaxLength="2000" />
-        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v__ExpensePercentage">
@@ -1623,6 +1606,48 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_LocationCompletionCategory_CompletionCategory">
+          <End Role="CompletionCategory" Type="Self.CompletionCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LocationCompletionCategory" Type="Self.LocationCompletionCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompletionCategory">
+              <PropertyRef Name="completionCategoryUid" />
+            </Principal>
+            <Dependent Role="LocationCompletionCategory">
+              <PropertyRef Name="completionCategoryUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LocationCompletionCategory_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LocationCompletionCategory" Type="Self.LocationCompletionCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="LocationCompletionCategory">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LocationCompletionCategory_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LocationCompletionCategory" Type="Self.LocationCompletionCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="LocationCompletionCategory">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_LocationIssue_AspNetUser">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="LocationIssue" Type="Self.LocationIssue" Multiplicity="*" />
@@ -2031,6 +2056,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="AppDataType" EntityType="Self.AppDataType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompletionCategory" EntityType="Self.CompletionCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contractor" EntityType="Self.Contractor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorContact" EntityType="Self.ContractorContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorDraw" EntityType="Self.ContractorDraw" Schema="dbo" store:Type="Tables" />
@@ -2073,6 +2099,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="HeatType" EntityType="Self.HeatType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Interval" EntityType="Self.Interval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LocationCompletionCategory" EntityType="Self.LocationCompletionCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationIssue" EntityType="Self.LocationIssue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationNote" EntityType="Self.LocationNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Milestone" EntityType="Self.Milestone" Schema="dbo" store:Type="Tables" />
@@ -2131,31 +2158,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
     [v__ContractorECMByCategory].[project] AS [project], 
     [v__ContractorECMByCategory].[intEcmNumber] AS [intEcmNumber]
     FROM [dbo].[v__ContractorECMByCategory] AS [v__ContractorECMByCategory]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="v__EquipmentForEcm" EntityType="Self.v__EquipmentForEcm" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v__EquipmentForEcm].[equipmentUid] AS [equipmentUid], 
-    [v__EquipmentForEcm].[equipmentUidAsReplaced] AS [equipmentUidAsReplaced], 
-    [v__EquipmentForEcm].[projectUid] AS [projectUid], 
-    [v__EquipmentForEcm].[project] AS [project], 
-    [v__EquipmentForEcm].[locationUid] AS [locationUid], 
-    [v__EquipmentForEcm].[location] AS [location], 
-    [v__EquipmentForEcm].[ecmUId] AS [ecmUId], 
-    [v__EquipmentForEcm].[ecmString] AS [ecmString], 
-    [v__EquipmentForEcm].[isNewToSite] AS [isNewToSite], 
-    [v__EquipmentForEcm].[useReplacement] AS [useReplacement], 
-    [v__EquipmentForEcm].[jciTag] AS [jciTag], 
-    [v__EquipmentForEcm].[ownerTag] AS [ownerTag], 
-    [v__EquipmentForEcm].[manufacturer] AS [manufacturer], 
-    [v__EquipmentForEcm].[equipmentAttributeType] AS [equipmentAttributeType], 
-    [v__EquipmentForEcm].[model] AS [model], 
-    [v__EquipmentForEcm].[serialNumber] AS [serialNumber], 
-    [v__EquipmentForEcm].[tons] AS [tons], 
-    [v__EquipmentForEcm].[EER] AS [EER], 
-    [v__EquipmentForEcm].[VAC] AS [VAC], 
-    [v__EquipmentForEcm].[year] AS [year], 
-    [v__EquipmentForEcm].[phase] AS [phase]
-    FROM [dbo].[v__EquipmentForEcm] AS [v__EquipmentForEcm]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v__ExpensePercentage" EntityType="Self.v__ExpensePercentage" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -2419,6 +2421,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_location_project" Association="Self.fk_location_project">
             <End Role="Project" EntitySet="Project" />
             <End Role="Location" EntitySet="Location" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LocationCompletionCategory_CompletionCategory" Association="Self.fk_LocationCompletionCategory_CompletionCategory">
+            <End Role="CompletionCategory" EntitySet="CompletionCategory" />
+            <End Role="LocationCompletionCategory" EntitySet="LocationCompletionCategory" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LocationCompletionCategory_Location" Association="Self.fk_LocationCompletionCategory_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="LocationCompletionCategory" EntitySet="LocationCompletionCategory" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LocationCompletionCategory_Project" Association="Self.fk_LocationCompletionCategory_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="LocationCompletionCategory" EntitySet="LocationCompletionCategory" />
           </AssociationSet>
           <AssociationSet Name="fk_LocationIssue_AspNetUser" Association="Self.fk_LocationIssue_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -2871,7 +2885,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           </AssociationSet>
           <EntitySet Name="ContractorTotalsByProjects" EntityType="JCIEstimateModel.ContractorTotalsByProject" />
           <EntitySet Name="v__ContractorECMByCategory" EntityType="JCIEstimateModel.v__ContractorECMByCategory" />
-          <EntitySet Name="v__EquipmentForEcm" EntityType="JCIEstimateModel.v__EquipmentForEcm" />
           <EntitySet Name="v__ExpensePercentage" EntityType="JCIEstimateModel.v__ExpensePercentage" />
           <EntitySet Name="ContractorDraws" EntityType="JCIEstimateModel.ContractorDraw" />
           <AssociationSet Name="fk_ContractorDraw_Contractor" Association="JCIEstimateModel.fk_ContractorDraw_Contractor">
@@ -3019,6 +3032,20 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ContractorSignoffFinal" EntitySet="ContractorSignoffFinals" />
             <End Role="ContractorSignoffFinalAttachment" EntitySet="ContractorSignoffFinalAttachments" />
           </AssociationSet>
+          <EntitySet Name="CompletionCategories" EntityType="JCIEstimateModel.CompletionCategory" />
+          <EntitySet Name="LocationCompletionCategories" EntityType="JCIEstimateModel.LocationCompletionCategory" />
+          <AssociationSet Name="fk_LocationCompletionCategory_CompletionCategory" Association="JCIEstimateModel.fk_LocationCompletionCategory_CompletionCategory">
+            <End Role="CompletionCategory" EntitySet="CompletionCategories" />
+            <End Role="LocationCompletionCategory" EntitySet="LocationCompletionCategories" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LocationCompletionCategory_Location" Association="JCIEstimateModel.fk_LocationCompletionCategory_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="LocationCompletionCategory" EntitySet="LocationCompletionCategories" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LocationCompletionCategory_Project" Association="JCIEstimateModel.fk_LocationCompletionCategory_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="LocationCompletionCategory" EntitySet="LocationCompletionCategories" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -3110,6 +3137,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ECMs" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="Project" ToRole="ECM" />
           <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_ContractorSignoff_Project" FromRole="Project" ToRole="ContractorSignoff" />
           <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_ContractorSignoffFinal_Project" FromRole="Project" ToRole="ContractorSignoffFinal" />
+          <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Project" FromRole="Project" ToRole="LocationCompletionCategory" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -3949,6 +3977,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_location" FromRole="Location" ToRole="WarrantyIssue" />
           <NavigationProperty Name="WarrantyUnits" Relationship="JCIEstimateModel.fk_WarrantyUnit_location" FromRole="Location" ToRole="WarrantyUnit" />
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Location" ToRole="Equipment" />
+          <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Location" FromRole="Location" ToRole="LocationCompletionCategory" />
         </EntityType>
         <EntityType Name="LocationIssue">
           <Key>
@@ -4576,40 +4605,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="project" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="intEcmNumber" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="v__EquipmentForEcm">
-          <Key>
-            <PropertyRef Name="equipmentUid" />
-            <PropertyRef Name="projectUid" />
-            <PropertyRef Name="project" />
-            <PropertyRef Name="locationUid" />
-            <PropertyRef Name="location" />
-            <PropertyRef Name="ecmUId" />
-            <PropertyRef Name="ecmString" />
-            <PropertyRef Name="isNewToSite" />
-            <PropertyRef Name="useReplacement" />
-          </Key>
-          <Property Name="equipmentUid" Type="Guid" Nullable="false" />
-          <Property Name="equipmentUidAsReplaced" Type="Guid" />
-          <Property Name="projectUid" Type="Guid" Nullable="false" />
-          <Property Name="project" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="locationUid" Type="Guid" Nullable="false" />
-          <Property Name="location" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="ecmUId" Type="Guid" Nullable="false" />
-          <Property Name="ecmString" Type="String" Nullable="false" MaxLength="403" FixedLength="false" Unicode="true" />
-          <Property Name="isNewToSite" Type="Boolean" Nullable="false" />
-          <Property Name="useReplacement" Type="Boolean" Nullable="false" />
-          <Property Name="jciTag" Type="Decimal" Precision="11" Scale="2" />
-          <Property Name="ownerTag" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="manufacturer" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="equipmentAttributeType" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="model" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="serialNumber" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="tons" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="EER" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="VAC" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="year" Type="Int32" />
-          <Property Name="phase" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="v__ExpensePercentage">
           <Key>
             <PropertyRef Name="expensePercentageUid" />
@@ -5233,6 +5228,69 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="ContractorSignoffFinalAttachment">
               <PropertyRef Name="contractorSignoffFinalUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CompletionCategory">
+          <Key>
+            <PropertyRef Name="completionCategoryUid" />
+          </Key>
+          <Property Name="completionCategoryUid" Type="Guid" Nullable="false" />
+          <Property Name="completionCategory1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="behaviorIndicator" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_CompletionCategory" FromRole="CompletionCategory" ToRole="LocationCompletionCategory" />
+        </EntityType>
+        <EntityType Name="LocationCompletionCategory">
+          <Key>
+            <PropertyRef Name="locationCompletionCategoryUid" />
+          </Key>
+          <Property Name="locationCompletionCategoryUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="locationUid" Type="Guid" Nullable="false" />
+          <Property Name="completionCategoryUid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="CompletionCategory" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_CompletionCategory" FromRole="LocationCompletionCategory" ToRole="CompletionCategory" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Location" FromRole="LocationCompletionCategory" ToRole="Location" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Project" FromRole="LocationCompletionCategory" ToRole="Project" />
+        </EntityType>
+        <Association Name="fk_LocationCompletionCategory_CompletionCategory">
+          <End Type="JCIEstimateModel.CompletionCategory" Role="CompletionCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.LocationCompletionCategory" Role="LocationCompletionCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompletionCategory">
+              <PropertyRef Name="completionCategoryUid" />
+            </Principal>
+            <Dependent Role="LocationCompletionCategory">
+              <PropertyRef Name="completionCategoryUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LocationCompletionCategory_Location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.LocationCompletionCategory" Role="LocationCompletionCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="LocationCompletionCategory">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LocationCompletionCategory_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.LocationCompletionCategory" Role="LocationCompletionCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="LocationCompletionCategory">
+              <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5909,33 +5967,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="v__EquipmentForEcm">
-            <EntityTypeMapping TypeName="JCIEstimateModel.v__EquipmentForEcm">
-              <MappingFragment StoreEntitySet="v__EquipmentForEcm">
-                <ScalarProperty Name="phase" ColumnName="phase" />
-                <ScalarProperty Name="year" ColumnName="year" />
-                <ScalarProperty Name="VAC" ColumnName="VAC" />
-                <ScalarProperty Name="EER" ColumnName="EER" />
-                <ScalarProperty Name="tons" ColumnName="tons" />
-                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
-                <ScalarProperty Name="model" ColumnName="model" />
-                <ScalarProperty Name="equipmentAttributeType" ColumnName="equipmentAttributeType" />
-                <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
-                <ScalarProperty Name="ownerTag" ColumnName="ownerTag" />
-                <ScalarProperty Name="jciTag" ColumnName="jciTag" />
-                <ScalarProperty Name="useReplacement" ColumnName="useReplacement" />
-                <ScalarProperty Name="isNewToSite" ColumnName="isNewToSite" />
-                <ScalarProperty Name="ecmString" ColumnName="ecmString" />
-                <ScalarProperty Name="ecmUId" ColumnName="ecmUId" />
-                <ScalarProperty Name="location" ColumnName="location" />
-                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
-                <ScalarProperty Name="project" ColumnName="project" />
-                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
-                <ScalarProperty Name="equipmentUidAsReplaced" ColumnName="equipmentUidAsReplaced" />
-                <ScalarProperty Name="equipmentUid" ColumnName="equipmentUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="v__ExpensePercentage">
             <EntityTypeMapping TypeName="JCIEstimateModel.v__ExpensePercentage">
               <MappingFragment StoreEntitySet="v__ExpensePercentage">
@@ -6118,6 +6149,25 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="aspNetUserUidAsCreated" ColumnName="aspNetUserUidAsCreated" />
                 <ScalarProperty Name="contractorSignoffFinalUid" ColumnName="contractorSignoffFinalUid" />
                 <ScalarProperty Name="contractorSignoffFinalAttachmentUid" ColumnName="contractorSignoffFinalAttachmentUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompletionCategories">
+            <EntityTypeMapping TypeName="JCIEstimateModel.CompletionCategory">
+              <MappingFragment StoreEntitySet="CompletionCategory">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="completionCategory1" ColumnName="completionCategory" />
+                <ScalarProperty Name="completionCategoryUid" ColumnName="completionCategoryUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationCompletionCategories">
+            <EntityTypeMapping TypeName="JCIEstimateModel.LocationCompletionCategory">
+              <MappingFragment StoreEntitySet="LocationCompletionCategory">
+                <ScalarProperty Name="completionCategoryUid" ColumnName="completionCategoryUid" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="locationCompletionCategoryUid" ColumnName="locationCompletionCategoryUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -82,7 +82,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
         public virtual DbSet<ContractorTotalsByProject> ContractorTotalsByProjects { get; set; }
         public virtual DbSet<v__ContractorECMByCategory> v__ContractorECMByCategory { get; set; }
-        public virtual DbSet<v__EquipmentForEcm> v__EquipmentForEcm { get; set; }
         public virtual DbSet<v__ExpensePercentage> v__ExpensePercentage { get; set; }
         public virtual DbSet<ContractorDraw> ContractorDraws { get; set; }
         public virtual DbSet<ContractorDrawSchedule> ContractorDrawSchedules { get; set; }
@@ -98,5 +97,7 @@ namespace JCIEstimate.Models
         public virtual DbSet<ContractorSignoffAttachment> ContractorSignoffAttachments { get; set; }
         public virtual DbSet<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
         public virtual DbSet<ContractorSignoffFinalAttachment> ContractorSignoffFinalAttachments { get; set; }
+        public virtual DbSet<CompletionCategory> CompletionCategories { get; set; }
+        public virtual DbSet<LocationCompletionCategory> LocationCompletionCategories { get; set; }
     }
 }
