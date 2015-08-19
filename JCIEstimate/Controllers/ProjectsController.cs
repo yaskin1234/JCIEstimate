@@ -20,13 +20,13 @@ namespace JCIEstimate.Controllers
         // GET: Projects
         public async Task<ActionResult> Index()
         {
-            return View(await db.Projects.ToListAsync());        
+            return View(await db.Projects.OrderBy(c=>c.project1).ToListAsync());        
         }
 
         // GET: ChooseProject
         public async Task<ActionResult> ChooseProject()
         {
-            return View(await db.Projects.ToListAsync());
+            return View(await db.Projects.OrderBy(c=>c.project1).ToListAsync());
         }
 
         public async Task<ActionResult> UploadScope(HttpPostedFileBase scopeDocument)

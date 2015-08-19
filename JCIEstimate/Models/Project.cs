@@ -34,6 +34,7 @@ namespace JCIEstimate.Models
             this.ContractorSignoffs = new HashSet<ContractorSignoff>();
             this.ContractorSignoffFinals = new HashSet<ContractorSignoffFinal>();
             this.LocationCompletionCategories = new HashSet<LocationCompletionCategory>();
+            this.PECCosts = new HashSet<PECCost>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -65,5 +66,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
         public virtual ICollection<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
         public virtual ICollection<LocationCompletionCategory> LocationCompletionCategories { get; set; }
+        public virtual ICollection<PECCost> PECCosts { get; set; }
     }
 }

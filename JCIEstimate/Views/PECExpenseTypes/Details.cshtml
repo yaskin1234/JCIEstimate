@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.PECExpenseType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PECExpenseType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.pecExpenseType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pecExpenseType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pecExpenseTypeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pecExpenseTypeDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.pecExpenseTypeUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

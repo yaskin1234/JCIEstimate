@@ -330,6 +330,28 @@ namespace JCIEstimate.Controllers
             {
                 estimate.estimateUid = Guid.NewGuid();
                 db.Estimates.Add(estimate);
+
+                //add equipment attribnute type task assignments                
+                IQueryable<EquipmentAttributeTypeTask> tasks = from cc in db.Equipments
+                                                               join qq in db.EquipmentAttributeTypes on cc.equipmentAttributeTypeUid equals qq.equipmentAttributeTypeUid
+                                                               join dd in db.EquipmentAttributeTypeTasks on qq.equipmentAttributeTypeUid equals dd.equipmentAttributeTypeUid
+                                                               where cc.ecmUid == estimate.ecmUid
+                                                               select dd;
+
+                tasks = tasks.GroupBy(c => c.equipmentAttributeTypeTaskUid).Select(grp => grp.FirstOrDefault());
+
+                foreach (EquipmentAttributeTypeTask item in tasks)
+                {
+                    EquipmentTypeTaskAssignment et = new EquipmentTypeTaskAssignment();
+                    et.equipmentTypeTaskAssignmentUid = Guid.NewGuid();
+                    et.ecmUid = estimate.ecmUid;
+                    et.locationUid = estimate.locationUid;
+                    et.contractorUid = estimate.contractorUid;
+                    et.equipmentAttributeTypeUid = item.equipmentAttributeTypeUid;
+                    et.equipmentAttributeTypeTaskUid = item.equipmentAttributeTypeTaskUid;
+                    db.EquipmentTypeTaskAssignments.Add(et);
+                }
+
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

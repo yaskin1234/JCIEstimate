@@ -1,0 +1,82 @@
+﻿@model JCIEstimate.Models.PECCost
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PECCost</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.hours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.perHourCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.perHourCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.totalCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.totalCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.AllowableContractors)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.AllowableContractors)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PECExpenseType.pecExpenseType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PECExpenseType.pecExpenseType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Week.WeekUid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Week.WeekUid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PECTask.pecTask1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PECTask.pecTask1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.pecCostUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

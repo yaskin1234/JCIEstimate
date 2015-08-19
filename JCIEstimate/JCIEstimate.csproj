@@ -1932,6 +1932,36 @@
     <Content Include="Views\LocationCompletionCategories\Details.cshtml" />
     <Content Include="Views\LocationCompletionCategories\Edit.cshtml" />
     <Content Include="Views\LocationCompletionCategories\Index.cshtml" />
+    <Content Include="Views\PECTasks\Create.cshtml" />
+    <Content Include="Views\PECTasks\Delete.cshtml" />
+    <Content Include="Views\PECTasks\Details.cshtml" />
+    <Content Include="Views\PECTasks\Edit.cshtml" />
+    <Content Include="Views\PECTasks\Index.cshtml" />
+    <Content Include="Views\Weeks\Create.cshtml" />
+    <Content Include="Views\Weeks\Delete.cshtml" />
+    <Content Include="Views\Weeks\Details.cshtml" />
+    <Content Include="Views\Weeks\Edit.cshtml" />
+    <Content Include="Views\Weeks\Index.cshtml" />
+    <Content Include="Views\PECCosts\Create.cshtml" />
+    <Content Include="Views\PECCosts\Delete.cshtml" />
+    <Content Include="Views\PECCosts\Details.cshtml" />
+    <Content Include="Views\PECCosts\Edit.cshtml" />
+    <Content Include="Views\PECCosts\Index.cshtml" />
+    <Content Include="Views\PECExpenseTypes\Create.cshtml" />
+    <Content Include="Views\PECExpenseTypes\Delete.cshtml" />
+    <Content Include="Views\PECExpenseTypes\Details.cshtml" />
+    <Content Include="Views\PECExpenseTypes\Edit.cshtml" />
+    <Content Include="Views\PECExpenseTypes\Index.cshtml" />
+    <Content Include="Views\EquipmentAttributeTypeTasks\Create.cshtml" />
+    <Content Include="Views\EquipmentAttributeTypeTasks\Delete.cshtml" />
+    <Content Include="Views\EquipmentAttributeTypeTasks\Details.cshtml" />
+    <Content Include="Views\EquipmentAttributeTypeTasks\Edit.cshtml" />
+    <Content Include="Views\EquipmentAttributeTypeTasks\Index.cshtml" />
+    <Content Include="Views\EquipmentTypeTaskAssignments\Create.cshtml" />
+    <Content Include="Views\EquipmentTypeTaskAssignments\Delete.cshtml" />
+    <Content Include="Views\EquipmentTypeTaskAssignments\Details.cshtml" />
+    <Content Include="Views\EquipmentTypeTaskAssignments\Edit.cshtml" />
+    <Content Include="Views\EquipmentTypeTaskAssignments\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2066,6 +2096,7 @@
     <Compile Include="Controllers\EquipmentAttachmentsController.cs" />
     <Compile Include="Controllers\EquipmentAttributesController.cs" />
     <Compile Include="Controllers\EquipmentAttributeTypesController.cs" />
+    <Compile Include="Controllers\EquipmentAttributeTypeTasksController.cs" />
     <Compile Include="Controllers\EquipmentAttributeValuesController.cs" />
     <Compile Include="Controllers\EquipmentConditionsController.cs" />
     <Compile Include="Controllers\EquipmentNotesController.cs" />
@@ -2074,6 +2105,7 @@
     <Compile Include="Controllers\EquipmentTasksController.cs" />
     <Compile Include="Controllers\EquipmentToDoesController.cs" />
     <Compile Include="Controllers\EquipmentTypesController.cs" />
+    <Compile Include="Controllers\EquipmentTypeTaskAssignmentsController.cs" />
     <Compile Include="Controllers\EstimateExceptionResponsesController.cs" />
     <Compile Include="Controllers\EstimateExceptionsController.cs" />
     <Compile Include="Controllers\EstimateExclusionResponsesController.cs" />
@@ -2098,6 +2130,9 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MilestoneActionsController.cs" />
     <Compile Include="Controllers\MilestonesController.cs" />
+    <Compile Include="Controllers\PECCostsController.cs" />
+    <Compile Include="Controllers\PECExpenseTypesController.cs" />
+    <Compile Include="Controllers\PECTasksController.cs" />
     <Compile Include="Controllers\ProjectAddendumsController.cs" />
     <Compile Include="Controllers\ProjectAttachmentsController.cs" />
     <Compile Include="Controllers\ProjectManagerAttachmentsController.cs" />
@@ -2119,6 +2154,7 @@
     <Compile Include="Controllers\WarrantyNotesController.cs" />
     <Compile Include="Controllers\WarrantyStatusController.cs" />
     <Compile Include="Controllers\WarrantyUnitsController.cs" />
+    <Compile Include="Controllers\WeeksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2187,6 +2223,9 @@
     <Compile Include="Models\EquipmentAttributeType.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EquipmentAttributeTypeTask.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EquipmentAttributeValue.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -2206,6 +2245,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EquipmentType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentTypeTaskAssignment.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EquipmentViewModel.cs" />
@@ -2299,6 +2341,15 @@
     <Compile Include="Models\MilestoneAction.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PECCost.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PECExpenseType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PECTask.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Project.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -2364,6 +2415,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WarrantyUnit.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Week.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

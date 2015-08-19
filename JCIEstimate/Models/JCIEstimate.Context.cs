@@ -99,5 +99,11 @@ namespace JCIEstimate.Models
         public virtual DbSet<ContractorSignoffFinalAttachment> ContractorSignoffFinalAttachments { get; set; }
         public virtual DbSet<CompletionCategory> CompletionCategories { get; set; }
         public virtual DbSet<LocationCompletionCategory> LocationCompletionCategories { get; set; }
+        public virtual DbSet<PECTask> PECTasks { get; set; }
+        public virtual DbSet<Week> Weeks { get; set; }
+        public virtual DbSet<PECExpenseType> PECExpenseTypes { get; set; }
+        public virtual DbSet<PECCost> PECCosts { get; set; }
+        public virtual DbSet<EquipmentAttributeTypeTask> EquipmentAttributeTypeTasks { get; set; }
+        public virtual DbSet<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
     }
 }

@@ -1404,4 +1404,115 @@ namespace JCIEstimate.Models
         public System.Guid completionCategoryUid { get; set; }
     }
 
+    
+    /// <summary>
+    /// PECCost
+    /// </summary>
+    [MetadataType(typeof(PECCostMetaData))]
+    public partial class PECCost
+    {
+    }
+
+    public class PECCostMetaData
+    {
+        [Display(Name = "PEC Cost")]
+        public System.Guid pecCostUid { get; set; }
+        [Display(Name = "Email")]
+        public string aspNetUserUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Week")]
+        public System.Guid weekUid { get; set; }
+        [Display(Name = "PEC Task")]
+        public System.Guid pecTaskUid { get; set; }
+        [Display(Name = "Expense Type")]
+        public System.Guid pecExpenseTypeUid { get; set; }
+        [Display(Name = "Quantity")]
+        public int quantity { get; set; }
+    }
+
+    /// <summary>
+    /// PECExpenseType
+    /// </summary>
+    [MetadataType(typeof(PECExpenseTypeMetaData))]
+    public partial class PECExpenseType
+    {
+    }
+
+    public class PECExpenseTypeMetaData
+    {
+        [Display(Name = "PEC Expense Type")]
+        public System.Guid pecExpenseTypeUid { get; set; }
+        [Display(Name = "PEC Expense Type")]
+        public string pecExpenseType1 { get; set; }
+        [Display(Name = "Description")]
+        public string pecExpenseTypeDescription { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
+    /// <summary>
+    /// PECTask
+    /// </summary>
+    [MetadataType(typeof(PECTaskMetaData))]
+    public partial class PECTask
+    {
+    }
+
+    public class PECTaskMetaData
+    {
+        [Display(Name = "PEC Task")]
+        public System.Guid pecTaskUid { get; set; }
+        [Display(Name = "PEC Task")]
+        public string pecTask1 { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
+    /// <summary>
+    /// EquipmentAttributeTypeTask
+    /// </summary>
+    [MetadataType(typeof(EquipmentAttributeTypeTaskMetaData))]
+    public partial class EquipmentAttributeTypeTask
+    {
+    }
+
+    public class EquipmentAttributeTypeTaskMetaData
+    {
+        [Display(Name = "Equipment Type Task")]
+        public System.Guid equipmentAttributeTypeTaskUid { get; set; }
+        [Display(Name = "Equipment Type")]
+        public System.Guid equipmentAttributeTypeUid { get; set; }
+        [Display(Name = "Equipment Type Task")]
+        public string equipmentAttributeTypeTask1 { get; set; }
+        [Display(Name = "Description")]
+        public string equipmentAttributeTypeTaskDescription { get; set; }
+    }
+
+    /// <summary>
+    /// EquipmentTypeTaskAssignment
+    /// </summary>
+    [MetadataType(typeof(EquipmentTypeTaskAssignmentMetaData))]
+    public partial class EquipmentTypeTaskAssignment
+    {
+    }
+
+    public class EquipmentTypeTaskAssignmentMetaData
+    {
+        [Display(Name = "Equipment Type Task Assignment")]
+        public System.Guid equipmentTypeTaskAssignmentUid { get; set; }
+        [Display(Name = "ECM")]
+        public System.Guid ecmUid { get; set; }
+        [Display(Name = "Location")]
+        public System.Guid locationUid { get; set; }
+        [Display(Name = "Contractor")]
+        public System.Guid contractorUid { get; set; }
+        [Display(Name = "Equipment Type")]
+        public System.Guid equipmentAttributeTypeUid { get; set; }
+        [Display(Name = "Task")]
+        public System.Guid equipmentAttributeTypeTaskUid { get; set; }
+        [Display(Name = "Amount")]
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        public Nullable<int> amount { get; set; }
+    }
 }

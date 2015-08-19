@@ -1,0 +1,88 @@
+﻿@model JCIEstimate.Models.PECCost
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PECCost</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.hours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.perHourCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.perHourCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.totalCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.totalCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.AllowableContractors)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.AllowableContractors)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PECExpenseType.pecExpenseType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PECExpenseType.pecExpenseType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Week.WeekUid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Week.WeekUid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PECTask.pecTask1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PECTask.pecTask1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

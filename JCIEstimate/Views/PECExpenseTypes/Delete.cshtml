@@ -1,0 +1,48 @@
+﻿@model JCIEstimate.Models.PECExpenseType
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PECExpenseType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.pecExpenseType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pecExpenseType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pecExpenseTypeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pecExpenseTypeDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

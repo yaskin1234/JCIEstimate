@@ -179,6 +179,23 @@
         <AssociationConnector Association="JCIEstimateModel.fk_LocationCompletionCategory_CompletionCategory" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationCompletionCategory_Location" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationCompletionCategory_Project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.PECTask" Width="1.5" PointX="26.125" PointY="24.875" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Week" Width="1.5" PointX="26.125" PointY="27.375" />
+        <EntityTypeShape EntityType="JCIEstimateModel.PECExpenseType" Width="1.5" PointX="0.75" PointY="17.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.PECCost" Width="1.5" PointX="31.375" PointY="15.375" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUserPECCost" />
+        <AssociationConnector Association="JCIEstimateModel.fk_PECCost_ExpenseType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_PECCost_Location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_PECCost_PecTask" />
+        <AssociationConnector Association="JCIEstimateModel.fk_PECCost_Project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentAttributeTypeTask" Width="1.5" PointX="21.375" PointY="45" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttributeTypeTask_AttributeType" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentTypeTaskAssignment" Width="1.5" PointX="23.625" PointY="29.375" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_contractor" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_AttributeType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JCIEstimate.Models.PECExpenseType>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.pecExpenseType1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pecExpenseTypeDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.pecExpenseType1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pecExpenseTypeDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.behaviorIndicator)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.pecExpenseTypeUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.pecExpenseTypeUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.pecExpenseTypeUid })
+        </td>
+    </tr>
+}
+
+</table>

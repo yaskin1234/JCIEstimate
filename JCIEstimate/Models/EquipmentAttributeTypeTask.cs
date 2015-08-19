@@ -12,23 +12,19 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EquipmentAttributeType
+    public partial class EquipmentAttributeTypeTask
     {
-        public EquipmentAttributeType()
+        public EquipmentAttributeTypeTask()
         {
-            this.EquipmentAttributes = new HashSet<EquipmentAttribute>();
-            this.Equipments = new HashSet<Equipment>();
-            this.EquipmentAttributeTypeTasks = new HashSet<EquipmentAttributeTypeTask>();
             this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
         }
     
+        public System.Guid equipmentAttributeTypeTaskUid { get; set; }
         public System.Guid equipmentAttributeTypeUid { get; set; }
-        public string equipmentAttributeType1 { get; set; }
-        public string behaviorIndicator { get; set; }
+        public string equipmentAttributeTypeTask1 { get; set; }
+        public string equipmentAttributeTypeTaskDescription { get; set; }
     
-        public virtual ICollection<EquipmentAttribute> EquipmentAttributes { get; set; }
-        public virtual ICollection<Equipment> Equipments { get; set; }
-        public virtual ICollection<EquipmentAttributeTypeTask> EquipmentAttributeTypeTasks { get; set; }
+        public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }
         public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
     }
 }

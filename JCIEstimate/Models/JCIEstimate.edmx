@@ -225,6 +225,15 @@
           <Property Name="equipmentAttributeType" Type="varchar" MaxLength="200" />
           <Property Name="behaviorIndicator" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="EquipmentAttributeTypeTask">
+          <Key>
+            <PropertyRef Name="equipmentAttributeTypeTaskUid" />
+          </Key>
+          <Property Name="equipmentAttributeTypeTaskUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentAttributeTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentAttributeTypeTask" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="equipmentAttributeTypeTaskDescription" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
         <EntityType Name="EquipmentAttributeValue">
           <Key>
             <PropertyRef Name="equipmentAttributeValueUid" />
@@ -287,6 +296,18 @@
           <Property Name="equipmentType" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="equipmentTypeDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EquipmentTypeTaskAssignment">
+          <Key>
+            <PropertyRef Name="equipmentTypeTaskAssignmentUid" />
+          </Key>
+          <Property Name="equipmentTypeTaskAssignmentUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="locationUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentAttributeTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentAttributeTypeTaskUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="amount" Type="int" />
         </EntityType>
         <EntityType Name="Estimate">
           <Key>
@@ -530,6 +551,35 @@
           <Property Name="defaultListOrder" Type="int" Nullable="false" />
           <Property Name="isRollingUp" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="PECCost">
+          <Key>
+            <PropertyRef Name="pecCostUid" />
+          </Key>
+          <Property Name="pecCostUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="weekUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="pecTaskUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="pecExpenseTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PECExpenseType">
+          <Key>
+            <PropertyRef Name="pecExpenseTypeUid" />
+          </Key>
+          <Property Name="pecExpenseTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="pecExpenseType" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="pecExpenseTypeDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PECTask">
+          <Key>
+            <PropertyRef Name="pecTaskUid" />
+          </Key>
+          <Property Name="pecTaskUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="pecTask" Type="varchar" MaxLength="200" />
+          <Property Name="behaviorIndicator" Type="varchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="Project">
           <Key>
             <PropertyRef Name="projectUid" />
@@ -753,6 +803,14 @@
           <Property Name="warrantyUnit" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="warrantyUnitDescription" Type="nvarchar" MaxLength="2000" />
         </EntityType>
+        <EntityType Name="Week">
+          <Key>
+            <PropertyRef Name="WeekUid" />
+          </Key>
+          <Property Name="WeekUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="startDate" Type="date" />
+          <Property Name="endDate" Type="date" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'JCIEstimate.dbo.ContractorTotalsByProject' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ContractorTotalsByProject">
@@ -813,8 +871,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ContractorECMByCategory' does n
           <Property Name="project" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="intEcmNumber" Type="nvarchar" MaxLength="3" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'JCIEstimate.dbo.v__EquipmentForEcm' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v__ExpensePercentage">
@@ -949,6 +1005,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="WarrantyNote">
               <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUserPECCost">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="PECCost" Type="Self.PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="aspNetUserUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1250,6 +1318,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_EquipmentAttributeTypeTask_AttributeType">
+          <End Role="EquipmentAttributeType" Type="Self.EquipmentAttributeType" Multiplicity="1" />
+          <End Role="EquipmentAttributeTypeTask" Type="Self.EquipmentAttributeTypeTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttributeTypeTask">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_EquipmentAttributeValue_equipmentAttributeUid">
           <End Role="EquipmentAttribute" Type="Self.EquipmentAttribute" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1325,6 +1405,66 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="EquipmentToDo">
               <PropertyRef Name="equipmentTaskUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTypeTaskAssignment_AttributeType">
+          <End Role="EquipmentAttributeType" Type="Self.EquipmentAttributeType" Multiplicity="1" />
+          <End Role="EquipmentTypeTaskAssignment" Type="Self.EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTypeTaskAssignment_contractor">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="EquipmentTypeTaskAssignment" Type="Self.EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTypeTaskAssignment_ECM">
+          <End Role="ECM" Type="Self.ECM" Multiplicity="1" />
+          <End Role="EquipmentTypeTaskAssignment" Type="Self.EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid">
+          <End Role="EquipmentAttributeTypeTask" Type="Self.EquipmentAttributeTypeTask" Multiplicity="1" />
+          <End Role="EquipmentTypeTaskAssignment" Type="Self.EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeTypeTask">
+              <PropertyRef Name="equipmentAttributeTypeTaskUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="equipmentAttributeTypeTaskUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTypeTaskAssignment_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="EquipmentTypeTaskAssignment" Type="Self.EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="locationUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1712,6 +1852,62 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_PECCost_ExpenseType">
+          <End Role="PECExpenseType" Type="Self.PECExpenseType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PECCost" Type="Self.PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PECExpenseType">
+              <PropertyRef Name="pecExpenseTypeUid" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="pecExpenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PECCost_Location">
+          <End Role="Week" Type="Self.Week" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PECCost" Type="Self.PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Week">
+              <PropertyRef Name="WeekUid" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="weekUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PECCost_PecTask">
+          <End Role="PECTask" Type="Self.PECTask" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PECCost" Type="Self.PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PECTask">
+              <PropertyRef Name="pecTaskUid" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="pecTaskUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PECCost_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PECCost" Type="Self.PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_project_AspNetUser">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="ProjectUser" Type="Self.ProjectUser" Multiplicity="*" />
@@ -2073,6 +2269,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="EquipmentAttachment" EntityType="Self.EquipmentAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentAttribute" EntityType="Self.EquipmentAttribute" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentAttributeType" EntityType="Self.EquipmentAttributeType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentAttributeTypeTask" EntityType="Self.EquipmentAttributeTypeTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentAttributeValue" EntityType="Self.EquipmentAttributeValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentCondition" EntityType="Self.EquipmentCondition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentNote" EntityType="Self.EquipmentNote" Schema="dbo" store:Type="Tables" />
@@ -2080,6 +2277,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="EquipmentTask" EntityType="Self.EquipmentTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentToDo" EntityType="Self.EquipmentToDo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentType" EntityType="Self.EquipmentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentTypeTaskAssignment" EntityType="Self.EquipmentTypeTaskAssignment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstimateException" EntityType="Self.EstimateException" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstimateExceptionResponse" EntityType="Self.EstimateExceptionResponse" Schema="dbo" store:Type="Tables" />
@@ -2104,6 +2302,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="LocationNote" EntityType="Self.LocationNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Milestone" EntityType="Self.Milestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MilestoneAction" EntityType="Self.MilestoneAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PECCost" EntityType="Self.PECCost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PECExpenseType" EntityType="Self.PECExpenseType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PECTask" EntityType="Self.PECTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectAddendum" EntityType="Self.ProjectAddendum" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectAttachment" EntityType="Self.ProjectAttachment" Schema="dbo" store:Type="Tables" />
@@ -2124,6 +2325,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="WarrantyNote" EntityType="Self.WarrantyNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyStatus" EntityType="Self.WarrantyStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyUnit" EntityType="Self.WarrantyUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Week" EntityType="Self.Week" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorTotalsByProject" EntityType="Self.ContractorTotalsByProject" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ContractorTotalsByProject].[estimateUid] AS [estimateUid], 
@@ -2209,6 +2411,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_AspNetUser_Notecreated" Association="Self.fk_AspNetUser_Notecreated">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="WarrantyNote" EntitySet="WarrantyNote" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUserPECCost" Association="Self.fk_AspNetUserPECCost">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="PECCost" EntitySet="PECCost" />
           </AssociationSet>
           <AssociationSet Name="fk_contractor" Association="Self.fk_contractor">
             <End Role="Contractor" EntitySet="Contractor" />
@@ -2306,6 +2512,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeType" />
             <End Role="EquipmentAttribute" EntitySet="EquipmentAttribute" />
           </AssociationSet>
+          <AssociationSet Name="fk_EquipmentAttributeTypeTask_AttributeType" Association="Self.fk_EquipmentAttributeTypeTask_AttributeType">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeType" />
+            <End Role="EquipmentAttributeTypeTask" EntitySet="EquipmentAttributeTypeTask" />
+          </AssociationSet>
           <AssociationSet Name="fk_EquipmentAttributeValue_equipmentAttributeUid" Association="Self.fk_EquipmentAttributeValue_equipmentAttributeUid">
             <End Role="EquipmentAttribute" EntitySet="EquipmentAttribute" />
             <End Role="EquipmentAttributeValue" EntitySet="EquipmentAttributeValue" />
@@ -2329,6 +2539,26 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_equipmenttodo_equipmenttask" Association="Self.fk_equipmenttodo_equipmenttask">
             <End Role="EquipmentTask" EntitySet="EquipmentTask" />
             <End Role="EquipmentToDo" EntitySet="EquipmentToDo" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_AttributeType" Association="Self.fk_EquipmentTypeTaskAssignment_AttributeType">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeType" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_contractor" Association="Self.fk_EquipmentTypeTaskAssignment_contractor">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_ECM" Association="Self.fk_EquipmentTypeTaskAssignment_ECM">
+            <End Role="ECM" EntitySet="ECM" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid" Association="Self.fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid">
+            <End Role="EquipmentAttributeTypeTask" EntitySet="EquipmentAttributeTypeTask" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_Location" Association="Self.fk_EquipmentTypeTaskAssignment_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignment" />
           </AssociationSet>
           <AssociationSet Name="fk_estimate_category" Association="Self.fk_estimate_category">
             <End Role="Category" EntitySet="Category" />
@@ -2453,6 +2683,22 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_milestoneAction_milestone" Association="Self.fk_milestoneAction_milestone">
             <End Role="Milestone" EntitySet="Milestone" />
             <End Role="MilestoneAction" EntitySet="MilestoneAction" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PECCost_ExpenseType" Association="Self.fk_PECCost_ExpenseType">
+            <End Role="PECExpenseType" EntitySet="PECExpenseType" />
+            <End Role="PECCost" EntitySet="PECCost" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PECCost_Location" Association="Self.fk_PECCost_Location">
+            <End Role="Week" EntitySet="Week" />
+            <End Role="PECCost" EntitySet="PECCost" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PECCost_PecTask" Association="Self.fk_PECCost_PecTask">
+            <End Role="PECTask" EntitySet="PECTask" />
+            <End Role="PECCost" EntitySet="PECCost" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PECCost_Project" Association="Self.fk_PECCost_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="PECCost" EntitySet="PECCost" />
           </AssociationSet>
           <AssociationSet Name="fk_project_AspNetUser" Association="Self.fk_project_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -3046,6 +3292,56 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Project" EntitySet="Projects" />
             <End Role="LocationCompletionCategory" EntitySet="LocationCompletionCategories" />
           </AssociationSet>
+          <EntitySet Name="PECTasks" EntityType="JCIEstimateModel.PECTask" />
+          <EntitySet Name="Weeks" EntityType="JCIEstimateModel.Week" />
+          <EntitySet Name="PECExpenseTypes" EntityType="JCIEstimateModel.PECExpenseType" />
+          <EntitySet Name="PECCosts" EntityType="JCIEstimateModel.PECCost" />
+          <AssociationSet Name="fk_AspNetUserPECCost" Association="JCIEstimateModel.fk_AspNetUserPECCost">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="PECCost" EntitySet="PECCosts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PECCost_ExpenseType" Association="JCIEstimateModel.fk_PECCost_ExpenseType">
+            <End Role="PECExpenseType" EntitySet="PECExpenseTypes" />
+            <End Role="PECCost" EntitySet="PECCosts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PECCost_Location" Association="JCIEstimateModel.fk_PECCost_Location">
+            <End Role="Week" EntitySet="Weeks" />
+            <End Role="PECCost" EntitySet="PECCosts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PECCost_PecTask" Association="JCIEstimateModel.fk_PECCost_PecTask">
+            <End Role="PECTask" EntitySet="PECTasks" />
+            <End Role="PECCost" EntitySet="PECCosts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PECCost_Project" Association="JCIEstimateModel.fk_PECCost_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="PECCost" EntitySet="PECCosts" />
+          </AssociationSet>
+          <EntitySet Name="EquipmentAttributeTypeTasks" EntityType="JCIEstimateModel.EquipmentAttributeTypeTask" />
+          <AssociationSet Name="fk_EquipmentAttributeTypeTask_AttributeType" Association="JCIEstimateModel.fk_EquipmentAttributeTypeTask_AttributeType">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeTypes" />
+            <End Role="EquipmentAttributeTypeTask" EntitySet="EquipmentAttributeTypeTasks" />
+          </AssociationSet>
+          <EntitySet Name="EquipmentTypeTaskAssignments" EntityType="JCIEstimateModel.EquipmentTypeTaskAssignment" />
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_contractor" Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_contractor">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_ECM" Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_AttributeType" Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_AttributeType">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeTypes" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid" Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid">
+            <End Role="EquipmentAttributeTypeTask" EntitySet="EquipmentAttributeTypeTasks" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_Location" Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignments" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -3073,7 +3369,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorDraws" Relationship="JCIEstimateModel.fk_ContractorDraw_Contractor" FromRole="Contractor" ToRole="ContractorDraw" />
           <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_ContractorSignoff_Contractor" FromRole="Contractor" ToRole="ContractorSignoff" />
           <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_ContractorSignoffFinal_Contractor" FromRole="Contractor" ToRole="ContractorSignoffFinal" />
-        </EntityType>
+          <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_contractor" FromRole="Contractor" ToRole="EquipmentTypeTaskAssignment" />
+          </EntityType>
         <EntityType Name="ContractorContact">
           <Key>
             <PropertyRef Name="contractorContactUid" />
@@ -3138,6 +3435,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_ContractorSignoff_Project" FromRole="Project" ToRole="ContractorSignoff" />
           <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_ContractorSignoffFinal_Project" FromRole="Project" ToRole="ContractorSignoffFinal" />
           <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Project" FromRole="Project" ToRole="LocationCompletionCategory" />
+          <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_PECCost_Project" FromRole="Project" ToRole="PECCost" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -3210,6 +3508,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorSignoffAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created4" FromRole="AspNetUser" ToRole="ContractorSignoffAttachment" />
           <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_AspNetUser_created3" FromRole="AspNetUser" ToRole="ContractorSignoffFinal" />
           <NavigationProperty Name="ContractorSignoffFinalAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created5" FromRole="AspNetUser" ToRole="ContractorSignoffFinalAttachment" />
+          <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_AspNetUserPECCost" FromRole="AspNetUser" ToRole="PECCost" />
           </EntityType>
         <Association Name="fk_AspNetUser">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -3883,6 +4182,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="behaviorIndicator" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="EquipmentAttributes" Relationship="JCIEstimateModel.fk_EquipmentAttribute_equipmentAttributeTypeUid" FromRole="EquipmentAttributeType" ToRole="EquipmentAttribute" />
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_AttributeType" FromRole="EquipmentAttributeType" ToRole="Equipment" />
+          <NavigationProperty Name="EquipmentAttributeTypeTasks" Relationship="JCIEstimateModel.fk_EquipmentAttributeTypeTask_AttributeType" FromRole="EquipmentAttributeType" ToRole="EquipmentAttributeTypeTask" />
+          <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_AttributeType" FromRole="EquipmentAttributeType" ToRole="EquipmentTypeTaskAssignment" />
         </EntityType>
         <EntityType Name="AppDataType">
           <Key>
@@ -3978,6 +4279,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="WarrantyUnits" Relationship="JCIEstimateModel.fk_WarrantyUnit_location" FromRole="Location" ToRole="WarrantyUnit" />
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Location" ToRole="Equipment" />
           <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Location" FromRole="Location" ToRole="LocationCompletionCategory" />
+          <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" FromRole="Location" ToRole="EquipmentTypeTaskAssignment" />
         </EntityType>
         <EntityType Name="LocationIssue">
           <Key>
@@ -4800,6 +5102,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="ECM" ToRole="Equipment" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
           <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_ECM" FromRole="ECM" ToRole="ProjectRFI" />
+          <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" FromRole="ECM" ToRole="EquipmentTypeTaskAssignment" />
         </EntityType>
         <EntityType Name="Equipment">
           <Key>
@@ -5291,6 +5594,219 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="LocationCompletionCategory">
               <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PECTask">
+          <Key>
+            <PropertyRef Name="pecTaskUid" />
+          </Key>
+          <Property Name="pecTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="pecTask1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="behaviorIndicator" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_PECCost_PecTask" FromRole="PECTask" ToRole="PECCost" />
+        </EntityType>
+        <EntityType Name="Week">
+          <Key>
+            <PropertyRef Name="WeekUid" />
+          </Key>
+          <Property Name="WeekUid" Type="Guid" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" Precision="0" />
+          <Property Name="endDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_PECCost_Location" FromRole="Week" ToRole="PECCost" />
+        </EntityType>
+        <EntityType Name="PECExpenseType">
+          <Key>
+            <PropertyRef Name="pecExpenseTypeUid" />
+          </Key>
+          <Property Name="pecExpenseTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="pecExpenseType1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="pecExpenseTypeDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_PECCost_ExpenseType" FromRole="PECExpenseType" ToRole="PECCost" />
+        </EntityType>
+        <EntityType Name="PECCost">
+          <Key>
+            <PropertyRef Name="pecCostUid" />
+          </Key>
+          <Property Name="pecCostUid" Type="Guid" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="weekUid" Type="Guid" Nullable="false" />
+          <Property Name="pecTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="pecExpenseTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUserPECCost" FromRole="PECCost" ToRole="AspNetUser" />
+          <NavigationProperty Name="PECExpenseType" Relationship="JCIEstimateModel.fk_PECCost_ExpenseType" FromRole="PECCost" ToRole="PECExpenseType" />
+          <NavigationProperty Name="Week" Relationship="JCIEstimateModel.fk_PECCost_Location" FromRole="PECCost" ToRole="Week" />
+          <NavigationProperty Name="PECTask" Relationship="JCIEstimateModel.fk_PECCost_PecTask" FromRole="PECCost" ToRole="PECTask" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_PECCost_Project" FromRole="PECCost" ToRole="Project" />
+        </EntityType>
+        <Association Name="fk_AspNetUserPECCost">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.PECCost" Role="PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PECCost_ExpenseType">
+          <End Type="JCIEstimateModel.PECExpenseType" Role="PECExpenseType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.PECCost" Role="PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PECExpenseType">
+              <PropertyRef Name="pecExpenseTypeUid" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="pecExpenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PECCost_Location">
+          <End Type="JCIEstimateModel.Week" Role="Week" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.PECCost" Role="PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Week">
+              <PropertyRef Name="WeekUid" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="weekUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PECCost_PecTask">
+          <End Type="JCIEstimateModel.PECTask" Role="PECTask" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.PECCost" Role="PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PECTask">
+              <PropertyRef Name="pecTaskUid" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="pecTaskUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PECCost_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.PECCost" Role="PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EquipmentAttributeTypeTask">
+          <Key>
+            <PropertyRef Name="equipmentAttributeTypeTaskUid" />
+          </Key>
+          <Property Name="equipmentAttributeTypeTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttributeTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttributeTypeTask1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="equipmentAttributeTypeTaskDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EquipmentAttributeType" Relationship="JCIEstimateModel.fk_EquipmentAttributeTypeTask_AttributeType" FromRole="EquipmentAttributeTypeTask" ToRole="EquipmentAttributeType" />
+          <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid" FromRole="EquipmentAttributeTypeTask" ToRole="EquipmentTypeTaskAssignment" />
+        </EntityType>
+        <Association Name="fk_EquipmentAttributeTypeTask_AttributeType">
+          <End Type="JCIEstimateModel.EquipmentAttributeType" Role="EquipmentAttributeType" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentAttributeTypeTask" Role="EquipmentAttributeTypeTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttributeTypeTask">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EquipmentTypeTaskAssignment">
+          <Key>
+            <PropertyRef Name="equipmentTypeTaskAssignmentUid" />
+          </Key>
+          <Property Name="equipmentTypeTaskAssignmentUid" Type="Guid" Nullable="false" />
+          <Property Name="ecmUid" Type="Guid" Nullable="false" />
+          <Property Name="locationUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttributeTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttributeTypeTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="amount" Type="Int32" />
+          <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_contractor" FromRole="EquipmentTypeTaskAssignment" ToRole="Contractor" />
+          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" FromRole="EquipmentTypeTaskAssignment" ToRole="ECM" />
+          <NavigationProperty Name="EquipmentAttributeType" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_AttributeType" FromRole="EquipmentTypeTaskAssignment" ToRole="EquipmentAttributeType" />
+          <NavigationProperty Name="EquipmentAttributeTypeTask" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid" FromRole="EquipmentTypeTaskAssignment" ToRole="EquipmentAttributeTypeTask" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" FromRole="EquipmentTypeTaskAssignment" ToRole="Location" />
+        </EntityType>
+        <Association Name="fk_EquipmentTypeTaskAssignment_contractor">
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentTypeTaskAssignment" Role="EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTypeTaskAssignment_ECM">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentTypeTaskAssignment" Role="EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTypeTaskAssignment_AttributeType">
+          <End Type="JCIEstimateModel.EquipmentAttributeType" Role="EquipmentAttributeType" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentTypeTaskAssignment" Role="EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid">
+          <End Type="JCIEstimateModel.EquipmentAttributeTypeTask" Role="EquipmentAttributeTypeTask" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentTypeTaskAssignment" Role="EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeTypeTask">
+              <PropertyRef Name="equipmentAttributeTypeTaskUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="equipmentAttributeTypeTaskUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTypeTaskAssignment_Location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentTypeTaskAssignment" Role="EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="locationUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6168,6 +6684,70 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="locationUid" ColumnName="locationUid" />
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
                 <ScalarProperty Name="locationCompletionCategoryUid" ColumnName="locationCompletionCategoryUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PECTasks">
+            <EntityTypeMapping TypeName="JCIEstimateModel.PECTask">
+              <MappingFragment StoreEntitySet="PECTask">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="pecTask1" ColumnName="pecTask" />
+                <ScalarProperty Name="pecTaskUid" ColumnName="pecTaskUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Weeks">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Week">
+              <MappingFragment StoreEntitySet="Week">
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="WeekUid" ColumnName="WeekUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PECExpenseTypes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.PECExpenseType">
+              <MappingFragment StoreEntitySet="PECExpenseType">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="pecExpenseTypeDescription" ColumnName="pecExpenseTypeDescription" />
+                <ScalarProperty Name="pecExpenseType1" ColumnName="pecExpenseType" />
+                <ScalarProperty Name="pecExpenseTypeUid" ColumnName="pecExpenseTypeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PECCosts">
+            <EntityTypeMapping TypeName="JCIEstimateModel.PECCost">
+              <MappingFragment StoreEntitySet="PECCost">
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="pecExpenseTypeUid" ColumnName="pecExpenseTypeUid" />
+                <ScalarProperty Name="pecTaskUid" ColumnName="pecTaskUid" />
+                <ScalarProperty Name="weekUid" ColumnName="weekUid" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
+                <ScalarProperty Name="pecCostUid" ColumnName="pecCostUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentAttributeTypeTasks">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentAttributeTypeTask">
+              <MappingFragment StoreEntitySet="EquipmentAttributeTypeTask">
+                <ScalarProperty Name="equipmentAttributeTypeTaskDescription" ColumnName="equipmentAttributeTypeTaskDescription" />
+                <ScalarProperty Name="equipmentAttributeTypeTask1" ColumnName="equipmentAttributeTypeTask" />
+                <ScalarProperty Name="equipmentAttributeTypeUid" ColumnName="equipmentAttributeTypeUid" />
+                <ScalarProperty Name="equipmentAttributeTypeTaskUid" ColumnName="equipmentAttributeTypeTaskUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentTypeTaskAssignments">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentTypeTaskAssignment">
+              <MappingFragment StoreEntitySet="EquipmentTypeTaskAssignment">
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="equipmentAttributeTypeTaskUid" ColumnName="equipmentAttributeTypeTaskUid" />
+                <ScalarProperty Name="equipmentAttributeTypeUid" ColumnName="equipmentAttributeTypeUid" />
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
+                <ScalarProperty Name="equipmentTypeTaskAssignmentUid" ColumnName="equipmentTypeTaskAssignmentUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

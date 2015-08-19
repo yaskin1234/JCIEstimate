@@ -34,6 +34,7 @@ namespace JCIEstimate.Models
             this.ContractorSignoffAttachments = new HashSet<ContractorSignoffAttachment>();
             this.ContractorSignoffFinals = new HashSet<ContractorSignoffFinal>();
             this.ContractorSignoffFinalAttachments = new HashSet<ContractorSignoffFinalAttachment>();
+            this.PECCosts = new HashSet<PECCost>();
         }
     
         public string Id { get; set; }
@@ -68,5 +69,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorSignoffAttachment> ContractorSignoffAttachments { get; set; }
         public virtual ICollection<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
         public virtual ICollection<ContractorSignoffFinalAttachment> ContractorSignoffFinalAttachments { get; set; }
+        public virtual ICollection<PECCost> PECCosts { get; set; }
     }
 }

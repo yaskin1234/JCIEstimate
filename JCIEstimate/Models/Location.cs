@@ -22,6 +22,7 @@ namespace JCIEstimate.Models
             this.WarrantyUnits = new HashSet<WarrantyUnit>();
             this.Equipments = new HashSet<Equipment>();
             this.LocationCompletionCategories = new HashSet<LocationCompletionCategory>();
+            this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
         }
     
         public System.Guid locationUid { get; set; }
@@ -36,5 +37,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<WarrantyUnit> WarrantyUnits { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }
         public virtual ICollection<LocationCompletionCategory> LocationCompletionCategories { get; set; }
+        public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
     }
 }

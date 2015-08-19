@@ -56,7 +56,7 @@ namespace IdentitySample.Controllers
                            select cc;
             }
 
-            ViewBag.projectUid = projects.ToSelectList(d => d.project1, d => d.projectUid.ToString(), "");            
+            ViewBag.projectUid = projects.OrderBy(c => c.project1).ToSelectList(d => d.project1, d => d.projectUid.ToString(), "");            
             return View();
         }
 

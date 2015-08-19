@@ -46,6 +46,7 @@
                             <li>@Html.ActionLink("Project Attachment Types", "Index", "ProjectAttachmentTypes")</li>
                             <li>@Html.ActionLink("Equipment Types", "Index", "EquipmentTypes")</li>
                             <li>@Html.ActionLink("Equipment Attribute Type", "Index", "EquipmentAttributeTypes")</li>
+                            <li>@Html.ActionLink("Equipment Attribute Type Tasks", "Index", "EquipmentAttributeTypeTasks")</li>
                             <li>@Html.ActionLink("Equipment Note Types", "Index", "EquipmentNoteTypes")</li>
                             <li>@Html.ActionLink("RFI Types", "Index", "RFITypes")</li>
                             <li>@Html.ActionLink("RFI Satus", "Index", "RFIStatus")</li>
@@ -54,6 +55,9 @@
                             <li>@Html.ActionLink("Control Types", "Index", "ControlTypes")</li>
                             <li>@Html.ActionLink("Equipment Condition", "Index", "EquipmentConditions")</li>
                             <li>@Html.ActionLink("Completion Categories", "Index", "CompletionCategories")</li>
+                            <li>@Html.ActionLink("Weeks", "Index", "Weeks")</li>
+                            <li>@Html.ActionLink("PEC Tasks", "Index", "PECTasks")</li>
+                            <li>@Html.ActionLink("PEC Expense Types", "Index", "PECExpenseTypes")</li>                            
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
                             <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>
@@ -81,6 +85,8 @@
                                 <li>@Html.ActionLink("Percentage Expenses", "Index", "ExpensePercentages")</li>
                                 <li>@Html.ActionLink("Monthly Expenses", "Index", "ExpenseMonthlies")</li>
                                 <li>@Html.ActionLink("Misc Expenses For Project", "Index", "ExpenseMiscellaneousProjects")</li>
+                                <li>@Html.ActionLink("PEC Costs", "Index", "PECCosts")</li>
+                                <li>@Html.ActionLink("Equipment Type Task Assignments", "Index", "EquipmentTypeTaskAssignments")</li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Warranty Units", "Index", "WarrantyUnits")</li>
                                 <li class="divider"></li>
@@ -126,7 +132,7 @@
                                 <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                                
                                 <li>@Html.ActionLink("Report -- Equipment List by ECM", "GetEquipmentForECM", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- New Equipment", "GetEquipmentForECMToPurchase", "Reports")</li>
-                                <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>                                
+                                <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>
                                 <li class="divider"></li>
                                 <li><a href="/ContractorSignoffs/Index">View signed proposals</a></li>
                                 <li>@Html.ActionLink("Generate Final Signoffs", "GenerateSignoff", "ContractorSignoffFinals")</li>
