@@ -200,20 +200,45 @@ namespace JCIExtensions
             catch (Exception ex)
             {                
                 StreamWriter f = new StreamWriter("mailErrors.log", true);                
-                f.WriteLine("--------------" + DateTime.Now.ToString() + ": " + ex.Message);
+                f.WriteLine("--------------" + DateTime.Now.ToString() + ": " + ex.Message + "|" + ex.InnerException);
                 f.Close();
              //silent error for dev failures   
             }
 
         }
 
-        public static void sendEmailToProjectUsers(JCIEstimateEntities db, Guid projectUid, string subject, string body, bool isHtml)
+        public static void sendEmailToProjectUsers(JCIEstimateEntities db, Guid projectUid, string subject, string body, bool isHtml, bool isWarranty = false)
         {
+            if (isWarranty)
+            {
+                var users = from cc in db.ProjectUsers
+                            join au in db.AspNetUsers on cc.aspNetUserUid equals au.Id
+                            where cc.projectUid == projectUid
+                            && cc.isReceivingWarrantyEmail == true
+                            select au;
+                foreach (var item in users)
+                {
+                    SendEmail(item.Email, subject, body, isHtml);
+                }
+            }
+            else
+            {
+                var users = from cc in db.ProjectUsers
+                            join au in db.AspNetUsers on cc.aspNetUserUid equals au.Id
+                            where cc.projectUid == projectUid
+                            select au;
+                foreach (var item in users)
+                {
+                    SendEmail(item.Email, subject, body, isHtml);
+                }
+            }
+        }
 
-            var users = from cc in db.ProjectUsers
-                        join au in db.AspNetUsers on cc.aspNetUserUid equals au.Id
+        public static void sendEmailToProjectBidders(JCIEstimateEntities db, Guid projectUid, string subject, string body, bool isHtml)
+        {
+            var users = from cc in db.ProjectEstimateEmail__v                        
                         where cc.projectUid == projectUid
-                        select au;
+                        select cc;
             foreach (var item in users)
             {
                 SendEmail(item.Email, subject, body, isHtml);

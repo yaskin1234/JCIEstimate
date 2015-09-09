@@ -20,7 +20,7 @@ namespace JCIEstimate.Controllers
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
-            var warrantyUnits = db.WarrantyUnits.Where(c => c.Location.projectUid == sessionProject).OrderBy(c=>c.warrantyUnit1);
+            var warrantyUnits = db.WarrantyUnits.Where(c => c.Location.projectUid == sessionProject).OrderBy(c=>c.Location.location1).ThenBy(c=>c.warrantyUnit1);
 
             return View(await warrantyUnits.ToListAsync());
         }

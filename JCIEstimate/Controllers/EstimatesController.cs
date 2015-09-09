@@ -342,14 +342,23 @@ namespace JCIEstimate.Controllers
 
                 foreach (EquipmentAttributeTypeTask item in tasks)
                 {
-                    EquipmentTypeTaskAssignment et = new EquipmentTypeTaskAssignment();
-                    et.equipmentTypeTaskAssignmentUid = Guid.NewGuid();
-                    et.ecmUid = estimate.ecmUid;
-                    et.locationUid = estimate.locationUid;
-                    et.contractorUid = estimate.contractorUid;
-                    et.equipmentAttributeTypeUid = item.equipmentAttributeTypeUid;
-                    et.equipmentAttributeTypeTaskUid = item.equipmentAttributeTypeTaskUid;
-                    db.EquipmentTypeTaskAssignments.Add(et);
+                    var exists = from cc in db.EquipmentTypeTaskAssignments
+                                 where cc.ecmUid == estimate.ecmUid
+                                 && cc.equipmentAttributeTypeTaskUid == item.equipmentAttributeTypeTaskUid
+                                 && cc.locationUid == estimate.locationUid
+                                 select cc;
+
+                    if (exists.Count() == 0)
+                    {
+                        EquipmentTypeTaskAssignment et = new EquipmentTypeTaskAssignment();
+                        et.equipmentTypeTaskAssignmentUid = Guid.NewGuid();
+                        et.ecmUid = estimate.ecmUid;
+                        et.locationUid = estimate.locationUid;
+                        et.contractorUid = estimate.contractorUid;
+                        et.equipmentAttributeTypeUid = item.equipmentAttributeTypeUid;
+                        et.equipmentAttributeTypeTaskUid = item.equipmentAttributeTypeTaskUid;
+                        db.EquipmentTypeTaskAssignments.Add(et);
+                    }
                 }
 
                 await db.SaveChangesAsync();
@@ -379,6 +388,7 @@ namespace JCIEstimate.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Estimate estimate = await db.Estimates.FindAsync(id);
+            
             if (estimate == null)
             {
                 return HttpNotFound();

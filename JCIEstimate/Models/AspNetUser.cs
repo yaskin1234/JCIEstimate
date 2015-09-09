@@ -17,7 +17,6 @@ namespace JCIEstimate.Models
         public AspNetUser()
         {
             this.ContractorUsers = new HashSet<ContractorUser>();
-            this.ProjectUsers = new HashSet<ProjectUser>();
             this.WarrantyNotes = new HashSet<WarrantyNote>();
             this.WarrantyIssues = new HashSet<WarrantyIssue>();
             this.LocationIssues = new HashSet<LocationIssue>();
@@ -35,6 +34,7 @@ namespace JCIEstimate.Models
             this.ContractorSignoffFinals = new HashSet<ContractorSignoffFinal>();
             this.ContractorSignoffFinalAttachments = new HashSet<ContractorSignoffFinalAttachment>();
             this.PECCosts = new HashSet<PECCost>();
+            this.ProjectUsers = new HashSet<ProjectUser>();
         }
     
         public string Id { get; set; }
@@ -52,7 +52,6 @@ namespace JCIEstimate.Models
         public string UserName { get; set; }
     
         public virtual ICollection<ContractorUser> ContractorUsers { get; set; }
-        public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
         public virtual ICollection<WarrantyNote> WarrantyNotes { get; set; }
         public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
         public virtual ICollection<LocationIssue> LocationIssues { get; set; }
@@ -70,5 +69,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
         public virtual ICollection<ContractorSignoffFinalAttachment> ContractorSignoffFinalAttachments { get; set; }
         public virtual ICollection<PECCost> PECCosts { get; set; }
+        public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
     }
 }

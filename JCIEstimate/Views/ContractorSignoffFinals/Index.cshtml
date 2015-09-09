@@ -8,6 +8,7 @@
 
 <table class="table">
     <tr>
+        <th> </th>
         <th>
             @Html.DisplayNameFor(model => model.Contractor.contractorName)
         </th>
@@ -30,6 +31,9 @@
     {
         <tr>
             <td>
+                <a href="@Url.Action("Edit", "ContractorSignoffFinals", new { id = item.contractorSignoffFinalUid })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Contractor.contractorName)
             </td>
             <td>
@@ -45,8 +49,6 @@
                 @Html.ActionLink("Get Final Signoff", "GetContractorSignoffFinal", new { contractorSignoffFinalUid = item.contractorSignoffFinalUid })
             </td>
             <td>
-                <a href="@Url.Action("Edit", "ContractorSignoffFinals", new { id = item.contractorSignoffFinalUid })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
-
                 @if (User.IsInRole("Admin"))
                 {
                     <a href="@Url.Action("Delete", "ContractorSignoffFinals", new { id = item.contractorSignoffFinalUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>

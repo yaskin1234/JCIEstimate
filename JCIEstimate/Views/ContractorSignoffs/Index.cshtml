@@ -8,6 +8,7 @@
 
 <table class="table">
     <tr>
+        <th> </th>
         <th>
             @Html.DisplayNameFor(model => model.Contractor.contractorName)
         </th>
@@ -29,6 +30,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            <a href="@Url.Action("Edit", "ContractorSignoffs", new { id = item.contractorSignoffUid })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>                
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Contractor.contractorName)
         </td>
         <td>
@@ -44,8 +48,6 @@
             @Html.ActionLink("Get Signoff", "GetContractorSignoff", new { contractorSignoffUid = item.contractorSignoffUid })
         </td>        
         <td>
-            <a href="@Url.Action("Edit", "ContractorSignoffs", new { id = item.contractorSignoffUid })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>                
-            
             @if (User.IsInRole("Admin"))
             {                
                 <a href="@Url.Action("Delete", "ContractorSignoffs", new { id = item.contractorSignoffUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>

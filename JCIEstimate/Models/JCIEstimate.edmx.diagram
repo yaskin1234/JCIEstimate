@@ -57,9 +57,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_projectMilestone_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectMilestoneAction" Width="1.5" PointX="20.625" PointY="32.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_projectMilestoneAction_projectMilestone" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ProjectUser" Width="1.5" PointX="21.375" PointY="12.375" />
-        <AssociationConnector Association="JCIEstimateModel.fk_project_AspNetUser" />
-        <AssociationConnector Association="JCIEstimateModel.fk_project_user" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyStatu" Width="1.5" PointX="5.375" PointY="0.875" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyNote" Width="1.5" PointX="10.25" PointY="14.125" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_Notecreated" />
@@ -93,7 +90,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyUnit_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_warrantystatus" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationNote_locationIssue" />
-        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" />
         <AssociationConnector Association="JCIEstimateModel.fk_warrantyissue_warrantystatus" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
@@ -196,6 +192,11 @@
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_AttributeType" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectUser" Width="1.5" PointX="21.375" PointY="12.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_project_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_project_user" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectEstimateEmail__v" Width="1.5" PointX="3.375" PointY="18.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

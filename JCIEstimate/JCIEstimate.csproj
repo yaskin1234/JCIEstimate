@@ -573,6 +573,7 @@
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
     <Content Include="Content\ReportingService.aspx" />
+    <Content Include="Emails\NewAddendum.html" />
     <Content Include="Emails\NewRFI.html" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -2360,6 +2361,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectAttachmentType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectEstimateEmail__v.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectManagerAttachment.cs">

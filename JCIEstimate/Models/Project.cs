@@ -22,7 +22,6 @@ namespace JCIEstimate.Models
             this.ScopeOfWorks = new HashSet<ScopeOfWork>();
             this.ExpenseMonthlies = new HashSet<ExpenseMonthly>();
             this.ProjectMilestones = new HashSet<ProjectMilestone>();
-            this.ProjectUsers = new HashSet<ProjectUser>();
             this.Locations = new HashSet<Location>();
             this.ProjectAttachments = new HashSet<ProjectAttachment>();
             this.ProjectRFIs = new HashSet<ProjectRFI>();
@@ -35,6 +34,7 @@ namespace JCIEstimate.Models
             this.ContractorSignoffFinals = new HashSet<ContractorSignoffFinal>();
             this.LocationCompletionCategories = new HashSet<LocationCompletionCategory>();
             this.PECCosts = new HashSet<PECCost>();
+            this.ProjectUsers = new HashSet<ProjectUser>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -53,7 +53,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ScopeOfWork> ScopeOfWorks { get; set; }
         public virtual ICollection<ExpenseMonthly> ExpenseMonthlies { get; set; }
         public virtual ICollection<ProjectMilestone> ProjectMilestones { get; set; }
-        public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
         public virtual ICollection<ProjectAttachment> ProjectAttachments { get; set; }
         public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
@@ -67,5 +66,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
         public virtual ICollection<LocationCompletionCategory> LocationCompletionCategories { get; set; }
         public virtual ICollection<PECCost> PECCosts { get; set; }
+        public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
     }
 }

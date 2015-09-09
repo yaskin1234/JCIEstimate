@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
 using Microsoft.AspNet.Identity;
+using JCIExtensions;
 
 namespace JCIEstimate.Controllers
 {
@@ -75,6 +76,7 @@ namespace JCIEstimate.Controllers
                 projectAddendum.aspNetUserUidAsCreated = IdentityExtensions.GetUserId(User.Identity);
                 db.ProjectAddendums.Add(projectAddendum);
                 await db.SaveChangesAsync();
+                SendMailAddendum(projectAddendum.projectAddendumUid);
                 return RedirectToAction("Index");
             }
 
@@ -148,6 +150,26 @@ namespace JCIEstimate.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void SendMailAddendum(Guid projectAddendumUid)
+        {
+            string userEdited = System.Web.HttpContext.Current.User.Identity.Name;
+            var addendum = from cc in db.ProjectAddendums
+                           where cc.projectAddendumUid == projectAddendumUid
+                           select cc;
+
+            addendum = addendum.Include(e => e.Project);
+            string emailPath = Server.MapPath("~/Emails/NewAddendum.html");
+            string subject = addendum.First().Project.project1 + " -- " + "Addendum " + addendum.First().addendumId + " Modified";
+            string emailMessage = System.IO.File.ReadAllText(emailPath);
+            bool isHtml = true;
+
+            emailMessage = emailMessage.Replace("{{addendumId}}", addendum.First().addendumId.ToString());
+            emailMessage = emailMessage.Replace("{{projectAddendum1}}", addendum.First().projectAddendum1);                                    
+            emailMessage = emailMessage.Replace("{{userEdited}}", userEdited);            
+
+            MCVExtensions.sendEmailToProjectBidders(db, MCVExtensions.getSessionProject(), subject, emailMessage, isHtml);
         }
     }
 }

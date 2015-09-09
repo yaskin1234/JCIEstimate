@@ -24,6 +24,7 @@ namespace JCIEstimate.Content
                     ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { rp });                    
                     ReportViewer1.ShowParameterPrompts = true;
                     string userUid = Request.QueryString["userUid"];
+
                     if (userUid != null) 
                     {
                         ReportParameter cu = new ReportParameter("userUid", userUid);

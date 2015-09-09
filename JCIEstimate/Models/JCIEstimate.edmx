@@ -707,6 +707,7 @@
           <Property Name="projectUserUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="isReceivingWarrantyEmail" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="RfiStatus">
           <Key>
@@ -841,6 +842,15 @@ warning 6002: The table/view 'JCIEstimate.dbo.ContractorTotalsByProject' does no
           <Property Name="deliveryWeeks" Type="int" />
           <Property Name="installationWeeks" Type="int" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'JCIEstimate.dbo.ProjectEstimateEmail__v' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ProjectEstimateEmail__v">
+          <Key>
+            <PropertyRef Name="projectUid" />
+          </Key>
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'JCIEstimate.dbo.v__ContractorECMByCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2345,6 +2355,12 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
     [ContractorTotalsByProject].[projectUid] AS [projectUid]
     FROM [dbo].[ContractorTotalsByProject] AS [ContractorTotalsByProject]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="ProjectEstimateEmail__v" EntityType="Self.ProjectEstimateEmail__v" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProjectEstimateEmail__v].[projectUid] AS [projectUid], 
+    [ProjectEstimateEmail__v].[Email] AS [Email]
+    FROM [dbo].[ProjectEstimateEmail__v] AS [ProjectEstimateEmail__v]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="v__ContractorECMByCategory" EntityType="Self.v__ContractorECMByCategory" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v__ContractorECMByCategory].[ecmnumber] AS [ecmnumber], 
@@ -2942,15 +2958,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ProjectMilestone" EntitySet="ProjectMilestones" />
             <End Role="ProjectMilestoneAction" EntitySet="ProjectMilestoneActions" />
           </AssociationSet>
-          <EntitySet Name="ProjectUsers" EntityType="JCIEstimateModel.ProjectUser" />
-          <AssociationSet Name="fk_project_AspNetUser" Association="JCIEstimateModel.fk_project_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ProjectUser" EntitySet="ProjectUsers" />
-          </AssociationSet>
-          <AssociationSet Name="fk_project_user" Association="JCIEstimateModel.fk_project_user">
-            <End Role="Project" EntitySet="Projects" />
-            <End Role="ProjectUser" EntitySet="ProjectUsers" />
-          </AssociationSet>
           <EntitySet Name="WarrantyStatus" EntityType="JCIEstimateModel.WarrantyStatu" />
           <EntitySet Name="WarrantyNotes" EntityType="JCIEstimateModel.WarrantyNote" />
           <AssociationSet Name="fk_AspNetUser_Notecreated" Association="JCIEstimateModel.fk_AspNetUser_Notecreated">
@@ -3034,10 +3041,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_LocationNote_locationIssue" Association="JCIEstimateModel.fk_LocationNote_locationIssue">
             <End Role="LocationIssue" EntitySet="LocationIssues" />
             <End Role="LocationNote" EntitySet="LocationNotes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_WarrantyIssue_ProjectUser" Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser">
-            <End Role="ProjectUser" EntitySet="ProjectUsers" />
-            <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
           </AssociationSet>
           <AssociationSet Name="fk_WarrantyAttachment_warrantyissue" Association="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue">
             <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
@@ -3342,6 +3345,20 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Location" EntitySet="Locations" />
             <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignments" />
           </AssociationSet>
+          <EntitySet Name="ProjectUsers" EntityType="JCIEstimateModel.ProjectUser" />
+          <AssociationSet Name="fk_project_AspNetUser" Association="JCIEstimateModel.fk_project_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectUser" EntitySet="ProjectUsers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_project_user" Association="JCIEstimateModel.fk_project_user">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectUser" EntitySet="ProjectUsers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_WarrantyIssue_ProjectUser" Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser">
+            <End Role="ProjectUser" EntitySet="ProjectUsers" />
+            <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
+          </AssociationSet>
+          <EntitySet Name="ProjectEstimateEmail__v" EntityType="JCIEstimateModel.ProjectEstimateEmail__v" />
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -3416,7 +3433,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="Project" ToRole="ScopeOfWork" />
           <NavigationProperty Name="ExpenseMonthlies" Relationship="JCIEstimateModel.fk_ExpenseMonthly_project" FromRole="Project" ToRole="ExpenseMonthly" />
           <NavigationProperty Name="ProjectMilestones" Relationship="JCIEstimateModel.fk_projectMilestone_project" FromRole="Project" ToRole="ProjectMilestone" />
-          <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_user" FromRole="Project" ToRole="ProjectUser" />
           <NavigationProperty Name="Locations" Relationship="JCIEstimateModel.fk_location_project" FromRole="Project" ToRole="Location" />
           <NavigationProperty Name="ProjectAttachments" Relationship="JCIEstimateModel.fk_ProjectAttachment_Project" FromRole="Project" ToRole="ProjectAttachment" />
           <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_Project" FromRole="Project" ToRole="ProjectRFI" />
@@ -3436,6 +3452,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_ContractorSignoffFinal_Project" FromRole="Project" ToRole="ContractorSignoffFinal" />
           <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Project" FromRole="Project" ToRole="LocationCompletionCategory" />
           <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_PECCost_Project" FromRole="Project" ToRole="PECCost" />
+          <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_user" FromRole="Project" ToRole="ProjectUser" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -3491,7 +3508,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ContractorUsers" Relationship="JCIEstimateModel.fk_AspNetUser" FromRole="AspNetUser" ToRole="ContractorUser" />
-          <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="AspNetUser" ToRole="ProjectUser" />
           <NavigationProperty Name="WarrantyNotes" Relationship="JCIEstimateModel.fk_AspNetUser_Notecreated" FromRole="AspNetUser" ToRole="WarrantyNote" />
           <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_AspNetUser_created" FromRole="AspNetUser" ToRole="WarrantyIssue" />
           <NavigationProperty Name="LocationIssues" Relationship="JCIEstimateModel.fk_AspNetUser_createdAs" FromRole="AspNetUser" ToRole="LocationIssue" />
@@ -3509,6 +3525,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_AspNetUser_created3" FromRole="AspNetUser" ToRole="ContractorSignoffFinal" />
           <NavigationProperty Name="ContractorSignoffFinalAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created5" FromRole="AspNetUser" ToRole="ContractorSignoffFinalAttachment" />
           <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_AspNetUserPECCost" FromRole="AspNetUser" ToRole="PECCost" />
+          <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="AspNetUser" ToRole="ProjectUser" />
           </EntityType>
         <Association Name="fk_AspNetUser">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -4024,41 +4041,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ProjectUser">
-          <Key>
-            <PropertyRef Name="projectUserUid" />
-          </Key>
-          <Property Name="projectUserUid" Type="Guid" Nullable="false" />
-          <Property Name="aspNetUserUid" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="projectUid" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="ProjectUser" ToRole="AspNetUser" />
-          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_project_user" FromRole="ProjectUser" ToRole="Project" />
-          <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" FromRole="ProjectUser" ToRole="WarrantyIssue" />
-        </EntityType>
-        <Association Name="fk_project_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectUser">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_project_user">
-          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="projectUid" />
-            </Principal>
-            <Dependent Role="ProjectUser">
-              <PropertyRef Name="projectUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="WarrantyStatu">
           <Key>
             <PropertyRef Name="warrantyStatusUid" />
@@ -4325,11 +4307,11 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="locationUid" Type="Guid" />
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created" FromRole="WarrantyIssue" ToRole="AspNetUser" />
           <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_WarrantyIssue_location" FromRole="WarrantyIssue" ToRole="Location" />
-          <NavigationProperty Name="ProjectUser" Relationship="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" FromRole="WarrantyIssue" ToRole="ProjectUser" />
           <NavigationProperty Name="WarrantyAttachments" Relationship="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" FromRole="WarrantyIssue" ToRole="WarrantyAttachment" />
           <NavigationProperty Name="WarrantyStatu" Relationship="JCIEstimateModel.fk_warrantyissue_warrantystatus" FromRole="WarrantyIssue" ToRole="WarrantyStatu" />
           <NavigationProperty Name="WarrantyUnit" Relationship="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" FromRole="WarrantyIssue" ToRole="WarrantyUnit" />
           <NavigationProperty Name="WarrantyNotes" Relationship="JCIEstimateModel.fk_warrantynote_warrantyissue" FromRole="WarrantyIssue" ToRole="WarrantyNote" />
+          <NavigationProperty Name="ProjectUser" Relationship="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" FromRole="WarrantyIssue" ToRole="ProjectUser" />
         </EntityType>
         <Association Name="fk_AspNetUser_created">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
@@ -4464,18 +4446,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="LocationNote">
               <PropertyRef Name="locationIssueUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_WarrantyIssue_ProjectUser">
-          <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.WarrantyIssue" Role="WarrantyIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProjectUser">
-              <PropertyRef Name="projectUserUid" />
-            </Principal>
-            <Dependent Role="WarrantyIssue">
-              <PropertyRef Name="projectUserUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5810,6 +5780,61 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProjectUser">
+          <Key>
+            <PropertyRef Name="projectUserUid" />
+          </Key>
+          <Property Name="projectUserUid" Type="Guid" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="isReceivingWarrantyEmail" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="ProjectUser" ToRole="AspNetUser" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_project_user" FromRole="ProjectUser" ToRole="Project" />
+          <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" FromRole="ProjectUser" ToRole="WarrantyIssue" />
+        </EntityType>
+        <Association Name="fk_project_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectUser">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_project_user">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectUser">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_WarrantyIssue_ProjectUser">
+          <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.WarrantyIssue" Role="WarrantyIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectUser">
+              <PropertyRef Name="projectUserUid" />
+            </Principal>
+            <Dependent Role="WarrantyIssue">
+              <PropertyRef Name="projectUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectEstimateEmail__v">
+          <Key>
+            <PropertyRef Name="projectUid" />
+          </Key>
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6143,15 +6168,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="projectMilestoneAction1" ColumnName="projectMilestoneAction" />
                 <ScalarProperty Name="projectMilestoneUid" ColumnName="projectMilestoneUid" />
                 <ScalarProperty Name="projectMilestoneActionUid" ColumnName="projectMilestoneActionUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProjectUsers">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectUser">
-              <MappingFragment StoreEntitySet="ProjectUser">
-                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
-                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
-                <ScalarProperty Name="projectUserUid" ColumnName="projectUserUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6748,6 +6764,24 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="locationUid" ColumnName="locationUid" />
                 <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
                 <ScalarProperty Name="equipmentTypeTaskAssignmentUid" ColumnName="equipmentTypeTaskAssignmentUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectUsers">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectUser">
+              <MappingFragment StoreEntitySet="ProjectUser">
+                <ScalarProperty Name="isReceivingWarrantyEmail" ColumnName="isReceivingWarrantyEmail" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
+                <ScalarProperty Name="projectUserUid" ColumnName="projectUserUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectEstimateEmail__v">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectEstimateEmail__v">
+              <MappingFragment StoreEntitySet="ProjectEstimateEmail__v">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

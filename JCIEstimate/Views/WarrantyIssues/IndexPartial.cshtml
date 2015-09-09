@@ -2,6 +2,7 @@
 @{var maxCharLength = 100;}
 <table class="table">
     <tr>
+        <th> </th>
         <th>
             @Html.DisplayNameFor(model => model.WarrantyUnit.Location.location1) - @Html.DisplayNameFor(model => model.WarrantyUnit.warrantyUnit1)<br />
         </th>
@@ -32,6 +33,9 @@
     {
         var rowColor = item.WarrantyStatu.behaviorIndicator == "N" ? "#ffbbbb" : item.WarrantyStatu.behaviorIndicator == "R" ? "#aaffdd" : "#ddffdd";
         <tr style="background-color:@rowColor;">
+            <td>
+                <a href="@Url.Action("Edit", "WarrantyIssues", new { id = item.warrantyIssueUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+            </td>
             <td>
                 <div>
                     @item.Location.location1
@@ -85,8 +89,7 @@
                     }
                 }
             </td>
-            <td>
-                <a href="@Url.Action("Edit", "WarrantyIssues", new { id = item.warrantyIssueUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+            <td>                
                 @if (User.IsInRole("Admin"))
                 {
                     <a href="@Url.Action("Delete", "WarrantyIssues", new { id = item.warrantyIssueUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>

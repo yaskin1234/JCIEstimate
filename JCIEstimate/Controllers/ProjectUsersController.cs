@@ -18,7 +18,7 @@ namespace JCIEstimate.Controllers
         // GET: ProjectUsers
         public async Task<ActionResult> Index()
         {
-            var projectUsers = db.ProjectUsers.Include(p => p.AspNetUser).Include(p => p.Project);
+            var projectUsers = db.ProjectUsers.Include(p => p.AspNetUser).Include(p => p.Project).OrderBy(P=>P.AspNetUser.Email);
             return View(await projectUsers.ToListAsync());
         }
 
@@ -40,8 +40,8 @@ namespace JCIEstimate.Controllers
         // GET: ProjectUsers/Create
         public ActionResult Create()
         {
-            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "UserName");
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
+            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "UserName").OrderBy(C=>C.Text);
+            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1").OrderBy(C => C.Text);
             return View();
         }
 
@@ -50,7 +50,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "projectUserUid,aspNetUserUid,projectUid")] ProjectUser projectUser)
+        public async Task<ActionResult> Create([Bind(Include = "projectUserUid,aspNetUserUid,projectUid,isReceivingWarrantyEmail")] ProjectUser projectUser)
         {
             if (ModelState.IsValid)
             {
@@ -77,8 +77,8 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "UserName", projectUser.aspNetUserUid);
-            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectUser.projectUid);
+            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "UserName", projectUser.aspNetUserUid).OrderBy(C => C.Text);
+            ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectUser.projectUid).OrderBy(C => C.Text);
             return View(projectUser);
         }
 
@@ -87,7 +87,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "projectUserUid,aspNetUserUid,projectUid")] ProjectUser projectUser)
+        public async Task<ActionResult> Edit([Bind(Include = "projectUserUid,aspNetUserUid,projectUid,isReceivingWarrantyEmail")] ProjectUser projectUser)
         {
             if (ModelState.IsValid)
             {

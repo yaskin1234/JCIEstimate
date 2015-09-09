@@ -53,7 +53,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<MilestoneAction> MilestoneActions { get; set; }
         public virtual DbSet<ProjectMilestone> ProjectMilestones { get; set; }
         public virtual DbSet<ProjectMilestoneAction> ProjectMilestoneActions { get; set; }
-        public virtual DbSet<ProjectUser> ProjectUsers { get; set; }
         public virtual DbSet<WarrantyStatu> WarrantyStatus { get; set; }
         public virtual DbSet<WarrantyNote> WarrantyNotes { get; set; }
         public virtual DbSet<WarrantyAttachment> WarrantyAttachments { get; set; }
@@ -105,5 +104,7 @@ namespace JCIEstimate.Models
         public virtual DbSet<PECCost> PECCosts { get; set; }
         public virtual DbSet<EquipmentAttributeTypeTask> EquipmentAttributeTypeTasks { get; set; }
         public virtual DbSet<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
+        public virtual DbSet<ProjectUser> ProjectUsers { get; set; }
+        public virtual DbSet<ProjectEstimateEmail__v> ProjectEstimateEmail__v { get; set; }
     }
 }

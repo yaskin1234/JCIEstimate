@@ -95,7 +95,13 @@
                     var rowColor = item.EstimateStatu.behaviorIndicator == "S" ? "#aaffdd" : item.EstimateStatu.behaviorIndicator == "N" ? "#ffbbbb" : "#ddffdd";
                     <tr style="background-color:@item.EstimateStatu.rowColor;">
 
-                        <td><img src="@Url.Content("~/Images/equipment.png")" class="tdEquipmentForEcm" alt="View Equipment" id="getEquipment_@item.ecmUid" height="15" width="15" /></td>
+                        <td>
+                            @if (item.EstimateStatu.behaviorIndicator != "S" || User.IsInRole("Admin"))
+                            {
+                                <a href="@Url.Action("Edit", "Estimates", new { id = item.estimateUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+                            }
+                            <img src="@Url.Content("~/Images/equipment.png")" class="tdEquipmentForEcm" alt="View Equipment" id="getEquipment_@item.ecmUid" height="15" width="15" />
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Location.location1)
                         </td>
@@ -126,11 +132,7 @@
                         <td>
                             <span>@item.notes</span>
                         </td>
-                        <td>
-                            @if (item.EstimateStatu.behaviorIndicator != "S" || User.IsInRole("Admin"))
-                            {
-                                <a href="@Url.Action("Edit", "Estimates", new { id = item.estimateUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
-                            }
+                        <td>                            
                             <a href="@Url.Action("Details", "Estimates", new { id = item.estimateUid })"><img src="@Url.Content("~/Images/view_details.png")" height="15" width="15" alt="Click for Details" title="Click for Details" /></a>
 
                             @if (User.IsInRole("Admin"))
@@ -167,6 +169,13 @@
 
     columns: new[]  // colums in grid
     {
+        grid.Column(header: "",
+            format: @<text>
+            @if (item.EstimateStatu.behaviorIndicator != "S" || User.IsInRole("Admin"))
+            {
+                <a href="@Url.Action("Edit", "Estimates", new { id = item.estimateUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" /></a>
+            }
+            </text>),
         grid.Column("Location", format:@<span>@item.Location.location1</span>),
         grid.Column("ECM", format:@<span>
                 @item.ECM.ecmNumber @if (item.ECM.ecmDescription != null)
@@ -179,10 +188,6 @@
         grid.Column("Notes", format:@<span>@item.notes</span>),
         grid.Column(header: "",
             format: @<text>
-            @if (item.EstimateStatu.behaviorIndicator != "S" || User.IsInRole("Admin"))
-            {
-                <a href="@Url.Action("Edit", "Estimates", new { id = item.estimateUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" /></a>
-            }
             <a href="@Url.Action("Details", "Estimates", new { id = item.estimateUid })"><img src="@Url.Content("~/Images/view_details.png")" height="15" width="15" /></a>
             @if (User.IsInRole("Admin"))
             {

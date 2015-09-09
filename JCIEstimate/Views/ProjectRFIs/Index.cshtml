@@ -11,6 +11,7 @@
 </p>
 <table class="table">
     <tr>
+        <th> </th>
         <th>
             @Html.DisplayNameFor(model => model.projectRFIID)
         </th>
@@ -45,6 +46,9 @@
 @foreach (var item in Model) {    
     <tr style="background-color:@item.RfiStatu.rowColor;">
         <td>
+            <a href="@Url.Action("Edit", "ProjectRFIs", new { id = item.projectRFIUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.projectRFIID)
         </td>        
         <td>
@@ -77,8 +81,7 @@
                 @Html.Raw(item.ProjectRFIResponses.OrderBy(c => c.dateCreated).Last().projectRFIResponse1.Replace(Environment.NewLine, @"<br/>"))
             }
         </td>
-        <td>
-            <a href="@Url.Action("Edit", "ProjectRFIs", new { id = item.projectRFIUid})"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+        <td>            
             @if (User.IsInRole("Admin"))
             {
                 <a href="@Url.Action("Delete", "ProjectRFIs", new { id = item.projectRFIUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>

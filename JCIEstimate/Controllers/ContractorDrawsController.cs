@@ -24,6 +24,7 @@ namespace JCIEstimate.Controllers
             {
                 contractorDraws = from cc in db.ContractorDraws
                                   where cc.projectUid == sessionProject
+                                  orderby cc.Contractor.contractorName, cc.dateCreated
                                   select cc;
             }
             else
@@ -32,7 +33,8 @@ namespace JCIEstimate.Controllers
                                   join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                                   join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                                   where cc.projectUid == sessionProject
-                                  && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name                                  
+                                  && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                                  orderby cc.Contractor.contractorName, cc.dateCreated
                                   select cc;
             }
             
@@ -113,11 +115,19 @@ namespace JCIEstimate.Controllers
             ContractorDrawSchedule cds = db.ContractorDrawSchedules.Find(Guid.Parse(id));
             db.Entry(cds).State = EntityState.Modified;
             int amount;
-            if (int.TryParse(value, out amount))
-            {
-                cds.amount = amount;
-                await db.SaveChangesAsync();
+            if (String.IsNullOrEmpty(value))
+            {                
+                cds.amount = 0;
             }
+            else
+            {
+                if (int.TryParse(value, out amount))
+                {
+                    cds.amount = amount;
+                    
+                }
+            }
+            await db.SaveChangesAsync();            
 
             return Json(String.Format("{0:C0}", cds.ContractorDraw.ContractorDrawSchedules.Sum(c => c.amount)));
         }
@@ -139,6 +149,7 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
+            
             ViewBag.runningTotal = contractorDraw.ContractorDrawSchedules.Sum(c => c.amount);
             ViewBag.drawSchedules = contractorDraw.ContractorDrawSchedules.OrderBy(c => c.drawPeriod);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", contractorDraw.contractorUid);

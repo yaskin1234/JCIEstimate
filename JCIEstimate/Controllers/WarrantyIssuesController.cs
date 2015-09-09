@@ -378,7 +378,7 @@ namespace JCIEstimate.Controllers
                     emailMessage += "Issue:\t\t" + warrantyIssue.warrantyIssue1 + Environment.NewLine;
                 }
 
-                JCIExtensions.MCVExtensions.sendEmailToProjectUsers(db, JCIExtensions.MCVExtensions.getSessionProject(), subject, emailMessage, false);
+                JCIExtensions.MCVExtensions.sendEmailToProjectUsers(db, JCIExtensions.MCVExtensions.getSessionProject(), subject, emailMessage, false, true);
 
                 return RedirectToAction("Index");
             }
@@ -535,7 +535,7 @@ namespace JCIEstimate.Controllers
                     }
 
                     db.WarrantyNotes.Add(wn);
-                    JCIExtensions.MCVExtensions.sendEmailToProjectUsers(db, sessionProject, subject, emailMessage, false);
+                    JCIExtensions.MCVExtensions.sendEmailToProjectUsers(db, sessionProject, subject, emailMessage, false, true);
                 }
 
                 if (postedFile != null)

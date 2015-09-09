@@ -598,7 +598,7 @@ namespace JCIEstimate.Controllers
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             ViewBag.ecms = ecms.ToSelectList(c => c.ecmString, c => c.ecmUid.ToString(), ecmUid);
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipmentAttributeTypeUid);
-            ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1", locationUid);
+            ViewBag.locationUid = new SelectList(db.Locations.OrderBy(c => c.location1).Where(c => c.projectUid == sessionProject), "locationUid", "location1", locationUid);
             ViewBag.equipmentUidAsReplaced = replacementEqupments.OrderBy(c => c.jciTag).ToSelectList(d => d.jciTag + " - " + d.Location.location1, d => d.equipmentUid.ToString(), equipmentUidAsReplaced);
             ViewBag.jciTag = jciTag;
             

@@ -54,7 +54,7 @@
                 {
                     <tr>
                         <td>
-                            @item.drawPeriod
+                            @Convert.ToDateTime(item.ContractorDraw.Project.startDate).AddMonths(item.drawPeriod).ToString("MM-yyyy")
                         </td>
                         <td>                            
                             $<input class="contractorSchedule" type="text" name="@item.contractorDrawScheduleUid" value="@item.amount" />
