@@ -169,7 +169,8 @@ namespace JCIEstimate.Controllers
             emailMessage = emailMessage.Replace("{{projectAddendum1}}", addendum.First().projectAddendum1);                                    
             emailMessage = emailMessage.Replace("{{userEdited}}", userEdited);            
 
-            MCVExtensions.sendEmailToProjectBidders(db, MCVExtensions.getSessionProject(), subject, emailMessage, isHtml);
+            MCVExtensions.sendEmailToProjectUsers(db, MCVExtensions.getSessionProject(), subject, emailMessage, isHtml, false);
+            //MCVExtensions.sendTextToProjectUsers(db, MCVExtensions.getSessionProject(), subject, emailMessage, isHtml, false);
         }
     }
 }

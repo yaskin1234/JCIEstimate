@@ -199,12 +199,47 @@ namespace JCIExtensions
             }
             catch (Exception ex)
             {                
-                StreamWriter f = new StreamWriter("mailErrors.log", true);                
+                StreamWriter f = new StreamWriter("c:\\mailErrors.log", true);                
                 f.WriteLine("--------------" + DateTime.Now.ToString() + ": " + ex.Message + "|" + ex.InnerException);
                 f.Close();
              //silent error for dev failures   
             }
 
+        }
+
+        public static void SendText(string phoneNumber, string body)
+        {
+            if (!String.IsNullOrEmpty(phoneNumber))
+            {
+                SmtpClient smtpClient = new SmtpClient("localhost", 25);
+
+                smtpClient.UseDefaultCredentials = true;
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpClient.EnableSsl = false;
+                MailMessage mail = new MailMessage();
+
+                //Setting From , To and CC
+                mail.From = new MailAddress("info@bernservices.com", "Info");
+                mail.To.Add(new MailAddress(phoneNumber + "@txt.att.net"));
+                mail.Subject = "";
+                body += "\n\n";
+                body += "This number is not monitored for incoming messages.";                
+                mail.Body = body;
+                mail.IsBodyHtml = false;
+
+                try
+                {
+                    smtpClient.Send(mail);
+
+                }
+                catch (Exception ex)
+                {
+                    StreamWriter f = new StreamWriter("c:\\textErrors.log", true);
+                    f.WriteLine("--------------" + DateTime.Now.ToString() + ": " + ex.Message + "|" + ex.InnerException);
+                    f.Close();
+                    //silent error for dev failures   
+                }
+            }
         }
 
         public static void sendEmailToProjectUsers(JCIEstimateEntities db, Guid projectUid, string subject, string body, bool isHtml, bool isWarranty = false)
@@ -234,15 +269,49 @@ namespace JCIExtensions
             }
         }
 
+        public static void sendTextToProjectUsers(JCIEstimateEntities db, Guid projectUid, string subject, string body, bool isHtml, bool isWarranty = false)
+        {
+            if (isWarranty)
+            {
+                var users = from cc in db.ProjectUsers
+                            join au in db.AspNetUsers on cc.aspNetUserUid equals au.Id
+                            where cc.projectUid == projectUid
+                            && cc.isReceivingWarrantyEmail == true
+                            select au;
+                foreach (var item in users)
+                {
+                    SendText(item.PhoneNumber, body);
+                }
+            }
+            else
+            {
+                var users = from cc in db.ProjectUsers
+                            join au in db.AspNetUsers on cc.aspNetUserUid equals au.Id
+                            where cc.projectUid == projectUid
+                            select au;
+                foreach (var item in users)
+                {
+                    SendText(item.PhoneNumber, body);
+                }
+            }
+        }
+
         public static void sendEmailToProjectBidders(JCIEstimateEntities db, Guid projectUid, string subject, string body, bool isHtml)
         {
-            var users = from cc in db.ProjectEstimateEmail__v                        
-                        where cc.projectUid == projectUid
-                        select cc;
+            var users = from cc in db.Estimates
+                        join dd in db.Locations on cc.locationUid equals dd.locationUid
+                        join cu in db.ContractorUsers on cc.contractorUid equals cu.contractorUid
+                        join aa in db.AspNetUsers on cu.aspNetUserUid equals aa.Id
+                        where dd.projectUid == projectUid
+                        select aa;
+            string sUsers = "";
+            users = users.Distinct();
             foreach (var item in users)
             {
+                sUsers += item.Email;
                 SendEmail(item.Email, subject, body, isHtml);
             }
+            File.WriteAllText("c:\\emailsOut.txt", sUsers);
         }
 
         public static string MakeValidFileName(string name)

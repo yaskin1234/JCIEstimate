@@ -236,6 +236,7 @@ namespace JCIEstimate.Controllers
             string subject = rfi.First().Project.project1 + " -- " + "RFI " + rfi.First().projectRFIID + " Modified";
             string emailMessage = System.IO.File.ReadAllText(emailPath);
             bool isHtml = true;
+            string textMessage = "RFI " + rfi.First().projectRFIID + " Modified for project " + rfi.First().Project.project1;
 
             emailMessage = emailMessage.Replace("{{projectRFIID}}", rfi.First().projectRFIID.ToString());
             emailMessage = emailMessage.Replace("{{projectRFI}}", rfi.First().projectRFI1);
@@ -246,6 +247,8 @@ namespace JCIEstimate.Controllers
             emailMessage = emailMessage.Replace("{{action}}", action);            
 
             MCVExtensions.sendEmailToProjectUsers(db, MCVExtensions.getSessionProject(), subject, emailMessage, isHtml);
+            MCVExtensions.sendTextToProjectUsers(db, MCVExtensions.getSessionProject(), subject, textMessage, isHtml);
+
         }
 
         // GET: ProjectRFIs/Delete/5

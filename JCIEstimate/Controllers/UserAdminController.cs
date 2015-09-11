@@ -93,7 +93,8 @@ namespace IdentitySample.Controllers
                 var user = new ApplicationUser { 
                     UserName = userViewModel.Email, 
                     Email = userViewModel.Email,
-                    AllowableContractors = userViewModel.AllowableContractors
+                    AllowableContractors = userViewModel.AllowableContractors,
+                    PhoneNumber = userViewModel.PhoneNumber
                 };
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
 
@@ -145,6 +146,7 @@ namespace IdentitySample.Controllers
                 Id = user.Id,
                 Email = user.Email,
                 AllowableContractors = user.AllowableContractors,
+                PhoneNumber = user.PhoneNumber,
                 RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
                 {
                     Selected = userRoles.Contains(x.Name),
@@ -158,7 +160,7 @@ namespace IdentitySample.Controllers
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,AllowableContractors")] EditUserViewModel editUser, params string[] selectedRole)
+        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,AllowableContractors,phoneNumber")] EditUserViewModel editUser, params string[] selectedRole)
         {
             if (ModelState.IsValid)
             {
@@ -171,6 +173,7 @@ namespace IdentitySample.Controllers
                 user.UserName = editUser.Email;
                 user.Email = editUser.Email;
                 user.AllowableContractors = editUser.AllowableContractors;
+                user.PhoneNumber = editUser.PhoneNumber;
 
                 var userRoles = await UserManager.GetRolesAsync(user.Id);
 

@@ -351,13 +351,17 @@ namespace JCIEstimate.Controllers
 
                 string subject = "";
                 string emailMessage = "";
+                string textMessage = "";
+                
+                
 
                 if (warrantyIssue.locationUid != JCIExtensions.MCVExtensions.pseudoNull && warrantyIssue.locationUid != null)
                 {
                     Location loc = new Location();
                     loc = db.Locations.Find(warrantyIssue.locationUid);
                     subject = "New Warranty Issue Created for " + loc.Project.project1;
-                    
+
+                    textMessage = "New Warranty Issue Created for " + loc.Project.project1;    
 
                     emailMessage += "Creator:\t" + System.Web.HttpContext.Current.User.Identity.Name + Environment.NewLine;
                     emailMessage += "Project:\t" + loc.Project.project1 + Environment.NewLine;
@@ -369,7 +373,8 @@ namespace JCIEstimate.Controllers
                 {
                     WarrantyUnit wi = new WarrantyUnit();
                     wi = db.WarrantyUnits.Find(warrantyIssue.warrantyUnitUid);
-                    subject = "New Warranty Issue Created for " + wi.Location.Project.project1;                    
+                    subject = "New Warranty Issue Created for " + wi.Location.Project.project1;
+                    textMessage = "New Warranty Issue Created for " + wi.Location.Project.project1;
 
                     emailMessage += "Creator:\t" + System.Web.HttpContext.Current.User.Identity.Name + Environment.NewLine;
                     emailMessage += "Project:\t" + wi.Location.Project.project1 + " - " + wi.warrantyUnit1 + Environment.NewLine;
@@ -379,6 +384,7 @@ namespace JCIEstimate.Controllers
                 }
 
                 JCIExtensions.MCVExtensions.sendEmailToProjectUsers(db, JCIExtensions.MCVExtensions.getSessionProject(), subject, emailMessage, false, true);
+                JCIExtensions.MCVExtensions.sendTextToProjectUsers(db, JCIExtensions.MCVExtensions.getSessionProject(), subject, textMessage, false, true);
 
                 return RedirectToAction("Index");
             }
@@ -433,7 +439,7 @@ namespace JCIEstimate.Controllers
             ViewBag.warrantyUnit = (warrantyUnit.Count() > 0 ? warrantyUnit.First().ToString() : "");
             ViewBag.warrantyAttachments = warrantyAttachments.OrderBy(c=>c.warrantyAttachment1).ToList();
             ViewBag.warrantyNotes = warrantyNotes.Include(c => c.AspNetUser).OrderBy(c => c.date).ToList();
-            ViewBag.projectUserUid = projectUsers.ToSelectList(d => d.AspNetUser.Email, d => d.projectUserUid.ToString(), warrantyIssue.projectUserUid.ToString());            
+            ViewBag.projectUserUid = projectUsers.ToSelectList(d => d.AspNetUser.Email, d => d.projectUserUid.ToString(), warrantyIssue.projectUserUid.ToString()).OrderBy(c=>c.Text);            
             ViewBag.warrantyStatusUid = new SelectList(db.WarrantyStatus.OrderBy(d => d.listOrder), "warrantyStatusUid", "warrantyStatus", warrantyIssue.warrantyStatusUid);
             Session["original"] = warrantyIssue;
             return View(warrantyIssue);
@@ -495,17 +501,18 @@ namespace JCIEstimate.Controllers
                     if (assignmentChange) // nullable
                     {
                         var projectUser = db.ProjectUsers.Find(warrantyIssue.projectUserUid);
-                        wn.warrantyNote1 += "Assignment changed from " + ((wi.ProjectUser != null) ? wi.ProjectUser.AspNetUser.UserName : "nothing") + " to " + ((projectUser != null) ? projectUser.AspNetUser.UserName : "nothing");
+                        wn.warrantyNote1 += Environment.NewLine + "Assignment changed from " + ((wi.ProjectUser != null) ? wi.ProjectUser.AspNetUser.UserName : "nothing") + " to " + ((projectUser != null) ? projectUser.AspNetUser.UserName : "nothing");
                         wn.warrantyNote1 += Environment.NewLine;
                     }
                     if (!String.IsNullOrEmpty(addComment))
                     {
-                        wn.warrantyNote1 += addComment;
+                        wn.warrantyNote1 += Environment.NewLine + addComment;
                         wn.warrantyNote1 += Environment.NewLine;
                     }
 
                     string emailMessage = "";
                     string subject = "Warranty Issue Modified for project " + Session["projectName"].ToString();
+                    string textMessage = "Warranty Issue Modified for project " + Session["projectName"].ToString();
                     
                     if (warrantyIssue.warrantyUnitUid != null)
                     {
@@ -513,7 +520,7 @@ namespace JCIEstimate.Controllers
                         var wu1 = db.WarrantyUnits.Find(warrantyIssue.warrantyUnitUid);
                         emailMessage += "Modified by:\t" + System.Web.HttpContext.Current.User.Identity.Name + Environment.NewLine;
                         emailMessage += "Unit:\t\t" + loc.location1 + " - " + wu1.warrantyUnit1 + Environment.NewLine;
-                        emailMessage += wn.warrantyNote1;
+                        emailMessage += Environment.NewLine + wn.warrantyNote1;
 
                     }
                     else
@@ -521,7 +528,7 @@ namespace JCIEstimate.Controllers
                         var loc = db.Locations.Find(warrantyIssue.locationUid);
                         emailMessage += "Modified by:\t" + System.Web.HttpContext.Current.User.Identity.Name + Environment.NewLine;
                         emailMessage += "Location:\t" + loc.location1 + Environment.NewLine;
-                        emailMessage += wn.warrantyNote1;
+                        emailMessage += Environment.NewLine + wn.warrantyNote1;
                     }
 
                     emailMessage += "---------------------------------------------------------------------------------------------------------------------------------------------------------------" + Environment.NewLine;
@@ -531,11 +538,12 @@ namespace JCIEstimate.Controllers
                     {                        
                         emailMessage += "By:\t" + item.AspNetUser.Email + Environment.NewLine;
                         emailMessage += "Date:\t" + item.date.ToString("yyyy-MM-dd HH:mm:ss") + Environment.NewLine;
-                        emailMessage += item.warrantyNote1 + Environment.NewLine;
+                        emailMessage += Environment.NewLine + item.warrantyNote1 + Environment.NewLine;
                     }
 
                     db.WarrantyNotes.Add(wn);
                     JCIExtensions.MCVExtensions.sendEmailToProjectUsers(db, sessionProject, subject, emailMessage, false, true);
+                    JCIExtensions.MCVExtensions.sendTextToProjectUsers(db, sessionProject, subject, textMessage, false, true);
                 }
 
                 if (postedFile != null)

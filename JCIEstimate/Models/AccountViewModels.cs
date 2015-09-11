@@ -79,6 +79,9 @@ namespace IdentitySample.Models
 
         [Display(Name = "Allowable Contractors")]        
         public string AllowableContractors { get; set; }
+
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
     }
 
     public class ResetPasswordViewModel

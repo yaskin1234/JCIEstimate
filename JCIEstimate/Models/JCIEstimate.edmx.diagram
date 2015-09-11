@@ -14,7 +14,7 @@
         <AssociationConnector Association="JCIEstimateModel.fk_contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractor_user" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractorContact" />
-        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="14.25" PointY="0.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="14.25" PointY="0.875" IsExpanded="true" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstruction" Width="1.5" PointX="7.625" PointY="18.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_project" />
