@@ -53,7 +53,7 @@
         </div>
         *@
 
-
+    
         @if (User.IsInRole("Admin")) // if admin ////////////////////////////////////////////////////////////////////////////////////////////////
         {
 
@@ -80,6 +80,9 @@
                     </th>
                     <th>
                         Active?
+                    </th>
+                    <th>
+                        Option
                     </th>
                     <th>
                         Active Amount
@@ -125,6 +128,9 @@
                         </td>
                         <td>
                             <input type="checkbox" class="estimateActiveChk" name="@item.estimateUid.ToString()" @((item.isActive == true) ? "checked" : "" ) value="@item.estimateUid.ToString()" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstimateOption.EstimateOption1)
                         </td>
                         <td>
                             <span id="@(item.estimateUid)_ActiveAmount">@String.Format("{0:C0}", item.activeAmount)</span>

@@ -440,6 +440,7 @@
         }).done(function () {            
         })
     });
+
 });
 
 Number.prototype.formatMoney = function (c, d, t) {

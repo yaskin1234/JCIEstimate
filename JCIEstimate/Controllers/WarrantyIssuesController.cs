@@ -361,13 +361,17 @@ namespace JCIEstimate.Controllers
                     loc = db.Locations.Find(warrantyIssue.locationUid);
                     subject = "New Warranty Issue Created for " + loc.Project.project1;
 
-                    textMessage = "New Warranty Issue Created for " + loc.Project.project1;    
+                    textMessage = "New Warranty Issue Created for " + loc.Project.project1;
+                    
+                    string emailPath = Server.MapPath("~/Emails/WarrantyIssue.html");
+                    emailMessage = System.IO.File.ReadAllText(emailPath);                    
 
-                    emailMessage += "Creator:\t" + System.Web.HttpContext.Current.User.Identity.Name + Environment.NewLine;
-                    emailMessage += "Project:\t" + loc.Project.project1 + Environment.NewLine;
-                    emailMessage += "Location:\t\t" + loc.location1 + Environment.NewLine;
-                    emailMessage += "Room:\t\t" + warrantyIssue.warrantyIssueLocation + Environment.NewLine;
-                    emailMessage += "Issue:\t\t" + warrantyIssue.warrantyIssue1 + Environment.NewLine;
+                    emailMessage = emailMessage.Replace("{{Creator}}", System.Web.HttpContext.Current.User.Identity.Name);
+                    emailMessage = emailMessage.Replace("{{Project}}", loc.Project.project1);
+                    emailMessage = emailMessage.Replace("{{Location}}", loc.location1);
+                    emailMessage = emailMessage.Replace("{{Room}}", warrantyIssue.warrantyIssueLocation);
+                    emailMessage = emailMessage.Replace("{{Issue}}", warrantyIssue.warrantyIssue1);
+
                 }
                 else
                 {
@@ -376,14 +380,14 @@ namespace JCIEstimate.Controllers
                     subject = "New Warranty Issue Created for " + wi.Location.Project.project1;
                     textMessage = "New Warranty Issue Created for " + wi.Location.Project.project1;
 
-                    emailMessage += "Creator:\t" + System.Web.HttpContext.Current.User.Identity.Name + Environment.NewLine;
-                    emailMessage += "Project:\t" + wi.Location.Project.project1 + " - " + wi.warrantyUnit1 + Environment.NewLine;
-                    emailMessage += "Unit:\t\t" + wi.Location.location1 + " - " + wi.warrantyUnit1 + Environment.NewLine;
-                    emailMessage += "Room:\t\t" + warrantyIssue.warrantyIssueLocation + Environment.NewLine;
-                    emailMessage += "Issue:\t\t" + warrantyIssue.warrantyIssue1 + Environment.NewLine;
+                    emailMessage = emailMessage.Replace("{{Creator}}", System.Web.HttpContext.Current.User.Identity.Name);
+                    emailMessage = emailMessage.Replace("{{Project}}", wi.Location.Project.project1);
+                    emailMessage = emailMessage.Replace("{{Location}}", wi.Location.location1);
+                    emailMessage = emailMessage.Replace("{{Room}}", warrantyIssue.warrantyIssueLocation);
+                    emailMessage = emailMessage.Replace("{{Issue}}", warrantyIssue.warrantyIssue1);
                 }
 
-                JCIExtensions.MCVExtensions.sendEmailToProjectUsers(db, JCIExtensions.MCVExtensions.getSessionProject(), subject, emailMessage, false, true);
+                JCIExtensions.MCVExtensions.sendEmailToProjectUsers(db, JCIExtensions.MCVExtensions.getSessionProject(), subject, emailMessage, true, true);
                 JCIExtensions.MCVExtensions.sendTextToProjectUsers(db, JCIExtensions.MCVExtensions.getSessionProject(), subject, textMessage, false, true);
 
                 return RedirectToAction("Index");

@@ -40,7 +40,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ExpensePercentage> ExpensePercentages { get; set; }
         public virtual DbSet<ToDoStatu> ToDoStatus { get; set; }
         public virtual DbSet<ProjectToDo> ProjectToDoes { get; set; }
-        public virtual DbSet<Estimate> Estimates { get; set; }
         public virtual DbSet<ScopeOfWork> ScopeOfWorks { get; set; }
         public virtual DbSet<ExpenseMonthly> ExpenseMonthlies { get; set; }
         public virtual DbSet<EstimateException> EstimateExceptions { get; set; }
@@ -106,5 +105,7 @@ namespace JCIEstimate.Models
         public virtual DbSet<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
         public virtual DbSet<ProjectUser> ProjectUsers { get; set; }
         public virtual DbSet<ProjectEstimateEmail__v> ProjectEstimateEmail__v { get; set; }
+        public virtual DbSet<EstimateOption> EstimateOptions { get; set; }
+        public virtual DbSet<Estimate> Estimates { get; set; }
     }
 }

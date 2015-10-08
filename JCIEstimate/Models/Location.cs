@@ -16,13 +16,13 @@ namespace JCIEstimate.Models
     {
         public Location()
         {
-            this.Estimates = new HashSet<Estimate>();
             this.LocationIssues = new HashSet<LocationIssue>();
             this.WarrantyIssues = new HashSet<WarrantyIssue>();
             this.WarrantyUnits = new HashSet<WarrantyUnit>();
             this.Equipments = new HashSet<Equipment>();
             this.LocationCompletionCategories = new HashSet<LocationCompletionCategory>();
             this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
+            this.Estimates = new HashSet<Estimate>();
         }
     
         public System.Guid locationUid { get; set; }
@@ -30,7 +30,6 @@ namespace JCIEstimate.Models
         public string locationDescription { get; set; }
         public System.Guid projectUid { get; set; }
     
-        public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual Project Project { get; set; }
         public virtual ICollection<LocationIssue> LocationIssues { get; set; }
         public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
@@ -38,5 +37,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<Equipment> Equipments { get; set; }
         public virtual ICollection<LocationCompletionCategory> LocationCompletionCategories { get; set; }
         public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
+        public virtual ICollection<Estimate> Estimates { get; set; }
     }
 }

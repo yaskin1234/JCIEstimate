@@ -25,6 +25,20 @@ namespace JCIEstimate.Content
                     ReportViewer1.ShowParameterPrompts = true;
                     string userUid = Request.QueryString["userUid"];
 
+                    if (report == "EquipmentExport")
+                    {
+                        string sortType = Session["sortType"].ToString();
+                        string sortValue = Session["sortValue"].ToString();
+                        ReportParameter sType = new ReportParameter("sortType", sortType);
+                        ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { sType });
+                        ReportParameter sValue = new ReportParameter("sortValue", sortValue);
+                        ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { sValue });
+                        //ReportParameter format = new ReportParameter("rs:Format", "excel");
+                        //ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { format });
+                        ReportViewer1.ShowExportControls = true;
+                        ReportViewer1.ShowParameterPrompts = false;
+                    }
+
                     if (userUid != null) 
                     {
                         ReportParameter cu = new ReportParameter("userUid", userUid);
@@ -40,7 +54,7 @@ namespace JCIEstimate.Content
                         ReportViewer1.ShowExportControls = true;
                         ReportViewer1.ShowParameterPrompts = true;
                     }
-                }                
+                }                                
             }
         }
     }

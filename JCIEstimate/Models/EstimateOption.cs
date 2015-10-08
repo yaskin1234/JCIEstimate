@@ -12,19 +12,17 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Category
+    public partial class EstimateOption
     {
-        public Category()
+        public EstimateOption()
         {
-            this.ScopeOfWorks = new HashSet<ScopeOfWork>();
             this.Estimates = new HashSet<Estimate>();
         }
     
-        public System.Guid categoryUid { get; set; }
-        public string category1 { get; set; }
-        public string categoryDescription { get; set; }
+        public System.Guid estimateOptionUid { get; set; }
+        public string EstimateOption1 { get; set; }
+        public string behaviorIndicator { get; set; }
     
-        public virtual ICollection<ScopeOfWork> ScopeOfWorks { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
     }
 }

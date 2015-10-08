@@ -302,7 +302,9 @@ namespace JCIEstimate.Models
         [Display(Name = "Category")]
         public System.Guid categoryUid { get; set; }
         [Display(Name = "Estimate Status")]
-        public System.Guid estimateStatusUid { get; set; }        
+        public System.Guid estimateStatusUid { get; set; }
+        [Display(Name = "Estimate Option")]
+        public System.Guid estimateOptionUid { get; set; }        
         [Display(Name = "Active?")]        
         public Nullable<bool> isActive { get; set; }        
         [Display(Name = "Amount")]
@@ -1515,4 +1517,22 @@ namespace JCIEstimate.Models
         [DisplayFormat(DataFormatString = "{0:C0}")]
         public Nullable<int> amount { get; set; }
     }
+    /// <summary>
+    /// EstmateOption
+    /// </summary>
+    [MetadataType(typeof(EstimateOptionMetaData))]
+    public partial class EstimateOption
+    {
+    }
+
+    public class EstimateOptionMetaData
+    {
+        [Display(Name = "Estimate Option")]
+        public System.Guid estimateOptionUid { get; set; }
+        [Display(Name = "Estimate Option")]
+        public string EstimateOption1 { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
 }

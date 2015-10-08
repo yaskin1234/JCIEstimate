@@ -24,7 +24,7 @@ namespace JCIEstimate.Models
         public System.Guid estimateUid { get; set; }
         public string estimateInclusion1 { get; set; }
     
-        public virtual Estimate Estimate { get; set; }
         public virtual ICollection<EstimateInclusionResponse> EstimateInclusionResponses { get; set; }
+        public virtual Estimate Estimate { get; set; }
     }
 }

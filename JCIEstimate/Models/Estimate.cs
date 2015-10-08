@@ -31,14 +31,16 @@ namespace JCIEstimate.Models
         public decimal amount { get; set; }
         public decimal activeAmount { get; set; }
         public string notes { get; set; }
+        public Nullable<System.Guid> estimateOptionUid { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Contractor Contractor { get; set; }
+        public virtual ECM ECM { get; set; }
+        public virtual EstimateOption EstimateOption { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual EstimateStatu EstimateStatu { get; set; }
         public virtual ICollection<EstimateException> EstimateExceptions { get; set; }
         public virtual ICollection<EstimateExclusion> EstimateExclusions { get; set; }
         public virtual ICollection<EstimateInclusion> EstimateInclusions { get; set; }
-        public virtual EstimateStatu EstimateStatu { get; set; }
-        public virtual Location Location { get; set; }
-        public virtual ECM ECM { get; set; }
     }
 }

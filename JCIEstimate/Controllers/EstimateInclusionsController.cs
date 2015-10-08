@@ -27,12 +27,14 @@ namespace JCIEstimate.Controllers
                                      join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                                      join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                                      where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                                     && ce.Estimate.Location.projectUid == MCVExtensions.getSessionProject()
                                      orderby ce.estimateInclusionID
                                      select ce;
             }
             else
             {
                 estimateInclusions = from ce in db.EstimateInclusions
+                                     where ce.Estimate.Location.projectUid == MCVExtensions.getSessionProject()
                                      select ce;
             }
             return View(await estimateInclusions.ToListAsync());
@@ -64,12 +66,14 @@ namespace JCIEstimate.Controllers
                             join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                             join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                             where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                            && cc.Location.projectUid == MCVExtensions.getSessionProject()
                             orderby cn.Contractor.contractorName
                             select cc;
             }
             else
             {
                 estimates = from cc in db.Estimates
+                            where cc.Location.projectUid == MCVExtensions.getSessionProject()
                             orderby cc.Contractor.contractorName
                             select cc;
             }
@@ -100,12 +104,14 @@ namespace JCIEstimate.Controllers
                             join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                             join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                             where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                            && cc.Location.projectUid == MCVExtensions.getSessionProject()
                             orderby cn.Contractor.contractorName
                             select cc;
             }
             else
             {
                 estimates = from cc in db.Estimates
+                            where cc.Location.projectUid == MCVExtensions.getSessionProject()
                             orderby cc.Contractor.contractorName
                             select cc;
             }
@@ -133,6 +139,7 @@ namespace JCIEstimate.Controllers
                             join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                             join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                             where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                            && cc.Location.projectUid == MCVExtensions.getSessionProject()
                             orderby cn.Contractor.contractorName
                             select cc;
             }
@@ -167,12 +174,14 @@ namespace JCIEstimate.Controllers
                             join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                             join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                             where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                            && cc.Location.projectUid == MCVExtensions.getSessionProject()
                             orderby cn.Contractor.contractorName
                             select cc;
             }
             else
             {
                 estimates = from cc in db.Estimates
+                            where cc.Location.projectUid == MCVExtensions.getSessionProject()
                             orderby cc.Contractor.contractorName
                             select cc;
             }

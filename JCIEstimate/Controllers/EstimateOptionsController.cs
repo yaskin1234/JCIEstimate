@@ -11,109 +11,108 @@ using JCIEstimate.Models;
 
 namespace JCIEstimate.Controllers
 {
-    [Authorize]
-    public class ContractorsController : Controller
+    public class EstimateOptionsController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
-        // GET: Contractors
+        // GET: EstimateOptions
         public async Task<ActionResult> Index()
         {
-            return View(await db.Contractors.OrderBy(c=>c.contractorName).ToListAsync());
+            return View(await db.EstimateOptions.ToListAsync());
         }
 
-        // GET: Contractors/Details/5
+        // GET: EstimateOptions/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contractor contractor = await db.Contractors.FindAsync(id);
-            if (contractor == null)
+            EstimateOption estimateOption = await db.EstimateOptions.FindAsync(id);
+            if (estimateOption == null)
             {
                 return HttpNotFound();
             }
-            return View(contractor);
+            return View(estimateOption);
         }
 
-        // GET: Contractors/Create
+        // GET: EstimateOptions/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Contractors/Create
+        // POST: EstimateOptions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "contractorUid,contractorName,isActive,engScopeCompleted,contractorSelected")] Contractor contractor)
+        public async Task<ActionResult> Create([Bind(Include = "estimateOptionUid,EstimateOption1,behaviorIndicator")] EstimateOption estimateOption)
         {
             if (ModelState.IsValid)
             {
-                contractor.contractorUid = Guid.NewGuid();
-                db.Contractors.Add(contractor);
+                estimateOption.estimateOptionUid = Guid.NewGuid();
+                db.EstimateOptions.Add(estimateOption);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(contractor);
+            return View(estimateOption);
         }
 
-        // GET: Contractors/Edit/5
+        // GET: EstimateOptions/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contractor contractor = await db.Contractors.FindAsync(id);
-            if (contractor == null)
+            EstimateOption estimateOption = await db.EstimateOptions.FindAsync(id);
+            if (estimateOption == null)
             {
                 return HttpNotFound();
             }
-            return View(contractor);
+            return View(estimateOption);
         }
 
-        // POST: Contractors/Edit/5
+        // POST: EstimateOptions/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "contractorUid,contractorName,isActive,engScopeCompleted,contractorSelected")] Contractor contractor)
+        public async Task<ActionResult> Edit([Bind(Include = "estimateOptionUid,EstimateOption1,behaviorIndicator")] EstimateOption estimateOption)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(contractor).State = EntityState.Modified;
+                db.Entry(estimateOption).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(contractor);
+            return View(estimateOption);
         }
 
-        // GET: Contractors/Delete/5
+        // GET: EstimateOptions/Delete/5
         public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contractor contractor = await db.Contractors.FindAsync(id);
-            if (contractor == null)
+            EstimateOption estimateOption = await db.EstimateOptions.FindAsync(id);
+            if (estimateOption == null)
             {
                 return HttpNotFound();
             }
-            return View(contractor);
+            return View(estimateOption);
         }
 
-        // POST: Contractors/Delete/5
+        // POST: EstimateOptions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
-            Contractor contractor = await db.Contractors.FindAsync(id);
-            db.Contractors.Remove(contractor);
+            EstimateOption estimateOption = await db.EstimateOptions.FindAsync(id);
+            db.EstimateOptions.Remove(estimateOption);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

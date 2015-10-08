@@ -573,6 +573,8 @@
     <Content Include="Content\kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\Uniform\sprite_kpi_2x.png" />
     <Content Include="Content\ReportingService.aspx" />
+    <Content Include="Emails\WarrantyIssueEdit.html" />
+    <Content Include="Emails\WarrantyIssue.html" />
     <Content Include="Emails\NewAddendum.html" />
     <Content Include="Emails\NewRFI.html" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -587,6 +589,7 @@
     <Content Include="Images\filter.png" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\loading2.gif" />
+    <Content Include="Images\logo.gif" />
     <Content Include="Images\magnet.jpg" />
     <Content Include="Images\replace.png" />
     <Content Include="Images\tasks.png" />
@@ -1963,6 +1966,12 @@
     <Content Include="Views\EquipmentTypeTaskAssignments\Details.cshtml" />
     <Content Include="Views\EquipmentTypeTaskAssignments\Edit.cshtml" />
     <Content Include="Views\EquipmentTypeTaskAssignments\Index.cshtml" />
+    <Content Include="Views\EstimateOptions\Create.cshtml" />
+    <Content Include="Views\EstimateOptions\Delete.cshtml" />
+    <Content Include="Views\EstimateOptions\Details.cshtml" />
+    <Content Include="Views\EstimateOptions\Edit.cshtml" />
+    <Content Include="Views\EstimateOptions\Index.cshtml" />
+    <Content Include="Views\Reports\rptEquipmentExport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2113,6 +2122,7 @@
     <Compile Include="Controllers\EstimateExclusionsController.cs" />
     <Compile Include="Controllers\EstimateInclusionResponsesController.cs" />
     <Compile Include="Controllers\EstimateInclusionsController.cs" />
+    <Compile Include="Controllers\EstimateOptionsController.cs" />
     <Compile Include="Controllers\EstimatesController.cs" />
     <Compile Include="Controllers\EstimateStatusController.cs" />
     <Compile Include="Controllers\ExpenseConstructionDrawsController.cs" />
@@ -2271,6 +2281,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EstimateInclusionResponse.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstimateOption.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EstimateStatu.cs">

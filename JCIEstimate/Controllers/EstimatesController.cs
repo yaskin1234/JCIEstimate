@@ -314,6 +314,7 @@ namespace JCIEstimate.Controllers
             ViewBag.locationUid = locations.ToSelectList(d => d.location1, d => d.locationUid.ToString(), "");
             ViewBag.categoryUid = db.Categories.OrderBy(m=>m.category1).ToSelectList(d => d.category1, d => d.categoryUid.ToString(), "");
             ViewBag.contractorUid = contractors.ToSelectList(d => d.contractorName, d => d.contractorUid.ToString(), "");
+            ViewBag.estimateOptionUid = new SelectList(db.EstimateOptions.OrderBy(m => m.EstimateOption1), "estimateOptionUid", "EstimateOption1"); 
             ViewBag.estimateStatusUid = db.EstimateStatus.OrderBy(m => m.estimateStatus).ToSelectList(d => d.estimateStatus, d => d.estimateStatusUid.ToString(), "");
             return View();
         }
@@ -324,7 +325,7 @@ namespace JCIEstimate.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,amount,activeAmount,notes,contractorUid")] Estimate estimate)
+        public async Task<ActionResult> Create([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,amount,activeAmount,notes,contractorUid,estimateOptionUid")] Estimate estimate)
         {
             if (ModelState.IsValid)
             {
@@ -369,6 +370,7 @@ namespace JCIEstimate.Controllers
             ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", estimate.ecmUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", estimate.locationUid);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", estimate.contractorUid);
+            ViewBag.estimateOptionUid = new SelectList(db.EstimateOptions.OrderBy(m => m.EstimateOption1), "estimateOptionUid", "EstimateOption1"); 
             ViewBag.estimateStatusUid = new SelectList(db.EstimateStatus, "estimateStatusUid", "estimateStatus");
             return View(estimate);
         }
@@ -425,7 +427,8 @@ namespace JCIEstimate.Controllers
             ViewBag.locationUid = new SelectList(locations, "locationUid", "location1", estimate.locationUid);
             ViewBag.categoryUid = new SelectList(db.Categories.OrderBy(m=>m.category1), "categoryUid", "category1", estimate.categoryUid);
             ViewBag.contractorUid = new SelectList(contractors, "contractorUid", "contractorName", estimate.contractorUid);
-            ViewBag.estimateStatusUid = new SelectList(db.EstimateStatus.OrderBy(m=>m.estimateStatus), "estimateStatusUid", "estimateStatus");
+            ViewBag.estimateStatusUid = new SelectList(db.EstimateStatus.OrderBy(m=>m.estimateStatus), "estimateStatusUid", "estimateStatus", estimate.estimateStatusUid);
+            ViewBag.estimateOptionUid = new SelectList(db.EstimateOptions.OrderBy(m => m.EstimateOption1), "estimateOptionUid", "EstimateOption1", estimate.estimateOptionUid); 
             return View(estimate);
         }
 
@@ -434,10 +437,17 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,amount,activeAmount,notes,contractorUid")] Estimate estimate)
+        public async Task<ActionResult> Edit([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,amount,activeAmount,notes,contractorUid,estimateOptionUid")] Estimate estimate, string submit)
         {
             if (ModelState.IsValid)
             {
+                if (submit == "Submit")
+                {
+                    var submittedValue = from cc in db.EstimateStatus
+                                         where cc.behaviorIndicator == "S"
+                                         select cc.estimateStatusUid;
+                    estimate.estimateStatusUid = submittedValue.FirstOrDefault();
+                }
                 db.Entry(estimate).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -446,7 +456,8 @@ namespace JCIEstimate.Controllers
             ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", estimate.ecmUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", estimate.locationUid);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", estimate.contractorUid);
-            ViewBag.estimateStatusUid = new SelectList(db.EstimateStatus, "estimateStatusUid", "estimateStatus");
+            ViewBag.estimateStatusUid = new SelectList(db.EstimateStatus.OrderBy(m => m.estimateStatus), "estimateStatusUid", "estimateStatus", estimate.estimateStatusUid);
+            ViewBag.estimateOptionUid = new SelectList(db.EstimateOptions.OrderBy(m => m.EstimateOption1), "estimateOptionUid", "EstimateOption1", estimate.estimateOptionUid); 
             return View(estimate);
         }
 

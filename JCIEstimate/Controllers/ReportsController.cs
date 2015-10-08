@@ -227,5 +227,17 @@ namespace JCIEstimate.Controllers
                 return View("rptProjectMilestoneActions");
             }
         }
+
+        public ActionResult GetEquipmentExport()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptEquipmentExport");
+            }
+        }
     }
 }

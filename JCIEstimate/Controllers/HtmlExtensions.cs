@@ -321,5 +321,39 @@ namespace JCIExtensions
 
             return System.Text.RegularExpressions.Regex.Replace(name, invalidRegStr, "_");
         }
+
+        public static bool SaveFileFromURL(string url, string destinationFileName, int timeoutInSeconds, NetworkCredential nc)
+        {
+
+            // Create a web request to the URL
+            HttpWebRequest MyRequest = (HttpWebRequest)WebRequest.Create(url);
+            MyRequest.Timeout = timeoutInSeconds * 1000;
+            MyRequest.Credentials = nc;
+
+
+            try
+            {
+                // Get the web response
+                HttpWebResponse MyResponse = (HttpWebResponse)MyRequest.GetResponse();
+
+                // Make sure the response is valid
+                if (HttpStatusCode.OK == MyResponse.StatusCode)
+                {
+                    // Open the response stream               
+                    Stream input = MyResponse.GetResponseStream();
+                    // Open the destination file
+                    using (FileStream MyFileStream = new FileStream(destinationFileName, FileMode.OpenOrCreate, FileAccess.Write))
+                    {
+                        input.CopyTo(MyFileStream);
+                    }
+                }
+            }
+
+            catch (Exception err)
+            {
+                Console.WriteLine("Error saving " + destinationFileName + " from URL:" + err.Message, err);
+            }
+            return true;
+        }
     }
 }

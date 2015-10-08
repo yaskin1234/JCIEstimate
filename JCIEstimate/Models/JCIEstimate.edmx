@@ -323,6 +323,7 @@
           <Property Name="amount" Type="money" Nullable="false" />
           <Property Name="activeAmount" Type="money" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="notes" Type="nvarchar(max)" />
+          <Property Name="estimateOptionUid" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="EstimateException">
           <Key>
@@ -380,6 +381,14 @@
           <Property Name="estimateInclusionUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="estimateInclusionResponse" Type="nvarchar" MaxLength="2000" Nullable="false" />
           <Property Name="responseDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstimateOption">
+          <Key>
+            <PropertyRef Name="estimateOptionUid" />
+          </Key>
+          <Property Name="estimateOptionUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EstimateOption" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <EntityType Name="EstimateStatus">
           <Key>
@@ -1514,6 +1523,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_estimate_estiamteOption">
+          <End Role="EstimateOption" Type="Self.EstimateOption" Multiplicity="0..1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstimateOption">
+              <PropertyRef Name="estimateOptionUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="estimateOptionUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_estimate_location">
           <End Role="Location" Type="Self.Location" Multiplicity="1" />
           <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
@@ -2295,6 +2316,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="EstimateExclusionResponse" EntityType="Self.EstimateExclusionResponse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstimateInclusion" EntityType="Self.EstimateInclusion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstimateInclusionResponse" EntityType="Self.EstimateInclusionResponse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstimateOption" EntityType="Self.EstimateOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstimateStatus" EntityType="Self.EstimateStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseConstruction" EntityType="Self.ExpenseConstruction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseConstructionDraw" EntityType="Self.ExpenseConstructionDraw" Schema="dbo" store:Type="Tables" />
@@ -2586,6 +2608,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           </AssociationSet>
           <AssociationSet Name="fk_estimate_ecm" Association="Self.fk_estimate_ecm">
             <End Role="ECM" EntitySet="ECM" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_estiamteOption" Association="Self.fk_estimate_estiamteOption">
+            <End Role="EstimateOption" EntitySet="EstimateOption" />
             <End Role="Estimate" EntitySet="Estimate" />
           </AssociationSet>
           <AssociationSet Name="fk_estimate_location" Association="Self.fk_estimate_location">
@@ -2889,15 +2915,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ToDoStatu" EntitySet="ToDoStatus" />
             <End Role="ProjectToDo" EntitySet="ProjectToDoes" />
           </AssociationSet>
-          <EntitySet Name="Estimates" EntityType="JCIEstimateModel.Estimate" />
-          <AssociationSet Name="fk_estimate_category" Association="JCIEstimateModel.fk_estimate_category">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Estimate" EntitySet="Estimates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_estimate_contractor" Association="JCIEstimateModel.fk_estimate_contractor">
-            <End Role="Contractor" EntitySet="Contractors" />
-            <End Role="Estimate" EntitySet="Estimates" />
-          </AssociationSet>
           <EntitySet Name="ScopeOfWorks" EntityType="JCIEstimateModel.ScopeOfWork" />
           <AssociationSet Name="fk_ScopeOfWork_category" Association="JCIEstimateModel.fk_ScopeOfWork_category">
             <End Role="Category" EntitySet="Categories" />
@@ -2918,18 +2935,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="EstimateExclusionResponses" EntityType="JCIEstimateModel.EstimateExclusionResponse" />
           <EntitySet Name="EstimateInclusions" EntityType="JCIEstimateModel.EstimateInclusion" />
           <EntitySet Name="EstimateInclusionResponses" EntityType="JCIEstimateModel.EstimateInclusionResponse" />
-          <AssociationSet Name="fk_estimateException_estimate" Association="JCIEstimateModel.fk_estimateException_estimate">
-            <End Role="Estimate" EntitySet="Estimates" />
-            <End Role="EstimateException" EntitySet="EstimateExceptions" />
-          </AssociationSet>
-          <AssociationSet Name="fk_estimateExclusion_estimate" Association="JCIEstimateModel.fk_estimateExclusion_estimate">
-            <End Role="Estimate" EntitySet="Estimates" />
-            <End Role="EstimateExclusion" EntitySet="EstimateExclusions" />
-          </AssociationSet>
-          <AssociationSet Name="fk_estimateInclusion_estimate" Association="JCIEstimateModel.fk_estimateInclusion_estimate">
-            <End Role="Estimate" EntitySet="Estimates" />
-            <End Role="EstimateInclusion" EntitySet="EstimateInclusions" />
-          </AssociationSet>
           <AssociationSet Name="fk_estimateExceptionResponse_estimateException" Association="JCIEstimateModel.fk_estimateExceptionResponse_estimateException">
             <End Role="EstimateException" EntitySet="EstimateExceptions" />
             <End Role="EstimateExceptionResponse" EntitySet="EstimateExceptionResponses" />
@@ -2973,10 +2978,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="EquipmentToDo" EntitySet="EquipmentToDoes" />
           </AssociationSet>
           <EntitySet Name="EstimateStatus" EntityType="JCIEstimateModel.EstimateStatu" />
-          <AssociationSet Name="fk_estimate_status" Association="JCIEstimateModel.fk_estimate_status">
-            <End Role="EstimateStatu" EntitySet="EstimateStatus" />
-            <End Role="Estimate" EntitySet="Estimates" />
-          </AssociationSet>
           <EntitySet Name="EquipmentAttributeTypes" EntityType="JCIEstimateModel.EquipmentAttributeType" />
           <EntitySet Name="AppDataTypes" EntityType="JCIEstimateModel.AppDataType" />
           <EntitySet Name="EquipmentAttributes" EntityType="JCIEstimateModel.EquipmentAttribute" />
@@ -3013,10 +3014,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_LocationIssue_AspNetUser" Association="JCIEstimateModel.fk_LocationIssue_AspNetUser">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="LocationIssue" EntitySet="LocationIssues" />
-          </AssociationSet>
-          <AssociationSet Name="fk_estimate_location" Association="JCIEstimateModel.fk_estimate_location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="Estimate" EntitySet="Estimates" />
           </AssociationSet>
           <AssociationSet Name="fk_location_project" Association="JCIEstimateModel.fk_location_project">
             <End Role="Project" EntitySet="Projects" />
@@ -3185,10 +3182,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_equipment_ecm" Association="JCIEstimateModel.fk_equipment_ecm">
             <End Role="ECM" EntitySet="ECMs" />
             <End Role="Equipment" EntitySet="Equipments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_estimate_ecm" Association="JCIEstimateModel.fk_estimate_ecm">
-            <End Role="ECM" EntitySet="ECMs" />
-            <End Role="Estimate" EntitySet="Estimates" />
           </AssociationSet>
           <AssociationSet Name="fk_ProjectRFI_ECM" Association="JCIEstimateModel.fk_ProjectRFI_ECM">
             <End Role="ECM" EntitySet="ECMs" />
@@ -3359,6 +3352,44 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
           </AssociationSet>
           <EntitySet Name="ProjectEstimateEmail__v" EntityType="JCIEstimateModel.ProjectEstimateEmail__v" />
+          <EntitySet Name="EstimateOptions" EntityType="JCIEstimateModel.EstimateOption" />
+          <EntitySet Name="Estimates" EntityType="JCIEstimateModel.Estimate" />
+          <AssociationSet Name="fk_estimate_category" Association="JCIEstimateModel.fk_estimate_category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_contractor" Association="JCIEstimateModel.fk_estimate_contractor">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_ecm" Association="JCIEstimateModel.fk_estimate_ecm">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_estiamteOption" Association="JCIEstimateModel.fk_estimate_estiamteOption">
+            <End Role="EstimateOption" EntitySet="EstimateOptions" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_location" Association="JCIEstimateModel.fk_estimate_location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_status" Association="JCIEstimateModel.fk_estimate_status">
+            <End Role="EstimateStatu" EntitySet="EstimateStatus" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimateException_estimate" Association="JCIEstimateModel.fk_estimateException_estimate">
+            <End Role="Estimate" EntitySet="Estimates" />
+            <End Role="EstimateException" EntitySet="EstimateExceptions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimateExclusion_estimate" Association="JCIEstimateModel.fk_estimateExclusion_estimate">
+            <End Role="Estimate" EntitySet="Estimates" />
+            <End Role="EstimateExclusion" EntitySet="EstimateExclusions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimateInclusion_estimate" Association="JCIEstimateModel.fk_estimateInclusion_estimate">
+            <End Role="Estimate" EntitySet="Estimates" />
+            <End Role="EstimateInclusion" EntitySet="EstimateInclusions" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -3367,8 +3398,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="categoryUid" Type="Guid" Nullable="false" />
           <Property Name="category1" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="categoryDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_category" FromRole="Category" ToRole="Estimate" />
           <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_category" FromRole="Category" ToRole="ScopeOfWork" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_category" FromRole="Category" ToRole="Estimate" />
         </EntityType>
         <EntityType Name="Contractor">
           <Key>
@@ -3381,12 +3412,12 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="contractorSelected" Type="DateTime" Precision="3" />
           <NavigationProperty Name="ContractorContacts" Relationship="JCIEstimateModel.fk_contractor" FromRole="Contractor" ToRole="ContractorContact" />
           <NavigationProperty Name="ContractorUsers" Relationship="JCIEstimateModel.fk_contractor_user" FromRole="Contractor" ToRole="ContractorUser" />
-          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Contractor" ToRole="Estimate" />
           <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_Contractor" FromRole="Contractor" ToRole="ProjectRFI" />
           <NavigationProperty Name="ContractorDraws" Relationship="JCIEstimateModel.fk_ContractorDraw_Contractor" FromRole="Contractor" ToRole="ContractorDraw" />
           <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_ContractorSignoff_Contractor" FromRole="Contractor" ToRole="ContractorSignoff" />
           <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_ContractorSignoffFinal_Contractor" FromRole="Contractor" ToRole="ContractorSignoffFinal" />
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_contractor" FromRole="Contractor" ToRole="EquipmentTypeTaskAssignment" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Contractor" ToRole="Estimate" />
           </EntityType>
         <EntityType Name="ContractorContact">
           <Key>
@@ -3701,53 +3732,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Estimate">
-          <Key>
-            <PropertyRef Name="estimateUid" />
-          </Key>
-          <Property Name="estimateUid" Type="Guid" Nullable="false" />
-          <Property Name="contractorUid" Type="Guid" Nullable="false" />
-          <Property Name="locationUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmUid" Type="Guid" Nullable="false" />
-          <Property Name="categoryUid" Type="Guid" Nullable="false" />
-          <Property Name="estimateStatusUid" Type="Guid" Nullable="false" />
-          <Property Name="isActive" Type="Boolean" />
-          <Property Name="amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="activeAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Category" Relationship="JCIEstimateModel.fk_estimate_category" FromRole="Estimate" ToRole="Category" />
-          <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Estimate" ToRole="Contractor" />
-          <NavigationProperty Name="EstimateExceptions" Relationship="JCIEstimateModel.fk_estimateException_estimate" FromRole="Estimate" ToRole="EstimateException" />
-          <NavigationProperty Name="EstimateExclusions" Relationship="JCIEstimateModel.fk_estimateExclusion_estimate" FromRole="Estimate" ToRole="EstimateExclusion" />
-          <NavigationProperty Name="EstimateInclusions" Relationship="JCIEstimateModel.fk_estimateInclusion_estimate" FromRole="Estimate" ToRole="EstimateInclusion" />
-          <NavigationProperty Name="EstimateStatu" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="Estimate" ToRole="EstimateStatu" />
-          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Estimate" ToRole="Location" />
-          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="Estimate" ToRole="ECM" />
-        </EntityType>
-        <Association Name="fk_estimate_category">
-          <End Type="JCIEstimateModel.Category" Role="Category" Multiplicity="1" />
-          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="categoryUid" />
-            </Principal>
-            <Dependent Role="Estimate">
-              <PropertyRef Name="categoryUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_estimate_contractor">
-          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
-          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contractor">
-              <PropertyRef Name="contractorUid" />
-            </Principal>
-            <Dependent Role="Estimate">
-              <PropertyRef Name="contractorUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ScopeOfWork">
           <Key>
             <PropertyRef Name="scopeOfWorkUid" />
@@ -3824,8 +3808,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="estimateExceptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="estimateUid" Type="Guid" Nullable="false" />
           <Property Name="estimateException1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Estimate" Relationship="JCIEstimateModel.fk_estimateException_estimate" FromRole="EstimateException" ToRole="Estimate" />
           <NavigationProperty Name="EstimateExceptionResponses" Relationship="JCIEstimateModel.fk_estimateExceptionResponse_estimateException" FromRole="EstimateException" ToRole="EstimateExceptionResponse" />
+          <NavigationProperty Name="Estimate" Relationship="JCIEstimateModel.fk_estimateException_estimate" FromRole="EstimateException" ToRole="Estimate" />
         </EntityType>
         <EntityType Name="EstimateExceptionResponse">
           <Key>
@@ -3846,8 +3830,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="estimateExclusionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="estimateUid" Type="Guid" Nullable="false" />
           <Property Name="estimateExclusion1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Estimate" Relationship="JCIEstimateModel.fk_estimateExclusion_estimate" FromRole="EstimateExclusion" ToRole="Estimate" />
           <NavigationProperty Name="EstimateExclusionResponses" Relationship="JCIEstimateModel.fk_estimateExclusionResponse_estimateExclusion" FromRole="EstimateExclusion" ToRole="EstimateExclusionResponse" />
+          <NavigationProperty Name="Estimate" Relationship="JCIEstimateModel.fk_estimateExclusion_estimate" FromRole="EstimateExclusion" ToRole="Estimate" />
         </EntityType>
         <EntityType Name="EstimateExclusionResponse">
           <Key>
@@ -3868,8 +3852,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="estimateInclusionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="estimateUid" Type="Guid" Nullable="false" />
           <Property Name="estimateInclusion1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Estimate" Relationship="JCIEstimateModel.fk_estimateInclusion_estimate" FromRole="EstimateInclusion" ToRole="Estimate" />
           <NavigationProperty Name="EstimateInclusionResponses" Relationship="JCIEstimateModel.fk_estimateInclusionResponse_estimateinclusion" FromRole="EstimateInclusion" ToRole="EstimateInclusionResponse" />
+          <NavigationProperty Name="Estimate" Relationship="JCIEstimateModel.fk_estimateInclusion_estimate" FromRole="EstimateInclusion" ToRole="Estimate" />
         </EntityType>
         <EntityType Name="EstimateInclusionResponse">
           <Key>
@@ -3882,42 +3866,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="responseDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="EstimateInclusion" Relationship="JCIEstimateModel.fk_estimateInclusionResponse_estimateinclusion" FromRole="EstimateInclusionResponse" ToRole="EstimateInclusion" />
         </EntityType>
-        <Association Name="fk_estimateException_estimate">
-          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="1" />
-          <End Type="JCIEstimateModel.EstimateException" Role="EstimateException" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Estimate">
-              <PropertyRef Name="estimateUid" />
-            </Principal>
-            <Dependent Role="EstimateException">
-              <PropertyRef Name="estimateUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_estimateExclusion_estimate">
-          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="1" />
-          <End Type="JCIEstimateModel.EstimateExclusion" Role="EstimateExclusion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Estimate">
-              <PropertyRef Name="estimateUid" />
-            </Principal>
-            <Dependent Role="EstimateExclusion">
-              <PropertyRef Name="estimateUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_estimateInclusion_estimate">
-          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="1" />
-          <End Type="JCIEstimateModel.EstimateInclusion" Role="EstimateInclusion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Estimate">
-              <PropertyRef Name="estimateUid" />
-            </Principal>
-            <Dependent Role="EstimateInclusion">
-              <PropertyRef Name="estimateUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_estimateExceptionResponse_estimateException">
           <End Type="JCIEstimateModel.EstimateException" Role="EstimateException" Multiplicity="1" />
           <End Type="JCIEstimateModel.EstimateExceptionResponse" Role="EstimateExceptionResponse" Multiplicity="*" />
@@ -4140,21 +4088,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="estimateStatus" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="estimateStatusDescription" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="behaviorIndicator" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="EstimateStatu" ToRole="Estimate" />
           <Property Name="rowColor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="EstimateStatu" ToRole="Estimate" />
         </EntityType>
-        <Association Name="fk_estimate_status">
-          <End Type="JCIEstimateModel.EstimateStatu" Role="EstimateStatu" Multiplicity="1" />
-          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EstimateStatu">
-              <PropertyRef Name="estimateStatusUid" />
-            </Principal>
-            <Dependent Role="Estimate">
-              <PropertyRef Name="estimateStatusUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="EquipmentAttributeType">
           <Key>
             <PropertyRef Name="equipmentAttributeTypeUid" />
@@ -4254,7 +4190,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="location1" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="locationDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="projectUid" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Location" ToRole="Estimate" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_location_project" FromRole="Location" ToRole="Project" />
           <NavigationProperty Name="LocationIssues" Relationship="JCIEstimateModel.fk_LocationIssue_location" FromRole="Location" ToRole="LocationIssue" />
           <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_location" FromRole="Location" ToRole="WarrantyIssue" />
@@ -4262,6 +4197,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Location" ToRole="Equipment" />
           <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Location" FromRole="Location" ToRole="LocationCompletionCategory" />
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" FromRole="Location" ToRole="EquipmentTypeTaskAssignment" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Location" ToRole="Estimate" />
         </EntityType>
         <EntityType Name="LocationIssue">
           <Key>
@@ -4358,18 +4294,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="LocationIssue">
               <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_estimate_location">
-          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="locationUid" />
-            </Principal>
-            <Dependent Role="Estimate">
-              <PropertyRef Name="locationUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5070,9 +4994,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="ecmString" Type="String" MaxLength="218" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="ECM" ToRole="Project" />
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="ECM" ToRole="Equipment" />
-          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
           <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_ECM" FromRole="ECM" ToRole="ProjectRFI" />
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" FromRole="ECM" ToRole="EquipmentTypeTaskAssignment" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
         </EntityType>
         <EntityType Name="Equipment">
           <Key>
@@ -5129,18 +5053,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               <PropertyRef Name="ecmUid" />
             </Principal>
             <Dependent Role="Equipment">
-              <PropertyRef Name="ecmUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_estimate_ecm">
-          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
-          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
-            </Principal>
-            <Dependent Role="Estimate">
               <PropertyRef Name="ecmUid" />
             </Dependent>
           </ReferentialConstraint>
@@ -5835,6 +5747,148 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="projectUid" Type="Guid" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="EstimateOption">
+          <Key>
+            <PropertyRef Name="estimateOptionUid" />
+          </Key>
+          <Property Name="estimateOptionUid" Type="Guid" Nullable="false" />
+          <Property Name="EstimateOption1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_estiamteOption" FromRole="EstimateOption" ToRole="Estimate" />
+        </EntityType>
+        <EntityType Name="Estimate">
+          <Key>
+            <PropertyRef Name="estimateUid" />
+          </Key>
+          <Property Name="estimateUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <Property Name="locationUid" Type="Guid" Nullable="false" />
+          <Property Name="ecmUid" Type="Guid" Nullable="false" />
+          <Property Name="categoryUid" Type="Guid" Nullable="false" />
+          <Property Name="estimateStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" />
+          <Property Name="amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="activeAmount" Type="Decimal" Nullable="false" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="estimateOptionUid" Type="Guid" />
+          <NavigationProperty Name="Category" Relationship="JCIEstimateModel.fk_estimate_category" FromRole="Estimate" ToRole="Category" />
+          <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Estimate" ToRole="Contractor" />
+          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="Estimate" ToRole="ECM" />
+          <NavigationProperty Name="EstimateOption" Relationship="JCIEstimateModel.fk_estimate_estiamteOption" FromRole="Estimate" ToRole="EstimateOption" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Estimate" ToRole="Location" />
+          <NavigationProperty Name="EstimateStatu" Relationship="JCIEstimateModel.fk_estimate_status" FromRole="Estimate" ToRole="EstimateStatu" />
+          <NavigationProperty Name="EstimateExceptions" Relationship="JCIEstimateModel.fk_estimateException_estimate" FromRole="Estimate" ToRole="EstimateException" />
+          <NavigationProperty Name="EstimateExclusions" Relationship="JCIEstimateModel.fk_estimateExclusion_estimate" FromRole="Estimate" ToRole="EstimateExclusion" />
+          <NavigationProperty Name="EstimateInclusions" Relationship="JCIEstimateModel.fk_estimateInclusion_estimate" FromRole="Estimate" ToRole="EstimateInclusion" />
+        </EntityType>
+        <Association Name="fk_estimate_category">
+          <End Type="JCIEstimateModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="categoryUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_contractor">
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_ecm">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_estiamteOption">
+          <End Type="JCIEstimateModel.EstimateOption" Role="EstimateOption" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstimateOption">
+              <PropertyRef Name="estimateOptionUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="estimateOptionUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_status">
+          <End Type="JCIEstimateModel.EstimateStatu" Role="EstimateStatu" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstimateStatu">
+              <PropertyRef Name="estimateStatusUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="estimateStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimateException_estimate">
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EstimateException" Role="EstimateException" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estimate">
+              <PropertyRef Name="estimateUid" />
+            </Principal>
+            <Dependent Role="EstimateException">
+              <PropertyRef Name="estimateUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimateExclusion_estimate">
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EstimateExclusion" Role="EstimateExclusion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estimate">
+              <PropertyRef Name="estimateUid" />
+            </Principal>
+            <Dependent Role="EstimateExclusion">
+              <PropertyRef Name="estimateUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimateInclusion_estimate">
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EstimateInclusion" Role="EstimateInclusion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estimate">
+              <PropertyRef Name="estimateUid" />
+            </Principal>
+            <Dependent Role="EstimateInclusion">
+              <PropertyRef Name="estimateUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6009,22 +6063,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="projectToDoDescription" ColumnName="projectToDoDescription" />
                 <ScalarProperty Name="projectToDo1" ColumnName="projectToDo" />
                 <ScalarProperty Name="projectToDoUid" ColumnName="projectToDoUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Estimates">
-            <EntityTypeMapping TypeName="JCIEstimateModel.Estimate">
-              <MappingFragment StoreEntitySet="Estimate">
-                <ScalarProperty Name="notes" ColumnName="notes" />
-                <ScalarProperty Name="activeAmount" ColumnName="activeAmount" />
-                <ScalarProperty Name="amount" ColumnName="amount" />
-                <ScalarProperty Name="isActive" ColumnName="isActive" />
-                <ScalarProperty Name="estimateStatusUid" ColumnName="estimateStatusUid" />
-                <ScalarProperty Name="categoryUid" ColumnName="categoryUid" />
-                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
-                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
-                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
-                <ScalarProperty Name="estimateUid" ColumnName="estimateUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6782,6 +6820,32 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               <MappingFragment StoreEntitySet="ProjectEstimateEmail__v">
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstimateOptions">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EstimateOption">
+              <MappingFragment StoreEntitySet="EstimateOption">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="EstimateOption1" ColumnName="EstimateOption" />
+                <ScalarProperty Name="estimateOptionUid" ColumnName="estimateOptionUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estimates">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Estimate">
+              <MappingFragment StoreEntitySet="Estimate">
+                <ScalarProperty Name="estimateOptionUid" ColumnName="estimateOptionUid" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="activeAmount" ColumnName="activeAmount" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="estimateStatusUid" ColumnName="estimateStatusUid" />
+                <ScalarProperty Name="categoryUid" ColumnName="categoryUid" />
+                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
+                <ScalarProperty Name="estimateUid" ColumnName="estimateUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
