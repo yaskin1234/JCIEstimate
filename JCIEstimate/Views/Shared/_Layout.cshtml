@@ -59,6 +59,8 @@
                             <li>@Html.ActionLink("Weeks", "Index", "Weeks")</li>
                             <li>@Html.ActionLink("PEC Tasks", "Index", "PECTasks")</li>
                             <li>@Html.ActionLink("PEC Expense Types", "Index", "PECExpenseTypes")</li>                            
+                            <li>@Html.ActionLink("Contractor Note Types", "Index", "ContractorNoteTypes")</li>
+                            <li>@Html.ActionLink("Contractor Note Status", "Index", "ContractorNoteStatus")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
                             <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>
@@ -121,14 +123,8 @@
                                 <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>            
                                 <li>@Html.ActionLink("Project Attachment", "Index", "ProjectAttachments")</li>
                                 <li>@Html.ActionLink("RFI", "Index", "ProjectRFIs")</li>                                
-                                <li>@Html.ActionLink("Contractor Draw", "Index", "ContractorDraws")</li>                                
-                                <li class="divider"></li>
-                                <li>@Html.ActionLink("Estimate Inclusions", "Index", "EstimateInclusions")</li>
-                                <li>@Html.ActionLink("Estimate Inclusion Responses", "Index", "EstimateInclusionResponses")</li>
-                                <li>@Html.ActionLink("Estimate Exclusions", "Index", "EstimateExclusions")</li>
-                                <li>@Html.ActionLink("Estimate Exclusion Responses", "Index", "EstimateExclusionResponses")</li>
-                                <li>@Html.ActionLink("Estimate Exceptions", "Index", "EstimateExceptions")</li>
-                                <li>@Html.ActionLink("Estimate Exception Responses", "Index", "EstimateExceptionResponses")</li>
+                                <li>@Html.ActionLink("Contractor Draw", "Index", "ContractorDraws")</li>                                                                
+                                <li>@Html.ActionLink("Contractor Notes", "Index", "ContractorNotes")</li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                                
                                 <li>@Html.ActionLink("Report -- Equipment List by ECM", "GetEquipmentForECM", "Reports")</li>
@@ -154,15 +150,8 @@
                                 <li>@Html.ActionLink("RFI", "Index", "ProjectRFIs")</li>
                                 <li>@Html.ActionLink("Contractor Draw", "Index", "ContractorDraws")</li>                                
                                 <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>  
-                                <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>
-                                <li class="divider"></li>
-                                <li>@Html.ActionLink("Estimate Inclusions", "Index", "EstimateInclusions")</li>
-                                <li>@Html.ActionLink("Estimate Inclusion Responses", "Index", "EstimateInclusionResponses")</li>
-                                <li>@Html.ActionLink("Estimate Exclusions", "Index", "EstimateExclusions")</li>
-                                <li>@Html.ActionLink("Estimate Exclusion Responses", "Index", "EstimateExclusionResponses")</li>
-                                <li>@Html.ActionLink("Estimate Exceptions", "Index", "EstimateExceptions")</li>
-                                <li>@Html.ActionLink("Estimate Exception Responses", "Index", "EstimateExceptionResponses")</li>
-                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>                                
+                                <li>@Html.ActionLink("Contractor Notes", "Index", "ContractorNotes")</li>                                
                                 <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                
                                 <li>@Html.ActionLink("Report -- New Equipment", "GetEquipmentForECMToPurchase", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>                                            

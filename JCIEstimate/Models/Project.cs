@@ -35,6 +35,7 @@ namespace JCIEstimate.Models
             this.LocationCompletionCategories = new HashSet<LocationCompletionCategory>();
             this.PECCosts = new HashSet<PECCost>();
             this.ProjectUsers = new HashSet<ProjectUser>();
+            this.ContractorNotes = new HashSet<ContractorNote>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -67,5 +68,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<LocationCompletionCategory> LocationCompletionCategories { get; set; }
         public virtual ICollection<PECCost> PECCosts { get; set; }
         public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
+        public virtual ICollection<ContractorNote> ContractorNotes { get; set; }
     }
 }

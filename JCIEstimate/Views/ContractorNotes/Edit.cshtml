@@ -1,0 +1,85 @@
+﻿@model JCIEstimate.Models.ContractorNote
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>ContractorNote</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.contractorNoteUid)
+        @Html.HiddenFor(model => model.projectUid)
+        @Html.HiddenFor(model => model.contractorUid)
+        @Html.HiddenFor(model => model.contractorNoteStatusUid)
+        @Html.HiddenFor(model => model.contractorNoteTypeUid)
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.projectUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Project.project1, new { htmlAttributes = new { @class = "form-control" } })                
+                @Html.ValidationMessageFor(model => model.projectUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.contractorUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Contractor.contractorName, new { htmlAttributes = new { @class = "form-control" } })                
+                @Html.ValidationMessageFor(model => model.contractorUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.contractorNoteTypeUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">                
+                @Html.DisplayFor(model => model.ContractorNoteType.contractorNoteType1, new { htmlAttributes = new { @class = "form-control" } })                
+                @Html.ValidationMessageFor(model => model.contractorNoteTypeUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.contractorNoteStatusUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ContractorNoteStatu.contractorNoteStatus, new { htmlAttributes = new { @class = "form-control" } })                
+                @Html.ValidationMessageFor(model => model.contractorNoteStatusUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.contractorNote1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.contractorNote1, 5, 40, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.contractorNote1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" name="submit" value="Save" class="btn btn-default" />
+                <input type="submit" name="submit" value="Submit" class="btn btn-default" />
+                @if (User.IsInRole("Admin"))
+                {
+                    <input type="submit" name="submit" value="Reopen" class="btn btn-default" />
+                    <input type="submit" name="submit" value="Denied" class="btn btn-default" />
+                }
+                
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

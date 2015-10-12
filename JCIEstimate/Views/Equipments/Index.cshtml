@@ -16,14 +16,13 @@
 
     }
 </select>
-
 <p>@Html.ActionLink("Export", "GetEquipmentExport", "Reports")</p>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 
-
+   <div id="dvEquipmentData">
     <table id="tblEquipment" class="EquipmentIndexTable">
         <thead>
             <tr>
@@ -225,4 +224,5 @@
             }
         </tbody>
     </table>
+</div>
 

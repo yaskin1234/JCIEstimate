@@ -1,0 +1,59 @@
+﻿@model JCIEstimate.Models.ContractorNote
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ContractorNote</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contractor.contractorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contractor.contractorName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractorNoteType.contractorNoteType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractorNoteType.contractorNoteType1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ContractorNoteStatu.contractorNoteStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractorNoteStatu.contractorNoteStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.contractorNote1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contractorNote1)
+        </dd>
+
+
+
+
+    </dl>
+</div>
+<p>    
+    @Html.ActionLink("Back to List", "Index")
+</p>

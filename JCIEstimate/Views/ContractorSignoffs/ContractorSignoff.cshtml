@@ -48,6 +48,42 @@
     </tbody>
 </table>
 
+<h3>Contractor Notes</h3>
+<p>The following contractor notes have been reviewed where appropriate</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Contractor Name</th>
+            <th>Note Type</th>
+            <th>Note Status</th>
+            <th>Note</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+System.Collections.Generic.List<JCIEstimate.Models.ContractorNote> contractorNotes = ViewBag.contractorNotes;
+        }
+
+        @foreach (var item in contractorNotes)
+        {
+            <tr>
+                <td>
+                    @item.Contractor.contractorName
+                </td>
+                <td>
+                    @item.ContractorNoteType.contractorNoteType1
+                </td>
+                <td>
+                    @item.ContractorNoteStatu.contractorNoteStatus
+                </td>
+                <td>
+                    @item.contractorNote1
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 <h3>RFIs</h3>
 <p>The following RFIs have been requested for this project and have been reviewed where appropriate</p>
 <table class="table">
@@ -146,6 +182,9 @@
         }
     </tbody>
 </table>
+    
+    
+
 
 <h3>Certification</h3>
 <p><b>I certify that I have read and understand all RFIs, addendums, and scopes referenced in this document.  <br />

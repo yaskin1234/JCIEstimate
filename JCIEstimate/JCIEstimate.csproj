@@ -1972,6 +1972,21 @@
     <Content Include="Views\EstimateOptions\Edit.cshtml" />
     <Content Include="Views\EstimateOptions\Index.cshtml" />
     <Content Include="Views\Reports\rptEquipmentExport.cshtml" />
+    <Content Include="Views\ContractorNoteTypes\Create.cshtml" />
+    <Content Include="Views\ContractorNoteTypes\Delete.cshtml" />
+    <Content Include="Views\ContractorNoteTypes\Details.cshtml" />
+    <Content Include="Views\ContractorNoteTypes\Edit.cshtml" />
+    <Content Include="Views\ContractorNoteTypes\Index.cshtml" />
+    <Content Include="Views\ContractorNotes\Create.cshtml" />
+    <Content Include="Views\ContractorNotes\Delete.cshtml" />
+    <Content Include="Views\ContractorNotes\Details.cshtml" />
+    <Content Include="Views\ContractorNotes\Edit.cshtml" />
+    <Content Include="Views\ContractorNotes\Index.cshtml" />
+    <Content Include="Views\ContractorNoteStatus\Create.cshtml" />
+    <Content Include="Views\ContractorNoteStatus\Delete.cshtml" />
+    <Content Include="Views\ContractorNoteStatus\Details.cshtml" />
+    <Content Include="Views\ContractorNoteStatus\Edit.cshtml" />
+    <Content Include="Views\ContractorNoteStatus\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2095,6 +2110,9 @@
     <Compile Include="Controllers\CompletionCategoriesController.cs" />
     <Compile Include="Controllers\ContractorContactsController.cs" />
     <Compile Include="Controllers\ContractorDrawsController.cs" />
+    <Compile Include="Controllers\ContractorNotesController.cs" />
+    <Compile Include="Controllers\ContractorNoteStatusController.cs" />
+    <Compile Include="Controllers\ContractorNoteTypesController.cs" />
     <Compile Include="Controllers\ContractorsController.cs" />
     <Compile Include="Controllers\ContractorSignoffAttachmentsController.cs" />
     <Compile Include="Controllers\ContractorSignoffFinalsController.cs" />
@@ -2193,6 +2211,15 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ContractorDrawSchedule.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContractorNote.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContractorNoteStatu.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContractorNoteType.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ContractorSignoff.cs">

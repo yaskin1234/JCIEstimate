@@ -14,7 +14,7 @@
         <AssociationConnector Association="JCIEstimateModel.fk_contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractor_user" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractorContact" />
-        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="14.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="14.25" PointY="0.875" IsExpanded="false" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstruction" Width="1.5" PointX="7.625" PointY="18.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_project" />
@@ -199,6 +199,13 @@
         <AssociationConnector Association="JCIEstimateModel.fk_estimateException_estimate" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimateExclusion_estimate" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimateInclusion_estimate" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorNoteType" Width="1.5" PointX="26.125" PointY="36.25" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorNoteStatu" Width="1.5" PointX="14.375" PointY="6.875" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorNote" Width="1.5" PointX="29.375" PointY="20.125" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_Contractor" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_ContractorNoteStatus" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_ContractorNoteType" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_Project" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

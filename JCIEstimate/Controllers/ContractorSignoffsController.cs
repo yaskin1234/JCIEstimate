@@ -79,6 +79,7 @@ namespace JCIEstimate.Controllers
             IQueryable<ProjectAddendum> projectAddendums;
             IQueryable<ScopeOfWork> scopeOfWorks;
             IQueryable<AspNetUser> loggedInUser;
+            IQueryable<ContractorNote> contractorNote;
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             estimates = from cc in db.Estimates
@@ -104,6 +105,13 @@ namespace JCIEstimate.Controllers
             scopeOfWorks = from cc in db.ScopeOfWorks
                            where cc.projectUid == sessionProject
                            select cc;
+
+            contractorNote = from cc in db.ContractorNotes
+                             join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
+                             join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
+                             where cc.projectUid == sessionProject
+                             && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                             select cc;   
             
             ViewBag.scopeOfWorks = scopeOfWorks.OrderBy(c => c.scopeOfWorkDescription).ThenBy(c => c.Category.category1).ThenBy(c => c.documentName).ToList();
             ViewBag.projectRFIs = projectRFIs.OrderBy(c => c.projectRFIID).ToList();
@@ -112,6 +120,7 @@ namespace JCIEstimate.Controllers
             ViewBag.contractorName = estimates.First().Contractor.contractorName;
             ViewBag.projectName = estimates.First().ECM.Project.project1;
             ViewBag.loggedInUser = loggedInUser.First().Email;
+            ViewBag.contractorNotes = contractorNote.OrderBy(c => c.ContractorNoteType.contractorNoteType1).ThenBy(c => c.ContractorNoteStatu.contractorNoteStatus).ToList();
 
             return View();
         }

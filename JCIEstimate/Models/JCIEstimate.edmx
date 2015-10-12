@@ -84,6 +84,33 @@
           <Property Name="drawPeriod" Type="int" />
           <Property Name="amount" Type="int" />
         </EntityType>
+        <EntityType Name="ContractorNote">
+          <Key>
+            <PropertyRef Name="contractorNoteUid" />
+          </Key>
+          <Property Name="contractorNoteUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorNoteTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorNoteStatusUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorNote" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContractorNoteStatus">
+          <Key>
+            <PropertyRef Name="contractorNoteStatusUid" />
+          </Key>
+          <Property Name="contractorNoteStatusUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorNoteStatus" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContractorNoteType">
+          <Key>
+            <PropertyRef Name="contractorNoteTypeUid" />
+          </Key>
+          <Property Name="contractorNoteTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorNoteType" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
         <EntityType Name="ContractorSignoff">
           <Key>
             <PropertyRef Name="contractorSignoffUid" />
@@ -1110,6 +1137,54 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="ContractorDrawSchedule">
               <PropertyRef Name="contractorDrawUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorNote_Contractor">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ContractorNote" Type="Self.ContractorNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorNote">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorNote_ContractorNoteStatus">
+          <End Role="ContractorNoteStatus" Type="Self.ContractorNoteStatus" Multiplicity="1" />
+          <End Role="ContractorNote" Type="Self.ContractorNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorNoteStatus">
+              <PropertyRef Name="contractorNoteStatusUid" />
+            </Principal>
+            <Dependent Role="ContractorNote">
+              <PropertyRef Name="contractorNoteStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorNote_ContractorNoteType">
+          <End Role="ContractorNoteType" Type="Self.ContractorNoteType" Multiplicity="1" />
+          <End Role="ContractorNote" Type="Self.ContractorNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorNoteType">
+              <PropertyRef Name="contractorNoteTypeUid" />
+            </Principal>
+            <Dependent Role="ContractorNote">
+              <PropertyRef Name="contractorNoteTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorNote_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ContractorNote" Type="Self.ContractorNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ContractorNote">
+              <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2288,6 +2363,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="ContractorContact" EntityType="Self.ContractorContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorDraw" EntityType="Self.ContractorDraw" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorDrawSchedule" EntityType="Self.ContractorDrawSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorNote" EntityType="Self.ContractorNote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorNoteStatus" EntityType="Self.ContractorNoteStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorNoteType" EntityType="Self.ContractorNoteType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorSignoff" EntityType="Self.ContractorSignoff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorSignoffAttachment" EntityType="Self.ContractorSignoffAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorSignoffFinal" EntityType="Self.ContractorSignoffFinal" Schema="dbo" store:Type="Tables" />
@@ -2477,6 +2555,22 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_ContractorDrawSchedule_ContractorDraw" Association="Self.fk_ContractorDrawSchedule_ContractorDraw">
             <End Role="ContractorDraw" EntitySet="ContractorDraw" />
             <End Role="ContractorDrawSchedule" EntitySet="ContractorDrawSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorNote_Contractor" Association="Self.fk_ContractorNote_Contractor">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="ContractorNote" EntitySet="ContractorNote" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorNote_ContractorNoteStatus" Association="Self.fk_ContractorNote_ContractorNoteStatus">
+            <End Role="ContractorNoteStatus" EntitySet="ContractorNoteStatus" />
+            <End Role="ContractorNote" EntitySet="ContractorNote" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorNote_ContractorNoteType" Association="Self.fk_ContractorNote_ContractorNoteType">
+            <End Role="ContractorNoteType" EntitySet="ContractorNoteType" />
+            <End Role="ContractorNote" EntitySet="ContractorNote" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorNote_Project" Association="Self.fk_ContractorNote_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ContractorNote" EntitySet="ContractorNote" />
           </AssociationSet>
           <AssociationSet Name="fk_ContractorSignoff_Contractor" Association="Self.fk_ContractorSignoff_Contractor">
             <End Role="Contractor" EntitySet="Contractor" />
@@ -3390,6 +3484,25 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Estimate" EntitySet="Estimates" />
             <End Role="EstimateInclusion" EntitySet="EstimateInclusions" />
           </AssociationSet>
+          <EntitySet Name="ContractorNoteTypes" EntityType="JCIEstimateModel.ContractorNoteType" />
+          <EntitySet Name="ContractorNoteStatus" EntityType="JCIEstimateModel.ContractorNoteStatu" />
+          <EntitySet Name="ContractorNotes" EntityType="JCIEstimateModel.ContractorNote" />
+          <AssociationSet Name="fk_ContractorNote_Contractor" Association="JCIEstimateModel.fk_ContractorNote_Contractor">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="ContractorNote" EntitySet="ContractorNotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorNote_ContractorNoteStatus" Association="JCIEstimateModel.fk_ContractorNote_ContractorNoteStatus">
+            <End Role="ContractorNoteStatu" EntitySet="ContractorNoteStatus" />
+            <End Role="ContractorNote" EntitySet="ContractorNotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorNote_ContractorNoteType" Association="JCIEstimateModel.fk_ContractorNote_ContractorNoteType">
+            <End Role="ContractorNoteType" EntitySet="ContractorNoteTypes" />
+            <End Role="ContractorNote" EntitySet="ContractorNotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorNote_Project" Association="JCIEstimateModel.fk_ContractorNote_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ContractorNote" EntitySet="ContractorNotes" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -3418,6 +3531,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_ContractorSignoffFinal_Contractor" FromRole="Contractor" ToRole="ContractorSignoffFinal" />
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_contractor" FromRole="Contractor" ToRole="EquipmentTypeTaskAssignment" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Contractor" ToRole="Estimate" />
+          <NavigationProperty Name="ContractorNotes" Relationship="JCIEstimateModel.fk_ContractorNote_Contractor" FromRole="Contractor" ToRole="ContractorNote" />
           </EntityType>
         <EntityType Name="ContractorContact">
           <Key>
@@ -3484,6 +3598,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Project" FromRole="Project" ToRole="LocationCompletionCategory" />
           <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_PECCost_Project" FromRole="Project" ToRole="PECCost" />
           <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_user" FromRole="Project" ToRole="ProjectUser" />
+          <NavigationProperty Name="ContractorNotes" Relationship="JCIEstimateModel.fk_ContractorNote_Project" FromRole="Project" ToRole="ContractorNote" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -5889,6 +6004,87 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ContractorNoteType">
+          <Key>
+            <PropertyRef Name="contractorNoteTypeUid" />
+          </Key>
+          <Property Name="contractorNoteTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorNoteType1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="ContractorNotes" Relationship="JCIEstimateModel.fk_ContractorNote_ContractorNoteType" FromRole="ContractorNoteType" ToRole="ContractorNote" />
+        </EntityType>
+        <EntityType Name="ContractorNoteStatu">
+          <Key>
+            <PropertyRef Name="contractorNoteStatusUid" />
+          </Key>
+          <Property Name="contractorNoteStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorNoteStatus" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="ContractorNotes" Relationship="JCIEstimateModel.fk_ContractorNote_ContractorNoteStatus" FromRole="ContractorNoteStatu" ToRole="ContractorNote" />
+        </EntityType>
+        <EntityType Name="ContractorNote">
+          <Key>
+            <PropertyRef Name="contractorNoteUid" />
+          </Key>
+          <Property Name="contractorNoteUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorNoteTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorNoteStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorNote1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_ContractorNote_Contractor" FromRole="ContractorNote" ToRole="Contractor" />
+          <NavigationProperty Name="ContractorNoteStatu" Relationship="JCIEstimateModel.fk_ContractorNote_ContractorNoteStatus" FromRole="ContractorNote" ToRole="ContractorNoteStatu" />
+          <NavigationProperty Name="ContractorNoteType" Relationship="JCIEstimateModel.fk_ContractorNote_ContractorNoteType" FromRole="ContractorNote" ToRole="ContractorNoteType" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ContractorNote_Project" FromRole="ContractorNote" ToRole="Project" />
+        </EntityType>
+        <Association Name="fk_ContractorNote_Contractor">
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorNote" Role="ContractorNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorNote">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorNote_ContractorNoteStatus">
+          <End Type="JCIEstimateModel.ContractorNoteStatu" Role="ContractorNoteStatu" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorNote" Role="ContractorNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorNoteStatu">
+              <PropertyRef Name="contractorNoteStatusUid" />
+            </Principal>
+            <Dependent Role="ContractorNote">
+              <PropertyRef Name="contractorNoteStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorNote_ContractorNoteType">
+          <End Type="JCIEstimateModel.ContractorNoteType" Role="ContractorNoteType" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorNote" Role="ContractorNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorNoteType">
+              <PropertyRef Name="contractorNoteTypeUid" />
+            </Principal>
+            <Dependent Role="ContractorNote">
+              <PropertyRef Name="contractorNoteTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorNote_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorNote" Role="ContractorNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ContractorNote">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6846,6 +7042,36 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="locationUid" ColumnName="locationUid" />
                 <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
                 <ScalarProperty Name="estimateUid" ColumnName="estimateUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorNoteTypes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorNoteType">
+              <MappingFragment StoreEntitySet="ContractorNoteType">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="contractorNoteType1" ColumnName="contractorNoteType" />
+                <ScalarProperty Name="contractorNoteTypeUid" ColumnName="contractorNoteTypeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorNoteStatus">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorNoteStatu">
+              <MappingFragment StoreEntitySet="ContractorNoteStatus">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="contractorNoteStatus" ColumnName="contractorNoteStatus" />
+                <ScalarProperty Name="contractorNoteStatusUid" ColumnName="contractorNoteStatusUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorNotes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorNote">
+              <MappingFragment StoreEntitySet="ContractorNote">
+                <ScalarProperty Name="contractorNote1" ColumnName="contractorNote" />
+                <ScalarProperty Name="contractorNoteStatusUid" ColumnName="contractorNoteStatusUid" />
+                <ScalarProperty Name="contractorNoteTypeUid" ColumnName="contractorNoteTypeUid" />
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="contractorNoteUid" ColumnName="contractorNoteUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

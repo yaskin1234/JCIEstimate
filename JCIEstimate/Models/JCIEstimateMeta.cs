@@ -1535,4 +1535,65 @@ namespace JCIEstimate.Models
         public string behaviorIndicator { get; set; }
     }
 
+    /// <summary>
+    /// ContractorNoteType
+    /// </summary>
+    [MetadataType(typeof(ContractorNoteTypeMetaData))]
+    public partial class ContractorNoteType
+    {
+    }
+
+    public class ContractorNoteTypeMetaData
+    {
+        [Display(Name = "Note Type")]
+        public System.Guid contractorNoteTypeUid { get; set; }
+        [Display(Name = "Note Type")]
+        public string contractorNoteType1 { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
+    /// <summary>
+    /// ContractorNoteStatus
+    /// </summary>
+    [MetadataType(typeof(ContractorNoteStatuMetaData))]
+    public partial class ContractorNoteStatu
+    {
+    }
+
+    public class ContractorNoteStatuMetaData
+    {
+        [Display(Name = "Note Status")]
+        public System.Guid contractorNoteStatusUid { get; set; }
+        [Display(Name = "Note Status")]
+        public string contractorNoteStatus { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
+    /// <summary>
+    /// ContractorNote
+    /// </summary>
+    [MetadataType(typeof(ContractorNoteMetaData))]
+    public partial class ContractorNote
+    {
+    }
+
+    public class ContractorNoteMetaData
+    {
+        [Display(Name = "Note")]
+        public System.Guid contractorNoteUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Contractor")]
+        public System.Guid contractorUid { get; set; }
+        [Display(Name = "Note Type")]
+        public System.Guid contractorNoteTypeUid { get; set; }
+        [Display(Name = "Note Status")]
+        public System.Guid contractorNoteStatusUid { get; set; }
+        [Display(Name = "Note")]
+        public string contractorNote1 { get; set; }
+    }
+
+
 }

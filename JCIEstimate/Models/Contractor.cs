@@ -24,6 +24,7 @@ namespace JCIEstimate.Models
             this.ContractorSignoffFinals = new HashSet<ContractorSignoffFinal>();
             this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
             this.Estimates = new HashSet<Estimate>();
+            this.ContractorNotes = new HashSet<ContractorNote>();
         }
     
         public System.Guid contractorUid { get; set; }
@@ -40,5 +41,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
         public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<ContractorNote> ContractorNotes { get; set; }
     }
 }

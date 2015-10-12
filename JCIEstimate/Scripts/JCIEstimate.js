@@ -441,6 +441,17 @@
         })
     });
 
+
+    $("#btnExportContractorNotes").click(function () {
+        var dtltbl = $('#dvData').html();
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#dvData').html()));
+    }); 
+
+    $("#btnExportEquipment").click(function () {
+        var dtltbl = $('#dvEquipmentData').html();
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#dvEquipmentData').html()));
+    });
+
 });
 
 Number.prototype.formatMoney = function (c, d, t) {
