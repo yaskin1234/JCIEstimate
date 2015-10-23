@@ -110,5 +110,10 @@ namespace JCIEstimate.Models
         public virtual DbSet<ContractorNoteType> ContractorNoteTypes { get; set; }
         public virtual DbSet<ContractorNoteStatu> ContractorNoteStatus { get; set; }
         public virtual DbSet<ContractorNote> ContractorNotes { get; set; }
+        public virtual DbSet<Shift> Shifts { get; set; }
+        public virtual DbSet<ContractorSchedule> ContractorSchedules { get; set; }
+        public virtual DbSet<MasterSchedule> MasterSchedules { get; set; }
+        public virtual DbSet<MasterScheduleTask> MasterScheduleTasks { get; set; }
+        public virtual DbSet<ContractorScheduleTask> ContractorScheduleTasks { get; set; }
     }
 }

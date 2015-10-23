@@ -111,6 +111,27 @@
           <Property Name="contractorNoteType" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
+        <EntityType Name="ContractorSchedule">
+          <Key>
+            <PropertyRef Name="contractorScheduleUid" />
+          </Key>
+          <Property Name="contractorScheduleUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="masterScheduleUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="startDate" Type="date" />
+        </EntityType>
+        <EntityType Name="ContractorScheduleTask">
+          <Key>
+            <PropertyRef Name="contractorScheduleTaskUid" />
+          </Key>
+          <Property Name="contractorScheduleTaskUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorScheduleUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="masterScheduleTaskUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="shiftUid" Type="uniqueidentifier" />
+          <Property Name="taskStartDate" Type="date" />
+          <Property Name="taskEndDate" Type="date" />
+          <Property Name="daysToComplete" Type="int" StoreGeneratedPattern="Computed" />
+        </EntityType>
         <EntityType Name="ContractorSignoff">
           <Key>
             <PropertyRef Name="contractorSignoffUid" />
@@ -567,6 +588,27 @@
           <Property Name="date" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="aspNetUserUidAsCreated" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
+        <EntityType Name="MasterSchedule">
+          <Key>
+            <PropertyRef Name="masterScheduleUid" />
+          </Key>
+          <Property Name="masterScheduleUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="locationUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="masterSchedule" Type="varchar" MaxLength="1000" />
+          <Property Name="room" Type="varchar" MaxLength="1000" />
+          <Property Name="description" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="MasterScheduleTask">
+          <Key>
+            <PropertyRef Name="masterScheduleTaskUid" />
+          </Key>
+          <Property Name="masterScheduleTaskUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="masterScheduleUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="taskName" Type="varchar" MaxLength="1000" />
+          <Property Name="taskSequence" Type="int" />
+          <Property Name="masterScheduleIdAsPredecessors" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="Milestone">
           <Key>
             <PropertyRef Name="milestoneUid" />
@@ -776,6 +818,14 @@
           <Property Name="fileType" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="version" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="documentName" Type="varchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shift">
+          <Key>
+            <PropertyRef Name="shiftUid" />
+          </Key>
+          <Property Name="shiftUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="shift" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <EntityType Name="ToDoStatus">
           <Key>
@@ -1185,6 +1235,66 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="ContractorNote">
               <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorSchedule_Contractor">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ContractorSchedule" Type="Self.ContractorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorSchedule">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorSchedule_MasterSchedule">
+          <End Role="MasterSchedule" Type="Self.MasterSchedule" Multiplicity="1" />
+          <End Role="ContractorSchedule" Type="Self.ContractorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterSchedule">
+              <PropertyRef Name="masterScheduleUid" />
+            </Principal>
+            <Dependent Role="ContractorSchedule">
+              <PropertyRef Name="masterScheduleUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorScheduleTask_ContractorSchedule">
+          <End Role="ContractorSchedule" Type="Self.ContractorSchedule" Multiplicity="1" />
+          <End Role="ContractorScheduleTask" Type="Self.ContractorScheduleTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorSchedule">
+              <PropertyRef Name="contractorScheduleUid" />
+            </Principal>
+            <Dependent Role="ContractorScheduleTask">
+              <PropertyRef Name="contractorScheduleUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorScheduleTask_MasterScheduleTask">
+          <End Role="MasterScheduleTask" Type="Self.MasterScheduleTask" Multiplicity="1" />
+          <End Role="ContractorScheduleTask" Type="Self.ContractorScheduleTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterScheduleTask">
+              <PropertyRef Name="masterScheduleTaskUid" />
+            </Principal>
+            <Dependent Role="ContractorScheduleTask">
+              <PropertyRef Name="masterScheduleTaskUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorScheduleTask_Shift">
+          <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
+          <End Role="ContractorScheduleTask" Type="Self.ContractorScheduleTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shift">
+              <PropertyRef Name="shiftUid" />
+            </Principal>
+            <Dependent Role="ContractorScheduleTask">
+              <PropertyRef Name="shiftUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1946,6 +2056,42 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_MasterSchedule_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="MasterSchedule" Type="Self.MasterSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="MasterSchedule">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MasterSchedule_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="MasterSchedule" Type="Self.MasterSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="MasterSchedule">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MasterScheduleTask_MasterSchedule">
+          <End Role="MasterSchedule" Type="Self.MasterSchedule" Multiplicity="1" />
+          <End Role="MasterScheduleTask" Type="Self.MasterScheduleTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterSchedule">
+              <PropertyRef Name="masterScheduleUid" />
+            </Principal>
+            <Dependent Role="MasterScheduleTask">
+              <PropertyRef Name="masterScheduleUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_milestoneAction_milestone">
           <End Role="Milestone" Type="Self.Milestone" Multiplicity="1" />
           <End Role="MilestoneAction" Type="Self.MilestoneAction" Multiplicity="*" />
@@ -2366,6 +2512,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="ContractorNote" EntityType="Self.ContractorNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorNoteStatus" EntityType="Self.ContractorNoteStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorNoteType" EntityType="Self.ContractorNoteType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorSchedule" EntityType="Self.ContractorSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorScheduleTask" EntityType="Self.ContractorScheduleTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorSignoff" EntityType="Self.ContractorSignoff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorSignoffAttachment" EntityType="Self.ContractorSignoffAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorSignoffFinal" EntityType="Self.ContractorSignoffFinal" Schema="dbo" store:Type="Tables" />
@@ -2410,6 +2558,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="LocationCompletionCategory" EntityType="Self.LocationCompletionCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationIssue" EntityType="Self.LocationIssue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LocationNote" EntityType="Self.LocationNote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MasterSchedule" EntityType="Self.MasterSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MasterScheduleTask" EntityType="Self.MasterScheduleTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Milestone" EntityType="Self.Milestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MilestoneAction" EntityType="Self.MilestoneAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PECCost" EntityType="Self.PECCost" Schema="dbo" store:Type="Tables" />
@@ -2429,6 +2579,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="RfiStatus" EntityType="Self.RfiStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RfiType" EntityType="Self.RfiType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScopeOfWork" EntityType="Self.ScopeOfWork" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shift" EntityType="Self.Shift" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ToDoStatus" EntityType="Self.ToDoStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyAttachment" EntityType="Self.WarrantyAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyIssue" EntityType="Self.WarrantyIssue" Schema="dbo" store:Type="Tables" />
@@ -2571,6 +2722,26 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_ContractorNote_Project" Association="Self.fk_ContractorNote_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="ContractorNote" EntitySet="ContractorNote" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorSchedule_Contractor" Association="Self.fk_ContractorSchedule_Contractor">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="ContractorSchedule" EntitySet="ContractorSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorSchedule_MasterSchedule" Association="Self.fk_ContractorSchedule_MasterSchedule">
+            <End Role="MasterSchedule" EntitySet="MasterSchedule" />
+            <End Role="ContractorSchedule" EntitySet="ContractorSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorScheduleTask_ContractorSchedule" Association="Self.fk_ContractorScheduleTask_ContractorSchedule">
+            <End Role="ContractorSchedule" EntitySet="ContractorSchedule" />
+            <End Role="ContractorScheduleTask" EntitySet="ContractorScheduleTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorScheduleTask_MasterScheduleTask" Association="Self.fk_ContractorScheduleTask_MasterScheduleTask">
+            <End Role="MasterScheduleTask" EntitySet="MasterScheduleTask" />
+            <End Role="ContractorScheduleTask" EntitySet="ContractorScheduleTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorScheduleTask_Shift" Association="Self.fk_ContractorScheduleTask_Shift">
+            <End Role="Shift" EntitySet="Shift" />
+            <End Role="ContractorScheduleTask" EntitySet="ContractorScheduleTask" />
           </AssociationSet>
           <AssociationSet Name="fk_ContractorSignoff_Contractor" Association="Self.fk_ContractorSignoff_Contractor">
             <End Role="Contractor" EntitySet="Contractor" />
@@ -2815,6 +2986,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_LocationNote_locationIssue" Association="Self.fk_LocationNote_locationIssue">
             <End Role="LocationIssue" EntitySet="LocationIssue" />
             <End Role="LocationNote" EntitySet="LocationNote" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MasterSchedule_Location" Association="Self.fk_MasterSchedule_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="MasterSchedule" EntitySet="MasterSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MasterSchedule_Project" Association="Self.fk_MasterSchedule_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="MasterSchedule" EntitySet="MasterSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MasterScheduleTask_MasterSchedule" Association="Self.fk_MasterScheduleTask_MasterSchedule">
+            <End Role="MasterSchedule" EntitySet="MasterSchedule" />
+            <End Role="MasterScheduleTask" EntitySet="MasterScheduleTask" />
           </AssociationSet>
           <AssociationSet Name="fk_milestoneAction_milestone" Association="Self.fk_milestoneAction_milestone">
             <End Role="Milestone" EntitySet="Milestone" />
@@ -3503,6 +3686,43 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Project" EntitySet="Projects" />
             <End Role="ContractorNote" EntitySet="ContractorNotes" />
           </AssociationSet>
+          <EntitySet Name="Shifts" EntityType="JCIEstimateModel.Shift" />
+          <EntitySet Name="ContractorSchedules" EntityType="JCIEstimateModel.ContractorSchedule" />
+          <EntitySet Name="MasterSchedules" EntityType="JCIEstimateModel.MasterSchedule" />
+          <AssociationSet Name="fk_ContractorSchedule_Contractor" Association="JCIEstimateModel.fk_ContractorSchedule_Contractor">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="ContractorSchedule" EntitySet="ContractorSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorSchedule_MasterSchedule" Association="JCIEstimateModel.fk_ContractorSchedule_MasterSchedule">
+            <End Role="MasterSchedule" EntitySet="MasterSchedules" />
+            <End Role="ContractorSchedule" EntitySet="ContractorSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MasterSchedule_Location" Association="JCIEstimateModel.fk_MasterSchedule_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="MasterSchedule" EntitySet="MasterSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MasterSchedule_Project" Association="JCIEstimateModel.fk_MasterSchedule_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="MasterSchedule" EntitySet="MasterSchedules" />
+          </AssociationSet>
+          <EntitySet Name="MasterScheduleTasks" EntityType="JCIEstimateModel.MasterScheduleTask" />
+          <AssociationSet Name="fk_MasterScheduleTask_MasterSchedule" Association="JCIEstimateModel.fk_MasterScheduleTask_MasterSchedule">
+            <End Role="MasterSchedule" EntitySet="MasterSchedules" />
+            <End Role="MasterScheduleTask" EntitySet="MasterScheduleTasks" />
+          </AssociationSet>
+          <EntitySet Name="ContractorScheduleTasks" EntityType="JCIEstimateModel.ContractorScheduleTask" />
+          <AssociationSet Name="fk_ContractorScheduleTask_ContractorSchedule" Association="JCIEstimateModel.fk_ContractorScheduleTask_ContractorSchedule">
+            <End Role="ContractorSchedule" EntitySet="ContractorSchedules" />
+            <End Role="ContractorScheduleTask" EntitySet="ContractorScheduleTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorScheduleTask_MasterScheduleTask" Association="JCIEstimateModel.fk_ContractorScheduleTask_MasterScheduleTask">
+            <End Role="MasterScheduleTask" EntitySet="MasterScheduleTasks" />
+            <End Role="ContractorScheduleTask" EntitySet="ContractorScheduleTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ContractorScheduleTask_Shift" Association="JCIEstimateModel.fk_ContractorScheduleTask_Shift">
+            <End Role="Shift" EntitySet="Shifts" />
+            <End Role="ContractorScheduleTask" EntitySet="ContractorScheduleTasks" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -3532,6 +3752,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_contractor" FromRole="Contractor" ToRole="EquipmentTypeTaskAssignment" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Contractor" ToRole="Estimate" />
           <NavigationProperty Name="ContractorNotes" Relationship="JCIEstimateModel.fk_ContractorNote_Contractor" FromRole="Contractor" ToRole="ContractorNote" />
+          <NavigationProperty Name="ContractorSchedules" Relationship="JCIEstimateModel.fk_ContractorSchedule_Contractor" FromRole="Contractor" ToRole="ContractorSchedule" />
           </EntityType>
         <EntityType Name="ContractorContact">
           <Key>
@@ -3599,6 +3820,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_PECCost_Project" FromRole="Project" ToRole="PECCost" />
           <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_user" FromRole="Project" ToRole="ProjectUser" />
           <NavigationProperty Name="ContractorNotes" Relationship="JCIEstimateModel.fk_ContractorNote_Project" FromRole="Project" ToRole="ContractorNote" />
+          <NavigationProperty Name="MasterSchedules" Relationship="JCIEstimateModel.fk_MasterSchedule_Project" FromRole="Project" ToRole="MasterSchedule" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -4313,6 +4535,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Location" FromRole="Location" ToRole="LocationCompletionCategory" />
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" FromRole="Location" ToRole="EquipmentTypeTaskAssignment" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Location" ToRole="Estimate" />
+          <NavigationProperty Name="MasterSchedules" Relationship="JCIEstimateModel.fk_MasterSchedule_Location" FromRole="Location" ToRole="MasterSchedule" />
         </EntityType>
         <EntityType Name="LocationIssue">
           <Key>
@@ -6085,6 +6308,165 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Shift">
+          <Key>
+            <PropertyRef Name="shiftUid" />
+          </Key>
+          <Property Name="shiftUid" Type="Guid" Nullable="false" />
+          <Property Name="shift1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="ContractorScheduleTasks" Relationship="JCIEstimateModel.fk_ContractorScheduleTask_Shift" FromRole="Shift" ToRole="ContractorScheduleTask" />
+        </EntityType>
+        <EntityType Name="ContractorSchedule">
+          <Key>
+            <PropertyRef Name="contractorScheduleUid" />
+          </Key>
+          <Property Name="contractorScheduleUid" Type="Guid" Nullable="false" />
+          <Property Name="masterScheduleUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_ContractorSchedule_Contractor" FromRole="ContractorSchedule" ToRole="Contractor" />
+          <NavigationProperty Name="MasterSchedule" Relationship="JCIEstimateModel.fk_ContractorSchedule_MasterSchedule" FromRole="ContractorSchedule" ToRole="MasterSchedule" />
+          <NavigationProperty Name="ContractorScheduleTasks" Relationship="JCIEstimateModel.fk_ContractorScheduleTask_ContractorSchedule" FromRole="ContractorSchedule" ToRole="ContractorScheduleTask" />
+        </EntityType>
+        <EntityType Name="MasterSchedule">
+          <Key>
+            <PropertyRef Name="masterScheduleUid" />
+          </Key>
+          <Property Name="masterScheduleUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="locationUid" Type="Guid" Nullable="false" />
+          <Property Name="masterSchedule1" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="room" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ContractorSchedules" Relationship="JCIEstimateModel.fk_ContractorSchedule_MasterSchedule" FromRole="MasterSchedule" ToRole="ContractorSchedule" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_MasterSchedule_Location" FromRole="MasterSchedule" ToRole="Location" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_MasterSchedule_Project" FromRole="MasterSchedule" ToRole="Project" />
+          <NavigationProperty Name="MasterScheduleTasks" Relationship="JCIEstimateModel.fk_MasterScheduleTask_MasterSchedule" FromRole="MasterSchedule" ToRole="MasterScheduleTask" />
+        </EntityType>
+        <Association Name="fk_ContractorSchedule_Contractor">
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorSchedule" Role="ContractorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="ContractorSchedule">
+              <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorSchedule_MasterSchedule">
+          <End Type="JCIEstimateModel.MasterSchedule" Role="MasterSchedule" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorSchedule" Role="ContractorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterSchedule">
+              <PropertyRef Name="masterScheduleUid" />
+            </Principal>
+            <Dependent Role="ContractorSchedule">
+              <PropertyRef Name="masterScheduleUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MasterSchedule_Location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="JCIEstimateModel.MasterSchedule" Role="MasterSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="MasterSchedule">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MasterSchedule_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.MasterSchedule" Role="MasterSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="MasterSchedule">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MasterScheduleTask">
+          <Key>
+            <PropertyRef Name="masterScheduleTaskUid" />
+          </Key>
+          <Property Name="masterScheduleTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="masterScheduleUid" Type="Guid" Nullable="false" />
+          <Property Name="taskName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="taskSequence" Type="Int32" />
+          <Property Name="masterScheduleIdAsPredecessors" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MasterSchedule" Relationship="JCIEstimateModel.fk_MasterScheduleTask_MasterSchedule" FromRole="MasterScheduleTask" ToRole="MasterSchedule" />
+          <NavigationProperty Name="ContractorScheduleTasks" Relationship="JCIEstimateModel.fk_ContractorScheduleTask_MasterScheduleTask" FromRole="MasterScheduleTask" ToRole="ContractorScheduleTask" />
+        </EntityType>
+        <Association Name="fk_MasterScheduleTask_MasterSchedule">
+          <End Type="JCIEstimateModel.MasterSchedule" Role="MasterSchedule" Multiplicity="1" />
+          <End Type="JCIEstimateModel.MasterScheduleTask" Role="MasterScheduleTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterSchedule">
+              <PropertyRef Name="masterScheduleUid" />
+            </Principal>
+            <Dependent Role="MasterScheduleTask">
+              <PropertyRef Name="masterScheduleUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ContractorScheduleTask">
+          <Key>
+            <PropertyRef Name="contractorScheduleTaskUid" />
+          </Key>
+          <Property Name="contractorScheduleTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorScheduleUid" Type="Guid" Nullable="false" />
+          <Property Name="masterScheduleTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="shiftUid" Type="Guid" />
+          <Property Name="taskStartDate" Type="DateTime" Precision="0" />
+          <Property Name="taskEndDate" Type="DateTime" Precision="0" />
+          <Property Name="daysToComplete" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="ContractorSchedule" Relationship="JCIEstimateModel.fk_ContractorScheduleTask_ContractorSchedule" FromRole="ContractorScheduleTask" ToRole="ContractorSchedule" />
+          <NavigationProperty Name="MasterScheduleTask" Relationship="JCIEstimateModel.fk_ContractorScheduleTask_MasterScheduleTask" FromRole="ContractorScheduleTask" ToRole="MasterScheduleTask" />
+          <NavigationProperty Name="Shift" Relationship="JCIEstimateModel.fk_ContractorScheduleTask_Shift" FromRole="ContractorScheduleTask" ToRole="Shift" />
+        </EntityType>
+        <Association Name="fk_ContractorScheduleTask_ContractorSchedule">
+          <End Type="JCIEstimateModel.ContractorSchedule" Role="ContractorSchedule" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorScheduleTask" Role="ContractorScheduleTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorSchedule">
+              <PropertyRef Name="contractorScheduleUid" />
+            </Principal>
+            <Dependent Role="ContractorScheduleTask">
+              <PropertyRef Name="contractorScheduleUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorScheduleTask_MasterScheduleTask">
+          <End Type="JCIEstimateModel.MasterScheduleTask" Role="MasterScheduleTask" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorScheduleTask" Role="ContractorScheduleTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MasterScheduleTask">
+              <PropertyRef Name="masterScheduleTaskUid" />
+            </Principal>
+            <Dependent Role="ContractorScheduleTask">
+              <PropertyRef Name="masterScheduleTaskUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ContractorScheduleTask_Shift">
+          <End Type="JCIEstimateModel.Shift" Role="Shift" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ContractorScheduleTask" Role="ContractorScheduleTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shift">
+              <PropertyRef Name="shiftUid" />
+            </Principal>
+            <Dependent Role="ContractorScheduleTask">
+              <PropertyRef Name="shiftUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7072,6 +7454,61 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
                 <ScalarProperty Name="contractorNoteUid" ColumnName="contractorNoteUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shifts">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Shift">
+              <MappingFragment StoreEntitySet="Shift">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="shift1" ColumnName="shift" />
+                <ScalarProperty Name="shiftUid" ColumnName="shiftUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorSchedules">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorSchedule">
+              <MappingFragment StoreEntitySet="ContractorSchedule">
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
+                <ScalarProperty Name="masterScheduleUid" ColumnName="masterScheduleUid" />
+                <ScalarProperty Name="contractorScheduleUid" ColumnName="contractorScheduleUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MasterSchedules">
+            <EntityTypeMapping TypeName="JCIEstimateModel.MasterSchedule">
+              <MappingFragment StoreEntitySet="MasterSchedule">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="room" ColumnName="room" />
+                <ScalarProperty Name="masterSchedule1" ColumnName="masterSchedule" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="masterScheduleUid" ColumnName="masterScheduleUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MasterScheduleTasks">
+            <EntityTypeMapping TypeName="JCIEstimateModel.MasterScheduleTask">
+              <MappingFragment StoreEntitySet="MasterScheduleTask">
+                <ScalarProperty Name="masterScheduleIdAsPredecessors" ColumnName="masterScheduleIdAsPredecessors" />
+                <ScalarProperty Name="taskSequence" ColumnName="taskSequence" />
+                <ScalarProperty Name="taskName" ColumnName="taskName" />
+                <ScalarProperty Name="masterScheduleUid" ColumnName="masterScheduleUid" />
+                <ScalarProperty Name="masterScheduleTaskUid" ColumnName="masterScheduleTaskUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorScheduleTasks">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorScheduleTask">
+              <MappingFragment StoreEntitySet="ContractorScheduleTask">
+                <ScalarProperty Name="daysToComplete" ColumnName="daysToComplete" />
+                <ScalarProperty Name="taskEndDate" ColumnName="taskEndDate" />
+                <ScalarProperty Name="taskStartDate" ColumnName="taskStartDate" />
+                <ScalarProperty Name="shiftUid" ColumnName="shiftUid" />
+                <ScalarProperty Name="masterScheduleTaskUid" ColumnName="masterScheduleTaskUid" />
+                <ScalarProperty Name="contractorScheduleUid" ColumnName="contractorScheduleUid" />
+                <ScalarProperty Name="contractorScheduleTaskUid" ColumnName="contractorScheduleTaskUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

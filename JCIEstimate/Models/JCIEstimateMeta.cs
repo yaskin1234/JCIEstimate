@@ -1595,5 +1595,62 @@ namespace JCIEstimate.Models
         public string contractorNote1 { get; set; }
     }
 
+    /// <summary>
+    /// MasterSchedule
+    /// </summary>
+    [MetadataType(typeof(MasterScheduleMetaData))]
+    public partial class MasterSchedule
+    {
+        
+    }
+
+    public class MasterScheduleMetaData
+    {
+        [Display(Name = "Master Schedule")]
+        public System.Guid masterScheduleUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Location")]
+        public System.Guid locationUid { get; set; }
+        [Display(Name = "Master Schedule")]
+        public string masterSchedule1 { get; set; }
+        [Display(Name = "Room")]
+        public string room { get; set; }
+        [Display(Name = "Description")]
+        public string description { get; set; }
+    }
+
+    
+    /// <summary>
+    /// MasterSchedule
+    /// </summary>
+    [MetadataType(typeof(ContractorScheduleTaskMetaData))]
+    public partial class ContractorScheduleTask
+    {
+        
+    }
+
+    public class ContractorScheduleTaskMetaData
+    {
+        [Display(Name = "Contractor Schedule Task")]
+        public System.Guid contractorScheduleTaskUid { get; set; }
+        [Display(Name = "Contractor Schedule")]
+        public System.Guid contractorScheduleUid { get; set; }
+        [Display(Name = "Master Schedule Task")]
+        public System.Guid masterScheduleTaskUid { get; set; }
+        [Display(Name = "Shift")]
+        public Nullable<System.Guid> shiftUid { get; set; }
+        [Display(Name = "Days To Complete")]
+        public Nullable<int> daysToComplete { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Task Start Date")]
+        public Nullable<System.DateTime> taskStartDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Task End Date")]
+        public Nullable<System.DateTime> taskEndDate { get; set; }
+    }
+
+
+    
 
 }

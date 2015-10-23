@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JCIEstimate.Models.MasterScheduleTask>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.taskName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MasterSchedule.masterSchedule1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.masterScheduleIdAsPredecessors)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.taskName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MasterSchedule.masterSchedule1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.masterScheduleIdAsPredecessors)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.masterScheduleTaskUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.masterScheduleTaskUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.masterScheduleTaskUid })
+        </td>
+    </tr>
+}
+
+</table>

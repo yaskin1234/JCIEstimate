@@ -1,10 +1,12 @@
 ﻿@model IEnumerable<JCIEstimate.Models.Estimate>
 
 @{
-    ViewBag.Title = "Estimate List";
+    ViewBag.Title = "Bid Proposal List";
     WebGrid grid = new WebGrid(Model, rowsPerPage: 500, canSort: false, canPage: false);
 
 }
+
+<h3>Bid Proposals</h3>
 
 <select class="estimateFilter" id="estimateFilter" name="estimateFilter">
     @foreach (var item in ViewBag.filterList)

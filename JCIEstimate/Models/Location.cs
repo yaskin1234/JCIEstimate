@@ -23,6 +23,7 @@ namespace JCIEstimate.Models
             this.LocationCompletionCategories = new HashSet<LocationCompletionCategory>();
             this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
             this.Estimates = new HashSet<Estimate>();
+            this.MasterSchedules = new HashSet<MasterSchedule>();
         }
     
         public System.Guid locationUid { get; set; }
@@ -38,5 +39,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<LocationCompletionCategory> LocationCompletionCategories { get; set; }
         public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<MasterSchedule> MasterSchedules { get; set; }
     }
 }

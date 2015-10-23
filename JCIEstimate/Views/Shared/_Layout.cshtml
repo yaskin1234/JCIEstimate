@@ -4,13 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Bernservices</title>
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/jquery")    
     @Scripts.Render("~/bundles/kendo")
     @Scripts.Render("~/bundles/JCIEstimate")    
     @Scripts.Render("~/bundles/bootstrap")
     @Styles.Render("~/Content/css")        
     @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Content/kendo/css")
+    @Styles.Render("~/Content/kendo/css")    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-form">
@@ -52,6 +53,7 @@
                             <li>@Html.ActionLink("RFI Types", "Index", "RFITypes")</li>
                             <li>@Html.ActionLink("RFI Satus", "Index", "RFIStatus")</li>
                             <li>@Html.ActionLink("Intervals", "Index", "Intervals")</li>
+                            <li>@Html.ActionLink("Shifts", "Index", "Shifts")</li>
                             <li>@Html.ActionLink("Heat Types", "Index", "HeatTypes")</li>
                             <li>@Html.ActionLink("Control Types", "Index", "ControlTypes")</li>
                             <li>@Html.ActionLink("Equipment Condition", "Index", "EquipmentConditions")</li>
@@ -82,6 +84,8 @@
                                 <li>@Html.ActionLink("Equipment Notes", "Index", "EquipmentNotes")</li>
                                 <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>
                                 <li>@Html.ActionLink("Project Addendums", "Index", "ProjectAddendums")</li>
+                                <li class="divider"></li>                                
+                                <li>@Html.ActionLink("Master Schedules", "Index", "MasterSchedules")</li>                                              
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Construction Expenses", "Index", "ExpenseConstructions")</li>
                                 <li>@Html.ActionLink("Construction Expense Draws", "Index", "ExpenseConstructionDraws")</li>
@@ -119,12 +123,13 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contractor</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>  
-                                <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>            
-                                <li>@Html.ActionLink("Project Attachment", "Index", "ProjectAttachments")</li>
-                                <li>@Html.ActionLink("RFI", "Index", "ProjectRFIs")</li>                                
-                                <li>@Html.ActionLink("Contractor Draw", "Index", "ContractorDraws")</li>                                                                
-                                <li>@Html.ActionLink("Contractor Notes", "Index", "ContractorNotes")</li>
+                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>                                  
+                                <li>@Html.ActionLink("Site Plans", "Index", "ProjectAttachments")</li>
+                                <li>@Html.ActionLink("RFIs", "Index", "ProjectRFIs")</li>            
+                                <li>@Html.ActionLink("Bid Proposals", "Index", "Estimates")</li>                                
+                                <li>@Html.ActionLink("Inclusions, Exclusions, Assumptions", "Index", "ContractorNotes")</li>
+                                <li>@Html.ActionLink("Contractor Draw", "Index", "ContractorDraws")</li>                                 
+                                <li>@Html.ActionLink("Contractor Schedules", "Index", "ContractorSchedules")</li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                                
                                 <li>@Html.ActionLink("Report -- Equipment List by ECM", "GetEquipmentForECM", "Reports")</li>
@@ -142,23 +147,29 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contractor</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Contacts", "Index", "ContractorContacts")</li>
-                                <li>@Html.ActionLink("Email Addresses", "Index", "Eddresses")</li>
+                                @*<li>@Html.ActionLink("Contacts", "Index", "ContractorContacts")</li>
+                                <li>@Html.ActionLink("Email Addresses", "Index", "Eddresses")</li>*@
+                                @*<li class="divider"></li>*@
+                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>  
+                                <li>@Html.ActionLink("Site Plans", "Index", "ProjectAttachments")</li>
+                                <li>@Html.ActionLink("RFIs", "Index", "ProjectRFIs")</li>
+                                <li>@Html.ActionLink("Bid Proposals", "Index", "Estimates")</li>                                
+                                <li>@Html.ActionLink("Inclusions, Exclusions, Assumptions", "Index", "ContractorNotes")</li>
+                                <li>@Html.ActionLink("Sign Proposal", "ContractorSignoff", "ContractorSignoffs")</li>
+                                <li><a href="/ContractorSignoffs/Index">View signed proposals</a></li>                                
+                                <li><a href="/ContractorSignoffFinals/Index">View JCI Accepted Proposal</a></li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Equipment", "Index", "Equipments")</li>                            
-                                <li>@Html.ActionLink("Project Attachment", "Index", "ProjectAttachments")</li>
-                                <li>@Html.ActionLink("RFI", "Index", "ProjectRFIs")</li>
-                                <li>@Html.ActionLink("Contractor Draw", "Index", "ContractorDraws")</li>                                
-                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>  
-                                <li>@Html.ActionLink("Estimates", "Index", "Estimates")</li>                                
-                                <li>@Html.ActionLink("Contractor Notes", "Index", "ContractorNotes")</li>                                
+                                <li>@Html.ActionLink("Contractor Draw", "Index", "ContractorDraws")</li>                 
+                                @*<li>@Html.ActionLink("Contractor Schedules", "Index", "ContractorSchedules")</li>*@    
+                                <li class="divider"></li>
                                 <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                
                                 <li>@Html.ActionLink("Report -- New Equipment", "GetEquipmentForECMToPurchase", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>                                            
                                 <li class="divider"></li>
-                                <li>@Html.ActionLink("Proposal Signature", "ContractorSignoff", "ContractorSignoffs")</li>
-                                <li><a href="/ContractorSignoffs/Index">View signed proposals</a></li>                                
-                                <li><a href="/ContractorSignoffFinals/Index">View signed final proposals</a></li>
+                                
+                                
+                                
                                 
                             </ul>
                         </li>

@@ -16,7 +16,9 @@
 
     }
 </select>
-<p>@Html.ActionLink("Export", "GetEquipmentExport", "Reports")</p>
+@Html.ActionLink("Export list to excel", "GetEquipmentExport", "Reports")
+&nbsp;&nbsp;|&nbsp;&nbsp;
+@Html.ActionLink("Get all pictures for the listed equipment", "GetEquipmentPictures", "Equipments", new { filterType = ViewContext.RouteData.Values["filterType"], filterValues = ViewContext.RouteData.Values["filterValue"] })
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -132,15 +134,7 @@
                             <tr>
                                 @foreach (var task in ViewBag.equipmentTasks)
                                 {
-                                    string chked = "";
-
-                                    foreach (var toDo in ViewBag.equipmentToDoes)
-                                    {
-                                        if (toDo.equipmentUid == item.equipmentUid && toDo.equipmentTaskUid == task.equipmentTaskUid)
-                                        {
-                                            chked = "CHECKED";
-                                        }
-                                    }
+                                    string chked = item.isTaskForEquipment(task.equipmentTaskUid);                                    
                                     <td class="GridTable"><input class="gridCheckBox" type="checkbox" name="@(item.equipmentUid)_@(task.equipmentTaskUid)" @chked /> </td>
                                 }
                             </tr>
@@ -152,42 +146,29 @@
                         <table style="border-top:hidden;">
                             @{
                                 string val = "";
-                                foreach (var citem in ViewBag.equipmentAttributes)
+                                foreach (var citem in item.GetAttributesForEquipment())
                                 {
-                                    foreach (var mItem in Model)
-                                    {
-                                        if (citem.equipmentAttributeTypeUid == mItem.equipmentAttributeTypeUid && mItem.equipmentUid == item.equipmentUid)
-                                        {
-                                            <tr>
-                                                <td>@citem.equipmentAttribute1</td>
-                                                <td>
-                                                    @if (citem.AppDataType.appDataType1 == "Boolean")
-                                                    {
-                                                        foreach (var vitem in item.EquipmentAttributeValues)
-                                                        {
-                                                            if (vitem.equipmentUid == item.equipmentUid && vitem.equipmentAttributeUid == citem.equipmentAttributeUid)
-                                                            {
-                                                                val = (vitem.equipmentAttributeValue1) == "true" ? "CHECKED" : "";
-                                                            }
-                                                        }
-                                                        <input class="equipmentAttributeValue" @val type="checkbox" name="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" id="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" />
-                                                    }
-                                                    else
-                                                    {
-                                                        foreach (var vitem in item.EquipmentAttributeValues)
-                                                        {
-                                                            if (vitem.equipmentUid == item.equipmentUid && vitem.equipmentAttributeUid == citem.equipmentAttributeUid)
-                                                            {
-                                                                val = vitem.equipmentAttributeValue1;
-                                                            }
-                                                        }
-                                                        <input class="equipmentAttributeValue" type="text" name="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" id="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" value="@val" />
-                                                    }
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-
+                                    <tr>
+                                        <td>@citem.equipmentAttribute1</td>
+                                        <td>
+                                            @if (citem.AppDataType.appDataType1 == "Boolean")
+                                            {
+                                                if (item.GetEquipmentAttributeValueForEquipmentAttribute(citem.equipmentAttributeUid) != null)
+                                                {
+                                                    val = (item.GetEquipmentAttributeValueForEquipmentAttribute(citem.equipmentAttributeUid).equipmentAttributeValue1) == "true" ? "CHECKED" : "";                                                    
+                                                }                                                
+                                                <input class="equipmentAttributeValue" @val type="checkbox" name="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" id="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" />
+                                            }
+                                            else
+                                            {
+                                                if (item.GetEquipmentAttributeValueForEquipmentAttribute(citem.equipmentAttributeUid) != null)
+                                                {
+                                                    val = item.GetEquipmentAttributeValueForEquipmentAttribute(citem.equipmentAttributeUid).equipmentAttributeValue1;
+                                                }                                                
+                                                <input class="equipmentAttributeValue" type="text" name="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" id="@citem.equipmentAttributeUid.ToString()|@item.equipmentUid.ToString()" value="@val" />
+                                            }
+                                        </td>
+                                    </tr>                                    
                                 }
                             }
                             <tr>

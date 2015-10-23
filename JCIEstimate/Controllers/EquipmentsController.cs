@@ -10,6 +10,10 @@ using System.Web.Mvc;
 using JCIExtensions;
 using JCIEstimate.Models;
 using System.IO;
+using Ionic.Zip;
+using System.Drawing;
+using System.Drawing.Imaging;
+
 
 namespace JCIEstimate.Controllers
 {
@@ -322,7 +326,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EngineerCreate([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,locationUid,jciTag,heatTypeUid,controlTypeUid,ownerTag,model,serialNumber,equipmentConditionUid")] Equipment equipment, IEnumerable<HttpPostedFileBase> pics)
+        public async Task<ActionResult> EngineerCreate([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,locationUid,area,jciTag,heatTypeUid,controlTypeUid,ownerTag,model,serialNumber,equipmentConditionUid")] Equipment equipment, IEnumerable<HttpPostedFileBase> pics)
         {
             Guid sessionProject = MCVExtensions.getSessionProject();
 
@@ -420,20 +424,32 @@ namespace JCIEstimate.Controllers
                 foreach (var file in pics)
                 {
                     if (file != null)
-                    {
-                        EquipmentAttachment ea = new EquipmentAttachment();                        
-                        int fileSize = file.ContentLength;
+                    {                        
+                        EquipmentAttachment ea = new EquipmentAttachment();
                         MemoryStream target = new MemoryStream();
-                        file.InputStream.CopyTo(target);
-                        byte[] data = target.ToArray();
-                        ea.attachment = data;
-                        ea.fileType = Path.GetExtension(file.FileName);
-                        var docName = MCVExtensions.MakeValidFileName(file.FileName);
-                        ea.documentName = docName;
-                        ea.equipmentAttachmentUid = Guid.NewGuid();
-                        ea.equipmentUid = equipment.equipmentUid;
-                        ea.equipmentAttachment1 = Path.GetFileNameWithoutExtension(docName);
-                        db.EquipmentAttachments.Add(ea);
+                        if (IsValidImage(file.InputStream))
+                        {
+                            Image newBM = ResizeImage(file);
+                            newBM.Save(target, ImageFormat.Jpeg);
+                            long fileSize = target.Length;
+                            byte[] data = target.ToArray();
+                            ea.attachment = data;
+                            ea.fileType = Path.GetExtension(file.FileName);
+                            var docName = MCVExtensions.MakeValidFileName(file.FileName);
+                            ea.documentName = docName;
+                            ea.equipmentAttachmentUid = Guid.NewGuid();
+                            ea.equipmentUid = equipment.equipmentUid;
+                            ea.equipmentAttachment1 = Path.GetFileNameWithoutExtension(docName);
+                            db.EquipmentAttachments.Add(ea);
+                        }
+                        else
+                        {
+                            ViewBag.result = "File was not an image.  Uploaded files must be a valid jpeg, png, or bmp file";
+                            var jciTag = from cc in db.Equipments
+                                         where cc.equipmentUid == equipment.equipmentUid
+                                         select cc.jciTag;
+                            Response.Redirect("/Equipments/AddPicturesForEquipment?jciTag=" + Convert.ToInt16(jciTag.FirstOrDefault()));
+                        }
                     }
                 }
                 try
@@ -451,12 +467,44 @@ namespace JCIEstimate.Controllers
                     ViewBag.result = "Tag " + equipment.jciTag.ToString() + " failed with error:" + ex.Message;
                 }
             }
-            
-            
 
             return View(equipment);
         }
 
+
+        Image ResizeImage(HttpPostedFileBase file) 
+        {
+            Image myImage = Image.FromStream(file.InputStream);
+            int destWidth = (int)(myImage.Width * .25);
+            int destHeight = (int)(myImage.Height * .25);
+            Bitmap newBM = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
+            newBM.SetResolution(myImage.HorizontalResolution, myImage.VerticalResolution);
+
+            Graphics grPhoto = Graphics.FromImage(newBM);
+            grPhoto.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+            grPhoto.DrawImage(myImage,
+                new Rectangle(0, 0, destWidth, destHeight),
+                new Rectangle(0, 0, myImage.Width, myImage.Height),
+                GraphicsUnit.Pixel);
+
+            grPhoto.Dispose();
+
+            return newBM;
+        }
+
+        public static bool IsValidImage(Stream ms)
+        {
+            try
+            {                
+                Image.FromStream(ms);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            return true;
+        }
 
         public ActionResult showImage(string id)
         {
@@ -741,6 +789,146 @@ namespace JCIEstimate.Controllers
             db.Equipments.Remove(equipment);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> GetEquipmentPictures()
+        {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            string filterType = Session["sortType"].ToString();
+            string filterValue = Session["sortValue"].ToString();
+            string project = db.Projects.Where(c => c.projectUid == sessionProject).FirstOrDefault().project1;
+            string currentJCITag = "";
+            int keyCounter = 1;
+            this.Response.Clear();
+            this.Response.ContentType = "application/zip";
+            Response.Buffer = false;
+            
+            if (filterType == "A" || filterType == "" || filterType ==  null)
+            {
+                DateTime today = DateTime.Now;
+                string fileName = JCIExtensions.MCVExtensions.MakeValidFileName("attachment;filename=" + project + "_PicturesForAllEquipment" + today.ToString() + ".zip");
+                this.Response.AddHeader("Content-Disposition", fileName);
+                using (ZipFile zipFile = new ZipFile())
+                {
+                    foreach (var location in db.Locations.Where(c=>c.projectUid == sessionProject))
+                    {
+                        foreach (var eq in location.Equipments.OrderBy(c => c.jciTag))
+                        {
+                            if (currentJCITag != eq.jciTag.ToString())
+                            {
+                                keyCounter = 0;
+                            }
+                            currentJCITag = eq.jciTag.ToString();
+                            foreach (var userPicture in eq.EquipmentAttachments.ToList())
+                            {
+                                keyCounter += 1;
+                                string pictureName = JCIExtensions.MCVExtensions.MakeValidFileName(eq.EquipmentAttributeType.equipmentAttributeType1 + "_" + eq.Location.location1 + "_" + eq.jciTag.ToString().Replace(".00", "") + "_" + keyCounter + Path.GetExtension(userPicture.documentName));
+                                using (MemoryStream tempstream = new MemoryStream())
+                                {
+                                    Image userImage = byteArrayToImage(userPicture.attachment);
+                                    userImage.Save(tempstream, ImageFormat.Jpeg);
+                                    tempstream.Seek(0, SeekOrigin.Begin);
+                                    byte[] imageData = new byte[tempstream.Length];
+                                    tempstream.Read(imageData, 0, imageData.Length);
+                                    zipFile.AddEntry(pictureName, imageData);
+                                }
+                            }
+                        }                                    
+                    }
+                    zipFile.Save(Response.OutputStream);            
+                }
+            }
+            else if (filterType == "E")
+            {
+                DateTime today = DateTime.Now;
+                string equipmentType = db.EquipmentAttributeTypes.Where(c => c.equipmentAttributeTypeUid.ToString() == filterValue).FirstOrDefault().equipmentAttributeType1;
+                string fileName = JCIExtensions.MCVExtensions.MakeValidFileName("attachment;filename=" + project + "_PicturesFor" + equipmentType + "_" + today.ToString() + ".zip");
+                this.Response.AddHeader("Content-Disposition", fileName);
+                using (ZipFile zipFile = new ZipFile())
+                {
+                    foreach (var location in db.Locations.Where(c => c.projectUid == sessionProject))
+                    {
+                        foreach (var eq in location.Equipments.Where(c => c.equipmentAttributeTypeUid.ToString() == filterValue).OrderBy(c => c.jciTag))
+                        {
+                            if (currentJCITag != eq.jciTag.ToString())
+                            {
+                                keyCounter = 0;
+                            }
+                            currentJCITag = eq.jciTag.ToString();
+                            foreach (var userPicture in eq.EquipmentAttachments.ToList())
+                            {
+                                keyCounter += 1;
+                                string pictureName = JCIExtensions.MCVExtensions.MakeValidFileName(eq.EquipmentAttributeType.equipmentAttributeType1 + "_" + eq.Location.location1 + "_" + eq.jciTag.ToString().Replace(".00", "") + "_" + keyCounter + Path.GetExtension(userPicture.documentName));
+                                using (MemoryStream tempstream = new MemoryStream())
+                                {
+                                    Image userImage = byteArrayToImage(userPicture.attachment);
+                                    userImage.Save(tempstream, ImageFormat.Jpeg);
+                                    tempstream.Seek(0, SeekOrigin.Begin);
+                                    byte[] imageData = new byte[tempstream.Length];
+                                    tempstream.Read(imageData, 0, imageData.Length);
+                                    zipFile.AddEntry(pictureName, imageData);
+                                }
+                            }
+                        }                        
+                    }
+                    zipFile.Save(Response.OutputStream);
+                }                
+            }
+            else if (filterType == "C")
+            {
+                DateTime today = DateTime.Now;
+                string ecm = db.ECMs.Where(c => c.ecmUid.ToString() == filterValue).FirstOrDefault().ecmString;
+                string fileName = JCIExtensions.MCVExtensions.MakeValidFileName("attachment;filename=" + project + "_PicturesFor" + ecm + "_" + today.ToString() + ".zip");
+                this.Response.AddHeader("Content-Disposition", fileName);
+                using (ZipFile zipFile = new ZipFile())
+                {
+                    foreach (var location in db.Locations.Where(c => c.projectUid == sessionProject))
+                    {
+                        foreach (var eq in location.Equipments.Where(c => c.equipmentAttributeTypeUid.ToString() == filterValue).OrderBy(c => c.jciTag))
+                        {
+                            if (currentJCITag != eq.jciTag.ToString())
+                            {
+                                keyCounter = 0;
+                            }
+                            currentJCITag = eq.jciTag.ToString();
+                            foreach (var userPicture in eq.EquipmentAttachments.ToList())
+                            {
+                                keyCounter += 1;
+                                string pictureName = JCIExtensions.MCVExtensions.MakeValidFileName(eq.EquipmentAttributeType.equipmentAttributeType1 + "_" + eq.Location.location1 + "_" + eq.jciTag.ToString().Replace(".00", "") + "_" + keyCounter + Path.GetExtension(userPicture.documentName));
+                                using (MemoryStream tempstream = new MemoryStream())
+                                {
+                                    Image userImage = byteArrayToImage(userPicture.attachment);
+                                    userImage.Save(tempstream, ImageFormat.Jpeg);
+                                    tempstream.Seek(0, SeekOrigin.Begin);
+                                    byte[] imageData = new byte[tempstream.Length];
+                                    tempstream.Read(imageData, 0, imageData.Length);
+                                    zipFile.AddEntry(pictureName, imageData);
+                                }
+                            }
+                        }                        
+                    }
+                    zipFile.Save(Response.OutputStream);
+                }                
+            }
+            this.Response.End();
+            return RedirectToAction("Index");
+        }
+
+        Image byteArrayToImage(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Image returnImage = Image.FromStream(ms);
+            return returnImage;
+        }
+
+        byte[] GetFile(string s)
+        {
+            System.IO.FileStream fs = System.IO.File.OpenRead(s);
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new System.IO.IOException(s);
+            return data;
         }
 
         // GET: EquipmentToDoes/SaveUseReplacement/5

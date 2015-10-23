@@ -206,6 +206,19 @@
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_ContractorNoteStatus" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_ContractorNoteType" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_Project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Shift" Width="1.5" PointX="28.625" PointY="36.5" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorSchedule" Width="1.5" PointX="33.875" PointY="15.25" />
+        <EntityTypeShape EntityType="JCIEstimateModel.MasterSchedule" Width="1.5" PointX="28.625" PointY="26.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSchedule_Contractor" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSchedule_MasterSchedule" />
+        <AssociationConnector Association="JCIEstimateModel.fk_MasterSchedule_Location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_MasterSchedule_Project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.MasterScheduleTask" Width="1.5" PointX="30.875" PointY="27.25" />
+        <AssociationConnector Association="JCIEstimateModel.fk_MasterScheduleTask_MasterSchedule" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorScheduleTask" Width="1.5" PointX="36.125" PointY="25.25" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorScheduleTask_ContractorSchedule" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorScheduleTask_MasterScheduleTask" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorScheduleTask_Shift" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

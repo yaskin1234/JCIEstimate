@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.ContractorSchedule
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ContractorSchedule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.startDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.startDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contractor.contractorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contractor.contractorName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MasterSchedule.masterSchedule1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MasterSchedule.masterSchedule1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.contractorScheduleUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

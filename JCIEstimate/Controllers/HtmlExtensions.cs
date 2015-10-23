@@ -195,6 +195,9 @@ namespace JCIExtensions
             try
             {
                 smtpClient.Send(mail);
+                StreamWriter f = new StreamWriter("c:\\mailAttempts.log", true);
+                f.WriteLine("--------------" + DateTime.Now.ToString() + ": " + "mail sent to " + mail.To + "  body: " + mail.Body);
+                f.Close();
 
             }
             catch (Exception ex)

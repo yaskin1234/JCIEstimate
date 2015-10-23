@@ -1,0 +1,90 @@
+﻿@model JCIEstimate.Models.ContractorSchedule
+
+@{
+    ViewBag.Title = "Edit";
+}
+<link href="/Content/bootstrap.css" rel="stylesheet" />
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>ContractorSchedule</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.contractorScheduleUid)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.masterScheduleUid, "masterScheduleUid", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("masterScheduleUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.masterScheduleUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.contractorUid, "contractorUid", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("contractorUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.contractorUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.startDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.startDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.startDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <table class="table-condensed">
+        <tr>
+            <th>Task Name</th>
+            <th>Seq</th>
+            <th>Predecessor</th>
+            <th>Days to Complete</th>
+            <th>Shift</th>            
+            <th>Start Date</th>
+            <th>End Date</th>                        
+        </tr>
+        @foreach (var task in Model.GetTasksForContractor())
+        {
+        <tr>
+            <td>@task.MasterScheduleTask.taskName</td>
+            <td>@task.MasterScheduleTask.taskSequence</td>
+            <td>@task.MasterScheduleTask.masterScheduleIdAsPredecessors</td>            
+            <td><div id="daysToComplete_@task.contractorScheduleTaskUid">@task.daysToComplete</div><td>
+                <select id="shift_@task.contractorScheduleTaskUid" class="form-control-shift">
+                    @foreach (var shift in ViewBag.shiftUid)
+                    {
+                        <option value="@shift.shiftUid" "@{
+                        if (shift.shiftUid == task.shiftUid)
+                        {
+                         @:selected
+                                } } ">
+                            @shift.shift1
+                        </option>
+                    }
+                </select>
+            </td>            
+            <td>@Html.TextBox("taskStartDate_" + task.contractorScheduleTaskUid.ToString(), (task.taskStartDate != null ? task.taskStartDate.Value.ToShortDateString() : ""), htmlAttributes: new { @class = "form-control-dates", @id = "taskStartDate_" + task.contractorScheduleTaskUid})</td>
+            <td>@Html.TextBox("taskEndDate_" + task.contractorScheduleTaskUid.ToString(), (task.taskEndDate != null ? task.taskEndDate.Value.ToShortDateString() : ""), htmlAttributes: new { @class = "form-control-dates", @id = "taskEndDate_" + task.contractorScheduleTaskUid})</td>
+            <td></td>            
+        </tr>
+        }
+    </table>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

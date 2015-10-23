@@ -17,14 +17,7 @@
         @foreach (var task in ViewBag.equipmentTasks)
         {
             string chked = "";
-
-            foreach (var toDo in ViewBag.equipmentToDoes)
-            {
-                if (toDo.equipmentUid == item.equipmentUid && toDo.equipmentTaskUid == task.equipmentTaskUid)
-                {
-                    chked = "CHECKED";
-                }
-            }
+            chked = item.isTaskForEquipment(task.equipmentTaskUid);                                                
             <td class="GridTable"><input class="gridCheckBox" type="checkbox" name="@(item.equipmentUid)_@(task.equipmentTaskUid)" @chked /> </td>
         }
         <td class="GridTable">

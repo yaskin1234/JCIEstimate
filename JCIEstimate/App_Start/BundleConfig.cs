@@ -12,7 +12,8 @@ namespace IdentitySample
 
             bundles.Add(new ScriptBundle("~/bundles/JCIEstimate").Include(
             "~/Scripts/JCIEstimate.js",
-            "~/Scripts/jquery.labelify.js",            
+            "~/Scripts/jquery-ui-1.11.4.min.js",
+            "~/Scripts/jquery.labelify.js",
             "~/Scripts/jquery.floatThead.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -29,7 +30,8 @@ namespace IdentitySample
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Context/jquery-ui.css"));
             bundles.Add(new StyleBundle("~/Context/JCIEstimate.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
