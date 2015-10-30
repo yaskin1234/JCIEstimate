@@ -44,33 +44,7 @@ namespace JCIExtensions
             context.SaveChanges();
         }
 
-        public static void InsertOrUpdate(DbContext context, ProjectMilestone entity)
-        {
-            if (entity.projectMilestoneUid == Guid.Empty)
-            {
-                context.Entry(entity).State = EntityState.Added;
-                entity.projectMilestoneUid = Guid.NewGuid();
-            }
-            else
-            {
-                context.Entry(entity).State = EntityState.Modified;
-            }
-            context.SaveChanges();
-        }
-
-        public static void InsertOrUpdate(DbContext context, ProjectMilestoneAction entity)
-        {
-            if (entity.projectMilestoneActionUid == Guid.Empty)
-            {
-                context.Entry(entity).State = EntityState.Added;
-                entity.projectMilestoneActionUid = Guid.NewGuid();
-            }
-            else
-            {
-                context.Entry(entity).State = EntityState.Modified;
-            }
-            context.SaveChanges();
-        }
+        
         public static void sendMail(string message, string subject, string fromAddress, string toAddress)
         {
             SmtpClient sClient = new SmtpClient("localhost");

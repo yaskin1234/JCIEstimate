@@ -1,0 +1,42 @@
+﻿@model JCIEstimate.Models.SalesOpportunityTask
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SalesOpportunityTask</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SalesOpportunityTask1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalesOpportunityTask1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.week)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.week)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SalesOpportunity.aspNetUserUid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalesOpportunity.aspNetUserUid)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.salesOpportunityTaskUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

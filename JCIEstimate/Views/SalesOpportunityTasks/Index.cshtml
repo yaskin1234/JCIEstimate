@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JCIEstimate.Models.SalesOpportunityTask>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SalesOpportunityTask1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.week)
+        </th>
+        <th>
+            @Html.DisplayName("Sales Opportunity")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalesOpportunityTask1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.week)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalesOpportunity.AspNetUser.Email) - @Html.DisplayFor(modelItem => item.SalesOpportunity.Opportunity.opportunity1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.salesOpportunityTaskUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.salesOpportunityTaskUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.salesOpportunityTaskUid })
+        </td>
+    </tr>
+}
+
+</table>

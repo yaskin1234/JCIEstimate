@@ -18,7 +18,7 @@ namespace JCIEstimate.Controllers
         // GET: Milestones
         public async Task<ActionResult> Index()
         {
-            return View(await db.Milestones.OrderBy(d=>d.defaultListOrder).ToListAsync());
+            return View(await db.Milestones.OrderBy(c=>c.defaultListOrder).ToListAsync());
         }
 
         // GET: Milestones/Details/5

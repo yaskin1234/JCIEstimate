@@ -366,7 +366,12 @@ namespace JCIEstimate.Controllers
                             EquipmentAttachment ea = new EquipmentAttachment();
                             int fileSize = file.ContentLength;
                             MemoryStream target = new MemoryStream();
-                            file.InputStream.CopyTo(target);
+                            Image newBM = ResizeImage(file);
+                            if (newBM.Height < newBM.Width)
+                            {
+                                newBM.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                            }
+                            newBM.Save(target, ImageFormat.Jpeg);                            
                             byte[] data = target.ToArray();
                             ea.attachment = data;
                             ea.fileType = Path.GetExtension(file.FileName);
@@ -430,6 +435,10 @@ namespace JCIEstimate.Controllers
                         if (IsValidImage(file.InputStream))
                         {
                             Image newBM = ResizeImage(file);
+                            if (newBM.Height < newBM.Width)
+                            {
+                                newBM.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                            }
                             newBM.Save(target, ImageFormat.Jpeg);
                             long fileSize = target.Length;
                             byte[] data = target.ToArray();
@@ -826,6 +835,10 @@ namespace JCIEstimate.Controllers
                                 using (MemoryStream tempstream = new MemoryStream())
                                 {
                                     Image userImage = byteArrayToImage(userPicture.attachment);
+                                    if (userImage.Height < userImage.Width)
+                                    {
+                                        userImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                                    }
                                     userImage.Save(tempstream, ImageFormat.Jpeg);
                                     tempstream.Seek(0, SeekOrigin.Begin);
                                     byte[] imageData = new byte[tempstream.Length];
@@ -862,6 +875,10 @@ namespace JCIEstimate.Controllers
                                 using (MemoryStream tempstream = new MemoryStream())
                                 {
                                     Image userImage = byteArrayToImage(userPicture.attachment);
+                                    if (userImage.Height < userImage.Width)
+                                    {
+                                        userImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                                    }
                                     userImage.Save(tempstream, ImageFormat.Jpeg);
                                     tempstream.Seek(0, SeekOrigin.Begin);
                                     byte[] imageData = new byte[tempstream.Length];
@@ -898,6 +915,10 @@ namespace JCIEstimate.Controllers
                                 using (MemoryStream tempstream = new MemoryStream())
                                 {
                                     Image userImage = byteArrayToImage(userPicture.attachment);
+                                    if (userImage.Height < userImage.Width)
+                                    {
+                                        userImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                                    }
                                     userImage.Save(tempstream, ImageFormat.Jpeg);
                                     tempstream.Seek(0, SeekOrigin.Begin);
                                     byte[] imageData = new byte[tempstream.Length];

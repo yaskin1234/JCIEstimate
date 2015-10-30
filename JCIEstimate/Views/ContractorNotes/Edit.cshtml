@@ -53,7 +53,26 @@
             </div>
         </div>
 
-        <div class="form-group">
+        
+        @if (Model.ContractorNoteStatu.behaviorIndicator == "D") 
+        { 
+            <div class="form-group">
+                @Html.LabelFor(model => model.denialReason, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (!User.IsInRole("Admin"))
+                    {
+                        @Html.DisplayFor(model => model.denialReason, new { htmlAttributes = new { @class = "form-control" } })
+                    }
+                    else
+                    {
+                        @Html.TextAreaFor(model => model.denialReason, 5, 40, new { htmlAttributes = new { @class = "form-control" } })
+                    }                        
+                    @Html.ValidationMessageFor(model => model.denialReason, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+            
+        <div class="form-group" >
             @Html.LabelFor(model => model.contractorNote1, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.contractorNote1, 5, 40, new { htmlAttributes = new { @class = "form-control" } })
@@ -64,11 +83,16 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" name="submit" value="Save" class="btn btn-default" />
-                <input type="submit" name="submit" value="Submit" class="btn btn-default" />
+                @if (!User.IsInRole("Admin"))
+                {
+                    <input type="submit" name="submit" value="Submit" class="btn btn-default" />
+                }
+                
                 @if (User.IsInRole("Admin"))
                 {
                     <input type="submit" name="submit" value="Reopen" class="btn btn-default" />
                     <input type="submit" name="submit" value="Denied" class="btn btn-default" />
+                    <input type="submit" name="submit" value="Approved" class="btn btn-default" />
                 }
                 
             </div>

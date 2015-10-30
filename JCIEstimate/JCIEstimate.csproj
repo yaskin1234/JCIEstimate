@@ -1637,28 +1637,7 @@
     <Content Include="Views\EstimateInclusionResponses\Details.cshtml" />
     <Content Include="Views\EstimateInclusionResponses\Edit.cshtml" />
     <Content Include="Views\EstimateInclusionResponses\Index.cshtml" />
-    <Content Include="Views\Milestones\Create.cshtml" />
-    <Content Include="Views\Milestones\Delete.cshtml" />
-    <Content Include="Views\Milestones\Details.cshtml" />
-    <Content Include="Views\Milestones\Edit.cshtml" />
-    <Content Include="Views\Milestones\Index.cshtml" />
-    <Content Include="Views\MilestoneActions\Create.cshtml" />
-    <Content Include="Views\MilestoneActions\Delete.cshtml" />
-    <Content Include="Views\MilestoneActions\Details.cshtml" />
-    <Content Include="Views\MilestoneActions\Edit.cshtml" />
-    <Content Include="Views\MilestoneActions\Index.cshtml" />
-    <Content Include="Views\ProjectMilestones\Create.cshtml" />
-    <Content Include="Views\ProjectMilestones\Delete.cshtml" />
-    <Content Include="Views\ProjectMilestones\Details.cshtml" />
-    <Content Include="Views\ProjectMilestones\Edit.cshtml" />
-    <Content Include="Views\ProjectMilestones\Index.cshtml" />
-    <Content Include="Views\ProjectMilestoneActions\Create.cshtml" />
-    <Content Include="Views\ProjectMilestoneActions\Delete.cshtml" />
-    <Content Include="Views\ProjectMilestoneActions\Details.cshtml" />
-    <Content Include="Views\ProjectMilestoneActions\Edit.cshtml" />
-    <Content Include="Views\ProjectMilestoneActions\Index.cshtml" />
     <Content Include="Views\Reports\rptProjectMilestoneActions.cshtml" />
-    <Content Include="Views\ProjectMilestoneActions\View_Grid.cshtml" />
     <Content Include="Views\ProjectUsers\Create.cshtml" />
     <Content Include="Views\ProjectUsers\Delete.cshtml" />
     <Content Include="Views\ProjectUsers\Details.cshtml" />
@@ -2048,6 +2027,31 @@
     <Content Include="Views\MasterScheduleTasks\Edit.cshtml" />
     <Content Include="Views\MasterScheduleTasks\Index.cshtml" />
     <Content Include="Views\ContractorSchedules\SaveTask.cshtml" />
+    <Content Include="Views\Milestones\Create.cshtml" />
+    <Content Include="Views\Milestones\Delete.cshtml" />
+    <Content Include="Views\Milestones\Details.cshtml" />
+    <Content Include="Views\Milestones\Edit.cshtml" />
+    <Content Include="Views\Milestones\Index.cshtml" />
+    <Content Include="Views\Opportunities\Create.cshtml" />
+    <Content Include="Views\Opportunities\Delete.cshtml" />
+    <Content Include="Views\Opportunities\Details.cshtml" />
+    <Content Include="Views\Opportunities\Edit.cshtml" />
+    <Content Include="Views\Opportunities\Index.cshtml" />
+    <Content Include="Views\SalesOpportunityMilestones\Create.cshtml" />
+    <Content Include="Views\SalesOpportunityMilestones\Delete.cshtml" />
+    <Content Include="Views\SalesOpportunityMilestones\Details.cshtml" />
+    <Content Include="Views\SalesOpportunityMilestones\Edit.cshtml" />
+    <Content Include="Views\SalesOpportunityMilestones\Index.cshtml" />
+    <Content Include="Views\SalesOpportunityTasks\Create.cshtml" />
+    <Content Include="Views\SalesOpportunityTasks\Delete.cshtml" />
+    <Content Include="Views\SalesOpportunityTasks\Details.cshtml" />
+    <Content Include="Views\SalesOpportunityTasks\Edit.cshtml" />
+    <Content Include="Views\SalesOpportunityTasks\Index.cshtml" />
+    <Content Include="Views\SalesOpportunities\Create.cshtml" />
+    <Content Include="Views\SalesOpportunities\Delete.cshtml" />
+    <Content Include="Views\SalesOpportunities\Details.cshtml" />
+    <Content Include="Views\SalesOpportunities\Edit.cshtml" />
+    <Content Include="Views\SalesOpportunities\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2221,16 +2225,14 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MasterSchedulesController.cs" />
     <Compile Include="Controllers\MasterScheduleTasksController.cs" />
-    <Compile Include="Controllers\MilestoneActionsController.cs" />
     <Compile Include="Controllers\MilestonesController.cs" />
+    <Compile Include="Controllers\OpportunitiesController.cs" />
     <Compile Include="Controllers\PECCostsController.cs" />
     <Compile Include="Controllers\PECExpenseTypesController.cs" />
     <Compile Include="Controllers\PECTasksController.cs" />
     <Compile Include="Controllers\ProjectAddendumsController.cs" />
     <Compile Include="Controllers\ProjectAttachmentsController.cs" />
     <Compile Include="Controllers\ProjectManagerAttachmentsController.cs" />
-    <Compile Include="Controllers\ProjectMilestoneActionsController.cs" />
-    <Compile Include="Controllers\ProjectMilestonesController.cs" />
     <Compile Include="Controllers\ProjectRFIsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ProjectToDoesController.cs" />
@@ -2239,6 +2241,9 @@
     <Compile Include="Controllers\RfiStatusController.cs" />
     <Compile Include="Controllers\RfiTypesController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\SalesOpportunitiesController.cs" />
+    <Compile Include="Controllers\SalesOpportunityMilestonesController.cs" />
+    <Compile Include="Controllers\SalesOpportunityTasksController.cs" />
     <Compile Include="Controllers\ScopeOfWorksController.cs" />
     <Compile Include="Controllers\ShiftsController.cs" />
     <Compile Include="Controllers\ToDoStatusController.cs" />
@@ -2258,6 +2263,12 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaim.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogin.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
@@ -2456,10 +2467,10 @@
     <Compile Include="Models\Milestone.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MilestoneAction.cs">
+    <Compile Include="Models\ModelExtensions.cs" />
+    <Compile Include="Models\Opportunity.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelExtensions.cs" />
     <Compile Include="Models\PECCost.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -2487,12 +2498,6 @@
     <Compile Include="Models\ProjectManagerAttachment.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ProjectMilestone.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ProjectMilestoneAction.cs">
-      <DependentUpon>JCIEstimate.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ProjectRFI.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -2509,6 +2514,15 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RfiType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesOpportunity.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesOpportunityMilestone.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesOpportunityTask.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ScopeOfWork.cs">

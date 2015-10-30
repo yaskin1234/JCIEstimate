@@ -12,18 +12,12 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Milestone
+    public partial class AspNetUserLogin
     {
-        public Milestone()
-        {
-            this.SalesOpportunityMilestones = new HashSet<SalesOpportunityMilestone>();
-        }
+        public string LoginProvider { get; set; }
+        public string ProviderKey { get; set; }
+        public string UserId { get; set; }
     
-        public System.Guid milestoneUid { get; set; }
-        public string milestone1 { get; set; }
-        public string milestoneDescription { get; set; }
-        public int defaultListOrder { get; set; }
-    
-        public virtual ICollection<SalesOpportunityMilestone> SalesOpportunityMilestones { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

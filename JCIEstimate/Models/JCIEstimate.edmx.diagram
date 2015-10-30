@@ -44,13 +44,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_estimateExceptionResponse_estimateException" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimateExclusionResponse_estimateExclusion" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimateInclusionResponse_estimateinclusion" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Milestone" Width="1.5" PointX="0.75" PointY="9" />
-        <EntityTypeShape EntityType="JCIEstimateModel.MilestoneAction" Width="1.5" PointX="3" PointY="8.875" />
-        <AssociationConnector Association="JCIEstimateModel.fk_milestoneAction_milestone" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ProjectMilestone" Width="1.5" PointX="18.375" PointY="32.875" />
-        <AssociationConnector Association="JCIEstimateModel.fk_projectMilestone_project" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ProjectMilestoneAction" Width="1.5" PointX="20.625" PointY="32.625" />
-        <AssociationConnector Association="JCIEstimateModel.fk_projectMilestoneAction_projectMilestone" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyStatu" Width="1.5" PointX="5.375" PointY="0.875" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyNote" Width="1.5" PointX="10.25" PointY="14.125" />
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_Notecreated" />
@@ -219,6 +212,20 @@
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorScheduleTask_ContractorSchedule" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorScheduleTask_MasterScheduleTask" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorScheduleTask_Shift" />
+        <EntityTypeShape EntityType="JCIEstimateModel.SalesOpportunityTask" Width="1.5" PointX="18.75" PointY="57.875" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Milestone" Width="1.5" PointX="15.375" PointY="12.875" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Opportunity" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.SalesOpportunityMilestone" Width="1.5" PointX="19.125" PointY="33" />
+        <AssociationConnector Association="JCIEstimateModel.fk_SalesOpportunityMilestone_Milestone" />
+        <EntityTypeShape EntityType="JCIEstimateModel.SalesOpportunity" Width="1.5" PointX="16.5" PointY="0.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_SalesOpportunity_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_SalesOpportunity_Opportunity" />
+        <AssociationConnector Association="JCIEstimateModel.fk_SalesOpportunityMilestone_salesOpportunity" />
+        <AssociationConnector Association="JCIEstimateModel.fk_SalesOpportunityTask_salesOpportunity" />
+        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUserClaim" Width="1.5" PointX="16.5" PointY="33.875" />
+        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUserLogin" Width="1.5" PointX="16.5" PointY="55.5" />
+        <AssociationConnector Association="JCIEstimateModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

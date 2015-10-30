@@ -1,0 +1,95 @@
+﻿@model JCIEstimate.Models.SalesOpportunity
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>SalesOpportunity</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.salesOpportunityUid)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.aspNetUserUid, "aspNetUserUid", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("aspNetUserUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.aspNetUserUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.opportunityUid, "opportunityUid", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("opportunityUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.opportunityUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<h4>Milestones</h4>
+<table class="table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayName("is Completed")
+        </th>
+        <th>
+            @Html.DisplayName("Milestone")
+        </th>
+    </tr>
+
+    @foreach (var vitem in Model.SalesOpportunityMilestones)
+    {
+        <tr>
+            <td>
+                @Html.CheckBox("Is Completed", vitem.isCompleted);
+            </td>
+            <td>
+                @vitem.Milestone.milestone1
+            </td>
+        </tr>
+    }
+</table>
+<h4>Weekly Tasks</h4>
+<table class="table-condensed">
+    <tr>
+        <th>
+            Week
+        </th>
+        <th>
+            Task
+        </th>
+    </tr>
+    @foreach (var citem in Model.SalesOpportunityTasks)
+    {
+        <tr>
+            <td>
+                @citem.week
+            </td>
+            <td>
+                @citem.SalesOpportunityTask1
+            </td>
+        </tr>
+    }
+</table>
+
+
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

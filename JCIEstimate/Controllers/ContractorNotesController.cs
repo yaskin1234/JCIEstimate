@@ -16,10 +16,23 @@ namespace JCIEstimate.Controllers
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
         // GET: ContractorNotes
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string filterId)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-            IQueryable<ContractorNote> contractorNotes;            
+            IQueryable<ContractorNote> contractorNotes;
+            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
+
+
+            if (filterId == null)
+            {
+                if (Session["notesFilterId"] != null)
+                {
+                    filterId = Session["notesFilterId"].ToString();
+                }
+            }
+
+            aryFo = buildFilterDropDown(filterId, db.ContractorNotes.Where(c => c.projectUid == sessionProject));
+
             if (User.IsInRole("Admin"))
             {
                 contractorNotes = from cc in db.ContractorNotes                            
@@ -39,8 +52,89 @@ namespace JCIEstimate.Controllers
                                   select cc;
             }
 
-            contractorNotes = contractorNotes.Include(c => c.Contractor).Include(c => c.ContractorNoteType).Include(c => c.Project);
+            ViewBag.filterList = aryFo.ToList();
+            contractorNotes = applyFilter(filterId, contractorNotes);
+            contractorNotes = contractorNotes.OrderBy(c=>c.Contractor.contractorName).ThenBy(c => c.ContractorNoteType.contractorNoteType1).Include(c => c.Contractor).Include(c => c.ContractorNoteType).Include(c => c.Project);
             return View(await contractorNotes.ToListAsync());
+        }
+
+        private List<FilterOptionModel> buildFilterDropDown(string filterId, IQueryable<ContractorNote> contractorNotes)
+        {
+            //Build Drop down filter based on existing defined equipment
+            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
+            string[] filterPart = null;
+            string type = "";
+            string uid = Guid.Empty.ToString();
+
+            if (!String.IsNullOrEmpty(filterId))
+            {
+                filterPart = filterId.Split('|');
+                type = filterPart[0];
+                uid = filterPart[1];
+            }
+
+            FilterOptionModel wf = new FilterOptionModel();
+            wf.text = "-- Choose --";
+            wf.value = "X|" + Guid.Empty.ToString();
+            wf.selected = (wf.value == filterId || String.IsNullOrEmpty(filterId));
+            aryFo.Add(wf);
+
+            wf = new FilterOptionModel();
+            wf.text = "All";
+            wf.value = "A|" + Guid.Empty.ToString().Substring(0, 35) + "1";
+            wf.selected = (wf.value == filterId);
+            aryFo.Add(wf);
+
+
+            IQueryable<ContractorNote> results = contractorNotes.GroupBy(c => c.contractorUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results.OrderBy(c => c.Contractor.contractorName))
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.Contractor.contractorName;
+                wf.value = "C|" + item.contractorUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+
+            results = contractorNotes.GroupBy(c => c.contractorNoteStatusUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results.OrderBy(c => c.ContractorNoteStatu.contractorNoteStatus))
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.ContractorNoteStatu.contractorNoteStatus;
+                wf.value = "S|" + item.contractorNoteStatusUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+            return aryFo;
+        }
+
+        private IQueryable<ContractorNote> applyFilter(string filterId, IQueryable<ContractorNote> contractorNotes)
+        {
+            //apply filter if there is one
+            string[] filterPart = null;
+            string type = "";
+            string uid = Guid.Empty.ToString();
+            if (!String.IsNullOrEmpty(filterId))
+            {
+                filterPart = filterId.Split('|');
+                type = filterPart[0];
+                uid = filterPart[1];
+
+                if (type == "C")
+                {
+                    contractorNotes = contractorNotes.Where(c => c.contractorUid.ToString() == uid);
+                }
+                else if (type == "S")
+                {
+                    contractorNotes = contractorNotes.Where(c => c.contractorNoteStatusUid.ToString() == uid);
+                }
+                
+            }
+            Session["notesFilterId"] = filterId;
+
+            return contractorNotes;
         }
 
         // GET: ContractorNotes/Details/5
@@ -92,7 +186,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "contractorNoteUid,projectUid,contractorUid,contractorNoteTypeUid,contractorNote1")] ContractorNote contractorNote)
+        public async Task<ActionResult> Create([Bind(Include = "contractorNoteUid,projectUid,contractorUid,contractorNoteTypeUid,contractorNote1,denialReason")] ContractorNote contractorNote)
         {
             if (ModelState.IsValid)
             {
@@ -140,7 +234,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "contractorNoteUid,projectUid,contractorUid,contractorNoteTypeUid, contractorNoteStatusUid,contractorNote1")] ContractorNote contractorNote, string submit)
+        public async Task<ActionResult> Edit([Bind(Include = "contractorNoteUid,projectUid,contractorUid,contractorNoteTypeUid, contractorNoteStatusUid,contractorNote1,denialReason")] ContractorNote contractorNote, string submit)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();            
 
@@ -161,12 +255,22 @@ namespace JCIEstimate.Controllers
                                         select cc;
                     contractorNote.contractorNoteStatusUid = newNoteStatus.FirstOrDefault().contractorNoteStatusUid;
                 }
+                if (submit == "Approved")
+                {
+                    var approvedNoteStatus = from cc in db.ContractorNoteStatus
+                                        where cc.behaviorIndicator == "A"
+                                        select cc;
+                    contractorNote.contractorNoteStatusUid = approvedNoteStatus.FirstOrDefault().contractorNoteStatusUid;
+                }
                 if (submit == "Denied")
                 {
                     var deniedNoteStatus = from cc in db.ContractorNoteStatus
                                         where cc.behaviorIndicator == "D"
                                         select cc;
                     contractorNote.contractorNoteStatusUid = deniedNoteStatus.FirstOrDefault().contractorNoteStatusUid;
+                    db.Entry(contractorNote).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Edit");
                 }
 
                 db.Entry(contractorNote).State = EntityState.Modified;

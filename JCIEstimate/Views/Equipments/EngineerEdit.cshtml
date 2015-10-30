@@ -125,7 +125,7 @@
             @foreach (var attachment in Model.EquipmentAttachments)
             {
                 @attachment.equipmentAttachment1
-                <img height="100px" width="100ox" src="@Url.Action("showImage", "Equipments", new { id = attachment.equipmentAttachmentUid })" alt="test" />
+                <img class="img-zoom" src="@Url.Action("showImage", "Equipments", new { id = attachment.equipmentAttachmentUid })" alt="test" />
             }
             <div>
                 <div class="col-md-10">Add Pictures</div>

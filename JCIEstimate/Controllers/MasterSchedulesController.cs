@@ -41,6 +41,44 @@ namespace JCIEstimate.Controllers
             return View(masterSchedule);
         }
 
+        public async Task<ActionResult> SaveMasterTask(string field, string identifier, string value)
+        {
+            try
+            {
+                Guid id = new Guid(identifier);
+                MasterScheduleTask masterScheduleTask = await db.MasterScheduleTasks.FindAsync(id);
+
+                if (masterScheduleTask == null)
+                {
+                    return HttpNotFound();
+                }
+
+                if (field == "taskSequence")
+                {
+                    masterScheduleTask.taskSequence = Convert.ToInt16(value);
+                }
+                else if (field == "taskName")
+                {
+                    masterScheduleTask.taskName = value;
+                }
+                else if (field == "masterScheduleIdAsPredecessors")
+                {
+                    masterScheduleTask.masterScheduleIdAsPredecessors = value;
+                }
+
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+
+
+            return PartialView();
+        }
+
         // GET: MasterSchedules/Create
         public ActionResult Create()
         {

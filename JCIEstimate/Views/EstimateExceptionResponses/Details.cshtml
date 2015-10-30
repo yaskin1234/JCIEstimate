@@ -1,0 +1,50 @@
+﻿@model JCIEstimate.Models.EstimateExceptionResponse
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EstimateExceptionResponse</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateExceptionResponseID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateExceptionResponseID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.estimateExceptionResponse1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.estimateExceptionResponse1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.responseDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.responseDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstimateException.estimateException1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstimateException.estimateException1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.estimateExceptionResponseUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

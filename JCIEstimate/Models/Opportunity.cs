@@ -12,18 +12,19 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Milestone
+    public partial class Opportunity
     {
-        public Milestone()
+        public Opportunity()
         {
-            this.SalesOpportunityMilestones = new HashSet<SalesOpportunityMilestone>();
+            this.SalesOpportunities = new HashSet<SalesOpportunity>();
         }
     
-        public System.Guid milestoneUid { get; set; }
-        public string milestone1 { get; set; }
-        public string milestoneDescription { get; set; }
-        public int defaultListOrder { get; set; }
+        public System.Guid opportunityUid { get; set; }
+        public string opportunity1 { get; set; }
+        public string opportunityDescription { get; set; }
+        public Nullable<System.DateTime> startDate { get; set; }
+        public Nullable<int> projectedProjectSize { get; set; }
     
-        public virtual ICollection<SalesOpportunityMilestone> SalesOpportunityMilestones { get; set; }
+        public virtual ICollection<SalesOpportunity> SalesOpportunities { get; set; }
     }
 }

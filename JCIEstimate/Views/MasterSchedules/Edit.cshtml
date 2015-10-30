@@ -81,13 +81,13 @@
             counter += 1;
             <tr>
                 <td>
-                    @task.taskSequence
+                    <input type="text" class="editMasterTask" id="taskSequence_@task.masterScheduleTaskUid" name="taskSequence_@task.masterScheduleTaskUid" value="@task.taskSequence" />
                 </td>
                 <td>
-                    @task.taskName
+                    <input type="text" class="editMasterTask" id="taskName_@task.masterScheduleTaskUid" name="taskName_@task.masterScheduleTaskUid" value="@task.taskName" />
                 </td>
                 <td>
-                    <input type="text" name="@task.masterScheduleTaskUid" value="@task.masterScheduleIdAsPredecessors" />
+                    <input type="text" class="editMasterTask" id="masterScheduleIdAsPredecessors_@task.masterScheduleTaskUid" name="masterScheduleIdAsPredecessors_@task.masterScheduleTaskUid" value="@task.masterScheduleIdAsPredecessors" />
                 </td>
                 <td>
                     <a href="@Url.Action("Delete", "MasterScheduleTasks", new { id = task.masterScheduleTaskUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>

@@ -888,95 +888,6 @@ namespace JCIEstimate.Models
 
 
     /// <summary>
-    /// MilestoneAction
-    /// </summary>
-    [MetadataType(typeof(MilestoneActionMetaData))]
-    public partial class MilestoneAction
-    {
-    }
-
-    public class MilestoneActionMetaData
-    {
-        [Display(Name = "Milestone Action")]
-        public System.Guid milestoneActionUid { get; set; }
-        [Display(Name = "Milestone")]
-        public System.Guid milestoneUid { get; set; }
-        [Display(Name = "Milestone Action")]
-        public string milestoneAction1 { get; set; }
-        [Display(Name = "Milestone Action Description")]
-        public string milestoneActionDescription { get; set; }
-        [Display(Name = "Default List Order")]
-        public int defaultListOrder { get; set; }
-        [Display(Name = "Rolls Up")]
-        public bool isRollingUp { get; set; }
-    }
-
-
-    /// <summary>
-    /// ProjectMilestone
-    /// </summary>
-    [MetadataType(typeof(ProjectMilestoneMetaData))]
-    public partial class ProjectMilestone
-    {
-    }
-
-    public class ProjectMilestoneMetaData
-    {
-        [Display(Name = "Project Milestone")]
-        public System.Guid projectMilestoneUid { get; set; }
-        [Display(Name = "Project")]
-        public System.Guid projectUid { get; set; }
-        [Display(Name = "Project Milestone")]
-        public string projectMilestone1 { get; set; }
-        [Display(Name = "Project Milestone Description")]
-        public string projectMilestoneDescription { get; set; }
-        [Display(Name = "List Order")]
-        public int listOrder { get; set; }
-    }
-
-
-    /// <summary>
-    /// ProjectMilestoneAction
-    /// </summary>
-    [MetadataType(typeof(ProjectMilestoneActionMetaData))]
-    public partial class ProjectMilestoneAction
-    {
-    }
-
-    public class ProjectMilestoneActionMetaData
-    {
-        [Display(Name = "Project Milestone Action")]
-        public System.Guid projectMilestoneActionUid { get; set; }
-        [Display(Name = "Project Milestone")]
-        public System.Guid projectMilestoneUid { get; set; }        
-        [Display(Name = "Project Milestone Action")]
-        [DataType(DataType.MultilineText)]
-        public string projectMilestoneAction1 { get; set; }
-        [Display(Name = "Project Milestone Action Description")]
-        public string projectMilestoneActionDescription { get; set; }
-        [DataType(DataType.Date)]       
-        [Display(Name = "Planned Start Date")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public Nullable<System.DateTime> plannedStartDate { get; set; }
-        [DataType(DataType.Date)]       
-        [Display(Name = "Actual Start Date")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public Nullable<System.DateTime> actualStartDate { get; set; }
-        [Display(Name = "Duration (days)")]
-        public int duration { get; set; }
-        [DataType(DataType.Date)]       
-        [Display(Name = "Actual End Date")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public Nullable<System.DateTime> endDate { get; set; }
-        [Display(Name = "List Order")]
-        public int listOrder { get; set; }
-        [Display(Name = "Assigned To")]
-        public string assignedTo { get; set; }
-        [Display(Name = "Rolls Up")]
-        public bool isRollingUp { get; set; }
-    }
-
-    /// <summary>
     /// WarrantyStatus
     /// </summary>
     [MetadataType(typeof(WarrantyStatusMetaData))]
@@ -1593,6 +1504,8 @@ namespace JCIEstimate.Models
         public System.Guid contractorNoteStatusUid { get; set; }
         [Display(Name = "Note")]
         public string contractorNote1 { get; set; }
+        [Display(Name = "Denial Reason")]
+        public string denialReason { get; set; }
     }
 
     /// <summary>
@@ -1620,6 +1533,29 @@ namespace JCIEstimate.Models
         public string description { get; set; }
     }
 
+
+    /// <summary>
+    /// ContractorSchedule
+    /// </summary>
+    [MetadataType(typeof(ContractorScheduleMetaData))]
+    public partial class ContractorSchedule
+    {
+
+    }
+
+    public class ContractorScheduleMetaData
+    {
+        [Display(Name = "Contractor Schedule")]
+        public System.Guid contractorScheduleUid { get; set; }
+        [Display(Name = "Master Schedule")]
+        public System.Guid masterScheduleUid { get; set; }
+        [Display(Name = "Contractor")]
+        public System.Guid contractorUid { get; set; }
+        [Display(Name = "Start Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> startDate { get; set; }
+    }
+
     
     /// <summary>
     /// MasterSchedule
@@ -1642,10 +1578,10 @@ namespace JCIEstimate.Models
         public Nullable<System.Guid> shiftUid { get; set; }
         [Display(Name = "Days To Complete")]
         public Nullable<int> daysToComplete { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Task Start Date")]
         public Nullable<System.DateTime> taskStartDate { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Task End Date")]
         public Nullable<System.DateTime> taskEndDate { get; set; }
     }

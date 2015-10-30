@@ -20,6 +20,7 @@ namespace JCIEstimate.Models
         public System.Guid contractorNoteTypeUid { get; set; }
         public System.Guid contractorNoteStatusUid { get; set; }
         public string contractorNote1 { get; set; }
+        public string denialReason { get; set; }
     
         public virtual Contractor Contractor { get; set; }
         public virtual ContractorNoteStatu ContractorNoteStatu { get; set; }

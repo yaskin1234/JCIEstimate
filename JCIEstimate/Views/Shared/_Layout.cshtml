@@ -37,8 +37,6 @@
                             <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
                             <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
                             <li>@Html.ActionLink("Misc Expenses", "Index", "ExpenseMiscellaneous")</li>
-                            <li>@Html.ActionLink("Milestones", "Index", "Milestones")</li>
-                            <li>@Html.ActionLink("Milestone Actions", "Index", "MilestoneActions")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
                             <li>@Html.ActionLink("Estimate Option", "Index", "EstimateOptions")</li>
@@ -86,6 +84,7 @@
                                 <li>@Html.ActionLink("Project Addendums", "Index", "ProjectAddendums")</li>
                                 <li class="divider"></li>                                
                                 <li>@Html.ActionLink("Master Schedules", "Index", "MasterSchedules")</li>                                              
+                                
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Construction Expenses", "Index", "ExpenseConstructions")</li>
                                 <li>@Html.ActionLink("Construction Expense Draws", "Index", "ExpenseConstructionDraws")</li>
@@ -105,18 +104,28 @@
                         </li>
                     }                          
                     
-                    @*@if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Sales") ) && Session["projectUid"] != null)
+                    @if (Request.IsAuthenticated && User.IsInRole("Sales") && Session["projectUid"] != null)
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sales</a>
                             <ul class="dropdown-menu">                                
-                                <li>@Html.ActionLink("Project Milestones", "Index", "ProjectMilestones")</li>
-                                <li>@Html.ActionLink("Project Milestone Actions", "Index", "ProjectMilestoneActions")</li>
-                                <li class="divider"></li>                                
-                                <li>@Html.ActionLink("Report -- Milestone Actions", "GetProjectMilestoneActions", "Reports")</li>
+                                @*<li>@Html.ActionLink("Sales Opportunities", "Index", "SalesOpportunities")</li>*@
                             </ul>
                         </li>
-                    }*@
+                    }
+                    @if (Request.IsAuthenticated && (User.IsInRole("Admin") && Session["projectUid"] != null))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sales</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Milestones", "Index", "Milestones")</li>
+                                <li>@Html.ActionLink("Opportunities", "Index", "Opportunities")</li>                                
+                                <li>@Html.ActionLink("Sales Opportunities", "Index", "SalesOpportunities")</li>
+                                <li>@Html.ActionLink("Sales Opportunity Milestones", "Index", "SalesOpportunityMilestones")</li>
+                                <li>@Html.ActionLink("Sales Opportunity Tasks", "Index", "SalesOpportunityTasks")</li>
+                            </ul>
+                        </li>
+                    }
 
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
                     {
@@ -161,7 +170,7 @@
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Equipment", "Index", "Equipments")</li>                            
                                 <li>@Html.ActionLink("Contractor Draw", "Index", "ContractorDraws")</li>                 
-                                @*<li>@Html.ActionLink("Contractor Schedules", "Index", "ContractorSchedules")</li>*@    
+                                <li>@Html.ActionLink("Contractor Schedules", "Index", "ContractorSchedules")</li>
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                
                                 <li>@Html.ActionLink("Report -- New Equipment", "GetEquipmentForECMToPurchase", "Reports")</li>
@@ -204,7 +213,7 @@
                                 <li><a href="/ContractorSignoffs/Index">View signed proposals</a></li>
                             </ul>
                         </li>
-                    }
+                    }                    
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
                     {
                         <li class="dropdown">

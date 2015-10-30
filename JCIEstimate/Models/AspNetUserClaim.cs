@@ -12,15 +12,13 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MilestoneAction
+    public partial class AspNetUserClaim
     {
-        public System.Guid milestoneActionUid { get; set; }
-        public System.Guid milestoneUid { get; set; }
-        public string milestoneAction1 { get; set; }
-        public string milestoneActionDescription { get; set; }
-        public int defaultListOrder { get; set; }
-        public bool isRollingUp { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
     
-        public virtual Milestone Milestone { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

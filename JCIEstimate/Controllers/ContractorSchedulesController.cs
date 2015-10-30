@@ -107,7 +107,8 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", contractorSchedule.contractorUid);
+            
+            ViewBag.contractorUid = new SelectList(db.Contractors.OrderBy(c=>c.contractorName), "contractorUid", "contractorName", contractorSchedule.contractorUid);
             ViewBag.masterScheduleUid = new SelectList(db.MasterSchedules.Where(c => c.projectUid == sessionProject), "masterScheduleUid", "masterSchedule1", contractorSchedule.masterScheduleUid);
             ViewBag.shiftUid = db.Shifts.OrderBy(c=>c.shift1);
             return View(contractorSchedule);
@@ -169,6 +170,8 @@ namespace JCIEstimate.Controllers
             
             return PartialView();
         }
+
+        
 
 
 

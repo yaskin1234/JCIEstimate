@@ -80,11 +80,19 @@
         
         <div class="form-group">
             <div>Existing Pictures</div>
-            @foreach (var attachment in Model.EquipmentAttachments)
-            {
-                @attachment.equipmentAttachment1
-                <img height="100px" width="100ox" src="@Url.Action("showImage", "Equipments", new { id = attachment.equipmentAttachmentUid })" alt="test" />
-            }
+            <table class="table-condensed">
+
+                @foreach (var attachment in Model.EquipmentAttachments)
+                {
+                    <tr>
+                        <td>
+                            @attachment.equipmentAttachment1
+                            <img class="img-zoom" src="@Url.Action("showImage", "Equipments", new { id = attachment.equipmentAttachmentUid })" alt="test" />
+                        </td>
+                    </tr>
+                    
+                }                
+            </table>
             <div>
                 <div class="col-md-10">Add Pictures</div>
                 <input type="file" name="pics" multiple class="btn btn-default" />                

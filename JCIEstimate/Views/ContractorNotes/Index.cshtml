@@ -11,6 +11,13 @@
    @Html.ActionLink("Create New", "Create")
 </p>
 
+<select class="contractorNoteFilter" id="contractorNoteFilter" name="contractorNoteFilter">
+    @foreach (var item in ViewBag.filterList)
+    {
+        <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>
+    }
+</select>
+
 <input type="button" name="btnExportContractorNotes" id="btnExportContractorNotes" value="Export to excel" class="btn btn-default" />
 
 <div id="dvData">
@@ -39,7 +46,7 @@
         {
             <tr>
                 <td>
-                    @if (item.ContractorNoteStatu.behaviorIndicator != "S" || User.IsInRole("Admin"))
+                    @if ((item.ContractorNoteStatu.behaviorIndicator != "S" && item.ContractorNoteStatu.behaviorIndicator != "A") || User.IsInRole("Admin"))
                     {
                         @Html.ActionLink("Edit", "Edit", new { id = item.contractorNoteUid })
                     }

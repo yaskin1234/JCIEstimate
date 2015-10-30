@@ -32,6 +32,12 @@
         document.location = url + "?filterId=" + escape(selectedValue);
     })
 
+    $(".contractorNoteFilter").change(function () {
+        var selectedValue = $("#contractorNoteFilter").val();
+        var url = "/ContractorNotes/Index";
+        document.location = url + "?filterId=" + escape(selectedValue);
+    })
+
     $("#txtFilter").keyup(function () {
         $val = $("#txtFilter").val();
         if ($val.length + 1 > 2) {
@@ -474,6 +480,23 @@
         })
     });
 
+    $(".editMasterTask").change(function () {
+        $.ajax({
+            url: "/MasterSchedules/SaveMasterTask",
+            type: "POST",
+            data: {
+                field: $(this).attr("id").split('_')[0],
+                identifier: $(this).attr("id").split('_')[1],
+                value: $(this).val()
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        }).done(function () {
+        })
+    });
+
     $(".form-control-dates").change(function () {
         var id = $(this).attr("id").split('_')[1];
         $.ajax({
@@ -503,6 +526,13 @@
 
     $(".form-control-dates").focus(function () {
         this.select();
+    });
+
+    $('.img-zoom').hover(function () {
+        $(this).addClass('transition');
+
+    }, function () {
+        $(this).removeClass('transition');
     });
 
     //$(function () {
