@@ -53,6 +53,21 @@ namespace JCIEstimate.Controllers
             {
                 milestone.milestoneUid = Guid.NewGuid();
                 db.Milestones.Add(milestone);
+                foreach (var salesOp in db.SalesOpportunities)
+                {
+                    IQueryable<SalesOpportunityMilestone> existingSOPM = from cc in db.SalesOpportunityMilestones
+                                                             where salesOp.salesOpportunityUid == cc.salesOpportunityUid
+                                                             && milestone.milestoneUid == cc.milestoneUid
+                                                             select cc;
+                    if (existingSOPM.Count() == 0)
+                    {
+                        SalesOpportunityMilestone sopm = new SalesOpportunityMilestone();
+                        sopm.salesOpportunityMilestoneUid = Guid.NewGuid();
+                        sopm.milestoneUid = milestone.milestoneUid;
+                        sopm.salesOpportunityUid = salesOp.salesOpportunityUid;
+                        db.SalesOpportunityMilestones.Add(sopm);
+                    }
+                }
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -85,6 +100,21 @@ namespace JCIEstimate.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(milestone).State = EntityState.Modified;
+                foreach (var salesOp in db.SalesOpportunities)
+                {
+                    IQueryable<SalesOpportunityMilestone> existingSOPM = from cc in db.SalesOpportunityMilestones
+                                                                         where salesOp.salesOpportunityUid == cc.salesOpportunityUid
+                                                                         && milestone.milestoneUid == cc.milestoneUid
+                                                                         select cc;
+                    if (existingSOPM.Count() == 0)
+                    {
+                        SalesOpportunityMilestone sopm = new SalesOpportunityMilestone();
+                        sopm.salesOpportunityMilestoneUid = Guid.NewGuid();
+                        sopm.milestoneUid = milestone.milestoneUid;
+                        sopm.salesOpportunityUid = salesOp.salesOpportunityUid;
+                        db.SalesOpportunityMilestones.Add(sopm);
+                    }
+                }
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

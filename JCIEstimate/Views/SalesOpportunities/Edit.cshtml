@@ -5,7 +5,6 @@
 }
 
 <h2>Edit</h2>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -17,79 +16,124 @@
         @Html.HiddenFor(model => model.salesOpportunityUid)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.aspNetUserUid, "aspNetUserUid", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Sales Team", null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("aspNetUserUid", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.aspNetUserUid, "", new { @class = "text-danger" })
+                @Html.DisplayFor(model => model.SalesTeam.salesTeam1, new { htmlAttributes = new { @class = "form-control" } })                                
+                @Html.ValidationMessageFor(model => model.salesTeamUid, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.opportunityUid, "opportunityUid", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Opportunity", null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("opportunityUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DisplayFor(model => model.Opportunity.opportunity1, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.opportunityUid, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
-<h4>Milestones</h4>
-<table class="table-condensed">
-    <tr>
-        <th>
-            @Html.DisplayName("is Completed")
-        </th>
-        <th>
-            @Html.DisplayName("Milestone")
-        </th>
-    </tr>
-
-    @foreach (var vitem in Model.SalesOpportunityMilestones)
-    {
+<div class="form-horizontal">
+    <h4>Milestones</h4>
+    <table class="table-condensed">
         <tr>
-            <td>
-                @Html.CheckBox("Is Completed", vitem.isCompleted);
-            </td>
-            <td>
-                @vitem.Milestone.milestone1
-            </td>
+            <th>
+                @Html.DisplayName("is Completed")
+            </th>
+            <th>
+                @Html.DisplayName("Milestone")
+            </th>
+            <th>
+                @Html.DisplayName("Date Completed")
+            </th>
         </tr>
-    }
-</table>
-<h4>Weekly Tasks</h4>
-<table class="table-condensed">
-    <tr>
-        <th>
-            Week
-        </th>
-        <th>
-            Task
-        </th>
-    </tr>
-    @foreach (var citem in Model.SalesOpportunityTasks)
-    {
+
+
+        @foreach (var vitem in Model.SalesOpportunityMilestones.OrderBy(c => c.Milestone.defaultListOrder))
+        {
+            <tr>
+                <td>
+                    @Html.CheckBox("Is Completed", vitem.isCompleted, new { @id = "isCompleted_" + vitem.salesOpportunityMilestoneUid, @class = "OpportunityMilestones" })
+                </td>
+                <td>
+                    @vitem.Milestone.milestone1
+                </td>
+                <td>
+                    @Html.TextBox("Date Completed", String.Format("{0:MM/dd/yyyy}", vitem.dateCompleted), new { @id = "dateCompleted_" + vitem.salesOpportunityMilestoneUid, @class = "OpportunityMilestonesDate" })
+                </td>
+            </tr>
+        }
+    </table>
+
+
+    <h4>Weekly Tasks</h4>
+    <table class="table">
         <tr>
-            <td>
-                @citem.week
-            </td>
-            <td>
-                @citem.SalesOpportunityTask1
-            </td>
+            <th style="width:30%;">
+                Week
+            </th>
+            <th style="width:70%;">
+                Task
+            </th>
+            <th>
+                Is Completed
+            </th>
+            <th></th>
         </tr>
+        @foreach (var citem in Model.SalesOpportunityTasks.OrderBy(c => c.week))
+        {
+            <tr>
+                <td>
+                    @citem.week
+                </td>
+                <td style="width:600px;">
+                    @Html.TextArea("salesOpportunityTask1", String.Format("{0:d}", citem.SalesOpportunityTask1), new { @class = "form-control", @rows = "5", @cols = "100", @readonly = "readonly" })
+                </td>
+                <td>
+                    @Html.CheckBox("Is Completed", citem.isCompleted, new { @id = "isCompleted_" + citem.salesOpportunityTaskUid, @class = "SalesOpportunityTasks" })
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", "SalesOpportunities", new { id = citem.salesOpportunityTaskUid })
+                </td>
+            </tr>
+        }
+    </table>
+
+    <a id="addNewWeeklyTask">add new weekly task</a>
+    @using (Html.BeginForm("Create", "SalesOpportunityTasks"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.salesOpportunityUid)
+        var newUid = Guid.NewGuid();
+        <table id="newWeeklyTaskTable" style="display:none;" class="table">
+            <tr>
+                <th>
+                    Week(s)
+                </th>
+                <th style="width:100%;">
+                    Task
+                </th>
+            </tr>
+            <tr id="weeklyTaskRow">
+                <td>
+                    @Html.TextBox("week", "", new { @class = "datefield", @type = "date" })
+                </td>
+                <td style="width:100%;">
+                    @Html.TextArea("SalesOpportunityTask1", "", 5, 160, new { })
+                </td>
+
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Add" class="btn btn-default" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
     }
-</table>
 
-
-
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    <div class="form-group">        
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 </div>

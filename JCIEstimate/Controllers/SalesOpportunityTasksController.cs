@@ -21,6 +21,43 @@ namespace JCIEstimate.Controllers
             var salesOpportunityTasks = db.SalesOpportunityTasks.Include(s => s.SalesOpportunity);
             return View(await salesOpportunityTasks.ToListAsync());
         }
+        
+
+        public async Task<ActionResult> SaveIsCompleted(string id, string value)
+        {
+
+            SalesOpportunityTask sot = db.SalesOpportunityTasks.Find(Guid.Parse(id));
+
+            if (value == "true")
+            {
+                sot.isCompleted = true;
+                db.Entry(sot).State = EntityState.Modified;
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+            }
+            else
+            {
+                sot.isCompleted = false;
+                db.Entry(sot).State = EntityState.Modified;
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+            }
+            return View();
+        }
 
         // GET: SalesOpportunityTasks/Details/5
         public async Task<ActionResult> Details(Guid? id)
@@ -56,7 +93,7 @@ namespace JCIEstimate.Controllers
                 salesOpportunityTask.salesOpportunityTaskUid = Guid.NewGuid();
                 db.SalesOpportunityTasks.Add(salesOpportunityTask);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "SalesOpportunities", new { id = salesOpportunityTask.salesOpportunityUid });
             }
 
             ViewBag.salesOpportunityUid = new SelectList(db.SalesOpportunities, "salesOpportunityUid", "aspNetUserUid", salesOpportunityTask.salesOpportunityUid);
@@ -116,10 +153,12 @@ namespace JCIEstimate.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
+            
             SalesOpportunityTask salesOpportunityTask = await db.SalesOpportunityTasks.FindAsync(id);
+            Guid salesOpGuid = salesOpportunityTask.salesOpportunityUid;
             db.SalesOpportunityTasks.Remove(salesOpportunityTask);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Edit", "SalesOpportunities", salesOpGuid);
         }
 
         protected override void Dispose(bool disposing)

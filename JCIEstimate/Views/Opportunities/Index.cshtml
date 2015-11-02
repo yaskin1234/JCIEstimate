@@ -11,6 +11,7 @@
 </p>
 <table class="table">
     <tr>
+        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.opportunity1)
         </th>
@@ -29,6 +30,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.opportunityUid })
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.opportunity1)
         </td>
         <td>
@@ -41,8 +45,6 @@
             @Html.DisplayFor(modelItem => item.projectedProjectSize)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.opportunityUid }) |
-            @Html.ActionLink("Details", "Details", new { id=item.opportunityUid }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.opportunityUid })
         </td>
     </tr>

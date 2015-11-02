@@ -803,7 +803,7 @@
             <PropertyRef Name="salesOpportunityUid" />
           </Key>
           <Property Name="salesOpportunityUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="salesTeamUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="opportunityUid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="SalesOpportunityMilestone">
@@ -814,6 +814,7 @@
           <Property Name="salesOpportunityUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="milestoneUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="isCompleted" Type="bit" Nullable="false" />
+          <Property Name="dateCompleted" Type="date" />
         </EntityType>
         <EntityType Name="SalesOpportunityTask">
           <Key>
@@ -822,7 +823,24 @@
           <Property Name="salesOpportunityTaskUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="salesOpportunityUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SalesOpportunityTask" Type="varchar" MaxLength="2000" Nullable="false" />
-          <Property Name="week" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="week" Type="date" Nullable="false" />
+          <Property Name="isCompleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesTeam">
+          <Key>
+            <PropertyRef Name="salesTeamUid" />
+          </Key>
+          <Property Name="salesTeamUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="salesTeam" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="behaviorIndicator" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesTeamMember">
+          <Key>
+            <PropertyRef Name="salesTeamMemberUid" />
+          </Key>
+          <Property Name="salesTeamMemberUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="salesTeamUid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="ScopeOfWork">
           <Key>
@@ -2399,18 +2417,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_SalesOpportunity_AspNetUser">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="SalesOpportunity" Type="Self.SalesOpportunity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SalesOpportunity">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_SalesOpportunity_Opportunity">
           <End Role="Opportunity" Type="Self.Opportunity" Multiplicity="1" />
           <End Role="SalesOpportunity" Type="Self.SalesOpportunity" Multiplicity="*" />
@@ -2420,6 +2426,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="SalesOpportunity">
               <PropertyRef Name="opportunityUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_SalesOpportunity_SalesTeam">
+          <End Role="SalesTeam" Type="Self.SalesTeam" Multiplicity="1" />
+          <End Role="SalesOpportunity" Type="Self.SalesOpportunity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesTeam">
+              <PropertyRef Name="salesTeamUid" />
+            </Principal>
+            <Dependent Role="SalesOpportunity">
+              <PropertyRef Name="salesTeamUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2456,6 +2474,30 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="SalesOpportunityTask">
               <PropertyRef Name="salesOpportunityUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_SalesTeamMember_SalesTeam">
+          <End Role="SalesTeam" Type="Self.SalesTeam" Multiplicity="1" />
+          <End Role="SalesTeamMember" Type="Self.SalesTeamMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesTeam">
+              <PropertyRef Name="salesTeamUid" />
+            </Principal>
+            <Dependent Role="SalesTeamMember">
+              <PropertyRef Name="salesTeamUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_SalesTeamMemberMember_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="SalesTeamMember" Type="Self.SalesTeamMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesTeamMember">
+              <PropertyRef Name="aspNetUserUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2652,6 +2694,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="SalesOpportunity" EntityType="Self.SalesOpportunity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesOpportunityMilestone" EntityType="Self.SalesOpportunityMilestone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesOpportunityTask" EntityType="Self.SalesOpportunityTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesTeam" EntityType="Self.SalesTeam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesTeamMember" EntityType="Self.SalesTeamMember" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScopeOfWork" EntityType="Self.ScopeOfWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shift" EntityType="Self.Shift" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ToDoStatus" EntityType="Self.ToDoStatus" Schema="dbo" store:Type="Tables" />
@@ -3165,12 +3209,12 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ToDoStatus" EntitySet="ToDoStatus" />
             <End Role="ProjectToDo" EntitySet="ProjectToDo" />
           </AssociationSet>
-          <AssociationSet Name="fk_SalesOpportunity_AspNetUser" Association="Self.fk_SalesOpportunity_AspNetUser">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="SalesOpportunity" EntitySet="SalesOpportunity" />
-          </AssociationSet>
           <AssociationSet Name="fk_SalesOpportunity_Opportunity" Association="Self.fk_SalesOpportunity_Opportunity">
             <End Role="Opportunity" EntitySet="Opportunity" />
+            <End Role="SalesOpportunity" EntitySet="SalesOpportunity" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SalesOpportunity_SalesTeam" Association="Self.fk_SalesOpportunity_SalesTeam">
+            <End Role="SalesTeam" EntitySet="SalesTeam" />
             <End Role="SalesOpportunity" EntitySet="SalesOpportunity" />
           </AssociationSet>
           <AssociationSet Name="fk_SalesOpportunityMilestone_Milestone" Association="Self.fk_SalesOpportunityMilestone_Milestone">
@@ -3184,6 +3228,14 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_SalesOpportunityTask_salesOpportunity" Association="Self.fk_SalesOpportunityTask_salesOpportunity">
             <End Role="SalesOpportunity" EntitySet="SalesOpportunity" />
             <End Role="SalesOpportunityTask" EntitySet="SalesOpportunityTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SalesTeamMember_SalesTeam" Association="Self.fk_SalesTeamMember_SalesTeam">
+            <End Role="SalesTeam" EntitySet="SalesTeam" />
+            <End Role="SalesTeamMember" EntitySet="SalesTeamMember" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SalesTeamMemberMember_AspNetUser" Association="Self.fk_SalesTeamMemberMember_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="SalesTeamMember" EntitySet="SalesTeamMember" />
           </AssociationSet>
           <AssociationSet Name="fk_ScopeOfWork_category" Association="Self.fk_ScopeOfWork_category">
             <End Role="Category" EntitySet="Category" />
@@ -3797,30 +3849,12 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Shift" EntitySet="Shifts" />
             <End Role="ContractorScheduleTask" EntitySet="ContractorScheduleTasks" />
           </AssociationSet>
-          <EntitySet Name="SalesOpportunityTasks" EntityType="JCIEstimateModel.SalesOpportunityTask" />
           <EntitySet Name="Milestones" EntityType="JCIEstimateModel.Milestone" />
           <EntitySet Name="Opportunities" EntityType="JCIEstimateModel.Opportunity" />
           <EntitySet Name="SalesOpportunityMilestones" EntityType="JCIEstimateModel.SalesOpportunityMilestone" />
           <AssociationSet Name="fk_SalesOpportunityMilestone_Milestone" Association="JCIEstimateModel.fk_SalesOpportunityMilestone_Milestone">
             <End Role="Milestone" EntitySet="Milestones" />
             <End Role="SalesOpportunityMilestone" EntitySet="SalesOpportunityMilestones" />
-          </AssociationSet>
-          <EntitySet Name="SalesOpportunities" EntityType="JCIEstimateModel.SalesOpportunity" />
-          <AssociationSet Name="fk_SalesOpportunity_AspNetUser" Association="JCIEstimateModel.fk_SalesOpportunity_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
-          </AssociationSet>
-          <AssociationSet Name="fk_SalesOpportunity_Opportunity" Association="JCIEstimateModel.fk_SalesOpportunity_Opportunity">
-            <End Role="Opportunity" EntitySet="Opportunities" />
-            <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
-          </AssociationSet>
-          <AssociationSet Name="fk_SalesOpportunityMilestone_salesOpportunity" Association="JCIEstimateModel.fk_SalesOpportunityMilestone_salesOpportunity">
-            <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
-            <End Role="SalesOpportunityMilestone" EntitySet="SalesOpportunityMilestones" />
-          </AssociationSet>
-          <AssociationSet Name="fk_SalesOpportunityTask_salesOpportunity" Association="JCIEstimateModel.fk_SalesOpportunityTask_salesOpportunity">
-            <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
-            <End Role="SalesOpportunityTask" EntitySet="SalesOpportunityTasks" />
           </AssociationSet>
           <EntitySet Name="AspNetUserClaims" EntityType="JCIEstimateModel.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="JCIEstimateModel.AspNetUserLogin" />
@@ -3831,6 +3865,34 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <EntitySet Name="SalesOpportunities" EntityType="JCIEstimateModel.SalesOpportunity" />
+          <EntitySet Name="SalesTeams" EntityType="JCIEstimateModel.SalesTeam" />
+          <EntitySet Name="SalesTeamMembers" EntityType="JCIEstimateModel.SalesTeamMember" />
+          <AssociationSet Name="fk_SalesTeamMemberMember_AspNetUser" Association="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="SalesTeamMember" EntitySet="SalesTeamMembers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SalesOpportunity_Opportunity" Association="JCIEstimateModel.fk_SalesOpportunity_Opportunity">
+            <End Role="Opportunity" EntitySet="Opportunities" />
+            <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SalesOpportunity_SalesTeam" Association="JCIEstimateModel.fk_SalesOpportunity_SalesTeam">
+            <End Role="SalesTeam" EntitySet="SalesTeams" />
+            <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SalesOpportunityMilestone_salesOpportunity" Association="JCIEstimateModel.fk_SalesOpportunityMilestone_salesOpportunity">
+            <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
+            <End Role="SalesOpportunityMilestone" EntitySet="SalesOpportunityMilestones" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SalesTeamMember_SalesTeam" Association="JCIEstimateModel.fk_SalesTeamMember_SalesTeam">
+            <End Role="SalesTeam" EntitySet="SalesTeams" />
+            <End Role="SalesTeamMember" EntitySet="SalesTeamMembers" />
+          </AssociationSet>
+          <EntitySet Name="SalesOpportunityTasks" EntityType="JCIEstimateModel.SalesOpportunityTask" />
+          <AssociationSet Name="fk_SalesOpportunityTask_salesOpportunity" Association="JCIEstimateModel.fk_SalesOpportunityTask_salesOpportunity">
+            <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
+            <End Role="SalesOpportunityTask" EntitySet="SalesOpportunityTasks" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
@@ -4002,9 +4064,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorSignoffFinalAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created5" FromRole="AspNetUser" ToRole="ContractorSignoffFinalAttachment" />
           <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_AspNetUserPECCost" FromRole="AspNetUser" ToRole="PECCost" />
           <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="AspNetUser" ToRole="ProjectUser" />
-          <NavigationProperty Name="SalesOpportunities" Relationship="JCIEstimateModel.fk_SalesOpportunity_AspNetUser" FromRole="AspNetUser" ToRole="SalesOpportunity" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="JCIEstimateModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="SalesTeamMembers" Relationship="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser" FromRole="AspNetUser" ToRole="SalesTeamMember" />
           </EntityType>
         <Association Name="fk_AspNetUser">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -6492,16 +6554,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="SalesOpportunityTask">
-          <Key>
-            <PropertyRef Name="salesOpportunityTaskUid" />
-          </Key>
-          <Property Name="salesOpportunityTaskUid" Type="Guid" Nullable="false" />
-          <Property Name="salesOpportunityUid" Type="Guid" Nullable="false" />
-          <Property Name="SalesOpportunityTask1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="week" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="SalesOpportunity" Relationship="JCIEstimateModel.fk_SalesOpportunityTask_salesOpportunity" FromRole="SalesOpportunityTask" ToRole="SalesOpportunity" />
-        </EntityType>
         <EntityType Name="Milestone">
           <Key>
             <PropertyRef Name="milestoneUid" />
@@ -6533,6 +6585,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="isCompleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Milestone" Relationship="JCIEstimateModel.fk_SalesOpportunityMilestone_Milestone" FromRole="SalesOpportunityMilestone" ToRole="Milestone" />
           <NavigationProperty Name="SalesOpportunity" Relationship="JCIEstimateModel.fk_SalesOpportunityMilestone_salesOpportunity" FromRole="SalesOpportunityMilestone" ToRole="SalesOpportunity" />
+          <Property Name="dateCompleted" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="fk_SalesOpportunityMilestone_Milestone">
           <End Type="JCIEstimateModel.Milestone" Role="Milestone" Multiplicity="1" />
@@ -6543,66 +6596,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="SalesOpportunityMilestone">
               <PropertyRef Name="milestoneUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="SalesOpportunity">
-          <Key>
-            <PropertyRef Name="salesOpportunityUid" />
-          </Key>
-          <Property Name="salesOpportunityUid" Type="Guid" Nullable="false" />
-          <Property Name="aspNetUserUid" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="opportunityUid" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_SalesOpportunity_AspNetUser" FromRole="SalesOpportunity" ToRole="AspNetUser" />
-          <NavigationProperty Name="Opportunity" Relationship="JCIEstimateModel.fk_SalesOpportunity_Opportunity" FromRole="SalesOpportunity" ToRole="Opportunity" />
-          <NavigationProperty Name="SalesOpportunityMilestones" Relationship="JCIEstimateModel.fk_SalesOpportunityMilestone_salesOpportunity" FromRole="SalesOpportunity" ToRole="SalesOpportunityMilestone" />
-          <NavigationProperty Name="SalesOpportunityTasks" Relationship="JCIEstimateModel.fk_SalesOpportunityTask_salesOpportunity" FromRole="SalesOpportunity" ToRole="SalesOpportunityTask" />
-        </EntityType>
-        <Association Name="fk_SalesOpportunity_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.SalesOpportunity" Role="SalesOpportunity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SalesOpportunity">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_SalesOpportunity_Opportunity">
-          <End Type="JCIEstimateModel.Opportunity" Role="Opportunity" Multiplicity="1" />
-          <End Type="JCIEstimateModel.SalesOpportunity" Role="SalesOpportunity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Opportunity">
-              <PropertyRef Name="opportunityUid" />
-            </Principal>
-            <Dependent Role="SalesOpportunity">
-              <PropertyRef Name="opportunityUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_SalesOpportunityMilestone_salesOpportunity">
-          <End Type="JCIEstimateModel.SalesOpportunity" Role="SalesOpportunity" Multiplicity="1" />
-          <End Type="JCIEstimateModel.SalesOpportunityMilestone" Role="SalesOpportunityMilestone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesOpportunity">
-              <PropertyRef Name="salesOpportunityUid" />
-            </Principal>
-            <Dependent Role="SalesOpportunityMilestone">
-              <PropertyRef Name="salesOpportunityUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_SalesOpportunityTask_salesOpportunity">
-          <End Type="JCIEstimateModel.SalesOpportunity" Role="SalesOpportunity" Multiplicity="1" />
-          <End Type="JCIEstimateModel.SalesOpportunityTask" Role="SalesOpportunityTask" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesOpportunity">
-              <PropertyRef Name="salesOpportunityUid" />
-            </Principal>
-            <Dependent Role="SalesOpportunityTask">
-              <PropertyRef Name="salesOpportunityUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6652,6 +6645,121 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="AspNetUserLogin">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SalesOpportunity">
+          <Key>
+            <PropertyRef Name="salesOpportunityUid" />
+          </Key>
+          <Property Name="salesOpportunityUid" Type="Guid" Nullable="false" />
+          <Property Name="salesTeamUid" Type="Guid" Nullable="false" />
+          <Property Name="opportunityUid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Opportunity" Relationship="JCIEstimateModel.fk_SalesOpportunity_Opportunity" FromRole="SalesOpportunity" ToRole="Opportunity" />
+          <NavigationProperty Name="SalesTeam" Relationship="JCIEstimateModel.fk_SalesOpportunity_SalesTeam" FromRole="SalesOpportunity" ToRole="SalesTeam" />
+          <NavigationProperty Name="SalesOpportunityMilestones" Relationship="JCIEstimateModel.fk_SalesOpportunityMilestone_salesOpportunity" FromRole="SalesOpportunity" ToRole="SalesOpportunityMilestone" />
+          <NavigationProperty Name="SalesOpportunityTasks" Relationship="JCIEstimateModel.fk_SalesOpportunityTask_salesOpportunity" FromRole="SalesOpportunity" ToRole="SalesOpportunityTask" />
+        </EntityType>
+        <EntityType Name="SalesTeam">
+          <Key>
+            <PropertyRef Name="salesTeamUid" />
+          </Key>
+          <Property Name="salesTeamUid" Type="Guid" Nullable="false" />
+          <Property Name="salesTeam1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SalesOpportunities" Relationship="JCIEstimateModel.fk_SalesOpportunity_SalesTeam" FromRole="SalesTeam" ToRole="SalesOpportunity" />
+          <NavigationProperty Name="SalesTeamMembers" Relationship="JCIEstimateModel.fk_SalesTeamMember_SalesTeam" FromRole="SalesTeam" ToRole="SalesTeamMember" />
+        </EntityType>
+        <EntityType Name="SalesTeamMember">
+          <Key>
+            <PropertyRef Name="salesTeamMemberUid" />
+          </Key>
+          <Property Name="salesTeamMemberUid" Type="Guid" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="salesTeamUid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser" FromRole="SalesTeamMember" ToRole="AspNetUser" />
+          <NavigationProperty Name="SalesTeam" Relationship="JCIEstimateModel.fk_SalesTeamMember_SalesTeam" FromRole="SalesTeamMember" ToRole="SalesTeam" />
+        </EntityType>
+        <Association Name="fk_SalesTeamMemberMember_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.SalesTeamMember" Role="SalesTeamMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesTeamMember">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_SalesOpportunity_Opportunity">
+          <End Type="JCIEstimateModel.Opportunity" Role="Opportunity" Multiplicity="1" />
+          <End Type="JCIEstimateModel.SalesOpportunity" Role="SalesOpportunity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Opportunity">
+              <PropertyRef Name="opportunityUid" />
+            </Principal>
+            <Dependent Role="SalesOpportunity">
+              <PropertyRef Name="opportunityUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_SalesOpportunity_SalesTeam">
+          <End Type="JCIEstimateModel.SalesTeam" Role="SalesTeam" Multiplicity="1" />
+          <End Type="JCIEstimateModel.SalesOpportunity" Role="SalesOpportunity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesTeam">
+              <PropertyRef Name="salesTeamUid" />
+            </Principal>
+            <Dependent Role="SalesOpportunity">
+              <PropertyRef Name="salesTeamUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_SalesOpportunityMilestone_salesOpportunity">
+          <End Type="JCIEstimateModel.SalesOpportunity" Role="SalesOpportunity" Multiplicity="1" />
+          <End Type="JCIEstimateModel.SalesOpportunityMilestone" Role="SalesOpportunityMilestone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesOpportunity">
+              <PropertyRef Name="salesOpportunityUid" />
+            </Principal>
+            <Dependent Role="SalesOpportunityMilestone">
+              <PropertyRef Name="salesOpportunityUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_SalesTeamMember_SalesTeam">
+          <End Type="JCIEstimateModel.SalesTeam" Role="SalesTeam" Multiplicity="1" />
+          <End Type="JCIEstimateModel.SalesTeamMember" Role="SalesTeamMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesTeam">
+              <PropertyRef Name="salesTeamUid" />
+            </Principal>
+            <Dependent Role="SalesTeamMember">
+              <PropertyRef Name="salesTeamUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SalesOpportunityTask">
+          <Key>
+            <PropertyRef Name="salesOpportunityTaskUid" />
+          </Key>
+          <Property Name="salesOpportunityTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="salesOpportunityUid" Type="Guid" Nullable="false" />
+          <Property Name="SalesOpportunityTask1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="week" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="isCompleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="SalesOpportunity" Relationship="JCIEstimateModel.fk_SalesOpportunityTask_salesOpportunity" FromRole="SalesOpportunityTask" ToRole="SalesOpportunity" />
+        </EntityType>
+        <Association Name="fk_SalesOpportunityTask_salesOpportunity">
+          <End Type="JCIEstimateModel.SalesOpportunity" Role="SalesOpportunity" Multiplicity="1" />
+          <End Type="JCIEstimateModel.SalesOpportunityTask" Role="SalesOpportunityTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesOpportunity">
+              <PropertyRef Name="salesOpportunityUid" />
+            </Principal>
+            <Dependent Role="SalesOpportunityTask">
+              <PropertyRef Name="salesOpportunityUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7651,16 +7759,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SalesOpportunityTasks">
-            <EntityTypeMapping TypeName="JCIEstimateModel.SalesOpportunityTask">
-              <MappingFragment StoreEntitySet="SalesOpportunityTask">
-                <ScalarProperty Name="week" ColumnName="week" />
-                <ScalarProperty Name="SalesOpportunityTask1" ColumnName="SalesOpportunityTask" />
-                <ScalarProperty Name="salesOpportunityUid" ColumnName="salesOpportunityUid" />
-                <ScalarProperty Name="salesOpportunityTaskUid" ColumnName="salesOpportunityTaskUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Milestones">
             <EntityTypeMapping TypeName="JCIEstimateModel.Milestone">
               <MappingFragment StoreEntitySet="Milestone">
@@ -7685,19 +7783,11 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="SalesOpportunityMilestones">
             <EntityTypeMapping TypeName="JCIEstimateModel.SalesOpportunityMilestone">
               <MappingFragment StoreEntitySet="SalesOpportunityMilestone">
+                <ScalarProperty Name="dateCompleted" ColumnName="dateCompleted" />
                 <ScalarProperty Name="isCompleted" ColumnName="isCompleted" />
                 <ScalarProperty Name="milestoneUid" ColumnName="milestoneUid" />
                 <ScalarProperty Name="salesOpportunityUid" ColumnName="salesOpportunityUid" />
                 <ScalarProperty Name="salesOpportunityMilestoneUid" ColumnName="salesOpportunityMilestoneUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SalesOpportunities">
-            <EntityTypeMapping TypeName="JCIEstimateModel.SalesOpportunity">
-              <MappingFragment StoreEntitySet="SalesOpportunity">
-                <ScalarProperty Name="opportunityUid" ColumnName="opportunityUid" />
-                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
-                <ScalarProperty Name="salesOpportunityUid" ColumnName="salesOpportunityUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7717,6 +7807,44 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
                 <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesOpportunities">
+            <EntityTypeMapping TypeName="JCIEstimateModel.SalesOpportunity">
+              <MappingFragment StoreEntitySet="SalesOpportunity">
+                <ScalarProperty Name="opportunityUid" ColumnName="opportunityUid" />
+                <ScalarProperty Name="salesTeamUid" ColumnName="salesTeamUid" />
+                <ScalarProperty Name="salesOpportunityUid" ColumnName="salesOpportunityUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesTeams">
+            <EntityTypeMapping TypeName="JCIEstimateModel.SalesTeam">
+              <MappingFragment StoreEntitySet="SalesTeam">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="salesTeam1" ColumnName="salesTeam" />
+                <ScalarProperty Name="salesTeamUid" ColumnName="salesTeamUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesTeamMembers">
+            <EntityTypeMapping TypeName="JCIEstimateModel.SalesTeamMember">
+              <MappingFragment StoreEntitySet="SalesTeamMember">
+                <ScalarProperty Name="salesTeamUid" ColumnName="salesTeamUid" />
+                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
+                <ScalarProperty Name="salesTeamMemberUid" ColumnName="salesTeamMemberUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesOpportunityTasks">
+            <EntityTypeMapping TypeName="JCIEstimateModel.SalesOpportunityTask">
+              <MappingFragment StoreEntitySet="SalesOpportunityTask">
+                <ScalarProperty Name="isCompleted" ColumnName="isCompleted" />
+                <ScalarProperty Name="week" ColumnName="week" />
+                <ScalarProperty Name="SalesOpportunityTask1" ColumnName="SalesOpportunityTask" />
+                <ScalarProperty Name="salesOpportunityUid" ColumnName="salesOpportunityUid" />
+                <ScalarProperty Name="salesOpportunityTaskUid" ColumnName="salesOpportunityTaskUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

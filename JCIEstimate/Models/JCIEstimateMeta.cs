@@ -1586,6 +1586,90 @@ namespace JCIEstimate.Models
         public Nullable<System.DateTime> taskEndDate { get; set; }
     }
 
+    /// <summary>
+    /// SalesOpportunities
+    /// </summary>
+    [MetadataType(typeof(SalesOpportunitiesMetaData))]
+    public partial class SalesOpportunities
+    {
+
+    }
+
+    public class SalesOpportunitiesMetaData
+    {
+        [Display(Name = "Sales Opportunity")]
+        public System.Guid salesOpportunityUid { get; set; }
+        [Display(Name = "Sales Team")]
+        public System.Guid salesTeamUid { get; set; }
+        [Display(Name = "Opportunity")]
+        public System.Guid opportunityUid { get; set; }
+    }
+
+
+    /// <summary>
+    /// Opportunity
+    /// </summary>
+    [MetadataType(typeof(OpportunityMetaData))]
+    public partial class Opportunity
+    {
+
+    }
+
+    public class OpportunityMetaData
+    {
+        [Display(Name = "Opportunity")]
+        public System.Guid opportunityUid { get; set; }
+        [Display(Name = "Opportunity")]
+        public string opportunity1 { get; set; }
+        [Display(Name = "Opportunity Description")]
+        public string opportunityDescription { get; set; }
+        [Display(Name = "Start Date")]
+        public Nullable<System.DateTime> startDate { get; set; }
+        [Display(Name = "Projected Project Cost")]
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        public Nullable<int> projectedProjectSize { get; set; }
+    }
+
+
+    /// <summary>
+    /// SalesTeam
+    /// </summary>
+    [MetadataType(typeof(SalesTeamMetaData))]
+    public partial class SalesTeam
+    {
+
+    }
+
+    public class SalesTeamMetaData
+    {
+        [Display(Name = "Sales Team")]
+        public System.Guid salesTeamUid { get; set; }
+        [Display(Name = "Sales Team")]
+        public string salesTeam1 { get; set; }
+        [Display(Name = "Sales Team ID")]
+        public string behaviorIndicator { get; set; }
+    }
+
+    /// <summary>
+    /// SalesTeamMember
+    /// </summary>
+    [MetadataType(typeof(SalesTeamMemberMetaData))]
+    public partial class SalesTeamMember
+    {
+
+    }
+
+    public class SalesTeamMemberMetaData
+    {
+        [Display(Name = "Sales Team Member")]
+        public System.Guid salesTeamMemberUid { get; set; }
+        [Display(Name = "Sales Team Member")]
+        public string aspNetUserUid { get; set; }
+        [Display(Name = "Sales Team")]
+        public System.Guid salesTeamUid { get; set; }
+    }
+
+
 
     
 

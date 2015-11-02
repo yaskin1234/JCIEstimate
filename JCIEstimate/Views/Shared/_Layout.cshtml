@@ -104,25 +104,30 @@
                         </li>
                     }                          
                     
-                    @if (Request.IsAuthenticated && User.IsInRole("Sales") && Session["projectUid"] != null)
+                    @if (Request.IsAuthenticated && User.IsInRole("Sales"))
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sales</a>
                             <ul class="dropdown-menu">                                
-                                @*<li>@Html.ActionLink("Sales Opportunities", "Index", "SalesOpportunities")</li>*@
+                                <li>@Html.ActionLink("Sales Opportunities", "Index", "SalesOpportunities")</li>
                             </ul>
                         </li>
                     }
-                    @if (Request.IsAuthenticated && (User.IsInRole("Admin") && Session["projectUid"] != null))
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sales</a>
                             <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Sales Teams", "Index", "SalesTeams")</li>
+                                <li>@Html.ActionLink("Sales Team Members", "Index", "SalesTeamMembers")</li>
                                 <li>@Html.ActionLink("Milestones", "Index", "Milestones")</li>
-                                <li>@Html.ActionLink("Opportunities", "Index", "Opportunities")</li>                                
+                                <li>@Html.ActionLink("Opportunities", "Index", "Opportunities")</li>
+                                <li class="divider"></li>
                                 <li>@Html.ActionLink("Sales Opportunities", "Index", "SalesOpportunities")</li>
-                                <li>@Html.ActionLink("Sales Opportunity Milestones", "Index", "SalesOpportunityMilestones")</li>
-                                <li>@Html.ActionLink("Sales Opportunity Tasks", "Index", "SalesOpportunityTasks")</li>
+                                <li>@Html.ActionLink("Sales Opportunity Task Summary", "SalesOpportunityTaskSummary", "SalesOpportunities")</li>
+                                
+                                @*<li>@Html.ActionLink("Sales Opportunity Milestones", "Index", "SalesOpportunityMilestones")</li>
+                                <li>@Html.ActionLink("Sales Opportunity Tasks", "Index", "SalesOpportunityTasks")</li>*@
                             </ul>
                         </li>
                     }

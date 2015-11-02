@@ -2052,6 +2052,19 @@
     <Content Include="Views\SalesOpportunities\Details.cshtml" />
     <Content Include="Views\SalesOpportunities\Edit.cshtml" />
     <Content Include="Views\SalesOpportunities\Index.cshtml" />
+    <Content Include="Views\SalesTeams\Create.cshtml" />
+    <Content Include="Views\SalesTeams\Delete.cshtml" />
+    <Content Include="Views\SalesTeams\Details.cshtml" />
+    <Content Include="Views\SalesTeams\Edit.cshtml" />
+    <Content Include="Views\SalesTeams\Index.cshtml" />
+    <Content Include="Views\SalesTeamMembers\Create.cshtml" />
+    <Content Include="Views\SalesTeamMembers\Delete.cshtml" />
+    <Content Include="Views\SalesTeamMembers\Details.cshtml" />
+    <Content Include="Views\SalesTeamMembers\Edit.cshtml" />
+    <Content Include="Views\SalesTeamMembers\Index.cshtml" />
+    <Content Include="Views\SalesOpportunityMilestones\SaveIsCompleted.cshtml" />
+    <Content Include="Views\SalesOpportunityMilestones\SaveDateCompleted.cshtml" />
+    <Content Include="Views\SalesOpportunities\SalesOpportunityTaskSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2244,6 +2257,8 @@
     <Compile Include="Controllers\SalesOpportunitiesController.cs" />
     <Compile Include="Controllers\SalesOpportunityMilestonesController.cs" />
     <Compile Include="Controllers\SalesOpportunityTasksController.cs" />
+    <Compile Include="Controllers\SalesTeamMembersController.cs" />
+    <Compile Include="Controllers\SalesTeamsController.cs" />
     <Compile Include="Controllers\ScopeOfWorksController.cs" />
     <Compile Include="Controllers\ShiftsController.cs" />
     <Compile Include="Controllers\ToDoStatusController.cs" />
@@ -2523,6 +2538,12 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SalesOpportunityTask.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesTeam.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalesTeamMember.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ScopeOfWork.cs">

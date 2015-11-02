@@ -430,10 +430,78 @@
         })
     });
 
+    $(".OpportunityMilestones").click(function () {
+        var d = new Date();
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+        var output = (('' + month).length < 2 ? '0' : '') + month + '/' +
+            (('' + day).length < 2 ? '0' : '') + day + '/' +
+            d.getFullYear();
+
+        if (this.checked == true) {
+            if ($("#dateCompleted_" + $(this).attr("id").split('_')[1]).val() == '') {
+                $("#dateCompleted_" + $(this).attr("id").split('_')[1]).val(output);                
+            }            
+        }
+        else {
+            $("#dateCompleted_" + $(this).attr("id").split('_')[1]).val("");
+        }
+        $("#dateCompleted_" + $(this).attr("id").split('_')[1]).triggerHandler('change');
+        
+        $.ajax({
+            url: "/SalesOpportunityMilestones/SaveIsCompleted",
+            type: "POST",
+            data: {
+                id: $(this).attr("id").split('_')[1],
+                value: this.checked
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        })
+    });
+
+    $(".SalesOpportunityTasks").click(function () {
+        $.ajax({
+            url: "/SalesOpportunityTasks/SaveIsCompleted",
+            type: "POST",
+            data: {
+                id: $(this).attr("id").split('_')[1],
+                value: this.checked
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        })
+    });
+
+
+    $(".OpportunityMilestonesDate").change(function () {
+        $.ajax({
+            url: "/SalesOpportunityMilestones/SaveDateCompleted",
+            type: "POST",
+            data: {
+                id: $(this).attr("id").split('_')[1],
+                value: $(this).val()
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        })
+    });
+
 
     $("#addNewMasterTask").click(function () {
 
         $("#masterTaskNewTaskTable").show();
+    });
+
+    $("#addNewWeeklyTask").click(function () {
+
+        $("#newWeeklyTaskTable").show();
     });
 
     $(".equipmentAttributeValue").focusout(function () {
@@ -525,6 +593,10 @@
     });
 
     $(".form-control-dates").focus(function () {
+        this.select();
+    });
+
+    $(".OpportunityMilestonesDate").focus(function () {
         this.select();
     });
 

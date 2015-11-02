@@ -1,0 +1,50 @@
+﻿@model IEnumerable<JCIEstimate.Models.SalesOpportunity>
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    @foreach (var salesOp in Model)
+    {
+        <tr style="background-color:lightyellow;">
+            <th>
+                @salesOp.Opportunity.opportunity1 - @salesOp.SalesTeam.salesTeam1
+            </th>
+            <th>
+                Task
+            </th>
+            <th>
+                Is Completed
+            </th>
+            <th></th>
+        </tr>
+
+        foreach (var item in salesOp.SalesOpportunityTasks.OrderBy(c=>c.week).Where(c=>c.week <= DateTime.Now.AddDays(7)).Where(c=>c.week >= DateTime.Now.AddDays(-8)))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.week)
+                </td>
+                <td>
+                    @Html.TextArea("salesOpportunityTask1", String.Format("{0:d}", item.SalesOpportunityTask1), new { @class = "form-control", @rows = "5", @cols = "100", @readonly = "readonly" })
+                </td>
+                <td>
+                    @Html.CheckBox("Is Completed", item.isCompleted, new { @id = "isCompleted_" + item.salesOpportunityTaskUid, @class = "SalesOpportunityTasks" })
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.salesOpportunityTaskUid }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.salesOpportunityTaskUid }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.salesOpportunityTaskUid })
+                </td>
+            </tr>
+        }
+    }
+</table>
+

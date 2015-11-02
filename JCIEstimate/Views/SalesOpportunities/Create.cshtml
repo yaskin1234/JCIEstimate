@@ -15,15 +15,15 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.aspNetUserUid, "aspNetUserUid", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.salesTeamUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("aspNetUserUid", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.aspNetUserUid, "", new { @class = "text-danger" })
+                @Html.DropDownList("salesTeamUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.salesTeamUid, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.opportunityUid, "opportunityUid", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.opportunityUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("opportunityUid", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.opportunityUid, "", new { @class = "text-danger" })

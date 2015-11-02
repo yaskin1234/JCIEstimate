@@ -12,15 +12,13 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SalesOpportunityMilestone
+    public partial class SalesTeamMember
     {
-        public System.Guid salesOpportunityMilestoneUid { get; set; }
-        public System.Guid salesOpportunityUid { get; set; }
-        public System.Guid milestoneUid { get; set; }
-        public bool isCompleted { get; set; }
-        public Nullable<System.DateTime> dateCompleted { get; set; }
+        public System.Guid salesTeamMemberUid { get; set; }
+        public string aspNetUserUid { get; set; }
+        public System.Guid salesTeamUid { get; set; }
     
-        public virtual Milestone Milestone { get; set; }
-        public virtual SalesOpportunity SalesOpportunity { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual SalesTeam SalesTeam { get; set; }
     }
 }

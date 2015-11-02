@@ -11,6 +11,7 @@
 </p>
 <table class="table">
     <tr>
+        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.milestone1)
         </th>
@@ -26,6 +27,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.milestoneUid })
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.milestone1)
         </td>
         <td>
@@ -34,9 +38,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.defaultListOrder)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.milestoneUid }) |
-            @Html.ActionLink("Details", "Details", new { id=item.milestoneUid }) |
+        <td>                        
             @Html.ActionLink("Delete", "Delete", new { id=item.milestoneUid })
         </td>
     </tr>

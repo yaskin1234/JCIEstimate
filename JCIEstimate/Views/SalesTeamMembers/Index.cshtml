@@ -1,4 +1,4 @@
-﻿@model IEnumerable<JCIEstimate.Models.SalesOpportunity>
+﻿@model IEnumerable<JCIEstimate.Models.SalesTeamMember>
 
 @{
     ViewBag.Title = "Index";
@@ -11,9 +11,11 @@
 </p>
 <table class="table">
     <tr>
-        <th> </th>
         <th>
-            @Html.DisplayNameFor(model => model.Opportunity.opportunity1)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.SalesTeam.salesTeam1)
@@ -24,19 +26,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.salesOpportunityUid })
+            @Html.ActionLink("Edit", "Edit", new { id = item.salesTeamMemberUid })
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Opportunity.opportunity1)
+            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.SalesTeam.salesTeam1)
         </td>
-        <td>
-            @if (User.IsInRole("Admin"))
-            {
-                @Html.ActionLink("Delete", "Delete", new { id = item.salesOpportunityUid })
-            }            
+        <td>                        
+            @Html.ActionLink("Delete", "Delete", new { id=item.salesTeamMemberUid })
         </td>
     </tr>
 }

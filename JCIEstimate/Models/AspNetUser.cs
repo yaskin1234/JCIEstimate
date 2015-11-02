@@ -35,9 +35,9 @@ namespace JCIEstimate.Models
             this.ContractorSignoffFinalAttachments = new HashSet<ContractorSignoffFinalAttachment>();
             this.PECCosts = new HashSet<PECCost>();
             this.ProjectUsers = new HashSet<ProjectUser>();
-            this.SalesOpportunities = new HashSet<SalesOpportunity>();
             this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
+            this.SalesTeamMembers = new HashSet<SalesTeamMember>();
         }
     
         public string Id { get; set; }
@@ -73,8 +73,8 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorSignoffFinalAttachment> ContractorSignoffFinalAttachments { get; set; }
         public virtual ICollection<PECCost> PECCosts { get; set; }
         public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
-        public virtual ICollection<SalesOpportunity> SalesOpportunities { get; set; }
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual ICollection<SalesTeamMember> SalesTeamMembers { get; set; }
     }
 }

@@ -32,7 +32,7 @@
             @Html.DisplayFor(modelItem => item.week)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SalesOpportunity.AspNetUser.Email) - @Html.DisplayFor(modelItem => item.SalesOpportunity.Opportunity.opportunity1)
+            @Html.DisplayFor(modelItem => item.SalesOpportunity.SalesTeam.salesTeam1) - @Html.DisplayFor(modelItem => item.SalesOpportunity.Opportunity.opportunity1)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.salesOpportunityTaskUid }) |

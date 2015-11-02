@@ -1,0 +1,42 @@
+﻿@model IEnumerable<JCIEstimate.Models.SalesTeam>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.salesTeam1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.salesTeamUid })      
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.salesTeam1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.behaviorIndicator)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id = item.salesTeamUid })
+                              
+        </td>
+    </tr>
+}
+
+</table>

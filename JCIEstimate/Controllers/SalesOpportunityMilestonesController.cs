@@ -38,11 +38,73 @@ namespace JCIEstimate.Controllers
             return View(salesOpportunityMilestone);
         }
 
+        public async Task<ActionResult> SaveIsCompleted(string id, string value)
+        {
+
+            SalesOpportunityMilestone som = db.SalesOpportunityMilestones.Find(Guid.Parse(id));
+
+            if (value == "true")
+            {
+                som.isCompleted = true;
+                db.Entry(som).State = EntityState.Modified;
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+            }
+            else
+            {
+                som.isCompleted = false;
+                db.Entry(som).State = EntityState.Modified;
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+            }
+            return View();
+        }
+
+        public async Task<ActionResult> SaveDateCompleted(string id, string value)
+        {
+
+            SalesOpportunityMilestone som = db.SalesOpportunityMilestones.Find(Guid.Parse(id));
+            DateTime parsedDate;
+            if (DateTime.TryParse(value, out parsedDate))
+            {
+                som.dateCompleted = parsedDate;
+            }
+            else
+            {
+                som.dateCompleted = null;
+            }
+            
+            db.Entry(som).State = EntityState.Modified;
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return View();
+        }
+
         // GET: SalesOpportunityMilestones/Create
         public ActionResult Create()
         {
-            ViewBag.salesOpportunityUid = new SelectList(db.SalesOpportunities, "salesOpportunityUid", "aspNetUserUid");
-            ViewBag.salesOpportunityUid = db.SalesOpportunities.ToSelectList(c => c.Opportunity.opportunity1 + "-" + c.AspNetUser.Email, c => c.salesOpportunityUid.ToString(), "");
+            ViewBag.salesOpportunityUid = new SelectList(db.SalesOpportunities, "salesOpportunityUid", "salesTeam1");
+            ViewBag.salesOpportunityUid = db.SalesOpportunities.ToSelectList(c => c.Opportunity.opportunity1 + "-" + c.SalesTeam.salesTeam1, c => c.salesOpportunityUid.ToString(), "");
             ViewBag.milestoneUid = new SelectList(db.Milestones, "milestoneUid", "milestone1");
             return View();
         }
@@ -52,7 +114,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "salesOpportunityMilestoneUid,salesOpportunityUid,milestoneUid,isCompleted")] SalesOpportunityMilestone salesOpportunityMilestone)
+        public async Task<ActionResult> Create([Bind(Include = "salesOpportunityMilestoneUid,salesOpportunityUid,milestoneUid,isCompleted,dateCompleted")] SalesOpportunityMilestone salesOpportunityMilestone)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +124,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.salesOpportunityUid = new SelectList(db.SalesOpportunities, "salesOpportunityUid", "aspNetUserUid", salesOpportunityMilestone.salesOpportunityUid);
+            ViewBag.salesOpportunityUid = new SelectList(db.SalesOpportunities, "salesOpportunityUid", "salesTeam1", salesOpportunityMilestone.salesOpportunityUid);
             ViewBag.milestoneUid = new SelectList(db.Milestones, "milestoneUid", "milestone1", salesOpportunityMilestone.milestoneUid);
             return View(salesOpportunityMilestone);
         }
@@ -79,7 +141,7 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.salesOpportunityUid = db.SalesOpportunities.ToSelectList(c => c.Opportunity.opportunity1 + "-" + c.AspNetUser.Email, c => c.salesOpportunityUid.ToString(), salesOpportunityMilestone.salesOpportunityUid.ToString());            
+            ViewBag.salesOpportunityUid = db.SalesOpportunities.ToSelectList(c => c.Opportunity.opportunity1 + "-" + c.SalesTeam.salesTeam1, c => c.salesOpportunityUid.ToString(), salesOpportunityMilestone.salesOpportunityUid.ToString());            
             ViewBag.milestoneUid = new SelectList(db.Milestones, "milestoneUid", "milestone1", salesOpportunityMilestone.milestoneUid);
             return View(salesOpportunityMilestone);
         }
@@ -89,7 +151,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "salesOpportunityMilestoneUid,salesOpportunityUid,milestoneUid,isCompleted")] SalesOpportunityMilestone salesOpportunityMilestone)
+        public async Task<ActionResult> Edit([Bind(Include = "salesOpportunityMilestoneUid,salesOpportunityUid,milestoneUid,isCompleted,dateCompleted")] SalesOpportunityMilestone salesOpportunityMilestone)
         {
             if (ModelState.IsValid)
             {

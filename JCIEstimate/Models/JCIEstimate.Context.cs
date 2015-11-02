@@ -111,12 +111,14 @@ namespace JCIEstimate.Models
         public virtual DbSet<MasterSchedule> MasterSchedules { get; set; }
         public virtual DbSet<MasterScheduleTask> MasterScheduleTasks { get; set; }
         public virtual DbSet<ContractorScheduleTask> ContractorScheduleTasks { get; set; }
-        public virtual DbSet<SalesOpportunityTask> SalesOpportunityTasks { get; set; }
         public virtual DbSet<Milestone> Milestones { get; set; }
         public virtual DbSet<Opportunity> Opportunities { get; set; }
         public virtual DbSet<SalesOpportunityMilestone> SalesOpportunityMilestones { get; set; }
-        public virtual DbSet<SalesOpportunity> SalesOpportunities { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<SalesOpportunity> SalesOpportunities { get; set; }
+        public virtual DbSet<SalesTeam> SalesTeams { get; set; }
+        public virtual DbSet<SalesTeamMember> SalesTeamMembers { get; set; }
+        public virtual DbSet<SalesOpportunityTask> SalesOpportunityTasks { get; set; }
     }
 }
