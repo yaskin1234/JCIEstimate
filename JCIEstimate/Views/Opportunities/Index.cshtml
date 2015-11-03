@@ -24,6 +24,9 @@
         <th>
             @Html.DisplayNameFor(model => model.projectedProjectSize)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.spentToDate)
+        </th>
         <th></th>
     </tr>
 
@@ -43,6 +46,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.projectedProjectSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.spentToDate)
         </td>
         <td>
             @Html.ActionLink("Delete", "Delete", new { id=item.opportunityUid })

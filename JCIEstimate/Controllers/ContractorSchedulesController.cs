@@ -62,7 +62,7 @@ namespace JCIEstimate.Controllers
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName");
-            ViewBag.masterScheduleUid = new SelectList(db.MasterSchedules.Where(c=>c.projectUid == sessionProject), "masterScheduleUid", "masterSchedule1");
+            ViewBag.masterScheduleUid = db.MasterSchedules.Where(c=>c.projectUid == sessionProject).ToSelectList(c=>c.Location.location1 + "-" + c.masterSchedule1, c=>c.masterScheduleUid.ToString(), "");
             return View();
         }
 
@@ -109,7 +109,7 @@ namespace JCIEstimate.Controllers
             }
             
             ViewBag.contractorUid = new SelectList(db.Contractors.OrderBy(c=>c.contractorName), "contractorUid", "contractorName", contractorSchedule.contractorUid);
-            ViewBag.masterScheduleUid = new SelectList(db.MasterSchedules.Where(c => c.projectUid == sessionProject), "masterScheduleUid", "masterSchedule1", contractorSchedule.masterScheduleUid);
+            ViewBag.masterScheduleUid = db.MasterSchedules.Where(c => c.projectUid == sessionProject).ToSelectList(c => c.Location.location1 + "-" + c.masterSchedule1, c => c.masterScheduleUid.ToString(), contractorSchedule.masterScheduleUid.ToString());            
             ViewBag.shiftUid = db.Shifts.OrderBy(c=>c.shift1);
             return View(contractorSchedule);
         }

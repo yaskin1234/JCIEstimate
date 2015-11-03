@@ -47,7 +47,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "opportunityUid,opportunity1,opportunityDescription,startDate,projectedProjectSize")] Opportunity opportunity)
+        public async Task<ActionResult> Create([Bind(Include = "opportunityUid,opportunity1,opportunityDescription,startDate,projectedProjectSize,spentToDate")] Opportunity opportunity)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "opportunityUid,opportunity1,opportunityDescription,startDate,projectedProjectSize")] Opportunity opportunity)
+        public async Task<ActionResult> Edit([Bind(Include = "opportunityUid,opportunity1,opportunityDescription,startDate,projectedProjectSize,spentToDate")] Opportunity opportunity)
         {
             if (ModelState.IsValid)
             {

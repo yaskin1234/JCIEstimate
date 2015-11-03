@@ -24,6 +24,7 @@ namespace JCIEstimate.Models
         public string opportunityDescription { get; set; }
         public Nullable<System.DateTime> startDate { get; set; }
         public Nullable<int> projectedProjectSize { get; set; }
+        public Nullable<int> spentToDate { get; set; }
     
         public virtual ICollection<SalesOpportunity> SalesOpportunities { get; set; }
     }

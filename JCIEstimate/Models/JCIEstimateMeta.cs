@@ -1628,6 +1628,9 @@ namespace JCIEstimate.Models
         [Display(Name = "Projected Project Cost")]
         [DisplayFormat(DataFormatString = "{0:C0}")]
         public Nullable<int> projectedProjectSize { get; set; }
+        [Display(Name = "Spent To Date")]
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        public Nullable<int> spentToDate { get; set; }
     }
 
 
@@ -1669,6 +1672,29 @@ namespace JCIEstimate.Models
         public System.Guid salesTeamUid { get; set; }
     }
 
+
+    /// <summary>
+    /// SalesOpportunityTasks
+    /// </summary>
+    [MetadataType(typeof(SalesOpportunityTaskMetaData))]
+    public partial class SalesOpportunityTask
+    {
+
+    }
+
+    public class SalesOpportunityTaskMetaData
+    {
+        [Display(Name = "Sales Opportunity Task")]
+        public System.Guid salesOpportunityTaskUid { get; set; }
+        [Display(Name = "Sales Opportunity")]
+        public System.Guid salesOpportunityUid { get; set; }
+        [Display(Name = "Sales Opportunity Task")]
+        public string SalesOpportunityTask1 { get; set; }
+        [Display(Name = "Start Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public System.DateTime week { get; set; }
+        public bool isCompleted { get; set; }
+    }
 
 
     

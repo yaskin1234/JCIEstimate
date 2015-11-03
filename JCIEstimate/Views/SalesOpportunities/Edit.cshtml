@@ -82,14 +82,21 @@
         @foreach (var citem in Model.SalesOpportunityTasks.OrderBy(c => c.week))
         {
             <tr>
-                <td>
-                    @citem.week
+                <td>                    
+                    @citem.week.ToShortDateString()
                 </td>
                 <td style="width:600px;">
                     @Html.TextArea("salesOpportunityTask1", String.Format("{0:d}", citem.SalesOpportunityTask1), new { @class = "form-control", @rows = "5", @cols = "100", @readonly = "readonly" })
                 </td>
                 <td>
-                    @Html.CheckBox("Is Completed", citem.isCompleted, new { @id = "isCompleted_" + citem.salesOpportunityTaskUid, @class = "SalesOpportunityTasks" })
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @Html.CheckBox("Is Completed", citem.isCompleted, new { @id = "isCompleted_" + citem.salesOpportunityTaskUid, @class = "SalesOpportunityTasks" })
+                    }
+                    else
+                    {
+                        @Html.CheckBox("Is Completed", citem.isCompleted, new { @id = "isCompleted_" + citem.salesOpportunityTaskUid, @class = "SalesOpportunityTasks", @readonly = "readonly" })
+                    }
                 </td>
                 <td>
                     @Html.ActionLink("Delete", "Delete", "SalesOpportunities", new { id = citem.salesOpportunityTaskUid })

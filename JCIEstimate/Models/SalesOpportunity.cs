@@ -24,9 +24,9 @@ namespace JCIEstimate.Models
         public System.Guid salesTeamUid { get; set; }
         public System.Guid opportunityUid { get; set; }
     
-        public virtual Opportunity Opportunity { get; set; }
         public virtual SalesTeam SalesTeam { get; set; }
         public virtual ICollection<SalesOpportunityMilestone> SalesOpportunityMilestones { get; set; }
         public virtual ICollection<SalesOpportunityTask> SalesOpportunityTasks { get; set; }
+        public virtual Opportunity Opportunity { get; set; }
     }
 }

@@ -647,6 +647,7 @@
           <Property Name="opportunityDescription" Type="varchar" MaxLength="1000" />
           <Property Name="startDate" Type="date" />
           <Property Name="projectedProjectSize" Type="int" />
+          <Property Name="spentToDate" Type="int" />
         </EntityType>
         <EntityType Name="PECCost">
           <Key>
@@ -1300,7 +1301,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_ContractorScheduleTask_ContractorSchedule">
-          <End Role="ContractorSchedule" Type="Self.ContractorSchedule" Multiplicity="1" />
+          <End Role="ContractorSchedule" Type="Self.ContractorSchedule" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ContractorScheduleTask" Type="Self.ContractorScheduleTask" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ContractorSchedule">
@@ -3850,7 +3853,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ContractorScheduleTask" EntitySet="ContractorScheduleTasks" />
           </AssociationSet>
           <EntitySet Name="Milestones" EntityType="JCIEstimateModel.Milestone" />
-          <EntitySet Name="Opportunities" EntityType="JCIEstimateModel.Opportunity" />
           <EntitySet Name="SalesOpportunityMilestones" EntityType="JCIEstimateModel.SalesOpportunityMilestone" />
           <AssociationSet Name="fk_SalesOpportunityMilestone_Milestone" Association="JCIEstimateModel.fk_SalesOpportunityMilestone_Milestone">
             <End Role="Milestone" EntitySet="Milestones" />
@@ -3873,10 +3875,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="SalesTeamMember" EntitySet="SalesTeamMembers" />
           </AssociationSet>
-          <AssociationSet Name="fk_SalesOpportunity_Opportunity" Association="JCIEstimateModel.fk_SalesOpportunity_Opportunity">
-            <End Role="Opportunity" EntitySet="Opportunities" />
-            <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
-          </AssociationSet>
           <AssociationSet Name="fk_SalesOpportunity_SalesTeam" Association="JCIEstimateModel.fk_SalesOpportunity_SalesTeam">
             <End Role="SalesTeam" EntitySet="SalesTeams" />
             <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
@@ -3893,6 +3891,11 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_SalesOpportunityTask_salesOpportunity" Association="JCIEstimateModel.fk_SalesOpportunityTask_salesOpportunity">
             <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
             <End Role="SalesOpportunityTask" EntitySet="SalesOpportunityTasks" />
+          </AssociationSet>
+          <EntitySet Name="Opportunities" EntityType="JCIEstimateModel.Opportunity" />
+          <AssociationSet Name="fk_SalesOpportunity_Opportunity" Association="JCIEstimateModel.fk_SalesOpportunity_Opportunity">
+            <End Role="Opportunity" EntitySet="Opportunities" />
+            <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
@@ -6564,17 +6567,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="defaultListOrder" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SalesOpportunityMilestones" Relationship="JCIEstimateModel.fk_SalesOpportunityMilestone_Milestone" FromRole="Milestone" ToRole="SalesOpportunityMilestone" />
         </EntityType>
-        <EntityType Name="Opportunity">
-          <Key>
-            <PropertyRef Name="opportunityUid" />
-          </Key>
-          <Property Name="opportunityUid" Type="Guid" Nullable="false" />
-          <Property Name="opportunity1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="opportunityDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="startDate" Type="DateTime" Precision="0" />
-          <Property Name="projectedProjectSize" Type="Int32" />
-          <NavigationProperty Name="SalesOpportunities" Relationship="JCIEstimateModel.fk_SalesOpportunity_Opportunity" FromRole="Opportunity" ToRole="SalesOpportunity" />
-        </EntityType>
         <EntityType Name="SalesOpportunityMilestone">
           <Key>
             <PropertyRef Name="salesOpportunityMilestoneUid" />
@@ -6655,10 +6647,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="salesOpportunityUid" Type="Guid" Nullable="false" />
           <Property Name="salesTeamUid" Type="Guid" Nullable="false" />
           <Property Name="opportunityUid" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Opportunity" Relationship="JCIEstimateModel.fk_SalesOpportunity_Opportunity" FromRole="SalesOpportunity" ToRole="Opportunity" />
           <NavigationProperty Name="SalesTeam" Relationship="JCIEstimateModel.fk_SalesOpportunity_SalesTeam" FromRole="SalesOpportunity" ToRole="SalesTeam" />
           <NavigationProperty Name="SalesOpportunityMilestones" Relationship="JCIEstimateModel.fk_SalesOpportunityMilestone_salesOpportunity" FromRole="SalesOpportunity" ToRole="SalesOpportunityMilestone" />
           <NavigationProperty Name="SalesOpportunityTasks" Relationship="JCIEstimateModel.fk_SalesOpportunityTask_salesOpportunity" FromRole="SalesOpportunity" ToRole="SalesOpportunityTask" />
+          <NavigationProperty Name="Opportunity" Relationship="JCIEstimateModel.fk_SalesOpportunity_Opportunity" FromRole="SalesOpportunity" ToRole="Opportunity" />
         </EntityType>
         <EntityType Name="SalesTeam">
           <Key>
@@ -6689,18 +6681,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="SalesTeamMember">
               <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_SalesOpportunity_Opportunity">
-          <End Type="JCIEstimateModel.Opportunity" Role="Opportunity" Multiplicity="1" />
-          <End Type="JCIEstimateModel.SalesOpportunity" Role="SalesOpportunity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Opportunity">
-              <PropertyRef Name="opportunityUid" />
-            </Principal>
-            <Dependent Role="SalesOpportunity">
-              <PropertyRef Name="opportunityUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6760,6 +6740,30 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="SalesOpportunityTask">
               <PropertyRef Name="salesOpportunityUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Opportunity">
+          <Key>
+            <PropertyRef Name="opportunityUid" />
+          </Key>
+          <Property Name="opportunityUid" Type="Guid" Nullable="false" />
+          <Property Name="opportunity1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="opportunityDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="startDate" Type="DateTime" Precision="0" />
+          <Property Name="projectedProjectSize" Type="Int32" />
+          <Property Name="spentToDate" Type="Int32" />
+          <NavigationProperty Name="SalesOpportunities" Relationship="JCIEstimateModel.fk_SalesOpportunity_Opportunity" FromRole="Opportunity" ToRole="SalesOpportunity" />
+        </EntityType>
+        <Association Name="fk_SalesOpportunity_Opportunity">
+          <End Type="JCIEstimateModel.Opportunity" Role="Opportunity" Multiplicity="1" />
+          <End Type="JCIEstimateModel.SalesOpportunity" Role="SalesOpportunity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Opportunity">
+              <PropertyRef Name="opportunityUid" />
+            </Principal>
+            <Dependent Role="SalesOpportunity">
+              <PropertyRef Name="opportunityUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7769,17 +7773,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Opportunities">
-            <EntityTypeMapping TypeName="JCIEstimateModel.Opportunity">
-              <MappingFragment StoreEntitySet="Opportunity">
-                <ScalarProperty Name="projectedProjectSize" ColumnName="projectedProjectSize" />
-                <ScalarProperty Name="startDate" ColumnName="startDate" />
-                <ScalarProperty Name="opportunityDescription" ColumnName="opportunityDescription" />
-                <ScalarProperty Name="opportunity1" ColumnName="opportunity" />
-                <ScalarProperty Name="opportunityUid" ColumnName="opportunityUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SalesOpportunityMilestones">
             <EntityTypeMapping TypeName="JCIEstimateModel.SalesOpportunityMilestone">
               <MappingFragment StoreEntitySet="SalesOpportunityMilestone">
@@ -7845,6 +7838,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="SalesOpportunityTask1" ColumnName="SalesOpportunityTask" />
                 <ScalarProperty Name="salesOpportunityUid" ColumnName="salesOpportunityUid" />
                 <ScalarProperty Name="salesOpportunityTaskUid" ColumnName="salesOpportunityTaskUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Opportunities">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Opportunity">
+              <MappingFragment StoreEntitySet="Opportunity">
+                <ScalarProperty Name="spentToDate" ColumnName="spentToDate" />
+                <ScalarProperty Name="projectedProjectSize" ColumnName="projectedProjectSize" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="opportunityDescription" ColumnName="opportunityDescription" />
+                <ScalarProperty Name="opportunity1" ColumnName="opportunity" />
+                <ScalarProperty Name="opportunityUid" ColumnName="opportunityUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
