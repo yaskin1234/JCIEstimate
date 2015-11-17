@@ -120,5 +120,8 @@ namespace JCIEstimate.Models
         public virtual DbSet<SalesTeamMember> SalesTeamMembers { get; set; }
         public virtual DbSet<SalesOpportunityTask> SalesOpportunityTasks { get; set; }
         public virtual DbSet<Opportunity> Opportunities { get; set; }
+        public virtual DbSet<Calendar> Calendars { get; set; }
+        public virtual DbSet<CalendarDay> CalendarDays { get; set; }
+        public virtual DbSet<CalendarDayTask> CalendarDayTasks { get; set; }
     }
 }

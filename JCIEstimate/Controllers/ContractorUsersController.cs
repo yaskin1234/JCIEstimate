@@ -18,7 +18,7 @@ namespace JCIEstimate.Controllers
         // GET: ContractorUsers
         public async Task<ActionResult> Index()
         {
-            var contractorUsers = db.ContractorUsers.Include(c => c.Contractor).Include(c => c.AspNetUser);
+            var contractorUsers = db.ContractorUsers.Include(c => c.Contractor).Include(c => c.AspNetUser).OrderBy(c=>c.Contractor.contractorName).ThenBy(c=>c.AspNetUser.UserName);
             return View(await contractorUsers.ToListAsync());
         }
 

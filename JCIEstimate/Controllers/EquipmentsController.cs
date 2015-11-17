@@ -13,7 +13,7 @@ using System.IO;
 using Ionic.Zip;
 using System.Drawing;
 using System.Drawing.Imaging;
-
+using System.Linq.Dynamic;
 
 namespace JCIEstimate.Controllers
 {
@@ -54,11 +54,26 @@ namespace JCIEstimate.Controllers
                          && cc.Location.projectUid == sessionProject
                          select cc;            
             
-            aryFo = buildFilterDropDown(filterId, equipments);            
-            equipments = applyFilter(filterId, equipments);
-            equipments = applySorts(sort, equipments);
-                        
-            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2).OrderBy(c=>c.Location.location1).ThenBy(c=>c.EquipmentAttributeType.equipmentAttributeType1).ThenBy(c=>c.jciTag);
+            aryFo = buildFilterDropDown(filterId, equipments);
+            if (Request.QueryString["jciTag"] != null)
+            {
+                int jciTag;
+                int.TryParse(Request.QueryString["jciTag"], out jciTag);
+                equipments = equipments.Where(c => c.jciTag == jciTag);                    
+                
+            }
+            else
+            {
+                equipments = applyFilter(filterId, equipments);
+                equipments = applySorts(sort, equipments);
+            }
+
+            if (sort == null && Session["equipmentSort"] == null)
+            {
+                equipments = equipments.OrderBy(c => c.Location.location1).ThenBy(c => c.EquipmentAttributeType.equipmentAttributeType1).ThenBy(c => c.jciTag);
+            }
+
+            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2);
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             ViewBag.equipmentAttributes = db.EquipmentAttributes.OrderBy(c=>c.equipmentAttribute1);
@@ -91,6 +106,10 @@ namespace JCIEstimate.Controllers
                 {
                     equipments = equipments.Where(c=>c.equipmentUid == null);
                 }
+                else if (type == "L")
+                {
+                    equipments = equipments.Where(c => c.locationUid.ToString() == uid);
+                }
             }
             else
             {
@@ -103,50 +122,159 @@ namespace JCIEstimate.Controllers
         private IQueryable<Equipment> applySorts(string sort, IQueryable<Equipment> equipments)
         {
             //apply sort
+            if (sort == null && Session["equipmentSort"] != null)
+            {
+                sort = Session["equipmentSort"].ToString();
+            }
             if (!String.IsNullOrEmpty(sort))
             {
+                
                 string[] sortParts = sort.Split('|');
                 string col = sortParts[0];
-                string order = sortParts[1];
+                string order = sortParts[1];                
+                Session["equipmentSort"] = sort;
 
-                if (col == "ECM")
-                {
-                    if (order == "desc")
-                    {
-                        equipments = equipments.OrderByDescending(c => c.ECM.ecmNumber);
-                    }
-                    else
-                    {
-                        equipments = equipments.OrderBy(c => c.ECM.ecmNumber);
-                    }
+                equipments = equipments.OrderBy(col + " " + order);
+                
 
-                }
+                //if (col == "Location")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.Location.location1);                        
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.Location.location1);
+                //    }
 
-                if (col == "Location")
-                {
-                    if (order == "desc")
-                    {
-                        equipments = equipments.OrderByDescending(c => c.Location.location1);
-                    }
-                    else
-                    {
-                        equipments = equipments.OrderBy(c => c.Location.location1);
-                    }
+                //}
 
-                }
+                //if (col == "isNewToSite")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.isNewToSite);
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.isNewToSite);
+                //    }
 
-                if (col == "jciTag")
-                {
-                    if (order == "desc")
-                    {
-                        equipments = equipments.OrderByDescending(c => c.jciTag);
-                    }
-                    else
-                    {
-                        equipments = equipments.OrderBy(c => c.jciTag);
-                    }
+                //}
 
-                }
+                //if (col == "ECM")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.ECM.ecmNumber);
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.ECM.ecmNumber);
+                //    }
+
+                //}
+
+
+                //if (col == "jciTag")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.jciTag);
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.jciTag);
+                //    }
+
+                //}
+
+                //if (col == "ownerTag")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.ownerTag);
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.ownerTag);
+                //    }
+
+                //}
+
+                //if (col == "manufacturer")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.manufacturer);
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.manufacturer);
+                //    }
+
+                //}
+
+                //if (col == "model")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.model);
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.model);
+                //    }
+                //}
+
+                //if (col == "type")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.EquipmentAttributeType.equipmentAttributeType1);
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.EquipmentAttributeType.equipmentAttributeType1);
+                //    }
+                //}
+
+                //if (col == "installDate")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.installDate);
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.installDate);
+                //    }
+                //}
+
+                //if (col == "price")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.price);
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.price);
+                //    }
+                //}
+
+                //if (col == "area")
+                //{
+                //    if (order == "desc")
+                //    {
+                //        equipments = equipments.OrderByDescending(c => c.area);
+                //    }
+                //    else
+                //    {
+                //        equipments = equipments.OrderBy(c => c.area);
+                //    }
+                //}
             }     
             return equipments;
         }
@@ -197,6 +325,17 @@ namespace JCIEstimate.Controllers
                 wf = new FilterOptionModel();
                 wf.text = item.ECM.ecmString;
                 wf.value = "C|" + item.ecmUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+
+            results = equipments.GroupBy(c => c.locationUid).Select(v => v.FirstOrDefault());
+
+            foreach (var item in results.Where(c => c.locationUid != null).OrderBy(c => c.Location.location1))
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.Location.location1;
+                wf.value = "L|" + item.locationUid.ToString();
                 wf.selected = (wf.value == filterId);
                 aryFo.Add(wf);
             }
@@ -484,8 +623,19 @@ namespace JCIEstimate.Controllers
         Image ResizeImage(HttpPostedFileBase file) 
         {
             Image myImage = Image.FromStream(file.InputStream);
-            int destWidth = (int)(myImage.Width * .25);
-            int destHeight = (int)(myImage.Height * .25);
+            int destWidth;
+            int destHeight;
+            if (myImage.Height > 1000 && myImage.Width > 1000 && file.InputStream.Length > 1000000)
+            {
+                destWidth = (int)(myImage.Width * .50);
+                destHeight = (int)(myImage.Height * .50);
+            }
+            else
+            {
+                destWidth = (int)(myImage.Width * 1);
+                destHeight = (int)(myImage.Height * 1);
+            }
+            
             Bitmap newBM = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
             newBM.SetResolution(myImage.HorizontalResolution, myImage.VerticalResolution);
 
@@ -713,25 +863,93 @@ namespace JCIEstimate.Controllers
         // GET: Equipments/Edit/5
         public async Task<ActionResult> Edit(Guid? id, string returnURL)
         {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }            
+            Equipment nextEquipment = null;
+            Equipment previousEquipment = null;
+            string filter = (string)Session["equipmentfilterId"];
+            Guid filterValue = Guid.Empty;
+            string filterColumn = "";
+            List<Equipment> eqList = null;
+            if (filter == null)
+            {
+                filter = "";
             }
+            else
+            {
+                filterColumn = filter.Split('|')[0];
+                filterValue = new Guid(filter.Split('|')[1]);
+
+                if (filterColumn == "E")
+                {
+                    filterColumn = "equipmentAttributeTypeUid";                    
+                }
+                else if(filterColumn == "C")
+                {
+                    filterColumn = "ecmUid";                    
+                }
+                else if (filterColumn == "L")
+                {
+                    filterColumn = "locationUid";                    
+                }
+                else if(filterColumn == "X")
+                {
+                    filterColumn = "equipmentUid";
+                    filterValue = Guid.Empty;
+                }
+            }
+
+            string sort = (string)Session["equipmentSort"];
+            if (sort == null)
+            {
+                sort = "jciTag";
+            }
+            else
+            {
+                sort = sort.Split('|')[0];
+            }
+            if (filterColumn != "")
+            {
+                eqList = db.Equipments.Where("Location.projectUid = @0", sessionProject).Where(filterColumn + " = @0", filterValue).OrderBy(sort).ToList();
+            }
+            else
+            {
+                eqList = db.Equipments.Where("Location.projectUid = @0", sessionProject).OrderBy(sort).ToList();
+            }
+            
+            for (var i = 0; i < eqList.Count; i++)
+            {
+                if (eqList[i].equipmentUid == id)
+                {
+                    if (i != 0)
+                    {
+                        previousEquipment = eqList[(i - 1)];
+                    }
+                    if (i != eqList.Count - 1)
+                    {
+                        nextEquipment = eqList[(i + 1)];
+                    }
+                    
+                }
+            }            
             Equipment equipment = await db.Equipments.FindAsync(id);
+
+            
             if (equipment == null)
             {
                 return HttpNotFound();
             }
-
-            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
-
             
             var replacementEqupments = db.Equipments.Where(c => c.Location.projectUid == sessionProject);
 
             var equipmentAttributeValues = from cc in db.EquipmentAttributeValues
                                            where cc.equipmentUid == equipment.equipmentUid
                                            select cc;
-
+            ViewBag.nextEquipment = nextEquipment;
+            ViewBag.previousEquipment = previousEquipment;
             ViewBag.equipmentAttributeValues = equipmentAttributeValues;
             ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).ToSelectList(c=>c.ecmString, c=>c.ecmUid.ToString() , equipment.ecmUid.ToString());
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
@@ -831,7 +1049,7 @@ namespace JCIEstimate.Controllers
                             foreach (var userPicture in eq.EquipmentAttachments.ToList())
                             {
                                 keyCounter += 1;
-                                string pictureName = JCIExtensions.MCVExtensions.MakeValidFileName(eq.EquipmentAttributeType.equipmentAttributeType1 + "_" + eq.Location.location1 + "_" + eq.jciTag.ToString().Replace(".00", "") + "_" + keyCounter + Path.GetExtension(userPicture.documentName));
+                                string pictureName = JCIExtensions.MCVExtensions.MakeValidFileName(eq.Location.location1 + "_"  + eq.EquipmentAttributeType.equipmentAttributeType1 + "_" + eq.jciTag.ToString().Replace(".00", "") + "_" + keyCounter + Path.GetExtension(userPicture.documentName));
                                 using (MemoryStream tempstream = new MemoryStream())
                                 {
                                     Image userImage = byteArrayToImage(userPicture.attachment);
@@ -871,7 +1089,7 @@ namespace JCIEstimate.Controllers
                             foreach (var userPicture in eq.EquipmentAttachments.ToList())
                             {
                                 keyCounter += 1;
-                                string pictureName = JCIExtensions.MCVExtensions.MakeValidFileName(eq.EquipmentAttributeType.equipmentAttributeType1 + "_" + eq.Location.location1 + "_" + eq.jciTag.ToString().Replace(".00", "") + "_" + keyCounter + Path.GetExtension(userPicture.documentName));
+                                string pictureName = JCIExtensions.MCVExtensions.MakeValidFileName(eq.Location.location1 + "_" + eq.EquipmentAttributeType.equipmentAttributeType1 + "_" + eq.jciTag.ToString().Replace(".00", "") + "_" + keyCounter + Path.GetExtension(userPicture.documentName));
                                 using (MemoryStream tempstream = new MemoryStream())
                                 {
                                     Image userImage = byteArrayToImage(userPicture.attachment);
@@ -911,7 +1129,7 @@ namespace JCIEstimate.Controllers
                             foreach (var userPicture in eq.EquipmentAttachments.ToList())
                             {
                                 keyCounter += 1;
-                                string pictureName = JCIExtensions.MCVExtensions.MakeValidFileName(eq.EquipmentAttributeType.equipmentAttributeType1 + "_" + eq.Location.location1 + "_" + eq.jciTag.ToString().Replace(".00", "") + "_" + keyCounter + Path.GetExtension(userPicture.documentName));
+                                string pictureName = JCIExtensions.MCVExtensions.MakeValidFileName(eq.Location.location1 + "_" + eq.EquipmentAttributeType.equipmentAttributeType1 + "_" + eq.jciTag.ToString().Replace(".00", "") + "_" + keyCounter + Path.GetExtension(userPicture.documentName));
                                 using (MemoryStream tempstream = new MemoryStream())
                                 {
                                     Image userImage = byteArrayToImage(userPicture.attachment);

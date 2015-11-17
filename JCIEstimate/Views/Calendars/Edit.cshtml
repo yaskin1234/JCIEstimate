@@ -1,0 +1,105 @@
+﻿@model JCIEstimate.Models.Calendar
+
+@{
+    ViewBag.Title = "Calendar";
+}
+
+    <div class="form-horizontal">        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.calendarUid, new { @class = "form-control" })
+
+        <div class="form-group">                        
+            <div class="col-md-10">
+                <h4>@Html.DisplayFor(model => model.calendar1, new { htmlAttributes = new { @class = "form-control" } })</h4>
+                @Html.ValidationMessageFor(model => model.calendar1, "", new { @class = "text-danger" })
+            </div>
+        </div> 
+    </div>
+
+    @Html.DropDownList("projectUid", null, htmlAttributes: new { @class = "calendarProjectFilter", @id = Model.calendarUid + "_projectFilter" }) <a style="cursor:pointer;" id="lnkExportCalendar">Export to excel</a>
+    <br />
+    <br />
+    
+
+    <div id="calendarData">
+        <table class="table-condensed">
+            @foreach (var cd in ViewBag.calendarDays)
+            {
+                string backgroundColor;
+                if (cd.date.ToString("dddd") == "Saturday" || cd.date.ToString("dddd") == "Sunday")
+                {
+                    backgroundColor = "lightblue";
+                }
+                else
+                {
+                    backgroundColor = "lightgrey";
+                }
+
+                <tr>
+                    <td style="background-color:@backgroundColor;font-weight:bold;">@cd.date.ToString("dddd"), @cd.date.ToShortDateString()</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><a style="cursor:pointer;" class="addNewCalendarTask" id="@cd.calendarDayUid">add new task</a></td>
+                    <td>
+                        <table class="table-condensed">
+                            <tr>
+                                <td id="@cd.calendarDayUid|NewRow" colspan="3"></td>
+                            </tr>
+                            @if (cd.GetTasksCountForCalendarDay(ViewBag.projectFilterValue) > 0)
+                            {
+                                <tr>
+                                    <th></th>
+                                    <th>Project</th>
+                                    <th>Location</th>
+                                    <th>Task</th>
+                                    <th></th>
+                                </tr>
+                            }
+                            @foreach (var task in cd.GetTasksForCalendarDay(ViewBag.projectFilterValue))
+                            {
+                                
+                                var taskTextID = task.calendarDayTaskUid + "_task";
+                                var taskDivID = task.calendarDayTaskUid + "_div";
+                                var taskTextAreaDivID = task.calendarDayTaskUid + "_divText";
+                                var taskLinkID = task.calendarDayTaskUid + "_link";                               
+                                
+                                <tr>
+                                    <td>
+                                        <a style="cursor:pointer;" class="calendarTaskEditLink" id="@taskLinkID"><img class="toRemoveForExport" src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+                                    </td>
+                                    <td>
+                                        @{
+                                var project = (task.Project == null ? "" : task.Project.project1);
+                                        }
+                                        @project
+                                    </td>
+                                    <td>
+                                        @{
+                                var location = (task.Location == null ? "" : task.Location.location1);
+                                        }
+                                        @location
+                                    </td>
+                                    <td>                                        
+                                        <div id="@taskTextAreaDivID" class="toRemoveForExport" style="display:none">
+                                            <textarea class="calendarDayTask" id="@taskTextID" cols="60" rows="3">@task.task</textarea>                                            
+                                        </div>                       
+                                        <div id="@taskDivID" style="display:normal">
+                                            @MvcHtmlString.Create(task.task.Replace("\n", "<br />"))
+                                        </div>
+                                    </td>
+                                    <td>                                        
+                                        <a class="toRemoveForExport" href="@Url.Action("Delete", "CalendarDayTasks", new { id = task.calendarDayTaskUid })"><img class="toRemoveForExport" src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" /></a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </td>
+                </tr>
+
+            }
+        </table>
+    </div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

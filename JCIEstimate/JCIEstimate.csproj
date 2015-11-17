@@ -48,6 +48,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidationNA">
+      <HintPath>..\packages\FluentValidationNA.1.2.16\lib\net40\FluentValidationNA.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9.6\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -116,6 +119,10 @@
     </Reference>
     <Reference Include="SendGridMail">
       <HintPath>..\packages\Sendgrid.5.0.0\lib\SendGridMail.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.4\lib\net40\System.Linq.Dynamic.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
@@ -628,7 +635,12 @@
     <Content Include="Images\loading2.gif" />
     <Content Include="Images\logo.gif" />
     <Content Include="Images\magnet.jpg" />
+    <Content Include="Images\next.png" />
+    <Content Include="Images\previous.png" />
     <Content Include="Images\replace.png" />
+    <Content Include="Images\SortArrows.png" />
+    <Content Include="Images\SortDown.png" />
+    <Content Include="Images\SortUp.png" />
     <Content Include="Images\tasks.png" />
     <Content Include="Images\View_Details.png" />
     <Content Include="packages.config" />
@@ -2065,6 +2077,26 @@
     <Content Include="Views\SalesOpportunityMilestones\SaveIsCompleted.cshtml" />
     <Content Include="Views\SalesOpportunityMilestones\SaveDateCompleted.cshtml" />
     <Content Include="Views\SalesOpportunities\SalesOpportunityTaskSummary.cshtml" />
+    <Content Include="Views\Reports\rptEstimateComparison.cshtml" />
+    <Content Include="Views\Estimates\EstimateComparison.cshtml" />
+    <Content Include="Views\Calendars\Create.cshtml" />
+    <Content Include="Views\Calendars\Delete.cshtml" />
+    <Content Include="Views\Calendars\Details.cshtml" />
+    <Content Include="Views\Calendars\Edit.cshtml" />
+    <Content Include="Views\Calendars\Index.cshtml" />
+    <Content Include="Views\CalendarDays\Create.cshtml" />
+    <Content Include="Views\CalendarDays\Delete.cshtml" />
+    <Content Include="Views\CalendarDays\Details.cshtml" />
+    <Content Include="Views\CalendarDays\Edit.cshtml" />
+    <Content Include="Views\CalendarDays\Index.cshtml" />
+    <Content Include="Views\CalendarDayTasks\Create.cshtml" />
+    <Content Include="Views\CalendarDayTasks\Delete.cshtml" />
+    <Content Include="Views\CalendarDayTasks\Details.cshtml" />
+    <Content Include="Views\CalendarDayTasks\Edit.cshtml" />
+    <Content Include="Views\CalendarDayTasks\Index.cshtml" />
+    <Content Include="Views\Calendars\GetNewCalendarTaskForm.cshtml" />
+    <Content Include="Views\Calendars\GetLocationsForProject.cshtml" />
+    <Content Include="Views\CalendarDayTasks\SaveCalendarDayTask.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2184,6 +2216,9 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppDataTypesController.cs" />
+    <Compile Include="Controllers\CalendarDaysController.cs" />
+    <Compile Include="Controllers\CalendarDayTasksController.cs" />
+    <Compile Include="Controllers\CalendarsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CompletionCategoriesController.cs" />
     <Compile Include="Controllers\ContractorContactsController.cs" />
@@ -2284,6 +2319,15 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Calendar.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CalendarDay.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CalendarDayTask.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">

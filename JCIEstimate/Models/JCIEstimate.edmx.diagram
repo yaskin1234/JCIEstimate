@@ -230,6 +230,14 @@
         <AssociationConnector Association="JCIEstimateModel.fk_SalesOpportunityTask_salesOpportunity" />
         <EntityTypeShape EntityType="JCIEstimateModel.Opportunity" Width="1.5" PointX="0.75" PointY="9" />
         <AssociationConnector Association="JCIEstimateModel.fk_SalesOpportunity_Opportunity" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Calendar" Width="1.5" PointX="16.5" PointY="61.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.CalendarDay" Width="1.5" PointX="18.75" PointY="61.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.CalendarDayTask" Width="1.5" PointX="24" PointY="41.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CalendarMember_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CalendarDay_Calendar" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_CalendarDay" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_Location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_Project" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -58,7 +58,7 @@ namespace JCIEstimate.Controllers
 
                 if (User.IsInRole("Sales"))
                 {
-                    return RedirectToAction("Index", "ProjectMilestoneActions");
+                    return RedirectToAction("Index", "SalesOpportunities");
                 }
                 else if (User.IsInRole("Warranty"))
                 {

@@ -1,0 +1,38 @@
+﻿@model JCIEstimate.Models.CalendarDayTask
+@{
+    Layout = null;
+}
+@{
+    var formName = ViewBag.id + "_Form";
+}
+<form action="/CalendarDayTasks/Create" id="@formName" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="calendarDayUid" value="@ViewBag.id" />
+    <table>        
+        <tr>
+            <th>Project</th>
+            <th>Location</th>
+            <th>Task</th>
+        </tr>        
+        <tr>
+            <td>
+                @Html.DropDownList("projectUid", null, htmlAttributes: new { @class = "newTaskForm", @id = ViewBag.id + "|projectUid" })
+                @Html.ValidationMessageFor(model => model.projectUid, "", new { @class = "text-danger" })
+            </td>
+            <td id="@ViewBag.id|TDlocationUid">
+                @Html.DropDownList("locationUid", null, htmlAttributes: new { @class = "newTaskForm", @id = ViewBag.id + "|locationUid" })
+                @Html.ValidationMessageFor(model => model.locationUid, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.TextAreaFor(model => model.task, 3, 60, new { htmlAttributes = new { @class = "newTaskForm", @id = ViewBag.id + "|task" } })
+                @Html.ValidationMessageFor(model => model.task, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                @{
+                    var btnName = ViewBag.id + "_btn";
+                }
+                <input id="@btnName" type="submit" value="Create" class="btn btn-default" />
+            </td>
+        </tr>
+    </table>
+</form>

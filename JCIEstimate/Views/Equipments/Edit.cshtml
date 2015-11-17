@@ -4,20 +4,35 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
-
-
 @using (Html.BeginForm("Edit", "Equipments", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
+        
         <h4>Equipment</h4>
+        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.equipmentUid)
-        @Html.HiddenFor(model => model.useReplacement)
-
+        @Html.HiddenFor(model => model.useReplacement)        
+        
+        @Html.ActionLink("Back to List", "Index")
+        
+        <div class="form-group">
+            <center>
+                @if (ViewBag.previousEquipment != null)
+                {
+                    <a href="/Equipments/Edit/@ViewBag.previousEquipment.equipmentUid"><img src="~/Images/previous.png" style="height:20px;width:40px;" alt="previous" title="previous item" /></a>
+                }
+                &nbsp; &nbsp; &nbsp;
+                @if (ViewBag.nextEquipment != null)
+                {
+                    <a href="/Equipments/Edit/@ViewBag.nextEquipment.equipmentUid"><img src="~/Images/next.png" style="height:20px;width:40px;" alt="next" title="next item" /></a>
+                }
+            </center>
+        </div>
+       
         <div class="form-group">
             @Html.LabelFor(model => model.equipmentUidAsReplaced, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

@@ -69,6 +69,17 @@
                         </ul>
                     </li>
                     }    
+
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Calendar</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Calendars", "Index", "Calendars")</li>
+                            </ul>
+                        </li>
+                    }  
+
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
                     {
                         <li class="dropdown">
@@ -99,6 +110,7 @@
                                 <li>@Html.ActionLink("Report -- ECM List", "GetECMList", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Active Estiamtes", "GetActiveEstimates", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Draw Schedules", "GetDrawSchedules", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- Estimate Comparison", "GetEstimateComparison", "Reports")</li>
                                 
                             </ul>
                         </li>

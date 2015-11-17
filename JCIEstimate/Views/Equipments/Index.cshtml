@@ -4,18 +4,21 @@
     ViewBag.Title = "Index";
     JCIEstimate.Models.JCIEstimateEntities db = new JCIEstimate.Models.JCIEstimateEntities();
 }
-<select class="equipmentFilter" id="equipmentFilter" name="equipmentFilter">
-    @foreach (var item in ViewBag.filterList)
-    {
-        <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>
-        if (item.selected)
+<div class="form-group">
+    <select class="equipmentFilter" id="equipmentFilter" name="equipmentFilter">
+        @foreach (var item in ViewBag.filterList)
         {
-            Session["sortValue"] = item.value.ToString().Split('|')[1];
-            Session["sortType"] = item.value.ToString().Split('|')[0];
-        }
+            <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>
+            if (item.selected)
+            {
+                Session["sortValue"] = item.value.ToString().Split('|')[1];
+                Session["sortType"] = item.value.ToString().Split('|')[0];
+            }
 
-    }
-</select>
+        }
+    </select>
+    <input type="submit" style="display:none;" id="srchJCITag" name="srchJCITag" class="btn-default" value="Search By JCI Tag" /> Search By JCI Tag @Html.TextBox("equipmentFilterJCITag")<br />
+</div>
 @Html.ActionLink("Export list to excel", "GetEquipmentExport", "Reports")
 &nbsp;&nbsp;|&nbsp;&nbsp;
 @Html.ActionLink("Get all pictures for the listed equipment", "GetEquipmentPictures", "Equipments", new { filterType = ViewContext.RouteData.Values["filterType"], filterValues = ViewContext.RouteData.Values["filterValue"] })
@@ -27,10 +30,302 @@
    <div id="dvEquipmentData">
     <table id="tblEquipment" class="EquipmentIndexTable">
         <thead>
+            <tr style="border-bottom:none;">
+                <th style="border-bottom:none;"></th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=Location.location1|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Location" title="click to sort by Location" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "Location.location1|asc")
+                    {
+                        <a href="/Equipments/Index?sort=Location.location1|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Location descending" title="click to sort by Location" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "Location.location1|desc")
+                    {
+                        <a href="/Equipments/Index?sort=Location.location1|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Location ascending" title="click to sort by Location" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=Location.location1|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Location" title="click to sort by Location" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=isNewToSite|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Is New To Site" title="click to sort by Is New To Site" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "isNewToSite|asc")
+                    {
+                        <a href="/Equipments/Index?sort=isNewToSite|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Is New To Site descending" title="click to sort by Is New To Site" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "isNewToSite|desc")
+                    {
+                        <a href="/Equipments/Index?sort=isNewToSite|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Is New To Site ascending" title="click to sort by Is New To Site" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=isNewToSite|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Is New To Site" title="click to sort by Is New To Site" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=ECM.ecmString|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by ECM" title="click to sort by ECM" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "ECM.ecmString|asc")
+                    {
+                        <a href="/Equipments/Index?sort=ECM.ecmString|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by ECM descending" title="click to sort by ECM" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "ECM.ecmString|desc")
+                    {
+                        <a href="/Equipments/Index?sort=ECM.ecmString|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by ECM ascending" title="click to sort by ECM" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=ECM.ecmString|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by ECM" title="click to sort by ECM" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=jciTag|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by JCI Tag" title="click to sort by JCI Tag" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "jciTag|asc")
+                    {
+                        <a href="/Equipments/Index?sort=jciTag|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by JCI Tag descending" title="click to sort by JCI Tag" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "jciTag|desc")
+                    {
+                        <a href="/Equipments/Index?sort=jciTag|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by JCI Tag ascending" title="click to sort by JCI Tag" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=jciTag|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by JCI Tag" title="click to sort by JCI Tag" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=ownerTag|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Owner Tag" title="click to sort by Owner Tag" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "ownerTag|asc")
+                    {
+                        <a href="/Equipments/Index?sort=ownerTag|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Owner Tag descending" title="click to sort by Owner Tag" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "ownerTag|desc")
+                    {
+                        <a href="/Equipments/Index?sort=ownerTag|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Owner Tag ascending" title="click to sort by Owner Tag" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=ownerTag|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Owner Tag" title="click to sort by Owner Tag" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=manufacturer|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Manufacturer" title="click to sort by Manufacturer" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "manufacturer|asc")
+                    {
+                        <a href="/Equipments/Index?sort=manufacturer|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Manufacturer descending" title="click to sort by Manufacturer" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "manufacturer|desc")
+                    {
+                        <a href="/Equipments/Index?sort=manufacturer|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Manufacturer ascending" title="click to sort by Manufacturer" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=manufacturer|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Manufacturer" title="click to sort by Manufacturer" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=model|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Model" title="click to sort by Model" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "model|asc")
+                    {
+                        <a href="/Equipments/Index?sort=model|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Model descending" title="click to sort by Model" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "model|desc")
+                    {
+                        <a href="/Equipments/Index?sort=model|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Model ascending" title="click to sort by Model" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=model|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Model" title="click to sort by Model" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=EquipmentAttributeType.equipmentAttributeType1|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Type" title="click to sort by Type" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "EquipmentAttributeType.equipmentAttributeType1|asc")
+                    {
+                        <a href="/Equipments/Index?sort=EquipmentAttributeType.equipmentAttributeType1|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Type descending" title="click to sort by Type" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "EquipmentAttributeType.equipmentAttributeType1|desc")
+                    {
+                        <a href="/Equipments/Index?sort=EquipmentAttributeType.equipmentAttributeType1|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Type ascending" title="click to sort by Type" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=EquipmentAttributeType.equipmentAttributeType1|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Type" title="click to sort by Type" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=installDate|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Install Date" title="click to sort by Install Date" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "installDate|asc")
+                    {
+                        <a href="/Equipments/Index?sort=installDate|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Install Date descending" title="click to sort by Install Date" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "installDate|desc")
+                    {
+                        <a href="/Equipments/Index?sort=installDate|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Install Date ascending" title="click to sort by Install Date" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=installDate|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Install Date" title="click to sort by Install Date" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=price|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Price" title="click to sort by Price" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "price|asc")
+                    {
+                        <a href="/Equipments/Index?sort=price|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Price descending" title="click to sort by Price" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "price|desc")
+                    {
+                        <a href="/Equipments/Index?sort=price|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Price ascending" title="click to sort by Price" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=price|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Price" title="click to sort by Price" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;">
+                    @if (Session["equipmentSort"] == null)
+                    {
+                        <a href="/Equipments/Index?sort=area|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Area" title="click to sort by Area" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "area|asc")
+                    {
+                        <a href="/Equipments/Index?sort=area|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Area descending" title="click to sort by Area" />
+                        </a>
+                    }
+                    else if (Session["equipmentSort"].ToString() == "area|desc")
+                    {
+                        <a href="/Equipments/Index?sort=area|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Area ascending" title="click to sort by Area" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Equipments/Index?sort=area|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Area" title="click to sort by Area" />
+                        </a>
+                    }
+                </th>
+                <th style="border-bottom:none;"></th>
+                <th style="border-bottom:none;"></th>
+                <th style="border-bottom:none;"></th>
+            </tr>
             <tr>
                 <th></th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Location)
+                    @Html.DisplayNameFor(model => model.Location)                    
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.isNewToSite)
@@ -48,7 +343,7 @@
                     @Html.DisplayNameFor(model => model.manufacturer)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.model)
+                    @Html.DisplayNameFor(model => model.model)                    
                 </th>
                 <th>
                     Type

@@ -27,7 +27,7 @@ namespace JCIEstimate.Controllers
                                    select cc;
 
             
-            projectAddendums = db.ProjectAddendums.Include(p => p.Project);
+            projectAddendums = db.ProjectAddendums.Include(p => p.Project).OrderBy(c=>c.dateCreated);
             return View(await projectAddendums.ToListAsync());
         }
 

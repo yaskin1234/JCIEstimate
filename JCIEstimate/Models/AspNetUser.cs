@@ -38,6 +38,7 @@ namespace JCIEstimate.Models
             this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
             this.SalesTeamMembers = new HashSet<SalesTeamMember>();
+            this.Calendars = new HashSet<Calendar>();
         }
     
         public string Id { get; set; }
@@ -76,5 +77,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<SalesTeamMember> SalesTeamMembers { get; set; }
+        public virtual ICollection<Calendar> Calendars { get; set; }
     }
 }

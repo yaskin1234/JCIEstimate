@@ -34,6 +34,17 @@ namespace JCIEstimate.Controllers
         //    return Json(est, JsonRequestBehavior.AllowGet);
         //}
 
+        
+        // GET: Estimates
+        public async Task<ActionResult> EstimateComparison(string filterId, string sort)
+        {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            var estimates = from cc in db.Estimates
+                            where cc.Location.projectUid == sessionProject
+                            select cc;
+
+            return View(await estimates.ToListAsync());
+        }
 
         // GET: Estimates
         public async Task<ActionResult> Index(string filterId, string sort)

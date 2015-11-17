@@ -1,0 +1,32 @@
+﻿@model IEnumerable<JCIEstimate.Models.Estimate>
+
+@{
+    ViewBag.Title = "EstimateComparison";
+}
+
+<h2>Estimate Comparison</h2>
+<table>
+    <tr>
+        <td>location</td>
+        <td>ecm desription</td>
+        <td>category</td>        
+    </tr>
+@foreach (var item in Model) {        
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.location1)
+        </td>
+        @foreach (var est in item.Estimates)
+        {            
+            <td>
+                @Html.DisplayFor(modelItem => est.ECM.ecmDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => est.Category.category1)
+            </td>
+        }
+        
+    </tr>
+}
+
+</table>

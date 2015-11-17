@@ -275,8 +275,8 @@ namespace JCIEstimate.Models
         [Display(Name = "ECM")]
         public System.Guid ecmUid { get; set; }
         [Display(Name = "ECM Description")]
-        public string ecmDescription { get; set; }
-        [Display(Name = "ECM Number")]
+        public string ecmDescription { get; set; }        
+        [Display(Name = "ecmNumber"), DisplayFormat(DataFormatString = "{0:0.0000}", ApplyFormatInEditMode= true)]        
         public string ecmNumber { get; set; }
     }
     

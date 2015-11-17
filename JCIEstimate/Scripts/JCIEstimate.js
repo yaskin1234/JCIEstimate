@@ -20,6 +20,12 @@
         document.location = url + "?filterId=" + escape(selectedValue);
     })
 
+    $("#srchJCITag").click(function () {
+        var selectedValue = $("#equipmentFilterJCITag").val();
+        var url = "/Equipments/Index";
+        document.location = url + "?jciTag=" + escape(selectedValue);
+    })
+
     $(".equipmentGridFilter").change(function () {
         var selectedValue = $("#equipmentGridFilter").val();
         var url = "/Equipments/GridEdit";
@@ -97,7 +103,42 @@
         }
     })
 
-    
+
+    $("#equipmentFilterJCITag").keypress(function (e) {
+        if (e.which == 13) {
+            $("#srchJCITag").click();
+            return false;
+        }
+    })
+
+
+    $(".addNewCalendarTask").click(function () {
+        $val = this.id;        
+        var td = document.getElementById($val + "|NewRow");
+        $(td).load("/Calendars/GetNewCalendarTaskForm/" + escape($val));
+        $(document).on('change', '.newTaskForm', function () {
+            $tdval = this.id.split('|')[0];
+            $val = $(this).val();
+            var td = document.getElementById($tdval + "|TDlocationUid");
+            $(td).load("/Calendars/GetLocationsForProject/" + escape($val));
+            $(td).css({ "style": "display:normal;" });
+                 
+        });
+        var btn = document.getElementById($val + '_btn');
+        $(document).on('click', '#' + $val + '_btn', function () {
+            var id = this.id.split('_')[0];
+            $form = document.getElementById(id + '_Form');
+            $form.submit();
+        });        
+        $(td).css({ "style": "display:normal;" });
+    })
+
+    $(".newTaskForm").change(function () {
+        $val = this.id.split('|')[0];
+        var td = document.getElementById($val + "|TDlocationUid");
+        $(td).load("/Calendars/GetLocationsForProject/" + escape($val));
+        $(td).css({ "style": "display:normal;" });
+    })    
 
     $("#equipmentAttributeTypeUid").change(function () {
         $val = $("#equipmentAttributeTypeUid").val();
@@ -329,6 +370,49 @@
         })
     });
 
+    $(".calendarDayTask").change(function () {
+        var id = this.id.split("_")[0];
+        $.ajax({
+            url: "/CalendarDayTasks/SaveCalendarDayTask",
+            type: "POST",
+            data: {
+                id: id,
+                value: $(this).val()
+            },
+            dataType: "json"
+        })
+        .always(function (data) {            
+            var txtArea = document.getElementById(id + "_task");
+            var txt = $(txtArea).val();            
+            $("#" + id + "_div").show();
+            $("#" + id + "_div").html(txt.replace(new RegExp("\n", "g"), "<br/>"));
+            $("#" + id + "_divText").hide();            
+            
+        });
+    });
+
+    $(".calendarProjectFilter").change(function () {
+        var selectedValue = $(this).val();
+        var calendarUid = this.id.split("_")[0];
+        window.location.replace("/Calendars/Edit/" + calendarUid + "?projectUid=" + selectedValue);
+        //$.ajax({
+        //    url: "/Calendars/Edit",
+        //    type: "GET",
+        //    data: {
+        //        id: calendarUid,
+        //        projectUid: $(this).val()
+        //    },
+        //    dataType: "json"
+        //})
+        //.always(function (data) {            
+        //})
+        //.success(function (content) {
+        //    $("body").html(data);
+        //});
+    });
+
+    
+
     $(".contractorSchedule").change(function () {        
         $.ajax({
             url: "/ContractorDraws/SaveDrawScheduleAmount",            
@@ -530,6 +614,20 @@
         var dtltbl = $('#dvEquipmentData').html();
         window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#dvEquipmentData').html()));
     });
+
+    $("#lnkExportCalendar").click(function () {
+        $(".toRemoveForExport").remove();
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#calendarData').html()));
+        location.reload();
+    });
+
+    $(".calendarTaskEditLink").click(function () {
+        var id = this.id.split("_")[0];
+        $("#" + id + "_divText").show();
+        $("#" + id + "_div").hide();
+    });
+
+    
 
     $(".form-control-shift").change(function () {        
         $.ajax({

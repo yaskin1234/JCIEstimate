@@ -29,6 +29,18 @@ namespace JCIEstimate.Controllers
             }
         }
 
+        public ActionResult GetEstimateComparison()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptEstimateComparison");
+            }
+        }
+
 
         public ActionResult GetCategoryECMByContractor()
         {

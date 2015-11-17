@@ -49,6 +49,32 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="Calendar">
+          <Key>
+            <PropertyRef Name="calendarUid" />
+          </Key>
+          <Property Name="calendarUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="calendar" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CalendarDay">
+          <Key>
+            <PropertyRef Name="calendarDayUid" />
+          </Key>
+          <Property Name="calendarDayUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="calendarUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="date" Type="date" />
+        </EntityType>
+        <EntityType Name="CalendarDayTask">
+          <Key>
+            <PropertyRef Name="calendarDayTaskUid" />
+          </Key>
+          <Property Name="calendarDayTaskUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="calendarDayUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" />
+          <Property Name="locationUid" Type="uniqueidentifier" />
+          <Property Name="task" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="categoryUid" />
@@ -228,7 +254,7 @@
             <PropertyRef Name="ecmUid" />
           </Key>
           <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmNumber" Type="decimal" Precision="11" Scale="2" Nullable="false" />
+          <Property Name="ecmNumber" Type="decimal" Precision="11" Scale="4" Nullable="false" />
           <Property Name="ecmDescription" Type="nvarchar" MaxLength="200" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ecmString" Type="nvarchar" MaxLength="218" StoreGeneratedPattern="Computed" />
@@ -1150,6 +1176,66 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="PECCost">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CalendarDay_Calendar">
+          <End Role="Calendar" Type="Self.Calendar" Multiplicity="1" />
+          <End Role="CalendarDay" Type="Self.CalendarDay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Calendar">
+              <PropertyRef Name="calendarUid" />
+            </Principal>
+            <Dependent Role="CalendarDay">
+              <PropertyRef Name="calendarUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CalendarDayTask_CalendarDay">
+          <End Role="CalendarDay" Type="Self.CalendarDay" Multiplicity="1" />
+          <End Role="CalendarDayTask" Type="Self.CalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CalendarDay">
+              <PropertyRef Name="calendarDayUid" />
+            </Principal>
+            <Dependent Role="CalendarDayTask">
+              <PropertyRef Name="calendarDayUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CalendarDayTask_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="CalendarDayTask" Type="Self.CalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="CalendarDayTask">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CalendarDayTask_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="CalendarDayTask" Type="Self.CalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="CalendarDayTask">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CalendarMember_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Calendar" Type="Self.Calendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Calendar">
               <PropertyRef Name="aspNetUserUid" />
             </Dependent>
           </ReferentialConstraint>
@@ -2621,6 +2707,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Calendar" EntityType="Self.Calendar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CalendarDay" EntityType="Self.CalendarDay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CalendarDayTask" EntityType="Self.CalendarDayTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompletionCategory" EntityType="Self.CompletionCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contractor" EntityType="Self.Contractor" Schema="dbo" store:Type="Tables" />
@@ -2803,6 +2892,26 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_AspNetUserPECCost" Association="Self.fk_AspNetUserPECCost">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="PECCost" EntitySet="PECCost" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CalendarDay_Calendar" Association="Self.fk_CalendarDay_Calendar">
+            <End Role="Calendar" EntitySet="Calendar" />
+            <End Role="CalendarDay" EntitySet="CalendarDay" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CalendarDayTask_CalendarDay" Association="Self.fk_CalendarDayTask_CalendarDay">
+            <End Role="CalendarDay" EntitySet="CalendarDay" />
+            <End Role="CalendarDayTask" EntitySet="CalendarDayTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CalendarDayTask_Location" Association="Self.fk_CalendarDayTask_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="CalendarDayTask" EntitySet="CalendarDayTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CalendarDayTask_Project" Association="Self.fk_CalendarDayTask_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="CalendarDayTask" EntitySet="CalendarDayTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CalendarMember_AspNetUser" Association="Self.fk_CalendarMember_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Calendar" EntitySet="Calendar" />
           </AssociationSet>
           <AssociationSet Name="fk_contractor" Association="Self.fk_contractor">
             <End Role="Contractor" EntitySet="Contractor" />
@@ -3897,6 +4006,29 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Opportunity" EntitySet="Opportunities" />
             <End Role="SalesOpportunity" EntitySet="SalesOpportunities" />
           </AssociationSet>
+          <EntitySet Name="Calendars" EntityType="JCIEstimateModel.Calendar" />
+          <EntitySet Name="CalendarDays" EntityType="JCIEstimateModel.CalendarDay" />
+          <EntitySet Name="CalendarDayTasks" EntityType="JCIEstimateModel.CalendarDayTask" />
+          <AssociationSet Name="fk_CalendarMember_AspNetUser" Association="JCIEstimateModel.fk_CalendarMember_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Calendar" EntitySet="Calendars" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CalendarDay_Calendar" Association="JCIEstimateModel.fk_CalendarDay_Calendar">
+            <End Role="Calendar" EntitySet="Calendars" />
+            <End Role="CalendarDay" EntitySet="CalendarDays" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CalendarDayTask_CalendarDay" Association="JCIEstimateModel.fk_CalendarDayTask_CalendarDay">
+            <End Role="CalendarDay" EntitySet="CalendarDays" />
+            <End Role="CalendarDayTask" EntitySet="CalendarDayTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CalendarDayTask_Location" Association="JCIEstimateModel.fk_CalendarDayTask_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="CalendarDayTask" EntitySet="CalendarDayTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CalendarDayTask_Project" Association="JCIEstimateModel.fk_CalendarDayTask_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="CalendarDayTask" EntitySet="CalendarDayTasks" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -3994,6 +4126,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_user" FromRole="Project" ToRole="ProjectUser" />
           <NavigationProperty Name="ContractorNotes" Relationship="JCIEstimateModel.fk_ContractorNote_Project" FromRole="Project" ToRole="ContractorNote" />
           <NavigationProperty Name="MasterSchedules" Relationship="JCIEstimateModel.fk_MasterSchedule_Project" FromRole="Project" ToRole="MasterSchedule" />
+          <NavigationProperty Name="CalendarDayTasks" Relationship="JCIEstimateModel.fk_CalendarDayTask_Project" FromRole="Project" ToRole="CalendarDayTask" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -4070,6 +4203,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="AspNetUserClaims" Relationship="JCIEstimateModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="SalesTeamMembers" Relationship="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser" FromRole="AspNetUser" ToRole="SalesTeamMember" />
+          <NavigationProperty Name="Calendars" Relationship="JCIEstimateModel.fk_CalendarMember_AspNetUser" FromRole="AspNetUser" ToRole="Calendar" />
           </EntityType>
         <Association Name="fk_AspNetUser">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -4625,6 +4759,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" FromRole="Location" ToRole="EquipmentTypeTaskAssignment" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Location" ToRole="Estimate" />
           <NavigationProperty Name="MasterSchedules" Relationship="JCIEstimateModel.fk_MasterSchedule_Location" FromRole="Location" ToRole="MasterSchedule" />
+          <NavigationProperty Name="CalendarDayTasks" Relationship="JCIEstimateModel.fk_CalendarDayTask_Location" FromRole="Location" ToRole="CalendarDayTask" />
         </EntityType>
         <EntityType Name="LocationIssue">
           <Key>
@@ -5415,7 +5550,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <PropertyRef Name="ecmUid" />
           </Key>
           <Property Name="ecmUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmNumber" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
+          <Property Name="ecmNumber" Type="Decimal" Nullable="false" Precision="11" Scale="4" />
           <Property Name="ecmDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="projectUid" Type="Guid" Nullable="false" />
           <Property Name="ecmString" Type="String" MaxLength="218" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
@@ -6767,6 +6902,99 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Calendar">
+          <Key>
+            <PropertyRef Name="calendarUid" />
+          </Key>
+          <Property Name="calendarUid" Type="Guid" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="calendar1" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_CalendarMember_AspNetUser" FromRole="Calendar" ToRole="AspNetUser" />
+          <NavigationProperty Name="CalendarDays" Relationship="JCIEstimateModel.fk_CalendarDay_Calendar" FromRole="Calendar" ToRole="CalendarDay" />
+        </EntityType>
+        <EntityType Name="CalendarDay">
+          <Key>
+            <PropertyRef Name="calendarDayUid" />
+          </Key>
+          <Property Name="calendarDayUid" Type="Guid" Nullable="false" />
+          <Property Name="calendarUid" Type="Guid" Nullable="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Calendar" Relationship="JCIEstimateModel.fk_CalendarDay_Calendar" FromRole="CalendarDay" ToRole="Calendar" />
+          <NavigationProperty Name="CalendarDayTasks" Relationship="JCIEstimateModel.fk_CalendarDayTask_CalendarDay" FromRole="CalendarDay" ToRole="CalendarDayTask" />
+        </EntityType>
+        <EntityType Name="CalendarDayTask">
+          <Key>
+            <PropertyRef Name="calendarDayTaskUid" />
+          </Key>
+          <Property Name="calendarDayTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="calendarDayUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" />
+          <Property Name="locationUid" Type="Guid" />
+          <Property Name="task" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CalendarDay" Relationship="JCIEstimateModel.fk_CalendarDayTask_CalendarDay" FromRole="CalendarDayTask" ToRole="CalendarDay" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_CalendarDayTask_Location" FromRole="CalendarDayTask" ToRole="Location" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_CalendarDayTask_Project" FromRole="CalendarDayTask" ToRole="Project" />
+        </EntityType>
+        <Association Name="fk_CalendarMember_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Calendar" Role="Calendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Calendar">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CalendarDay_Calendar">
+          <End Type="JCIEstimateModel.Calendar" Role="Calendar" Multiplicity="1" />
+          <End Type="JCIEstimateModel.CalendarDay" Role="CalendarDay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Calendar">
+              <PropertyRef Name="calendarUid" />
+            </Principal>
+            <Dependent Role="CalendarDay">
+              <PropertyRef Name="calendarUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CalendarDayTask_CalendarDay">
+          <End Type="JCIEstimateModel.CalendarDay" Role="CalendarDay" Multiplicity="1" />
+          <End Type="JCIEstimateModel.CalendarDayTask" Role="CalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CalendarDay">
+              <PropertyRef Name="calendarDayUid" />
+            </Principal>
+            <Dependent Role="CalendarDayTask">
+              <PropertyRef Name="calendarDayUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CalendarDayTask_Location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.CalendarDayTask" Role="CalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="CalendarDayTask">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CalendarDayTask_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.CalendarDayTask" Role="CalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="CalendarDayTask">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7850,6 +8078,35 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="opportunityDescription" ColumnName="opportunityDescription" />
                 <ScalarProperty Name="opportunity1" ColumnName="opportunity" />
                 <ScalarProperty Name="opportunityUid" ColumnName="opportunityUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Calendars">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Calendar">
+              <MappingFragment StoreEntitySet="Calendar">
+                <ScalarProperty Name="calendar1" ColumnName="calendar" />
+                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
+                <ScalarProperty Name="calendarUid" ColumnName="calendarUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CalendarDays">
+            <EntityTypeMapping TypeName="JCIEstimateModel.CalendarDay">
+              <MappingFragment StoreEntitySet="CalendarDay">
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="calendarUid" ColumnName="calendarUid" />
+                <ScalarProperty Name="calendarDayUid" ColumnName="calendarDayUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CalendarDayTasks">
+            <EntityTypeMapping TypeName="JCIEstimateModel.CalendarDayTask">
+              <MappingFragment StoreEntitySet="CalendarDayTask">
+                <ScalarProperty Name="task" ColumnName="task" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="calendarDayUid" ColumnName="calendarDayUid" />
+                <ScalarProperty Name="calendarDayTaskUid" ColumnName="calendarDayTaskUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

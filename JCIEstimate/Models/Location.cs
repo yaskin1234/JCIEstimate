@@ -24,6 +24,7 @@ namespace JCIEstimate.Models
             this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
             this.Estimates = new HashSet<Estimate>();
             this.MasterSchedules = new HashSet<MasterSchedule>();
+            this.CalendarDayTasks = new HashSet<CalendarDayTask>();
         }
     
         public System.Guid locationUid { get; set; }
@@ -40,5 +41,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<MasterSchedule> MasterSchedules { get; set; }
+        public virtual ICollection<CalendarDayTask> CalendarDayTasks { get; set; }
     }
 }
