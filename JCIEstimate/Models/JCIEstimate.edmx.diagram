@@ -20,7 +20,7 @@
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.Interval" Width="1.5" PointX="0.75" PointY="0.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_interval" />
-        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentType" Width="1.5" PointX="16.125" PointY="20.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentType" Width="1.5" PointX="21.125" PointY="23" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseMiscellaneou" Width="1.5" PointX="16.125" PointY="24" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseMiscellaneousProject" Width="1.5" PointX="18.375" PointY="18.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_expensemiscellaneousproject_expensemiscellaneous" />
@@ -170,7 +170,7 @@
         <AssociationConnector Association="JCIEstimateModel.fk_PECCost_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentAttributeTypeTask" Width="1.5" PointX="21.375" PointY="45" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttributeTypeTask_AttributeType" />
-        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentTypeTaskAssignment" Width="1.5" PointX="23.625" PointY="29.375" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentTypeTaskAssignment" Width="1.5" PointX="23.625" PointY="29.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_AttributeType" />

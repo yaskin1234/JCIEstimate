@@ -47,6 +47,28 @@ namespace JCIEstimate.Controllers
             return View();
         }
 
+        // GET: EquipmentToDoes/SaveCheckedBox/5
+        public async Task<ActionResult> SaveCalendarDayTaskDate(string id, string value)
+        {
+            CalendarDayTask cds = db.CalendarDayTasks.Find(Guid.Parse(id));            
+            DateTime newDate = DateTime.Parse(value);
+            db.Entry(cds).State = EntityState.Modified;
+            var calendarUid = from cc in db.CalendarDayTasks
+                              join dd in db.CalendarDays on cc.calendarDayUid equals dd.calendarDayUid
+                              where cc.calendarDayTaskUid == cds.calendarDayTaskUid
+                              select dd.calendarUid;                              
+
+            var calendarDayUid = from cc in db.CalendarDays
+                                 where cc.date == newDate             
+                                 && cc.calendarUid == calendarUid.FirstOrDefault()
+                                 select cc.calendarDayUid;
+
+            cds.calendarDayUid = calendarDayUid.FirstOrDefault();
+            await db.SaveChangesAsync();
+            return View();
+        }
+
+
         // GET: CalendarDayTasks/Create
         public ActionResult Create()
         {

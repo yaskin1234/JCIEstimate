@@ -616,7 +616,10 @@
     });
 
     $("#lnkExportCalendar").click(function () {
-        $(".toRemoveForExport").remove();
+        $(".toRemoveForExport").remove();        
+        $(".addNewCalendarTask").remove();
+        $(".addBorder").attr("style", "border:solid;border-width:thin;");
+        
         window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#calendarData').html()));
         location.reload();
     });
@@ -709,9 +712,34 @@
     //    $(".form-control-dates").datepicker();
     //});
 
-    //$(function () {
-    //    $(".datepicker").datepicker();
-    //});
+    $(function () {
+        $(".datepicker").datepicker();
+    });
+
+    $(".taskChangeDate").click(function () {
+        var id = this.id.split("_")[0];
+        $("#" + id + "_changeDateText").show();
+        $("#" + id + "_changeDateText").focus();
+    });
+
+    $(".datepicker").change(function () {
+        var id = this.id.split("_")[0];
+        $.ajax({
+            url: "/CalendarDayTasks/SaveCalendarDayTaskDate",
+            type: "POST",
+            data: {
+                id: id,
+                value: $(this).val()
+            },
+            dataType: "json"
+        })
+        .always(function (data) {            
+            $("#" + id + "_changeDateText").hide();
+            location.reload();
+        })
+
+    });
+    
 
     
 

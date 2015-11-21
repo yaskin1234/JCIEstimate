@@ -626,6 +626,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Images\AddItem.png" />
     <Content Include="Images\attr.png" />
+    <Content Include="Images\Calendar.png" />
     <Content Include="Images\delete-icon.png" />
     <Content Include="Images\delete_filter-128.png" />
     <Content Include="Images\edit.png" />

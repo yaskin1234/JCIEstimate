@@ -36,19 +36,22 @@
                 }
 
                 <tr>
-                    <td style="background-color:@backgroundColor;font-weight:bold;">@cd.date.ToString("dddd"), @cd.date.ToShortDateString()</td>
-                    <td></td>
+                    <td style="background-color:@backgroundColor;font-weight:bold;border:solid;border-width:thin;">@cd.date.ToString("dddd"), @cd.date.ToShortDateString()</td>
+                    <td class="addBorder"></td>
                 </tr>
-                <tr>
+                <tr @if(cd.GetTasksCountForCalendarDay(ViewBag.projectFilterValue) == 0)
+                    {
+                        @:class="toRemoveForExport"
+                    }>
                     <td><a style="cursor:pointer;" class="addNewCalendarTask" id="@cd.calendarDayUid">add new task</a></td>
                     <td>
                         <table class="table-condensed">
-                            <tr>
-                                <td id="@cd.calendarDayUid|NewRow" colspan="3"></td>
+                            <tr class="toRemoveForExport">
+                                <td id="@cd.calendarDayUid|NewRow" colspan="5"></td>
                             </tr>
                             @if (cd.GetTasksCountForCalendarDay(ViewBag.projectFilterValue) > 0)
                             {
-                                <tr>
+                                <tr class="toRemoveForExport">
                                     <th></th>
                                     <th>Project</th>
                                     <th>Location</th>
@@ -58,43 +61,48 @@
                             }
                             @foreach (var task in cd.GetTasksForCalendarDay(ViewBag.projectFilterValue))
                             {
-                                
+
                                 var taskTextID = task.calendarDayTaskUid + "_task";
                                 var taskDivID = task.calendarDayTaskUid + "_div";
                                 var taskTextAreaDivID = task.calendarDayTaskUid + "_divText";
-                                var taskLinkID = task.calendarDayTaskUid + "_link";                               
-                                
+                                var taskLinkID = task.calendarDayTaskUid + "_link";
+                                var taskChangeDateLink = task.calendarDayTaskUid + "_changeDate";
+                                var taskChangeDateText = task.calendarDayTaskUid + "_changeDateText";
+
                                 <tr>
-                                    <td>
-                                        <a style="cursor:pointer;" class="calendarTaskEditLink" id="@taskLinkID"><img class="toRemoveForExport" src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+                                    <td class="toRemoveForExport">                                        
+                                        <a style="cursor:pointer;" class="taskChangeDate" id="@taskChangeDateLink"><img src="@Url.Content("~/Images/calendar.png")" height="15" width="15" alt="Click to Change Date" title="Click to Change Date" /></a>
+                                        <input id="@taskChangeDateText" class="datepicker" type="text" name="taskDatePicker" style="display:none;width:1px;" readonly />
+                                        <a style="cursor:pointer;" class="calendarTaskEditLink" id="@taskLinkID"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
                                     </td>
-                                    <td>
+                                    <td class="addBorder">
                                         @{
                                 var project = (task.Project == null ? "" : task.Project.project1);
                                         }
                                         @project
                                     </td>
-                                    <td>
+                                    <td class="addBorder">
                                         @{
                                 var location = (task.Location == null ? "" : task.Location.location1);
                                         }
                                         @location
                                     </td>
-                                    <td>                                        
+                                    <td class="addBorder">
                                         <div id="@taskTextAreaDivID" class="toRemoveForExport" style="display:none">
-                                            <textarea class="calendarDayTask" id="@taskTextID" cols="60" rows="3">@task.task</textarea>                                            
-                                        </div>                       
+                                            <textarea class="calendarDayTask" id="@taskTextID" cols="60" rows="3">@task.task</textarea>
+                                        </div>
                                         <div id="@taskDivID" style="display:normal">
                                             @MvcHtmlString.Create(task.task.Replace("\n", "<br />"))
                                         </div>
                                     </td>
-                                    <td>                                        
+                                    <td class="addBorder">
                                         <a class="toRemoveForExport" href="@Url.Action("Delete", "CalendarDayTasks", new { id = task.calendarDayTaskUid })"><img class="toRemoveForExport" src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" /></a>
                                     </td>
                                 </tr>
                             }
                         </table>
                     </td>
+
                 </tr>
 
             }

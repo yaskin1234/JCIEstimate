@@ -133,6 +133,9 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.aspNetUserUidAsPM = db.AspNetUsers.OrderBy(c => c.Email).ToSelectList(c => c.Email, c => c.Id, "");
+            ViewBag.miscExpenseList = new SelectList(db.ExpenseMiscellaneous, "expenseMiscellaneousUid", "expenseMiscellaneous");
+
             return View(project);
         }
 
