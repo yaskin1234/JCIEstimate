@@ -627,8 +627,8 @@ namespace JCIEstimate.Controllers
             int destHeight;
             if (myImage.Height > 1000 && myImage.Width > 1000 && file.InputStream.Length > 1000000)
             {
-                destWidth = (int)(myImage.Width * .50);
-                destHeight = (int)(myImage.Height * .50);
+                destWidth = (int)(myImage.Width * .70);
+                destHeight = (int)(myImage.Height * .70);
             }
             else
             {

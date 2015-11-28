@@ -2098,6 +2098,7 @@
     <Content Include="Views\Calendars\GetNewCalendarTaskForm.cshtml" />
     <Content Include="Views\Calendars\GetLocationsForProject.cshtml" />
     <Content Include="Views\CalendarDayTasks\SaveCalendarDayTask.cshtml" />
+    <Content Include="Views\Reports\rptEstimateComparisonActive.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

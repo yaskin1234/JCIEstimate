@@ -361,7 +361,7 @@
                         <td><img class="img-zoom" src="@Url.Action("showImage", "Equipments", new { id = item.equipmentAttachmentUid } )" alt="test" /></td>
                         @if (User.IsInRole("Admin"))
                         {
-                            <td><a href="@Url.Action("Delete", "Equipments", new { id = item.equipmentUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a></td>
+                            <td><a href="@Url.Action("Delete", "EquipmentAttachments", new { id = item.equipmentAttachmentUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a></td>
                         }
                     </tr>
                 }

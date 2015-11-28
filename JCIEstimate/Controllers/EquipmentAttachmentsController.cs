@@ -166,7 +166,7 @@ namespace JCIEstimate.Controllers
             EquipmentAttachment equipmentAttachment = await db.EquipmentAttachments.FindAsync(id);
             db.EquipmentAttachments.Remove(equipmentAttachment);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Edit", "Equipments", new { id = equipmentAttachment.equipmentUid });
         }
 
         protected override void Dispose(bool disposing)
