@@ -1,0 +1,74 @@
+﻿@model JCIEstimate.Models.ProjectCalendarDayTask
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ProjectCalendarDayTask</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.taskStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.taskStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.taskDuration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.taskDuration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.task)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.task)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.AllowableContractors)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.AllowableContractors)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.location1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.location1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectCalendarDay.projectCalendarDayUid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectCalendarDay.projectCalendarDayUid)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.projectCalendarDayTaskUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,74 @@
+﻿@model JCIEstimate.Models.ProjectTaskList
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ProjectTaskList</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.projectTask)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectTask)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectTaskSequence)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectTaskSequence)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectTaskStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectTaskStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectTaskDuration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectTaskDuration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectTaskList2.projectTask)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectTaskList2.projectTask)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectTaskList3.projectTask)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectTaskList3.projectTask)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.projectTaskListUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

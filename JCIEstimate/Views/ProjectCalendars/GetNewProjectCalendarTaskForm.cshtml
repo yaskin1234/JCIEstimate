@@ -1,0 +1,57 @@
+﻿@model JCIEstimate.Models.ProjectCalendarDayTask
+@{
+    Layout = null;
+}
+@{
+    var formName = ViewBag.id + "_Form";
+}
+<form action="/ProjectCalendarDayTasks/Create" id="@formName" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="projectCalendarDayUid" value="@ViewBag.id" />
+    <table>        
+        <tr>
+            <th>Project</th>
+            <th>Location</th>
+            <th>Task</th>
+        </tr>        
+        <tr>
+            <td>
+                @Html.DropDownList("projectUid", null, htmlAttributes: new { @class = "newProjectTaskFormProjectUid", @id = ViewBag.id + "|projectUid" })
+                @Html.ValidationMessageFor(model => model.projectUid, "", new { @class = "text-danger" })
+            </td>
+            <td id="@ViewBag.id|TDlocationUid">
+                @Html.DropDownList("locationUid", null, htmlAttributes: new { @class = "newProjectTaskForm", @id = ViewBag.id + "|locationUid" })
+                @Html.ValidationMessageFor(model => model.locationUid, "", new { @class = "text-danger" })
+            </td>
+            <td>
+                @Html.TextAreaFor(model => model.task, 3, 60, new { htmlAttributes = new { @class = "newProjectTaskForm", @id = ViewBag.id + "|task" } })
+                @Html.ValidationMessageFor(model => model.task, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <th>Assigned To</th>
+            <th>Task Start Date</th>
+            <th>Task Duration</th>
+        </tr>
+        <tr>
+            <td id="@ViewBag.id|TDaspnetUserUidAsAssigned">
+                @Html.DropDownList("aspnetUserUidAsAssigned", null, htmlAttributes: new { @class = "newProjectTaskForm", @id = ViewBag.id + "|aspnetUserUidAsAssigned" })
+                @Html.ValidationMessageFor(model => model.aspnetUserUidAsAssigned, "", new { @class = "text-danger" })
+            </td>
+            <td id="@ViewBag.id|TDtaskStartDate">
+                @Html.EditorFor(model => model.taskStartDate, new { htmlAttributes = new { @class = "newProjectTaskForm", @id = ViewBag.id + "|taskStartDate" } })
+                @Html.ValidationMessageFor(model => model.taskStartDate, "", new { @class = "text-danger" })                
+            </td>
+            <td id="@ViewBag.id|TDtaskDuration">
+                @Html.EditorFor(model => model.taskDuration, new { htmlAttributes = new { @class = "newProjectTaskForm", @id = ViewBag.id + "|taskDuration" } })                
+                @Html.ValidationMessageFor(model => model.taskDuration, "", new { @class = "text-danger" })
+            </td>            
+            <td>
+                @{
+                    var btnName = ViewBag.id + "_btn";
+                }
+                <input id="@btnName" type="submit" value="Create" class="btn btn-default" />
+            </td>
+        </tr>
+    </table>
+</form>

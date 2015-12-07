@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="78">
+      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="59">
         <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="11.875" PointY="10.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="8.625" PointY="3.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
@@ -238,6 +238,22 @@
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_CalendarDay" />
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_Location" />
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_Project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectCalendar" Width="1.5" PointX="16.5" PointY="64.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectCalendarDay" Width="1.5" PointX="18.75" PointY="64.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDay_ProjectCalendar" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectTaskCategory" Width="1.5" PointX="12.125" PointY="25" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectCalendarDayTask" Width="1.5" PointX="27" PointY="39.125" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectTaskPrototype" Width="1.5" PointX="14.375" PointY="26.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_Location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectCalendarDay" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectTaskCategory" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectTaskList" Width="1.5" PointX="18.375" PointY="68.375" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListParent" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListPredecessor" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

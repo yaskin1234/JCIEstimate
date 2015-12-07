@@ -1696,6 +1696,35 @@ namespace JCIEstimate.Models
         public bool isCompleted { get; set; }
     }
 
+    /// <summary>
+    /// SalesOpportunityTasks
+    /// </summary>
+    [MetadataType(typeof(ProjectTaskListMetaData))]
+    public partial class ProjectTaskList
+    {
+
+    }
+
+    public class ProjectTaskListMetaData
+    {
+        [Display(Name = "Task")]
+        public System.Guid projectTaskListUid { get; set; }
+        [Display(Name = "Project")]
+        public System.Guid projectUid { get; set; }
+        [Display(Name = "Task Parent")]
+        public Nullable<System.Guid> projectTaskListUidAsParent { get; set; }
+        [Display(Name = "Task Predecessor")]
+        public Nullable<System.Guid> projectTaskListUidAsPredecessor { get; set; }
+        [Display(Name = "Task")]
+        public string projectTask { get; set; }
+        [Display(Name = "Sequence")]
+        public int projectTaskSequence { get; set; }
+        [Display(Name = "Start Date")]
+        public System.DateTime projectTaskStartDate { get; set; }
+        [Display(Name = "Duration")]
+        public int projectTaskDuration { get; set; }
+    }
+
 
     
 

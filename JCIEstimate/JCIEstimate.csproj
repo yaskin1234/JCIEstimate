@@ -639,6 +639,7 @@
     <Content Include="Images\next.png" />
     <Content Include="Images\previous.png" />
     <Content Include="Images\replace.png" />
+    <Content Include="Images\save.png" />
     <Content Include="Images\SortArrows.png" />
     <Content Include="Images\SortDown.png" />
     <Content Include="Images\SortUp.png" />
@@ -2099,6 +2100,40 @@
     <Content Include="Views\Calendars\GetLocationsForProject.cshtml" />
     <Content Include="Views\CalendarDayTasks\SaveCalendarDayTask.cshtml" />
     <Content Include="Views\Reports\rptEstimateComparisonActive.cshtml" />
+    <Content Include="Views\ProjectTaskPrototypes\Create.cshtml" />
+    <Content Include="Views\ProjectTaskPrototypes\Delete.cshtml" />
+    <Content Include="Views\ProjectTaskPrototypes\Details.cshtml" />
+    <Content Include="Views\ProjectTaskPrototypes\Edit.cshtml" />
+    <Content Include="Views\ProjectTaskPrototypes\Index.cshtml" />
+    <Content Include="Views\ProjectCalendars\Create.cshtml" />
+    <Content Include="Views\ProjectCalendars\Delete.cshtml" />
+    <Content Include="Views\ProjectCalendars\Details.cshtml" />
+    <Content Include="Views\ProjectCalendars\Edit.cshtml" />
+    <Content Include="Views\ProjectCalendars\Index.cshtml" />
+    <Content Include="Views\ProjectCalendarDays\Create.cshtml" />
+    <Content Include="Views\ProjectCalendarDays\Delete.cshtml" />
+    <Content Include="Views\ProjectCalendarDays\Details.cshtml" />
+    <Content Include="Views\ProjectCalendarDays\Edit.cshtml" />
+    <Content Include="Views\ProjectCalendarDays\Index.cshtml" />
+    <Content Include="Views\ProjectCalendarDayTasks\Create.cshtml" />
+    <Content Include="Views\ProjectCalendarDayTasks\Delete.cshtml" />
+    <Content Include="Views\ProjectCalendarDayTasks\Details.cshtml" />
+    <Content Include="Views\ProjectCalendarDayTasks\Edit.cshtml" />
+    <Content Include="Views\ProjectCalendarDayTasks\Index.cshtml" />
+    <Content Include="Views\ProjectCalendars\AddNewProjectToCalendar.cshtml" />
+    <Content Include="Views\ProjectCalendars\GetNewProjectCalendarTaskForm.cshtml" />
+    <Content Include="Views\ProjectCalendarDayTasks\SaveProjectCalendarDayTask.cshtml" />
+    <Content Include="Views\ProjectTaskCategories\Create.cshtml" />
+    <Content Include="Views\ProjectTaskCategories\Delete.cshtml" />
+    <Content Include="Views\ProjectTaskCategories\Details.cshtml" />
+    <Content Include="Views\ProjectTaskCategories\Edit.cshtml" />
+    <Content Include="Views\ProjectTaskCategories\Index.cshtml" />
+    <Content Include="Views\ProjectTaskLists\Create.cshtml" />
+    <Content Include="Views\ProjectTaskLists\Delete.cshtml" />
+    <Content Include="Views\ProjectTaskLists\Details.cshtml" />
+    <Content Include="Views\ProjectTaskLists\Edit.cshtml" />
+    <Content Include="Views\ProjectTaskLists\Index.cshtml" />
+    <Content Include="Views\ProjectTaskLists\SaveTask.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2282,9 +2317,15 @@
     <Compile Include="Controllers\PECTasksController.cs" />
     <Compile Include="Controllers\ProjectAddendumsController.cs" />
     <Compile Include="Controllers\ProjectAttachmentsController.cs" />
+    <Compile Include="Controllers\ProjectCalendarDaysController.cs" />
+    <Compile Include="Controllers\ProjectCalendarDayTasksController.cs" />
+    <Compile Include="Controllers\ProjectCalendarsController.cs" />
     <Compile Include="Controllers\ProjectManagerAttachmentsController.cs" />
     <Compile Include="Controllers\ProjectRFIsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\ProjectTaskCategoriesController.cs" />
+    <Compile Include="Controllers\ProjectTaskListsController.cs" />
+    <Compile Include="Controllers\ProjectTaskPrototypesController.cs" />
     <Compile Include="Controllers\ProjectToDoesController.cs" />
     <Compile Include="Controllers\ProjectUsersController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -2553,6 +2594,15 @@
     <Compile Include="Models\ProjectAttachmentType.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectCalendar.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectCalendarDay.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectCalendarDayTask.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProjectEstimateEmail__v.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
@@ -2563,6 +2613,15 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectRFIResponse.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectTaskCategory.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectTaskList.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectTaskPrototype.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectToDo.cs">

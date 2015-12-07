@@ -37,6 +37,8 @@ namespace JCIEstimate.Models
             this.ContractorNotes = new HashSet<ContractorNote>();
             this.MasterSchedules = new HashSet<MasterSchedule>();
             this.CalendarDayTasks = new HashSet<CalendarDayTask>();
+            this.ProjectCalendarDayTasks = new HashSet<ProjectCalendarDayTask>();
+            this.ProjectTaskLists = new HashSet<ProjectTaskList>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -71,5 +73,7 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorNote> ContractorNotes { get; set; }
         public virtual ICollection<MasterSchedule> MasterSchedules { get; set; }
         public virtual ICollection<CalendarDayTask> CalendarDayTasks { get; set; }
+        public virtual ICollection<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
+        public virtual ICollection<ProjectTaskList> ProjectTaskLists { get; set; }
     }
 }

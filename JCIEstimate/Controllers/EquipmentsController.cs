@@ -883,6 +883,12 @@ namespace JCIEstimate.Controllers
                 filterColumn = filter.Split('|')[0];
                 filterValue = new Guid(filter.Split('|')[1]);
 
+                if (filterColumn == "A")
+                {
+                    filterColumn = "\"" + Guid.Empty.ToString().Substring(0, 35) + "1" + "\"";
+                    filterValue = Guid.Parse(Guid.Empty.ToString().Substring(0, 35) + "1");
+                }
+                
                 if (filterColumn == "E")
                 {
                     filterColumn = "equipmentAttributeTypeUid";                    

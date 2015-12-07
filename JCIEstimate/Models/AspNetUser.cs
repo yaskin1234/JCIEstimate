@@ -39,6 +39,8 @@ namespace JCIEstimate.Models
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
             this.SalesTeamMembers = new HashSet<SalesTeamMember>();
             this.Calendars = new HashSet<Calendar>();
+            this.ProjectCalendars = new HashSet<ProjectCalendar>();
+            this.ProjectCalendarDayTasks = new HashSet<ProjectCalendarDayTask>();
         }
     
         public string Id { get; set; }
@@ -78,5 +80,7 @@ namespace JCIEstimate.Models
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<SalesTeamMember> SalesTeamMembers { get; set; }
         public virtual ICollection<Calendar> Calendars { get; set; }
+        public virtual ICollection<ProjectCalendar> ProjectCalendars { get; set; }
+        public virtual ICollection<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
     }
 }

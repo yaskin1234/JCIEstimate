@@ -25,6 +25,7 @@ namespace JCIEstimate.Models
             this.Estimates = new HashSet<Estimate>();
             this.MasterSchedules = new HashSet<MasterSchedule>();
             this.CalendarDayTasks = new HashSet<CalendarDayTask>();
+            this.ProjectCalendarDayTasks = new HashSet<ProjectCalendarDayTask>();
         }
     
         public System.Guid locationUid { get; set; }
@@ -42,5 +43,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<MasterSchedule> MasterSchedules { get; set; }
         public virtual ICollection<CalendarDayTask> CalendarDayTasks { get; set; }
+        public virtual ICollection<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
     }
 }

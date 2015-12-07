@@ -1,0 +1,173 @@
+﻿@model JCIEstimate.Models.ProjectCalendar
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+    <div class="form-horizontal">
+        <h4>ProjectCalendar</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.projectCalendarUid)
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <h4>@Html.DisplayFor(model => model.projectCalendar1, new { htmlAttributes = new { @class = "form-control" } })</h4>
+                @Html.ValidationMessageFor(model => model.projectCalendar1, "", new { @class = "text-danger" })
+            </div>
+        </div> 
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.DropDownList("projectUid", null, htmlAttributes: new { @class = "projectCalendarProjectFilter", @id = Model.projectCalendarUid + "_projectFilter" }) <a style="cursor:pointer;" id="lnkExportCalendar">Export to excel</a>
+                <span>
+                    <br /><br />Add project to calendar: @Html.DropDownList("projectUidAsAdd", null, htmlAttributes: new { @class = "addNewProjectToCalendar", @id = "projectUidAsAdd" })
+                    <span id="addProjectToCalendar" style="display:none;">
+                        @{
+                            var linkID = Model.projectCalendarUid + "_link";
+                        }
+                        @Html.TextBox("startDate", "", new { @class = "datepicker", @id = "taskStartDate" });
+                        <a class="lnkAddProject" style="cursor:pointer;" id="@linkID">Click to add to calendar</a>
+                    </span>
+                </span>
+                @Html.ValidationMessageFor(model => model.projectCalendar1, "", new { @class = "text-danger" })
+            </div>
+        </div>         
+    </div>
+
+
+    <div id="calendarData">
+        <table class="table-condensed">
+            @foreach (var cd in ViewBag.calendarDays)
+            {
+                string backgroundColor;
+                if (cd.date.ToString("dddd") == "Saturday" || cd.date.ToString("dddd") == "Sunday")
+                {
+                    backgroundColor = "lightblue";
+                }
+                else
+                {
+                    backgroundColor = "lightgrey";
+                }
+
+                <tr>
+                    <td style="background-color:@backgroundColor;font-weight:bold;border:solid;border-width:thin;">@cd.date.ToString("dddd"), @cd.date.ToShortDateString()</td>
+                    <td class="addBorder"></td>
+                </tr>
+                <tr @if (cd.GetTasksCountForProjectCalendarDay(ViewBag.projectFilterValue) == 0) { @: class="toRemoveForExport"
+                                        }>
+                    <td><a style="cursor:pointer;" class="addNewProjectCalendarTask" id="@cd.projectCalendarDayUid">add new task</a></td>
+                    <td>
+                        <table class="table-condensed">
+                            <tr class="toRemoveForExport">
+                                <td id="@cd.projectCalendarDayUid|NewRow" colspan="5"></td>
+                            </tr>
+                            @if (cd.GetTasksCountForProjectCalendarDay(ViewBag.projectFilterValue) > 0)
+                            {
+                                @*<tr class="toRemoveForExport">
+                                    <th></th>
+                                    <th>Project</th>
+                                    <th>Location</th>
+                                    <th>Task</th>
+                                    <th>Assigned To</th>
+                                    <th>Start Date</th>
+                                    <th>Duration</th>
+                                    <th>End Date</th>
+                                    <th></th>
+                                </tr>*@
+                            }
+                            @foreach (var task in cd.GetTasksForProjectCalendarDay(ViewBag.projectFilterValue))
+                            {
+
+                                var taskTextID = task.projectCalendarDayTaskUid + "_task";
+                                var taskDivID = task.projectCalendarDayTaskUid + "_div";
+                                var taskTextAreaDivID = task.projectCalendarDayTaskUid + "_divText";
+                                
+                                var taskDurationID = task.projectCalendarDayTaskUid + "_taskDuration";
+                                var taskDurationDiv = task.projectCalendarDayTaskUid + "_divDuration";
+                                var taskDurationSpan = task.projectCalendarDayTaskUid + "_spanDuration";
+                                
+                                var taskStartDateDiv = task.projectCalendarDayTaskUid + "_divStartDate";
+                                var taskStartDateID = task.projectCalendarDayTaskUid + "_taskStartDate";
+                                var taskStartDateSpan = task.projectCalendarDayTaskUid + "_taskStartDateSpan";
+                                
+                                
+                                var taskLinkID = task.projectCalendarDayTaskUid + "_link";
+                                var taskChangeDateLink = task.projectCalendarDayTaskUid + "_changeDate";
+                                var taskChangeDateText = task.projectCalendarDayTaskUid + "_projectChangeDateText";
+
+                                <tr>
+                                    <td class="toRemoveForExport">
+                                        <a style="cursor:pointer;" class="projectTaskChangeDate" id="@taskChangeDateLink"><img src="@Url.Content("~/Images/calendar.png")" height="15" width="15" alt="Click to Change Date" title="Click to Change Date" /></a>
+                                        <input id="@taskChangeDateText" class="datepicker" type="text" name="projectTaskDatePicker" style="display:none;width:1px;" readonly />
+                                        <a style="cursor:pointer;display:none;" class="projectCalendarTaskSaveLink" id="@taskLinkID"><img src="@Url.Content("~/Images/save.png")" height="15" width="15" alt="Click to Save" title="Click to Save" /></a>
+                                        <a style="cursor:pointer;" class="projectCalendarTaskEditLink" id="@taskLinkID"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+                                    </td>
+                                    <td class="addBorder">
+                                        @{
+                                var project = (task.Project == null ? "" : task.Project.project1);
+                                        }
+                                        @project
+                                    </td>
+                                    <td class="addBorder">
+                                        @{
+                                var location = (task.Location == null ? "" : task.Location.location1);
+                                        }
+                                        @location
+                                    </td>
+                                    <td class="addBorder">
+                                        <div id="@taskTextAreaDivID" class="toRemoveForExport" style="display:none">
+                                            <textarea class="projectCalendarDayTask" id="@taskTextID" cols="60" rows="3">@task.task</textarea>
+                                        </div>
+                                        <div id="@taskDivID" style="display:normal">
+                                            @MvcHtmlString.Create(task.task.Replace("\n", "<br />"))
+                                        </div>
+                                    </td>
+                                    <td class="addBorder">
+                                        @{
+                                var userAsAssigned = (task.aspnetUserUidAsAssigned == null ? "" : task.AspNetUser.Email);
+                                        }
+                                        @userAsAssigned
+                                    </td>
+                                    <td class="addBorder">
+                                        @{
+                                var taskStartDate = (task.taskStartDate == null ? "" : task.taskStartDate.ToShortDateString());
+                                        }
+                                        <div id="@taskStartDateDiv" class="toRemoveForExport" style="display:none">
+                                            <input class="projectCalendarDayTask" id="@taskStartDateID" value="@taskStartDate" />
+                                        </div>
+                                        <span id="@taskStartDateSpan" style="display:normal">@taskStartDate</span>                                        
+                                    </td>
+                                    <td class="addBorder">
+                                        @{
+                                var taskDuration = (task.taskDuration == null ? "" : task.taskDuration);
+                                        }
+                                        <div id="@taskDurationDiv" class="toRemoveForExport" style="display:none">
+                                            <input class="projectCalendarDayTask" id="@taskDurationID" value="@taskDuration" />
+                                        </div>
+                                        <span id="@taskDurationSpan" style="display:normal">@taskDuration</span>
+                                    </td>
+                                    <td class="addBorder">
+                                        @{
+                                var endDate = (task.taskDuration == null || task.taskStartDate == null ? "" : task.taskStartDate.AddDays(task.taskDuration).ToShortDateString());
+                                        }
+                                        @endDate
+                                    </td>
+                                    <td class="addBorder">
+                                        <a class="toRemoveForExport" href="@Url.Action("Delete", "ProjectCalendarDayTasks", new { id = task.projectCalendarDayTaskUid })"><img class="toRemoveForExport" src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" /></a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </td>
+
+                </tr>
+
+            }
+        </table>
+    </div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

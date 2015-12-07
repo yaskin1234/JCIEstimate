@@ -254,7 +254,7 @@
             <PropertyRef Name="ecmUid" />
           </Key>
           <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ecmNumber" Type="decimal" Precision="11" Scale="4" Nullable="false" />
+          <Property Name="ecmNumber" Type="decimal" Precision="11" Scale="3" Nullable="false" />
           <Property Name="ecmDescription" Type="nvarchar" MaxLength="200" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ecmString" Type="nvarchar" MaxLength="218" StoreGeneratedPattern="Computed" />
@@ -748,6 +748,35 @@
           <Property Name="projectAttachmentType" Type="varchar" MaxLength="200" />
           <Property Name="behaviorIndicator" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="ProjectCalendar">
+          <Key>
+            <PropertyRef Name="projectCalendarUid" />
+          </Key>
+          <Property Name="projectCalendarUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="projectCalendar" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectCalendarDay">
+          <Key>
+            <PropertyRef Name="projectCalendarDayUid" />
+          </Key>
+          <Property Name="projectCalendarDayUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectCalendarUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="date" Type="date" />
+        </EntityType>
+        <EntityType Name="ProjectCalendarDayTask">
+          <Key>
+            <PropertyRef Name="projectCalendarDayTaskUid" />
+          </Key>
+          <Property Name="projectCalendarDayTaskUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectCalendarDayUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="locationUid" Type="uniqueidentifier" />
+          <Property Name="aspnetUserUidAsAssigned" Type="nvarchar" MaxLength="128" />
+          <Property Name="taskStartDate" Type="date" />
+          <Property Name="taskDuration" Type="int" />
+          <Property Name="task" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="ProjectManagerAttachment">
           <Key>
             <PropertyRef Name="projectManagerAttachmentUid" />
@@ -786,6 +815,35 @@
           <Property Name="dateCreated" Type="datetime" Nullable="false" />
           <Property Name="aspNetUserUidAsResponded" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="projectRFIResponse" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="ProjectTaskCategory">
+          <Key>
+            <PropertyRef Name="projectTaskCategoryUid" />
+          </Key>
+          <Property Name="projectTaskCategoryUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectTaskCategory" Type="varchar" MaxLength="2000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectTaskList">
+          <Key>
+            <PropertyRef Name="projectTaskListUid" />
+          </Key>
+          <Property Name="projectTaskListUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectTaskListUidAsParent" Type="uniqueidentifier" />
+          <Property Name="projectTaskListUidAsPredecessor" Type="uniqueidentifier" />
+          <Property Name="projectTask" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="projectTaskSequence" Type="int" Nullable="false" />
+          <Property Name="projectTaskStartDate" Type="date" Nullable="false" />
+          <Property Name="projectTaskDuration" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectTaskPrototype">
+          <Key>
+            <PropertyRef Name="projectTaskPrototypeUid" />
+          </Key>
+          <Property Name="projectTaskPrototypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectTaskPrototype" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="projectTaskCategoryUid" Type="uniqueidentifier" />
+          <Property Name="sequence" Type="int" />
         </EntityType>
         <EntityType Name="ProjectToDo">
           <Key>
@@ -2374,6 +2432,90 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_ProjectCalendarDay_ProjectCalendar">
+          <End Role="ProjectCalendar" Type="Self.ProjectCalendar" Multiplicity="1" />
+          <End Role="ProjectCalendarDay" Type="Self.ProjectCalendarDay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectCalendar">
+              <PropertyRef Name="projectCalendarUid" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDay">
+              <PropertyRef Name="projectCalendarUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDayTask_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="ProjectCalendarDayTask" Type="Self.ProjectCalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDayTask">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDayTask_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ProjectCalendarDayTask" Type="Self.ProjectCalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDayTask">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDayTask_ProjectCalendarDay">
+          <End Role="ProjectCalendarDay" Type="Self.ProjectCalendarDay" Multiplicity="1" />
+          <End Role="ProjectCalendarDayTask" Type="Self.ProjectCalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectCalendarDay">
+              <PropertyRef Name="projectCalendarDayUid" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDayTask">
+              <PropertyRef Name="projectCalendarDayUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDayTask_ProjectTaskCategory">
+          <End Role="ProjectTaskCategory" Type="Self.ProjectTaskCategory" Multiplicity="0..1" />
+          <End Role="ProjectTaskPrototype" Type="Self.ProjectTaskPrototype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectTaskCategory">
+              <PropertyRef Name="projectTaskCategoryUid" />
+            </Principal>
+            <Dependent Role="ProjectTaskPrototype">
+              <PropertyRef Name="projectTaskCategoryUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDayTask_userAsAssigned">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="ProjectCalendarDayTask" Type="Self.ProjectCalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDayTask">
+              <PropertyRef Name="aspnetUserUidAsAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarMember_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="ProjectCalendar" Type="Self.ProjectCalendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectCalendar">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_ProjectManagerAttachment_Project">
           <End Role="Project" Type="Self.Project" Multiplicity="1" />
           <End Role="ProjectManagerAttachment" Type="Self.ProjectManagerAttachment" Multiplicity="*" />
@@ -2491,6 +2633,42 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="ProjectRFIResponse">
               <PropertyRef Name="projectRFIUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectTaskList_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ProjectTaskList" Type="Self.ProjectTaskList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectTaskList">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectTaskList_ProjectTaskListParent">
+          <End Role="ProjectTaskList" Type="Self.ProjectTaskList" Multiplicity="0..1" />
+          <End Role="ProjectTaskList1" Type="Self.ProjectTaskList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectTaskList">
+              <PropertyRef Name="projectTaskListUid" />
+            </Principal>
+            <Dependent Role="ProjectTaskList1">
+              <PropertyRef Name="projectTaskListUidAsParent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectTaskList_ProjectTaskListPredecessor">
+          <End Role="ProjectTaskList" Type="Self.ProjectTaskList" Multiplicity="0..1" />
+          <End Role="ProjectTaskList1" Type="Self.ProjectTaskList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectTaskList">
+              <PropertyRef Name="projectTaskListUid" />
+            </Principal>
+            <Dependent Role="ProjectTaskList1">
+              <PropertyRef Name="projectTaskListUidAsPredecessor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2776,9 +2954,15 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="ProjectAddendum" EntityType="Self.ProjectAddendum" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectAttachment" EntityType="Self.ProjectAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectAttachmentType" EntityType="Self.ProjectAttachmentType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectCalendar" EntityType="Self.ProjectCalendar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectCalendarDay" EntityType="Self.ProjectCalendarDay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectCalendarDayTask" EntityType="Self.ProjectCalendarDayTask" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectManagerAttachment" EntityType="Self.ProjectManagerAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectRFI" EntityType="Self.ProjectRFI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectRFIResponse" EntityType="Self.ProjectRFIResponse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectTaskCategory" EntityType="Self.ProjectTaskCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectTaskList" EntityType="Self.ProjectTaskList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectTaskPrototype" EntityType="Self.ProjectTaskPrototype" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectToDo" EntityType="Self.ProjectToDo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectUser" EntityType="Self.ProjectUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RfiStatus" EntityType="Self.RfiStatus" Schema="dbo" store:Type="Tables" />
@@ -3277,6 +3461,34 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Project" EntitySet="Project" />
             <End Role="ProjectAttachment" EntitySet="ProjectAttachment" />
           </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDay_ProjectCalendar" Association="Self.fk_ProjectCalendarDay_ProjectCalendar">
+            <End Role="ProjectCalendar" EntitySet="ProjectCalendar" />
+            <End Role="ProjectCalendarDay" EntitySet="ProjectCalendarDay" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDayTask_Location" Association="Self.fk_ProjectCalendarDayTask_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="ProjectCalendarDayTask" EntitySet="ProjectCalendarDayTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDayTask_Project" Association="Self.fk_ProjectCalendarDayTask_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectCalendarDayTask" EntitySet="ProjectCalendarDayTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDayTask_ProjectCalendarDay" Association="Self.fk_ProjectCalendarDayTask_ProjectCalendarDay">
+            <End Role="ProjectCalendarDay" EntitySet="ProjectCalendarDay" />
+            <End Role="ProjectCalendarDayTask" EntitySet="ProjectCalendarDayTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDayTask_ProjectTaskCategory" Association="Self.fk_ProjectCalendarDayTask_ProjectTaskCategory">
+            <End Role="ProjectTaskCategory" EntitySet="ProjectTaskCategory" />
+            <End Role="ProjectTaskPrototype" EntitySet="ProjectTaskPrototype" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDayTask_userAsAssigned" Association="Self.fk_ProjectCalendarDayTask_userAsAssigned">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ProjectCalendarDayTask" EntitySet="ProjectCalendarDayTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarMember_AspNetUser" Association="Self.fk_ProjectCalendarMember_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ProjectCalendar" EntitySet="ProjectCalendar" />
+          </AssociationSet>
           <AssociationSet Name="fk_ProjectManagerAttachment_Project" Association="Self.fk_ProjectManagerAttachment_Project">
             <End Role="Project" EntitySet="Project" />
             <End Role="ProjectManagerAttachment" EntitySet="ProjectManagerAttachment" />
@@ -3316,6 +3528,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_ProjectRFIResponse_ProjectRFI" Association="Self.fk_ProjectRFIResponse_ProjectRFI">
             <End Role="ProjectRFI" EntitySet="ProjectRFI" />
             <End Role="ProjectRFIResponse" EntitySet="ProjectRFIResponse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectTaskList_Project" Association="Self.fk_ProjectTaskList_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectTaskList" EntitySet="ProjectTaskList" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectTaskList_ProjectTaskListParent" Association="Self.fk_ProjectTaskList_ProjectTaskListParent">
+            <End Role="ProjectTaskList" EntitySet="ProjectTaskList" />
+            <End Role="ProjectTaskList1" EntitySet="ProjectTaskList" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectTaskList_ProjectTaskListPredecessor" Association="Self.fk_ProjectTaskList_ProjectTaskListPredecessor">
+            <End Role="ProjectTaskList" EntitySet="ProjectTaskList" />
+            <End Role="ProjectTaskList1" EntitySet="ProjectTaskList" />
           </AssociationSet>
           <AssociationSet Name="fk_projecttodo_todostatus" Association="Self.fk_projecttodo_todostatus">
             <End Role="ToDoStatus" EntitySet="ToDoStatus" />
@@ -4029,6 +4253,52 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Project" EntitySet="Projects" />
             <End Role="CalendarDayTask" EntitySet="CalendarDayTasks" />
           </AssociationSet>
+          <EntitySet Name="ProjectCalendars" EntityType="JCIEstimateModel.ProjectCalendar" />
+          <EntitySet Name="ProjectCalendarDays" EntityType="JCIEstimateModel.ProjectCalendarDay" />
+          <AssociationSet Name="fk_ProjectCalendarMember_AspNetUser" Association="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectCalendar" EntitySet="ProjectCalendars" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDay_ProjectCalendar" Association="JCIEstimateModel.fk_ProjectCalendarDay_ProjectCalendar">
+            <End Role="ProjectCalendar" EntitySet="ProjectCalendars" />
+            <End Role="ProjectCalendarDay" EntitySet="ProjectCalendarDays" />
+          </AssociationSet>
+          <EntitySet Name="ProjectTaskCategories" EntityType="JCIEstimateModel.ProjectTaskCategory" />
+          <EntitySet Name="ProjectCalendarDayTasks" EntityType="JCIEstimateModel.ProjectCalendarDayTask" />
+          <EntitySet Name="ProjectTaskPrototypes" EntityType="JCIEstimateModel.ProjectTaskPrototype" />
+          <AssociationSet Name="fk_ProjectCalendarDayTask_userAsAssigned" Association="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectCalendarDayTask" EntitySet="ProjectCalendarDayTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDayTask_Location" Association="JCIEstimateModel.fk_ProjectCalendarDayTask_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="ProjectCalendarDayTask" EntitySet="ProjectCalendarDayTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDayTask_Project" Association="JCIEstimateModel.fk_ProjectCalendarDayTask_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectCalendarDayTask" EntitySet="ProjectCalendarDayTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDayTask_ProjectCalendarDay" Association="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectCalendarDay">
+            <End Role="ProjectCalendarDay" EntitySet="ProjectCalendarDays" />
+            <End Role="ProjectCalendarDayTask" EntitySet="ProjectCalendarDayTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDayTask_ProjectTaskCategory" Association="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectTaskCategory">
+            <End Role="ProjectTaskCategory" EntitySet="ProjectTaskCategories" />
+            <End Role="ProjectTaskPrototype" EntitySet="ProjectTaskPrototypes" />
+          </AssociationSet>
+          <EntitySet Name="ProjectTaskLists" EntityType="JCIEstimateModel.ProjectTaskList" />
+          <AssociationSet Name="fk_ProjectTaskList_Project" Association="JCIEstimateModel.fk_ProjectTaskList_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectTaskList" EntitySet="ProjectTaskLists" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectTaskList_ProjectTaskListParent" Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListParent">
+            <End Role="ProjectTaskList" EntitySet="ProjectTaskLists" />
+            <End Role="ProjectTaskList1" EntitySet="ProjectTaskLists" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectTaskList_ProjectTaskListPredecessor" Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListPredecessor">
+            <End Role="ProjectTaskList" EntitySet="ProjectTaskLists" />
+            <End Role="ProjectTaskList1" EntitySet="ProjectTaskLists" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -4127,6 +4397,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorNotes" Relationship="JCIEstimateModel.fk_ContractorNote_Project" FromRole="Project" ToRole="ContractorNote" />
           <NavigationProperty Name="MasterSchedules" Relationship="JCIEstimateModel.fk_MasterSchedule_Project" FromRole="Project" ToRole="MasterSchedule" />
           <NavigationProperty Name="CalendarDayTasks" Relationship="JCIEstimateModel.fk_CalendarDayTask_Project" FromRole="Project" ToRole="CalendarDayTask" />
+          <NavigationProperty Name="ProjectCalendarDayTasks" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_Project" FromRole="Project" ToRole="ProjectCalendarDayTask" />
+          <NavigationProperty Name="ProjectTaskLists" Relationship="JCIEstimateModel.fk_ProjectTaskList_Project" FromRole="Project" ToRole="ProjectTaskList" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -4204,6 +4476,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="AspNetUserLogins" Relationship="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="SalesTeamMembers" Relationship="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser" FromRole="AspNetUser" ToRole="SalesTeamMember" />
           <NavigationProperty Name="Calendars" Relationship="JCIEstimateModel.fk_CalendarMember_AspNetUser" FromRole="AspNetUser" ToRole="Calendar" />
+          <NavigationProperty Name="ProjectCalendars" Relationship="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser" FromRole="AspNetUser" ToRole="ProjectCalendar" />
+          <NavigationProperty Name="ProjectCalendarDayTasks" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned" FromRole="AspNetUser" ToRole="ProjectCalendarDayTask" />
           </EntityType>
         <Association Name="fk_AspNetUser">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -4760,6 +5034,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Location" ToRole="Estimate" />
           <NavigationProperty Name="MasterSchedules" Relationship="JCIEstimateModel.fk_MasterSchedule_Location" FromRole="Location" ToRole="MasterSchedule" />
           <NavigationProperty Name="CalendarDayTasks" Relationship="JCIEstimateModel.fk_CalendarDayTask_Location" FromRole="Location" ToRole="CalendarDayTask" />
+          <NavigationProperty Name="ProjectCalendarDayTasks" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_Location" FromRole="Location" ToRole="ProjectCalendarDayTask" />
         </EntityType>
         <EntityType Name="LocationIssue">
           <Key>
@@ -5550,7 +5825,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <PropertyRef Name="ecmUid" />
           </Key>
           <Property Name="ecmUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmNumber" Type="Decimal" Nullable="false" Precision="11" Scale="4" />
+          <Property Name="ecmNumber" Type="Decimal" Nullable="false" Precision="11" Scale="3" />
           <Property Name="ecmDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="projectUid" Type="Guid" Nullable="false" />
           <Property Name="ecmString" Type="String" MaxLength="218" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
@@ -6995,6 +7270,199 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProjectCalendar">
+          <Key>
+            <PropertyRef Name="projectCalendarUid" />
+          </Key>
+          <Property Name="projectCalendarUid" Type="Guid" Nullable="false" />
+          <Property Name="aspNetUserUid" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="projectCalendar1" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser" FromRole="ProjectCalendar" ToRole="AspNetUser" />
+          <NavigationProperty Name="ProjectCalendarDays" Relationship="JCIEstimateModel.fk_ProjectCalendarDay_ProjectCalendar" FromRole="ProjectCalendar" ToRole="ProjectCalendarDay" />
+        </EntityType>
+        <EntityType Name="ProjectCalendarDay">
+          <Key>
+            <PropertyRef Name="projectCalendarDayUid" />
+          </Key>
+          <Property Name="projectCalendarDayUid" Type="Guid" Nullable="false" />
+          <Property Name="projectCalendarUid" Type="Guid" Nullable="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="ProjectCalendar" Relationship="JCIEstimateModel.fk_ProjectCalendarDay_ProjectCalendar" FromRole="ProjectCalendarDay" ToRole="ProjectCalendar" />
+          <NavigationProperty Name="ProjectCalendarDayTasks" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectCalendarDay" FromRole="ProjectCalendarDay" ToRole="ProjectCalendarDayTask" />
+        </EntityType>
+        <Association Name="fk_ProjectCalendarMember_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectCalendar" Role="ProjectCalendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectCalendar">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDay_ProjectCalendar">
+          <End Type="JCIEstimateModel.ProjectCalendar" Role="ProjectCalendar" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectCalendarDay" Role="ProjectCalendarDay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectCalendar">
+              <PropertyRef Name="projectCalendarUid" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDay">
+              <PropertyRef Name="projectCalendarUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectTaskCategory">
+          <Key>
+            <PropertyRef Name="projectTaskCategoryUid" />
+          </Key>
+          <Property Name="projectTaskCategoryUid" Type="Guid" Nullable="false" />
+          <Property Name="projectTaskCategory1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProjectTaskPrototypes" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectTaskCategory" FromRole="ProjectTaskCategory" ToRole="ProjectTaskPrototype" />
+        </EntityType>
+        <EntityType Name="ProjectCalendarDayTask">
+          <Key>
+            <PropertyRef Name="projectCalendarDayTaskUid" />
+          </Key>
+          <Property Name="projectCalendarDayTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="projectCalendarDayUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="locationUid" Type="Guid" />
+          <Property Name="aspnetUserUidAsAssigned" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="taskStartDate" Type="DateTime" Precision="0" />
+          <Property Name="taskDuration" Type="Int32" />
+          <Property Name="task" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned" FromRole="ProjectCalendarDayTask" ToRole="AspNetUser" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_Location" FromRole="ProjectCalendarDayTask" ToRole="Location" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_Project" FromRole="ProjectCalendarDayTask" ToRole="Project" />
+          <NavigationProperty Name="ProjectCalendarDay" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectCalendarDay" FromRole="ProjectCalendarDayTask" ToRole="ProjectCalendarDay" />
+        </EntityType>
+        <EntityType Name="ProjectTaskPrototype">
+          <Key>
+            <PropertyRef Name="projectTaskPrototypeUid" />
+          </Key>
+          <Property Name="projectTaskPrototypeUid" Type="Guid" Nullable="false" />
+          <Property Name="projectTaskPrototype1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="projectTaskCategoryUid" Type="Guid" />
+          <Property Name="sequence" Type="Int32" />
+          <NavigationProperty Name="ProjectTaskCategory" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectTaskCategory" FromRole="ProjectTaskPrototype" ToRole="ProjectTaskCategory" />
+        </EntityType>
+        <Association Name="fk_ProjectCalendarDayTask_userAsAssigned">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ProjectCalendarDayTask" Role="ProjectCalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDayTask">
+              <PropertyRef Name="aspnetUserUidAsAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDayTask_Location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ProjectCalendarDayTask" Role="ProjectCalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDayTask">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDayTask_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectCalendarDayTask" Role="ProjectCalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDayTask">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDayTask_ProjectCalendarDay">
+          <End Type="JCIEstimateModel.ProjectCalendarDay" Role="ProjectCalendarDay" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectCalendarDayTask" Role="ProjectCalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectCalendarDay">
+              <PropertyRef Name="projectCalendarDayUid" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDayTask">
+              <PropertyRef Name="projectCalendarDayUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDayTask_ProjectTaskCategory">
+          <End Type="JCIEstimateModel.ProjectTaskCategory" Role="ProjectTaskCategory" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ProjectTaskPrototype" Role="ProjectTaskPrototype" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectTaskCategory">
+              <PropertyRef Name="projectTaskCategoryUid" />
+            </Principal>
+            <Dependent Role="ProjectTaskPrototype">
+              <PropertyRef Name="projectTaskCategoryUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProjectTaskList">
+          <Key>
+            <PropertyRef Name="projectTaskListUid" />
+          </Key>
+          <Property Name="projectTaskListUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="projectTaskListUidAsParent" Type="Guid" />
+          <Property Name="projectTaskListUidAsPredecessor" Type="Guid" />
+          <Property Name="projectTask" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="projectTaskSequence" Type="Int32" Nullable="false" />
+          <Property Name="projectTaskStartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="projectTaskDuration" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectTaskList_Project" FromRole="ProjectTaskList" ToRole="Project" />
+          <NavigationProperty Name="ProjectTaskList1" Relationship="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListParent" FromRole="ProjectTaskList" ToRole="ProjectTaskList1" />
+          <NavigationProperty Name="ProjectTaskList2" Relationship="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListParent" FromRole="ProjectTaskList1" ToRole="ProjectTaskList" />
+          <NavigationProperty Name="ProjectTaskList11" Relationship="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListPredecessor" FromRole="ProjectTaskList" ToRole="ProjectTaskList1" />
+          <NavigationProperty Name="ProjectTaskList3" Relationship="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListPredecessor" FromRole="ProjectTaskList1" ToRole="ProjectTaskList" />
+        </EntityType>
+        <Association Name="fk_ProjectTaskList_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectTaskList" Role="ProjectTaskList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectTaskList">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectTaskList_ProjectTaskListParent">
+          <End Type="JCIEstimateModel.ProjectTaskList" Role="ProjectTaskList" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ProjectTaskList" Role="ProjectTaskList1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectTaskList">
+              <PropertyRef Name="projectTaskListUid" />
+            </Principal>
+            <Dependent Role="ProjectTaskList1">
+              <PropertyRef Name="projectTaskListUidAsParent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectTaskList_ProjectTaskListPredecessor">
+          <End Type="JCIEstimateModel.ProjectTaskList" Role="ProjectTaskList" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ProjectTaskList" Role="ProjectTaskList1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectTaskList">
+              <PropertyRef Name="projectTaskListUid" />
+            </Principal>
+            <Dependent Role="ProjectTaskList1">
+              <PropertyRef Name="projectTaskListUidAsPredecessor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8107,6 +8575,70 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
                 <ScalarProperty Name="calendarDayUid" ColumnName="calendarDayUid" />
                 <ScalarProperty Name="calendarDayTaskUid" ColumnName="calendarDayTaskUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectCalendars">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectCalendar">
+              <MappingFragment StoreEntitySet="ProjectCalendar">
+                <ScalarProperty Name="projectCalendar1" ColumnName="projectCalendar" />
+                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
+                <ScalarProperty Name="projectCalendarUid" ColumnName="projectCalendarUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectCalendarDays">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectCalendarDay">
+              <MappingFragment StoreEntitySet="ProjectCalendarDay">
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="projectCalendarUid" ColumnName="projectCalendarUid" />
+                <ScalarProperty Name="projectCalendarDayUid" ColumnName="projectCalendarDayUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectTaskCategories">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectTaskCategory">
+              <MappingFragment StoreEntitySet="ProjectTaskCategory">
+                <ScalarProperty Name="projectTaskCategory1" ColumnName="projectTaskCategory" />
+                <ScalarProperty Name="projectTaskCategoryUid" ColumnName="projectTaskCategoryUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectCalendarDayTasks">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectCalendarDayTask">
+              <MappingFragment StoreEntitySet="ProjectCalendarDayTask">
+                <ScalarProperty Name="task" ColumnName="task" />
+                <ScalarProperty Name="taskDuration" ColumnName="taskDuration" />
+                <ScalarProperty Name="taskStartDate" ColumnName="taskStartDate" />
+                <ScalarProperty Name="aspnetUserUidAsAssigned" ColumnName="aspnetUserUidAsAssigned" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="projectCalendarDayUid" ColumnName="projectCalendarDayUid" />
+                <ScalarProperty Name="projectCalendarDayTaskUid" ColumnName="projectCalendarDayTaskUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectTaskPrototypes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectTaskPrototype">
+              <MappingFragment StoreEntitySet="ProjectTaskPrototype">
+                <ScalarProperty Name="sequence" ColumnName="sequence" />
+                <ScalarProperty Name="projectTaskCategoryUid" ColumnName="projectTaskCategoryUid" />
+                <ScalarProperty Name="projectTaskPrototype1" ColumnName="projectTaskPrototype" />
+                <ScalarProperty Name="projectTaskPrototypeUid" ColumnName="projectTaskPrototypeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectTaskLists">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectTaskList">
+              <MappingFragment StoreEntitySet="ProjectTaskList">
+                <ScalarProperty Name="projectTaskDuration" ColumnName="projectTaskDuration" />
+                <ScalarProperty Name="projectTaskStartDate" ColumnName="projectTaskStartDate" />
+                <ScalarProperty Name="projectTaskSequence" ColumnName="projectTaskSequence" />
+                <ScalarProperty Name="projectTask" ColumnName="projectTask" />
+                <ScalarProperty Name="projectTaskListUidAsPredecessor" ColumnName="projectTaskListUidAsPredecessor" />
+                <ScalarProperty Name="projectTaskListUidAsParent" ColumnName="projectTaskListUidAsParent" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="projectTaskListUid" ColumnName="projectTaskListUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

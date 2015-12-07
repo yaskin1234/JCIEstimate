@@ -1,0 +1,39 @@
+﻿@model IEnumerable<JCIEstimate.Models.ProjectCalendar>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.projectCalendar1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.AllowableContractors)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.projectCalendar1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.AllowableContractors)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.projectCalendarUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.projectCalendarUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.projectCalendarUid })
+        </td>
+    </tr>
+}
+
+</table>

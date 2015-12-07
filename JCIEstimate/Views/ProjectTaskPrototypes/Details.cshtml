@@ -1,0 +1,34 @@
+﻿@model JCIEstimate.Models.ProjectTaskPrototype
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ProjectTaskPrototype</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.projectTaskPrototype1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectTaskPrototype1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.sequence)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sequence)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.projectTaskPrototypeUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

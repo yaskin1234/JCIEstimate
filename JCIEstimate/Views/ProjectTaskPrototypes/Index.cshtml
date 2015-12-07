@@ -1,0 +1,45 @@
+﻿@model IEnumerable<JCIEstimate.Models.ProjectTaskPrototype>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProjectTaskCategory.projectTaskCategory1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectTaskPrototype1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sequence)
+        </th>        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectTaskCategory.projectTaskCategory1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.projectTaskPrototype1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sequence)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.projectTaskPrototypeUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.projectTaskPrototypeUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.projectTaskPrototypeUid })
+        </td>
+    </tr>
+}
+
+</table>

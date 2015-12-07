@@ -47,6 +47,30 @@ namespace JCIEstimate.Models
         }
     }
 
+    public partial class ProjectCalendarDay
+    {
+
+        public IEnumerable<ProjectCalendarDayTask> GetTasksForProjectCalendarDay(Guid? projectUid)
+        {
+            var tasks = from cc in this.ProjectCalendarDayTasks
+                        where cc.projectCalendarDayUid == projectCalendarDayUid
+                        where (projectUid != null && projectUid != Guid.Empty ? cc.projectUid == projectUid : 1 == 1)
+                        orderby (cc.Project == null ? null : cc.Project.project1), (cc.Location == null ? null : cc.Location.location1)
+                        select cc;
+            return tasks;
+        }
+
+        public int GetTasksCountForProjectCalendarDay(Guid? projectUid)
+        {
+            var tasks = from cc in this.ProjectCalendarDayTasks
+                        where cc.projectCalendarDayUid == projectCalendarDayUid
+                        where (projectUid != null && projectUid != Guid.Empty ? cc.projectUid == projectUid : 1 == 1)
+                        orderby (cc.Project == null ? null : cc.Project.project1), (cc.Location == null ? null : cc.Location.location1)
+                        select cc;
+            return tasks.Count();
+        }
+    }
+
     public partial class Equipment
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();

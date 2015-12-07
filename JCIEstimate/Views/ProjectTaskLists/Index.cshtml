@@ -1,0 +1,97 @@
+﻿@model IEnumerable<JCIEstimate.Models.ProjectTaskList>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@Html.ActionLinkButton("Add Tasks", "AddTasksForProject", "ProjectTaskLists", null);
+
+<table class="table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.projectTaskSequence)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectTaskListUidAsParent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectTask)
+        </th>        
+        <th>
+            @Html.DisplayNameFor(model => model.projectTaskStartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectTaskDuration)
+        </th>                
+        <th>
+            End Date
+        </th>                
+        <th>
+            @Html.DisplayNameFor(model => model.projectTaskListUidAsPredecessor)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @{
+    var sequenceID = item.projectTaskListUid + "__sequence";
+            }
+            <span name="sequenceField" id="@sequenceID">@item.projectTaskSequence</span>            
+        </td>
+        <td>
+            @{
+    var parentID = item.projectTaskListUid + "__parent";
+    var parentUidID = item.projectTaskListUid + "__parentUid";
+            }
+            @if (item.ProjectTaskList2 == null)
+            {
+                <span id="@parentID" style="font-weight:bold;">@item.projectTask</span>
+                <input type="hidden" id="@parentUidID" value="@item.projectTaskListUid" />
+            }
+            else
+            {
+                <span class="@item.projectTaskListUidAsParent" id="@parentID"></span>
+            }
+        </td>
+        <td>
+            @if (item.ProjectTaskList2 != null)
+            {
+                @Html.DisplayFor(modelItem => item.projectTask)
+            }
+            
+        </td>        
+        <td>            
+            @{
+    var startDateID = item.projectTaskListUid + "__startDateID";
+            }            
+            <input class="datepicker" type="text" id="@startDateID"  name="projectTaskList" value="@item.projectTaskStartDate.ToShortDateString()" />
+        </td>
+        <td>
+            @{
+    var durationID = item.projectTaskListUid + "__durationID";
+            }
+            <input type="text" id="@durationID" name="projectTaskList" value="@item.projectTaskDuration" />            
+        </td>                
+        <td>
+            @{
+    var endDateID = item.projectTaskListUid + "__endDateID";
+            }
+            <span id="@endDateID">@JCIExtensions.MCVExtensions.AddWeekdays(item.projectTaskStartDate, item.projectTaskDuration).ToShortDateString()</span>            
+        </td>                
+        <td>
+            @{
+    var predecessorID = item.projectTaskListUid + "__predecessorID";
+            }
+            <input type="text" id="@predecessorID" name="projectTaskList" value="@((item.projectTaskListUidAsPredecessor != null) ? item.ProjectTaskList3.projectTaskSequence.ToString() : "")" />                      
+        </td>
+    </tr>
+}
+
+</table>

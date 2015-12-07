@@ -133,12 +133,43 @@
         $(td).css({ "style": "display:normal;" });
     })
 
+    $(".addNewProjectCalendarTask").click(function () {
+        $val = this.id;
+        var td = document.getElementById($val + "|NewRow");
+        $(td).load("/ProjectCalendars/GetNewProjectCalendarTaskForm/" + escape($val));
+        $(document).on('change', '.newProjectTaskFormProjectUid', function () {
+            $tdval = this.id.split('|')[0];
+            $val = $(this).val();
+            var td = document.getElementById($tdval + "|TDlocationUid");
+            $(td).load("/Calendars/GetLocationsForProject/" + escape($val));
+            $(td).css({ "style": "display:normal;" });
+
+        });
+        var btn = document.getElementById($val + '_btn');
+        $(document).on('click', '#' + $val + '_btn', function () {
+            var id = this.id.split('_')[0];
+            $form = document.getElementById(id + '_Form');
+            $form.submit();
+        });
+        $(td).css({ "style": "display:normal;" });
+    })
+
+
     $(".newTaskForm").change(function () {
         $val = this.id.split('|')[0];
         var td = document.getElementById($val + "|TDlocationUid");
         $(td).load("/Calendars/GetLocationsForProject/" + escape($val));
         $(td).css({ "style": "display:normal;" });
-    })    
+    })
+
+    $(".newProjectTaskFormProjectUid").change(function () {
+        $val = this.id.split('|')[0];
+        var td = document.getElementById($val + "|TDlocationUid");
+        $(td).load("/Calendars/GetLocationsForProject/" + escape($val));
+        $(td).css({ "style": "display:normal;" });
+    })
+
+
 
     $("#equipmentAttributeTypeUid").change(function () {
         $val = $("#equipmentAttributeTypeUid").val();
@@ -386,29 +417,64 @@
             var txt = $(txtArea).val();            
             $("#" + id + "_div").show();
             $("#" + id + "_div").html(txt.replace(new RegExp("\n", "g"), "<br/>"));
-            $("#" + id + "_divText").hide();            
-            
+            $("#" + id + "_divText").hide();
         });
+    });
+
+    $(".projectCalendarDayTask").change(function () {
+        var id = this.id.split("_")[0];
+        $.ajax({
+            url: "/ProjectCalendarDayTasks/SaveProjectCalendarDayTask",
+            type: "POST",
+            data: {
+                id: id,
+                task: $(document.getElementById(id + "_task")).val(),
+                taskStartDate: $(document.getElementById(id + "_taskStartDate")).val(),
+                taskDuration: $(document.getElementById(id + "_taskDuration")).val()
+            },
+            dataType: "json"
+        })        
+    });
+
+
+    $(".projectCalendarTaskEditLink").click(function () {
+        var id = this.id.split("_")[0];
+        $(".projectCalendarTaskSaveLink").show();
+        $(".projectCalendarTaskEditLink").hide();
+        $("#" + id + "_divText").show();
+        $("#" + id + "_div").hide();
+        $("#" + id + "_divStartDate").show();
+        $("#" + id + "_taskStartDateSpan").hide();
+        $("#" + id + "_divDuration").show();
+        $("#" + id + "_spanDuration").hide();
+    });
+
+    $(".projectCalendarTaskSaveLink").click(function () {
+        var id = this.id.split("_")[0];
+        $(".projectCalendarTaskSaveLink").hide();
+        $(".projectCalendarTaskEditLink").show();
+        var txtArea = document.getElementById(id + "_task");
+        var txt = $(txtArea).val();
+        $("#" + id + "_div").show();
+        $("#" + id + "_div").html(txt.replace(new RegExp("\n", "g"), "<br/>"));
+        $("#" + id + "_divText").hide();
+        $("#" + id + "_divStartDate").hide();
+        $("#" + id + "_taskStartDateSpan").show();
+        $("#" + id + "_divDuration").hide();
+        $("#" + id + "_spanDuration").show();
+        location.reload();
     });
 
     $(".calendarProjectFilter").change(function () {
         var selectedValue = $(this).val();
         var calendarUid = this.id.split("_")[0];
         window.location.replace("/Calendars/Edit/" + calendarUid + "?projectUid=" + selectedValue);
-        //$.ajax({
-        //    url: "/Calendars/Edit",
-        //    type: "GET",
-        //    data: {
-        //        id: calendarUid,
-        //        projectUid: $(this).val()
-        //    },
-        //    dataType: "json"
-        //})
-        //.always(function (data) {            
-        //})
-        //.success(function (content) {
-        //    $("body").html(data);
-        //});
+    });
+
+    $(".projectCalendarProjectFilter").change(function () {
+        var selectedValue = $(this).val();
+        var calendarUid = this.id.split("_")[0];
+        window.location.replace("/ProjectCalendars/Edit/" + calendarUid + "?projectUid=" + selectedValue);
     });
 
     
@@ -618,6 +684,7 @@
     $("#lnkExportCalendar").click(function () {
         $(".toRemoveForExport").remove();        
         $(".addNewCalendarTask").remove();
+        $(".addNewProjectCalendarTask").remove();
         $(".addBorder").attr("style", "border:solid;border-width:thin;");
         
         window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#calendarData').html()));
@@ -630,6 +697,32 @@
         $("#" + id + "_div").hide();
     });
 
+    $(".lnkAddProject").click(function () {
+        var projectCalendarUid = this.id.split("_")[0];
+        var projectUid = $("#projectUidAsAdd").val();
+        var startDate = $("#taskStartDate").val();
+        $.ajax({
+            url: "/ProjectCalendars/AddNewProjectToCalendar",
+            type: "POST",
+            data: {
+                projectCalendarUid: projectCalendarUid,
+                projectUid: projectUid,
+                startDate: startDate
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        }).done(function () {
+        })
+        location.reload();
+    });    
+
+    $(".addNewProjectToCalendar").change(function () {
+        $("#addProjectToCalendar").show();        
+    });
+
+    
     
 
     $(".form-control-shift").change(function () {        
@@ -716,32 +809,166 @@
         $(".datepicker").datepicker();
     });
 
+    $(function () {
+        $("#projectCalendarStartDate").datepicker();
+    });
+    
+
     $(".taskChangeDate").click(function () {
         var id = this.id.split("_")[0];
         $("#" + id + "_changeDateText").show();
         $("#" + id + "_changeDateText").focus();
     });
 
-    $(".datepicker").change(function () {
+    $(".projectTaskChangeDate").click(function () {
         var id = this.id.split("_")[0];
+        $("#" + id + "_projectChangeDateText").show();
+        $("#" + id + "_projectChangeDateText").focus();
+    });
+
+
+    $("[name='projectTaskList']").focus(function () {
+        this.select();
+    });
+
+    $("[name='projectTaskList']").change(function () {
+        var changedID = this.id.split("_")[0];
+        var changedPredecessor = $("#" + changedID + "__predecessorID").val();
+
+        if (changedPredecessor == "") {
+            changedPredecessor = 0;
+        }
+        else {
+            var predecessor = $("span:contains('" + changedPredecessor + "')")[0].id;
+            var predecessorID = predecessor.split("_")[0];
+            var predecessorEndDate = $("#" + predecessorID + "__endDateID").html();
+            var newChangedStartDate = addWeekdays(predecessorEndDate, 1);
+            $("#" + changedID + "__startDateID").val(newChangedStartDate);
+        }
+
+        var changedStartDate = $("#" + changedID + "__startDateID").val();
+        var changedDuration = $("#" + changedID + "__durationID").val();        
+        var changedSeq = $("#" + changedID + "__sequence").html()
+
         $.ajax({
-            url: "/CalendarDayTasks/SaveCalendarDayTaskDate",
+            url: "/ProjectTaskLists/SaveTask",
             type: "POST",
             data: {
-                id: id,
-                value: $(this).val()
+                projectTaskListUid: changedID,
+                startDate: changedStartDate,
+                duration: changedDuration,
+                predecessor: changedPredecessor
             },
-            dataType: "json"
+            dataType: "json",
+            success: function (data) {                
+            }
+        }).done(function () {
         })
-        .always(function (data) {            
-            $("#" + id + "_changeDateText").hide();
-            location.reload();
-        })
+        $("#" + changedID + "__endDateID").html(addWeekdays(changedStartDate, changedDuration));
+        var changedEndDate = $("#" + changedID + "__endDateID").html();
 
+        $("[name='sequenceField']").each(function () {
+            var thisID = this.id.split("_")[0];
+            var thisSeq = $(this).html();
+            var thisPredecessor = $("#" + thisID + "__predecessorID").val();
+            var thisEndDate = $("#" + thisID + "__endDateID").val();
+            var thisStartDate = $("#" + thisID + "__startDateID").val();            
+
+            if (changedSeq == thisPredecessor) {
+                var endDate = new Date(changedEndDate);
+                var newStartDate = new Date(addWeekdays(endDate, 1));
+                var newStartDateText = addWeekdays(newStartDate, 0);
+                $("#" + thisID + "__startDateID").val(newStartDateText);
+                $("#" + thisID + "__startDateID").change(); 
+            }
+
+            if (thisPredecessor != "") {                
+                $("#" + thisID + "__startDateID").prop('disabled', true);
+            }
+            else {
+                $("#" + thisID + "__startDateID").prop('disabled', false);
+            }
+        });
     });
-    
 
-    
+    $("[name='sequenceField']").each(function () {
+        var thisID = this.id.split("_")[0];
+        var thisSeq = $(this).html();
+        var thisPredecessor = $("#" + thisID + "__predecessorID").val();
+        var thisParentText = $("#" + thisID + "__parent").html();
+        var thisDuration = $("#" + thisID + "__durationID");
+        var element_Predecessor = $("#" + thisID + "__predecessorID");        
+
+        if (thisPredecessor != "") {
+            $("#" + thisID + "__startDateID").prop('disabled', true);
+        }
+        else {
+            $("#" + thisID + "__startDateID").prop('disabled', false);
+        }
+        if (thisParentText > "") {
+            var parentUid = $("#" + thisID + "__parentUid").val();
+            var parentStartDate;
+            var parentEndDate;
+            var currentStartDate = new Date("12/31/2199");
+            var currentEndDate = new Date("1/1/1900");
+            $("#" + thisID + "__startDateID").remove();
+            $("#" + thisID + "__endDateID").remove();
+            $("#" + thisID + "__sequence").remove();
+            $(thisDuration).remove();
+            $(element_Predecessor).remove();
+            //$("." + parentUid).each(function () {
+            //    var childID = this.id.split("_")[0];
+            //    var childStartDate = $("#" + childID + "__startDateID").val();
+            //    var childEndDate = $("#" + childID + "__endDateID").val();
+            //    currentStartDate = new Date(childStartDate);
+            //    currentEndDate = new Date(childEndDate);
+            //    if (currentStartDate < parentStartDate) {
+            //        parentStartDate = currentStartDate;
+            //    }
+            //    if (currentEndDate > childEndDate) {
+            //        parentEndDate = childEndDate;
+            //    }
+            //});
+            //$("#" + thisID + "__startDateID").val(parentStartDate);
+            //$("#" + thisID + "__endDateID").html(parentEndDate);
+        }
+    });
+
+    $(".datepicker").change(function () {
+        var id = this.id.split("_")[0];
+        var type = this.id.split("_")[1];
+        if (type == "projectChangeDateText") {
+            $.ajax({
+                url: "/ProjectCalendarDayTasks/SaveProjectCalendarDayTaskDate",
+                type: "POST",
+                data: {
+                    id: id,
+                    value: $(this).val()
+                },
+                dataType: "json"
+            })
+            .always(function (data) {
+                $("#" + id + "_projectChangeDateText").hide();
+                location.reload();
+            })
+        }
+        if (type == "projectChangeDateText") {
+            $.ajax({
+                url: "/CalendarDayTasks/SaveCalendarDayTaskDate",
+                type: "POST",
+                data: {
+                    id: id,
+                    value: $(this).val()
+                },
+                dataType: "json"
+            })
+            .always(function (data) {
+                $("#" + id + "_changeDateText").hide();
+                location.reload();
+            })
+        }
+
+    });    
 
 });
 
@@ -794,5 +1021,26 @@ function DateDiff(date1,date2,interval) {
         case "minutes": return Math.floor(timediff / minute);
         case "seconds": return Math.floor(timediff / second);
         default: return undefined;
+    }
+}
+
+function addWeekdays(startDate, daysToAdd) {
+    var i = 0;
+    var endDate = new Date(startDate);
+    while (i < daysToAdd) {
+        endDate.setDate(endDate.getDate() + 1);
+        if (!(isWeekend(endDate))){
+            i++;
+        }
+    }
+    return (endDate.getUTCMonth() + 1) + "/" + endDate.getUTCDate() + "/" + endDate.getUTCFullYear();
+}
+
+function isWeekend(date) {
+    if (date.getDay() == 6 || date.getDay() == 0) {
+        return true;
+    }
+    else {
+        return false;
     }
 }

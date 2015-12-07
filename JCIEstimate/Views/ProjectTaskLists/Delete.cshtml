@@ -1,0 +1,80 @@
+﻿@model JCIEstimate.Models.ProjectTaskList
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ProjectTaskList</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.projectTask)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectTask)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectTaskSequence)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectTaskSequence)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectTaskStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectTaskStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.projectTaskDuration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.projectTaskDuration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.project1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectTaskList2.projectTask)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectTaskList2.projectTask)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectTaskList3.projectTask)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectTaskList3.projectTask)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

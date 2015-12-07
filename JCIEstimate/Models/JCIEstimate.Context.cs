@@ -123,5 +123,11 @@ namespace JCIEstimate.Models
         public virtual DbSet<Calendar> Calendars { get; set; }
         public virtual DbSet<CalendarDay> CalendarDays { get; set; }
         public virtual DbSet<CalendarDayTask> CalendarDayTasks { get; set; }
+        public virtual DbSet<ProjectCalendar> ProjectCalendars { get; set; }
+        public virtual DbSet<ProjectCalendarDay> ProjectCalendarDays { get; set; }
+        public virtual DbSet<ProjectTaskCategory> ProjectTaskCategories { get; set; }
+        public virtual DbSet<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
+        public virtual DbSet<ProjectTaskPrototype> ProjectTaskPrototypes { get; set; }
+        public virtual DbSet<ProjectTaskList> ProjectTaskLists { get; set; }
     }
 }

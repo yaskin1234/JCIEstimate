@@ -135,6 +135,20 @@ namespace JCIExtensions
             return sessionProject;
         }
 
+        public static DateTime AddWeekdays(DateTime startDate, int duration)
+        {
+            DateTime endDate = startDate;
+            while (duration > 0)
+            {
+                endDate = endDate.AddDays(1);
+                if (endDate.DayOfWeek != DayOfWeek.Saturday && endDate.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    duration--;
+                }
+            }
+            return endDate;
+        }
+
         public static void SendEmail(string emailAddress, string subject, string body, bool isHtml)
         {
             

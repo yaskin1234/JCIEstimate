@@ -1,0 +1,69 @@
+﻿@model IEnumerable<JCIEstimate.Models.ProjectCalendarDayTask>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.taskStartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.taskDuration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.task)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.AllowableContractors)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.location1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.project1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProjectCalendarDay.projectCalendarDayUid)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.taskStartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.taskDuration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.task)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.AllowableContractors)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.location1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.project1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectCalendarDay.projectCalendarDayUid)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.projectCalendarDayTaskUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.projectCalendarDayTaskUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.projectCalendarDayTaskUid })
+        </td>
+    </tr>
+}
+
+</table>
