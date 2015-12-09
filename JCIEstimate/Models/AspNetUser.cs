@@ -16,31 +16,33 @@ namespace JCIEstimate.Models
     {
         public AspNetUser()
         {
-            this.ContractorUsers = new HashSet<ContractorUser>();
-            this.WarrantyNotes = new HashSet<WarrantyNote>();
-            this.WarrantyIssues = new HashSet<WarrantyIssue>();
-            this.LocationIssues = new HashSet<LocationIssue>();
-            this.LocationNotes = new HashSet<LocationNote>();
-            this.LocationIssues1 = new HashSet<LocationIssue>();
-            this.EquipmentNotes = new HashSet<EquipmentNote>();
-            this.ProjectRFIResponses = new HashSet<ProjectRFIResponse>();
-            this.ProjectRFIs = new HashSet<ProjectRFI>();
-            this.ProjectRFIs1 = new HashSet<ProjectRFI>();
-            this.Projects = new HashSet<Project>();
-            this.ProjectAddendums = new HashSet<ProjectAddendum>();
-            this.ProjectManagerAttachments = new HashSet<ProjectManagerAttachment>();
-            this.ContractorSignoffs = new HashSet<ContractorSignoff>();
-            this.ContractorSignoffAttachments = new HashSet<ContractorSignoffAttachment>();
-            this.ContractorSignoffFinals = new HashSet<ContractorSignoffFinal>();
-            this.ContractorSignoffFinalAttachments = new HashSet<ContractorSignoffFinalAttachment>();
-            this.PECCosts = new HashSet<PECCost>();
-            this.ProjectUsers = new HashSet<ProjectUser>();
             this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
-            this.SalesTeamMembers = new HashSet<SalesTeamMember>();
+            this.ContractorUsers = new HashSet<ContractorUser>();
+            this.WarrantyIssues = new HashSet<WarrantyIssue>();
+            this.ProjectManagerAttachments = new HashSet<ProjectManagerAttachment>();
+            this.ContractorSignoffs = new HashSet<ContractorSignoff>();
+            this.ContractorSignoffFinals = new HashSet<ContractorSignoffFinal>();
+            this.ContractorSignoffAttachments = new HashSet<ContractorSignoffAttachment>();
+            this.ContractorSignoffFinalAttachments = new HashSet<ContractorSignoffFinalAttachment>();
+            this.LocationIssues = new HashSet<LocationIssue>();
+            this.LocationNotes = new HashSet<LocationNote>();
+            this.WarrantyNotes = new HashSet<WarrantyNote>();
+            this.PECCosts = new HashSet<PECCost>();
             this.Calendars = new HashSet<Calendar>();
-            this.ProjectCalendars = new HashSet<ProjectCalendar>();
+            this.EquipmentNotes = new HashSet<EquipmentNote>();
+            this.LocationIssues1 = new HashSet<LocationIssue>();
+            this.ProjectUsers = new HashSet<ProjectUser>();
+            this.Projects = new HashSet<Project>();
+            this.ProjectAddendums = new HashSet<ProjectAddendum>();
             this.ProjectCalendarDayTasks = new HashSet<ProjectCalendarDayTask>();
+            this.ProjectCalendars = new HashSet<ProjectCalendar>();
+            this.ProjectRFIs = new HashSet<ProjectRFI>();
+            this.ProjectRFIs1 = new HashSet<ProjectRFI>();
+            this.ProjectRFIResponses = new HashSet<ProjectRFIResponse>();
+            this.SalesTeamMembers = new HashSet<SalesTeamMember>();
+            this.AspNetUsersExtensions = new HashSet<AspNetUsersExtension>();
+            this.ProjectTaskLists = new HashSet<ProjectTaskList>();
         }
     
         public string Id { get; set; }
@@ -57,30 +59,32 @@ namespace JCIEstimate.Models
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
     
-        public virtual ICollection<ContractorUser> ContractorUsers { get; set; }
-        public virtual ICollection<WarrantyNote> WarrantyNotes { get; set; }
-        public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
-        public virtual ICollection<LocationIssue> LocationIssues { get; set; }
-        public virtual ICollection<LocationNote> LocationNotes { get; set; }
-        public virtual ICollection<LocationIssue> LocationIssues1 { get; set; }
-        public virtual ICollection<EquipmentNote> EquipmentNotes { get; set; }
-        public virtual ICollection<ProjectRFIResponse> ProjectRFIResponses { get; set; }
-        public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
-        public virtual ICollection<ProjectRFI> ProjectRFIs1 { get; set; }
-        public virtual ICollection<Project> Projects { get; set; }
-        public virtual ICollection<ProjectAddendum> ProjectAddendums { get; set; }
-        public virtual ICollection<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
-        public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
-        public virtual ICollection<ContractorSignoffAttachment> ContractorSignoffAttachments { get; set; }
-        public virtual ICollection<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
-        public virtual ICollection<ContractorSignoffFinalAttachment> ContractorSignoffFinalAttachments { get; set; }
-        public virtual ICollection<PECCost> PECCosts { get; set; }
-        public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual ICollection<SalesTeamMember> SalesTeamMembers { get; set; }
+        public virtual ICollection<ContractorUser> ContractorUsers { get; set; }
+        public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
+        public virtual ICollection<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
+        public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
+        public virtual ICollection<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
+        public virtual ICollection<ContractorSignoffAttachment> ContractorSignoffAttachments { get; set; }
+        public virtual ICollection<ContractorSignoffFinalAttachment> ContractorSignoffFinalAttachments { get; set; }
+        public virtual ICollection<LocationIssue> LocationIssues { get; set; }
+        public virtual ICollection<LocationNote> LocationNotes { get; set; }
+        public virtual ICollection<WarrantyNote> WarrantyNotes { get; set; }
+        public virtual ICollection<PECCost> PECCosts { get; set; }
         public virtual ICollection<Calendar> Calendars { get; set; }
-        public virtual ICollection<ProjectCalendar> ProjectCalendars { get; set; }
+        public virtual ICollection<EquipmentNote> EquipmentNotes { get; set; }
+        public virtual ICollection<LocationIssue> LocationIssues1 { get; set; }
+        public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<ProjectAddendum> ProjectAddendums { get; set; }
         public virtual ICollection<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
+        public virtual ICollection<ProjectCalendar> ProjectCalendars { get; set; }
+        public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
+        public virtual ICollection<ProjectRFI> ProjectRFIs1 { get; set; }
+        public virtual ICollection<ProjectRFIResponse> ProjectRFIResponses { get; set; }
+        public virtual ICollection<SalesTeamMember> SalesTeamMembers { get; set; }
+        public virtual ICollection<AspNetUsersExtension> AspNetUsersExtensions { get; set; }
+        public virtual ICollection<ProjectTaskList> ProjectTaskLists { get; set; }
     }
 }

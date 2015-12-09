@@ -19,16 +19,35 @@ namespace JCIEstimate.Controllers
         // GET: ProjectTaskLists
         public async Task<ActionResult> Index()
         {
-            var projectTaskLists = db.ProjectTaskLists.Include(p => p.Project).Include(p => p.ProjectTaskList2).Include(p => p.ProjectTaskList3);
+            Guid sessionProject = MCVExtensions.getSessionProject();
+            var projectTaskLists = db.ProjectTaskLists.Where(c=>c.projectUid == sessionProject).Include(p => p.Project).Include(p => p.ProjectTaskList2).Include(p => p.ProjectTaskList3);               
             return View(await projectTaskLists.OrderBy(c=>c.projectTaskSequence).ToListAsync());
         }
 
-        public async Task<ActionResult> SaveTask(Guid projectTaskListUid, DateTime startDate, int duration, int predecessor)
+        public async Task<ActionResult> SaveAssignment(Guid projectTaskListUid, string value)
+        {
+            ProjectTaskList ptl = db.ProjectTaskLists.Find(projectTaskListUid);
+            db.Entry(ptl).State = EntityState.Modified;
+            if (value == Guid.Empty.ToString())
+            {
+                ptl.aspNetUserUidAsAssigned = null;
+            }
+            else
+            {
+                ptl.aspNetUserUidAsAssigned = value;
+            }            
+
+            await db.SaveChangesAsync();
+            return View();
+        }
+
+        public async Task<ActionResult> SaveTask(Guid projectTaskListUid, DateTime startDate, int duration, int predecessor, bool isCompleted)
         {
             ProjectTaskList ptl = db.ProjectTaskLists.Find(projectTaskListUid);
             db.Entry(ptl).State = EntityState.Modified;
             ptl.projectTaskStartDate = startDate;
             ptl.projectTaskDuration = duration;
+            ptl.isCompleted = isCompleted;
             if (predecessor != 0)
             {
                 var predecessorUid = from cc in db.ProjectTaskLists
@@ -44,27 +63,38 @@ namespace JCIEstimate.Controllers
             await db.SaveChangesAsync();
             return View();
         }
+        // GET: Projects/AddTasksForProject
+        public ActionResult GetAssignmentList(Guid projectTaskListUid)
+        {
+            var projectTaskList = db.ProjectTaskLists.Find(projectTaskListUid);
+            ViewBag.assignmentList = db.AspNetUsersExtensions.OrderBy(c => c.name).ToSelectList(c => c.name, c => c.aspNetUsersExtensionUid.ToString(), projectTaskList.aspNetUserUidAsAssigned);
+            ViewBag.projectTaskListUid = projectTaskListUid;
+            
+            return View();
+        }
 
         // GET: Projects/AddTasksForProject
-        public ActionResult AddTasksForProject()
+        public ActionResult AddTasksForProject(DateTime startDate)
         {
             Guid sessionProject = MCVExtensions.getSessionProject();
-            int taskSequence = 100;
+            int taskSequence = 0;
             string currentCategory = "";
             string previousCategory = "";
             Guid? projectTaskUidAsParent = null;
             foreach (var item in db.ProjectTaskPrototypes.OrderBy(c=>c.sequence))
             {
-                currentCategory = item.ProjectTaskCategory.projectTaskCategory1;                
+                currentCategory = item.ProjectTaskCategory.projectTaskCategory1;
 
                 if (currentCategory != previousCategory)
                 {
+                    int subItemCount = item.ProjectTaskCategory.ProjectTaskPrototypes.Count();
+                    int categorySequence = taskSequence + (subItemCount * 100) + 100;
                     ProjectTaskList ptl = new ProjectTaskList();
                     
                     ptl.projectTaskListUid = Guid.NewGuid();
-                    ptl.projectTaskSequence = taskSequence;
+                    ptl.projectTaskSequence = categorySequence;
                     ptl.projectTask = currentCategory;
-                    ptl.projectUid = sessionProject;
+                    ptl.projectUid = sessionProject;                    
                     projectTaskUidAsParent = ptl.projectTaskListUid;
 
                     previousCategory = currentCategory;
@@ -79,11 +109,11 @@ namespace JCIEstimate.Controllers
                 ptl1.projectUid = sessionProject;
                 ptl1.projectTaskListUidAsParent = projectTaskUidAsParent;
                 previousCategory = currentCategory;
+                ptl1.projectTaskStartDate = startDate;
                 db.ProjectTaskLists.Add(ptl1);
                 taskSequence += 100;
             }
-            db.SaveChanges();
-            RedirectToAction("Index", "ProjectTaskLists");
+            db.SaveChanges();            
             return View();
         }        
 

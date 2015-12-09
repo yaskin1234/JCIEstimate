@@ -59,7 +59,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<Location> Locations { get; set; }
         public virtual ICollection<ProjectAttachment> ProjectAttachments { get; set; }
         public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<ProjectAddendum> ProjectAddendums { get; set; }
         public virtual ICollection<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
         public virtual ICollection<ContractorDraw> ContractorDraws { get; set; }
@@ -74,6 +73,7 @@ namespace JCIEstimate.Models
         public virtual ICollection<MasterSchedule> MasterSchedules { get; set; }
         public virtual ICollection<CalendarDayTask> CalendarDayTasks { get; set; }
         public virtual ICollection<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<ProjectTaskList> ProjectTaskLists { get; set; }
     }
 }

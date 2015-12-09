@@ -1,16 +1,22 @@
 ﻿@model IEnumerable<JCIEstimate.Models.ProjectTaskList>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Project Task List";
 }
 
-<h2>Index</h2>
+<h2>Project Task List</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 
-@Html.ActionLinkButton("Add Tasks", "AddTasksForProject", "ProjectTaskLists", null);
+@if(Model.Count() == 0)
+{
+    <a id="lnkAddTasksToProject">Add tasks to project</a>
+    @:&nbsp; &nbsp;
+    <input type="date" id="startDate" name="startDate" value="" />
+}
+
+
+
+@*@Html.ActionLink("Create New", "Create")*@
 
 <table class="table-condensed">
     <tr>
@@ -19,6 +25,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.projectTaskListUidAsParent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isCompleted)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.projectTask)
@@ -35,10 +44,13 @@
         <th>
             @Html.DisplayNameFor(model => model.projectTaskListUidAsPredecessor)
         </th>
+        <th>
+            Assigned To
+        </th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    <tr @((item.ProjectTaskList2 == null) ? "style=background-color:lightgray;" : "")>
         <td>
             @{
     var sequenceID = item.projectTaskListUid + "__sequence";
@@ -61,6 +73,17 @@
             }
         </td>
         <td>
+            @{
+    var isCompletedID = item.projectTaskListUid + "__isCompletedID";
+            }
+            @if (item.ProjectTaskList2 != null)
+            {
+                <input type="checkbox" id="@isCompletedID" name="projectTaskList" @((item.isCompleted) ? "CHECKED" : "") />
+            }
+
+        </td>
+
+        <td>
             @if (item.ProjectTaskList2 != null)
             {
                 @Html.DisplayFor(modelItem => item.projectTask)
@@ -71,25 +94,50 @@
             @{
     var startDateID = item.projectTaskListUid + "__startDateID";
             }            
-            <input class="datepicker" type="text" id="@startDateID"  name="projectTaskList" value="@item.projectTaskStartDate.ToShortDateString()" />
+            <input class="datepicker" type="text" style="width:130px;" id="@startDateID" name="projectTaskList" value="@String.Format("{0:ddd, MMM d, yyyy}", item.projectTaskStartDate)" />
         </td>
         <td>
             @{
     var durationID = item.projectTaskListUid + "__durationID";
             }
-            <input type="text" id="@durationID" name="projectTaskList" value="@item.projectTaskDuration" />            
+            <input type="text" id="@durationID" name="projectTaskList" value="@item.projectTaskDuration" style="width:30px;" />            
         </td>                
-        <td>
+        <td style="width:160px;">
             @{
     var endDateID = item.projectTaskListUid + "__endDateID";
             }
-            <span id="@endDateID">@JCIExtensions.MCVExtensions.AddWeekdays(item.projectTaskStartDate, item.projectTaskDuration).ToShortDateString()</span>            
+            <span id="@endDateID">@String.Format("{0:ddd, MMM d, yyyy}", JCIExtensions.MCVExtensions.AddWeekdays(item.projectTaskStartDate, item.projectTaskDuration))</span>
         </td>                
         <td>
             @{
     var predecessorID = item.projectTaskListUid + "__predecessorID";
             }
-            <input type="text" id="@predecessorID" name="projectTaskList" value="@((item.projectTaskListUidAsPredecessor != null) ? item.ProjectTaskList3.projectTaskSequence.ToString() : "")" />                      
+            <input type="text" id="@predecessorID" name="projectTaskList" style="width:50px;" value="@((item.projectTaskListUidAsPredecessor != null) ? item.ProjectTaskList3.projectTaskSequence.ToString() : "")" />                      
+        </td>
+        @{
+    var assignedToLinkID = item.projectTaskListUid + "__assignedToLinkID";
+    var assignedToSpanID = item.projectTaskListUid + "__assignedToSpanID";
+    var assignedToID = item.projectTaskListUid + "__assignedToID";
+    var assignedToImageID = item.projectTaskListUid + "__assignedToImageID";
+        }
+        <td id="@assignedToLinkID" class="assignedToImage" style="cursor:pointer;">
+
+            @if (item.ProjectTaskList2 != null)
+            {
+                if (item.aspNetUserUidAsAssigned == null)
+                {
+                    <a id="@assignedToImageID" ><img height="15px" width="15px" src="~/Images/assignedTo.png" alt="Assign to resource" title="Assign to resource" /></a>
+                    <span id="@assignedToSpanID"></span>
+                }
+                else
+                {
+                    @*<a id="@assignedToLinkID" class="assignedToImage"><img height="15px" width="15px" src="~/Images/assignedTo.png" alt="Assign to resource" title="Assign to resource" /></a>*@
+                    <span id="@assignedToSpanID">@item.AspNetUser.AspNetUsersExtensions.FirstOrDefault().name</span>
+
+                }
+            }
+
+
         </td>
     </tr>
 }

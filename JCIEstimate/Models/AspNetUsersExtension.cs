@@ -12,20 +12,12 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ProjectUser
+    public partial class AspNetUsersExtension
     {
-        public ProjectUser()
-        {
-            this.WarrantyIssues = new HashSet<WarrantyIssue>();
-        }
+        public System.Guid aspNetUsersExtensionUid { get; set; }
+        public string aspnetUserUid { get; set; }
+        public string name { get; set; }
     
-        public System.Guid projectUserUid { get; set; }
-        public string aspNetUserUid { get; set; }
-        public System.Guid projectUid { get; set; }
-        public bool isReceivingWarrantyEmail { get; set; }
-    
-        public virtual Project Project { get; set; }
-        public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
     }
 }

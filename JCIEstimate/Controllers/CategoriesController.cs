@@ -19,7 +19,7 @@ namespace JCIEstimate.Controllers
         // GET: Categories
         public async Task<ActionResult> Index()
         {
-            return View(await db.Categories.ToListAsync());
+            return View(await db.Categories.ToListAsync());            
         }
 
         // GET: Categories/Details/5

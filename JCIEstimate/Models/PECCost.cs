@@ -22,10 +22,10 @@ namespace JCIEstimate.Models
         public System.Guid pecExpenseTypeUid { get; set; }
         public int quantity { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual PECExpenseType PECExpenseType { get; set; }
         public virtual Week Week { get; set; }
         public virtual PECTask PECTask { get; set; }
         public virtual Project Project { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

@@ -111,6 +111,39 @@
         }
     })
 
+    $(".assignedToImage").click(function () {
+        var id = this.id.split("_")[0];
+        var span = $("#" + id + "__assignedToSpanID");
+        var lnk = $("#" + id + "__assignedToLinkID");
+        var img = $("#" + id + "__assignedToImageID");
+        if ($(span).html().indexOf("select") == -1) {
+            $(span).load("/ProjectTaskLists/GetAssignmentList?projectTaskListUid=" + escape(id));
+            $(document).on('change', '.setTaskAssignment', function () {
+                var assignment = $("#" + id + "__assignmentListID");
+                var assignmentValue = assignment.val();
+                $.ajax({
+                    url: "/ProjectTaskLists/SaveAssignment",
+                    type: "POST",
+                    data: {
+                        projectTaskListUid: id,
+                        value: assignmentValue
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                    }
+                }).done(function () {
+                })
+
+            });
+            $(span).css({ "style": "display:normal;" });
+            if (img != undefined) {
+                img.remove();
+            }
+
+        }
+        
+    })
+
 
     $(".addNewCalendarTask").click(function () {
         $val = this.id;        
@@ -670,6 +703,22 @@
         })
     });
 
+    $("#lnkAddTasksToProject").click(function () {
+        $.ajax({
+            url: "/ProjectTaskLists/AddTasksForProject",
+            type: "POST",
+            data: {
+                startDate: $("#startDate").val()
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("check " + data);
+            }
+        }).done(function () {
+        })
+        location.reload();
+    });
+
 
     $("#btnExportContractorNotes").click(function () {
         var dtltbl = $('#dvData').html();
@@ -839,16 +888,30 @@
             changedPredecessor = 0;
         }
         else {
-            var predecessor = $("span:contains('" + changedPredecessor + "')")[0].id;
-            var predecessorID = predecessor.split("_")[0];
-            var predecessorEndDate = $("#" + predecessorID + "__endDateID").html();
-            var newChangedStartDate = addWeekdays(predecessorEndDate, 1);
-            $("#" + changedID + "__startDateID").val(newChangedStartDate);
+            var predID;
+            var predecessorEndDate;
+            var newChangedStartDate;            
+            $("span[id*='__sequence']").each(function () {
+                if ($(this).html() == changedPredecessor) {
+                    predID = this.id.split("_")[0];
+                    predecessorEndDate = $("#" + predID + "__endDateID").html();
+                    newChangedStartDate = addWeekdays(predecessorEndDate, 0);
+                    $("#" + changedID + "__startDateID").val(newChangedStartDate);
+                    return false;
+                }
+            })                        
         }
 
         var changedStartDate = $("#" + changedID + "__startDateID").val();
-        var changedDuration = $("#" + changedID + "__durationID").val();        
+        var changedDuration = $("#" + changedID + "__durationID").val();
         var changedSeq = $("#" + changedID + "__sequence").html()
+        var isCompleted;
+        if ($("#" + changedID + "__isCompletedID").is(":checked")) {
+            isCompleted = true;
+        }
+        else {
+            isCompleted = false;
+        }
 
         $.ajax({
             url: "/ProjectTaskLists/SaveTask",
@@ -857,7 +920,8 @@
                 projectTaskListUid: changedID,
                 startDate: changedStartDate,
                 duration: changedDuration,
-                predecessor: changedPredecessor
+                predecessor: changedPredecessor,
+                isCompleted: isCompleted
             },
             dataType: "json",
             success: function (data) {                
@@ -905,32 +969,39 @@
         else {
             $("#" + thisID + "__startDateID").prop('disabled', false);
         }
+
+
         if (thisParentText > "") {
             var parentUid = $("#" + thisID + "__parentUid").val();
-            var parentStartDate;
-            var parentEndDate;
-            var currentStartDate = new Date("12/31/2199");
-            var currentEndDate = new Date("1/1/1900");
-            $("#" + thisID + "__startDateID").remove();
-            $("#" + thisID + "__endDateID").remove();
-            $("#" + thisID + "__sequence").remove();
-            $(thisDuration).remove();
+            var parentStartDate = new Date("12/31/2199");;
+            var parentEndDate = new Date("1/1/1900");
+            var currentStartDate;
+            var currentEndDate;            
+            //$("#" + thisID + "__startDateID").remove();
+            //$("#" + thisID + "__endDateID").remove();
+            //$("#" + thisID + "__sequence").remove();
+            //$(thisDuration).remove();
+            var categoryDuration = 0;
             $(element_Predecessor).remove();
-            //$("." + parentUid).each(function () {
-            //    var childID = this.id.split("_")[0];
-            //    var childStartDate = $("#" + childID + "__startDateID").val();
-            //    var childEndDate = $("#" + childID + "__endDateID").val();
-            //    currentStartDate = new Date(childStartDate);
-            //    currentEndDate = new Date(childEndDate);
-            //    if (currentStartDate < parentStartDate) {
-            //        parentStartDate = currentStartDate;
-            //    }
-            //    if (currentEndDate > childEndDate) {
-            //        parentEndDate = childEndDate;
-            //    }
-            //});
-            //$("#" + thisID + "__startDateID").val(parentStartDate);
-            //$("#" + thisID + "__endDateID").html(parentEndDate);
+            $("." + parentUid).each(function () {
+                var childID = this.id.split("_")[0];
+                var childStartDate = $("#" + childID + "__startDateID").val();
+                var childEndDate = $("#" + childID + "__endDateID").html();
+                currentStartDate = new Date(childStartDate);
+                currentEndDate = new Date(childEndDate);
+                if (currentStartDate < parentStartDate) {
+                    parentStartDate = currentStartDate;
+                }
+                if (currentEndDate > parentEndDate) {
+                    parentEndDate = currentEndDate;
+                }
+                categoryDuration += parseInt($("#" + childID + "__durationID").val());                
+            });
+            $("#" + thisID + "__startDateID").val(addWeekdays(parentStartDate, 0));
+            $("#" + thisID + "__endDateID").html(addWeekdays(parentEndDate, 0));
+            $("#" + thisID + "__startDateID").prop('disabled', true);
+            $(thisDuration).prop('disabled', true);
+            $(thisDuration).val(categoryDuration);
         }
     });
 
@@ -1033,7 +1104,7 @@ function addWeekdays(startDate, daysToAdd) {
             i++;
         }
     }
-    return (endDate.getUTCMonth() + 1) + "/" + endDate.getUTCDate() + "/" + endDate.getUTCFullYear();
+    return endDate.toDateString();//(endDate.getUTCMonth() + 1) + "/" + endDate.getUTCDate() + "/" + endDate.getUTCFullYear();
 }
 
 function isWeekend(date) {

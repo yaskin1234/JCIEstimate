@@ -20,7 +20,7 @@ namespace JCIEstimate.Models
         public string aspNetUserUidAsResponded { get; set; }
         public string projectRFIResponse1 { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual ProjectRFI ProjectRFI { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

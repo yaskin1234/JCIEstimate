@@ -150,7 +150,7 @@ namespace IdentitySample.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                user.AllowableContractors = model.AllowableContractors;
+                user.AllowableContractors = model.AllowableContractors;                
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

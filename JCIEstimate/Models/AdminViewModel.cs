@@ -22,6 +22,9 @@ namespace IdentitySample.Models
         public string Email { get; set; }
 
         public string AllowableContractors { get; set; }
+
+        public string name { get; set; }
+
         public string PhoneNumber { get; set; }
 
         public IEnumerable<SelectListItem> RolesList { get; set; }

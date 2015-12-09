@@ -30,12 +30,12 @@ namespace JCIEstimate.Models
         public string aspNetUserUidAsCreated { get; set; }
         public Nullable<System.Guid> locationUid { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Location Location { get; set; }
         public virtual ICollection<WarrantyAttachment> WarrantyAttachments { get; set; }
         public virtual WarrantyStatu WarrantyStatu { get; set; }
         public virtual WarrantyUnit WarrantyUnit { get; set; }
         public virtual ICollection<WarrantyNote> WarrantyNotes { get; set; }
         public virtual ProjectUser ProjectUser { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

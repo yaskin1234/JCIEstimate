@@ -1711,7 +1711,7 @@ namespace JCIEstimate.Models
         public System.Guid projectTaskListUid { get; set; }
         [Display(Name = "Project")]
         public System.Guid projectUid { get; set; }
-        [Display(Name = "Task Parent")]
+        [Display(Name = "Category")]
         public Nullable<System.Guid> projectTaskListUidAsParent { get; set; }
         [Display(Name = "Task Predecessor")]
         public Nullable<System.Guid> projectTaskListUidAsPredecessor { get; set; }

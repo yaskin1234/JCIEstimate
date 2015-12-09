@@ -10,12 +10,16 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using JCIEstimate.Models;
 
 namespace IdentitySample.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {
+
+        private JCIEstimateEntities db = new JCIEstimateEntities();
+
         public UsersAdminController()
         {
         }
@@ -93,14 +97,23 @@ namespace IdentitySample.Controllers
                 var user = new ApplicationUser { 
                     UserName = userViewModel.Email, 
                     Email = userViewModel.Email,
-                    AllowableContractors = userViewModel.AllowableContractors,
+                    AllowableContractors = userViewModel.AllowableContractors,                    
                     PhoneNumber = userViewModel.PhoneNumber
                 };
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
 
+                                
+
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
                 {
+                    AspNetUsersExtension newExt = new AspNetUsersExtension();
+                    newExt.aspNetUsersExtensionUid = Guid.Parse(user.Id);
+                    newExt.aspnetUserUid = user.Id;
+                    newExt.name = userViewModel.name;
+                    db.AspNetUsersExtensions.Add(newExt);
+                    db.SaveChanges();
+
                     if (selectedRoles != null)
                     {
                         var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
@@ -141,12 +154,26 @@ namespace IdentitySample.Controllers
 
             var userRoles = await UserManager.GetRolesAsync(user.Id);
 
+
+            var foundName = await db.AspNetUsersExtensions.FindAsync(Guid.Parse(id));
+
+            var name = "";
+            if (foundName == null)
+            {
+                name = "";
+            }
+            else
+            {
+                name = foundName.name;
+            }
+
             return View(new EditUserViewModel()
             {
                 Id = user.Id,
                 Email = user.Email,
                 AllowableContractors = user.AllowableContractors,
                 PhoneNumber = user.PhoneNumber,
+                name = name,
                 RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
                 {
                     Selected = userRoles.Contains(x.Name),
@@ -160,7 +187,7 @@ namespace IdentitySample.Controllers
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,AllowableContractors,phoneNumber")] EditUserViewModel editUser, params string[] selectedRole)
+        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,AllowableContractors,phoneNumber,name")] EditUserViewModel editUser, params string[] selectedRole)
         {
             if (ModelState.IsValid)
             {
@@ -170,9 +197,24 @@ namespace IdentitySample.Controllers
                     return HttpNotFound();
                 }
 
+                var ext = db.AspNetUsersExtensions.Find(Guid.Parse(editUser.Id));
+                if (ext == null)
+                {
+                    AspNetUsersExtension newExt = new AspNetUsersExtension();
+                    newExt.aspNetUsersExtensionUid = Guid.Parse(editUser.Id);
+                    newExt.aspnetUserUid = editUser.Id;
+                    newExt.name = editUser.name;
+                    db.AspNetUsersExtensions.Add(newExt);
+                }
+                else
+                {
+                    ext.name = editUser.name;
+                }
+                db.SaveChanges();
+
                 user.UserName = editUser.Email;
                 user.Email = editUser.Email;
-                user.AllowableContractors = editUser.AllowableContractors;
+                user.AllowableContractors = editUser.AllowableContractors;                
                 user.PhoneNumber = editUser.PhoneNumber;
 
                 var userRoles = await UserManager.GetRolesAsync(user.Id);

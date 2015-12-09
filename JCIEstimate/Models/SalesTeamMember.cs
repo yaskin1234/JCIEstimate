@@ -18,7 +18,7 @@ namespace JCIEstimate.Models
         public string aspNetUserUid { get; set; }
         public System.Guid salesTeamUid { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual SalesTeam SalesTeam { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

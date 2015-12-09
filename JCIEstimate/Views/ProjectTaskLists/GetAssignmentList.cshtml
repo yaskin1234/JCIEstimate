@@ -1,0 +1,5 @@
+﻿@{
+    Layout = null;
+    var assignmentListID = ViewBag.projectTaskListUid.ToString() + "__assignmentListID";
+}
+@Html.DropDownList("assignmentList", null, htmlAttributes: new { @class = "setTaskAssignment", @id = assignmentListID })

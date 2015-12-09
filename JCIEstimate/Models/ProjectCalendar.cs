@@ -23,7 +23,7 @@ namespace JCIEstimate.Models
         public string aspNetUserUid { get; set; }
         public string projectCalendar1 { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<ProjectCalendarDay> ProjectCalendarDays { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

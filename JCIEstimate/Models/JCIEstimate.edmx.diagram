@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="59">
+      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="65">
         <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="11.875" PointY="10.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="8.625" PointY="3.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
@@ -14,8 +14,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractor_user" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractorContact" />
-        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="14.25" PointY="0.875" IsExpanded="false" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstruction" Width="1.5" PointX="7.625" PointY="18.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.Interval" Width="1.5" PointX="0.75" PointY="0.875" />
@@ -46,7 +44,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_estimateInclusionResponse_estimateinclusion" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyStatu" Width="1.5" PointX="5.375" PointY="0.875" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyNote" Width="1.5" PointX="10.25" PointY="14.125" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_Notecreated" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyAttachment" Width="1.5" PointX="27.875" PointY="6.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyUnit" Width="1.5" PointX="9.625" PointY="10.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentTask" Width="1.5" PointX="21.375" PointY="20.75" />
@@ -65,10 +62,6 @@
         <EntityTypeShape EntityType="JCIEstimateModel.LocationIssue" Width="1.5" PointX="20.625" PointY="16.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.LocationNote" Width="1.5" PointX="22.875" PointY="9.25" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyIssue" Width="1.5" PointX="23.625" PointY="16.25" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_createdAs" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_LocationNotecreated" />
-        <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_AspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_location_project" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_location" />
@@ -81,29 +74,22 @@
         <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentNoteType" Width="1.5" PointX="23.625" PointY="35.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentNote" Width="1.5" PointX="25.875" PointY="17.875" />
-        <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote__aspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote__Equipmentnotetype" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectAttachment" Width="1.5" PointX="18.375" PointY="41.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectAttachmentType" Width="1.5" PointX="7.375" PointY="0.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectAttachment_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectRFIResponse" Width="1.5" PointX="24.625" PointY="3" />
         <EntityTypeShape EntityType="JCIEstimateModel.RfiType" Width="1.5" PointX="20.125" PointY="4.625" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userRresponded" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectRFI" Width="1.5" PointX="25.375" PointY="8.375" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userAssigned" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userCreated" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_Contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_RfiType" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFIResponse_ProjectRFI" />
         <EntityTypeShape EntityType="JCIEstimateModel.RfiStatu" Width="1.5" PointX="5.375" PointY="9.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_RfiStatus" />
-        <AssociationConnector Association="JCIEstimateModel.fk_project_PM" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectAddendum" Width="1.5" PointX="18.375" PointY="44.5" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectAddendum_project" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectAddemdum_created" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectManagerAttachment" Width="1.5" PointX="22.375" PointY="5.5" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created1" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectManagerAttachment_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorTotalsByProject" Width="1.5" PointX="3.75" PointY="13.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.v__ContractorECMByCategory" Width="1.5" PointX="5.75" PointY="13.75" />
@@ -141,16 +127,12 @@
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentCondition" Width="1.5" PointX="12.375" PointY="16.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_Condition" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoff" Width="1.5" PointX="22.375" PointY="0.875" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created2" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffAttachment" Width="1.5" PointX="24.625" PointY="0.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created4" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffAttachment_contractorSignoffUid" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffFinal" Width="1.5" PointX="27.375" PointY="2" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffFinalAttachment" Width="1.5" PointX="29.625" PointY="1.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created3" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created5" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffFinal_Contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffFinal_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffFinalAttachment_contractorSignoffFinalUid" />
@@ -163,7 +145,6 @@
         <EntityTypeShape EntityType="JCIEstimateModel.Week" Width="1.5" PointX="26.125" PointY="27.375" />
         <EntityTypeShape EntityType="JCIEstimateModel.PECExpenseType" Width="1.5" PointX="0.75" PointY="17.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.PECCost" Width="1.5" PointX="31.375" PointY="15.375" />
-        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUserPECCost" />
         <AssociationConnector Association="JCIEstimateModel.fk_PECCost_ExpenseType" />
         <AssociationConnector Association="JCIEstimateModel.fk_PECCost_Location" />
         <AssociationConnector Association="JCIEstimateModel.fk_PECCost_PecTask" />
@@ -177,7 +158,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectUser" Width="1.5" PointX="21.375" PointY="12.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_project_AspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_project_user" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectEstimateEmail__v" Width="1.5" PointX="3.375" PointY="18.75" />
@@ -217,12 +197,9 @@
         <AssociationConnector Association="JCIEstimateModel.fk_SalesOpportunityMilestone_Milestone" />
         <EntityTypeShape EntityType="JCIEstimateModel.AspNetUserClaim" Width="1.5" PointX="16.5" PointY="33.875" />
         <EntityTypeShape EntityType="JCIEstimateModel.AspNetUserLogin" Width="1.5" PointX="16.5" PointY="55.5" />
-        <AssociationConnector Association="JCIEstimateModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
-        <AssociationConnector Association="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <EntityTypeShape EntityType="JCIEstimateModel.SalesOpportunity" Width="1.5" PointX="15.5" PointY="45.25" />
         <EntityTypeShape EntityType="JCIEstimateModel.SalesTeam" Width="1.5" PointX="13.25" PointY="45.375" />
         <EntityTypeShape EntityType="JCIEstimateModel.SalesTeamMember" Width="1.5" PointX="28.5" PointY="17.125" />
-        <AssociationConnector Association="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_SalesOpportunity_SalesTeam" />
         <AssociationConnector Association="JCIEstimateModel.fk_SalesOpportunityMilestone_salesOpportunity" />
         <AssociationConnector Association="JCIEstimateModel.fk_SalesTeamMember_SalesTeam" />
@@ -233,24 +210,50 @@
         <EntityTypeShape EntityType="JCIEstimateModel.Calendar" Width="1.5" PointX="16.5" PointY="61.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.CalendarDay" Width="1.5" PointX="18.75" PointY="61.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.CalendarDayTask" Width="1.5" PointX="24" PointY="41.875" />
-        <AssociationConnector Association="JCIEstimateModel.fk_CalendarMember_AspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDay_Calendar" />
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_CalendarDay" />
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_Location" />
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectCalendar" Width="1.5" PointX="16.5" PointY="64.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectCalendarDay" Width="1.5" PointX="18.75" PointY="64.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDay_ProjectCalendar" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectTaskCategory" Width="1.5" PointX="12.125" PointY="25" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectCalendarDayTask" Width="1.5" PointX="27" PointY="39.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectTaskPrototype" Width="1.5" PointX="14.375" PointY="26.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_Location" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectCalendarDay" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectTaskCategory" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ProjectTaskList" Width="1.5" PointX="18.375" PointY="68.375" />
+        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="8" PointY="30.625" />
+        <AssociationConnector Association="JCIEstimateModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created1" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created2" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created3" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created4" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_created5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_createdAs" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_LocationNotecreated" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_Notecreated" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUserPECCost" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CalendarMember_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote__aspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_project_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_project_PM" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectAddemdum_created" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userAssigned" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userCreated" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_userRresponded" />
+        <AssociationConnector Association="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser" />
+        <EntityTypeShape EntityType="JCIEstimateModel.AspNetUsersExtension" Width="1.5" PointX="12.375" PointY="34.125" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUsersExtension_AspNetUser" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectTaskList" Width="1.5" PointX="29.375" PointY="31" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_AspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListParent" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListPredecessor" />

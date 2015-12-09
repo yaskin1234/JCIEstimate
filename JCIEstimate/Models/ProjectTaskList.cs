@@ -28,7 +28,10 @@ namespace JCIEstimate.Models
         public int projectTaskSequence { get; set; }
         public System.DateTime projectTaskStartDate { get; set; }
         public int projectTaskDuration { get; set; }
+        public string aspNetUserUidAsAssigned { get; set; }
+        public bool isCompleted { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Project Project { get; set; }
         public virtual ICollection<ProjectTaskList> ProjectTaskList1 { get; set; }
         public virtual ProjectTaskList ProjectTaskList2 { get; set; }

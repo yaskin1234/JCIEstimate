@@ -625,6 +625,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Images\AddItem.png" />
+    <Content Include="Images\assignedTo.png" />
     <Content Include="Images\attr.png" />
     <Content Include="Images\Calendar.png" />
     <Content Include="Images\delete-icon.png" />
@@ -2134,6 +2135,9 @@
     <Content Include="Views\ProjectTaskLists\Edit.cshtml" />
     <Content Include="Views\ProjectTaskLists\Index.cshtml" />
     <Content Include="Views\ProjectTaskLists\SaveTask.cshtml" />
+    <Content Include="Views\ProjectTaskLists\AddTasksForProject.cshtml" />
+    <Content Include="Views\ProjectTaskLists\GetAssignmentList.cshtml" />
+    <Content Include="Views\ProjectTaskLists\SaveAssignment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2362,6 +2366,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsersExtension.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Calendar.cs">

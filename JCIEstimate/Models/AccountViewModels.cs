@@ -80,6 +80,9 @@ namespace IdentitySample.Models
         [Display(Name = "Allowable Contractors")]        
         public string AllowableContractors { get; set; }
 
+        [Display(Name = "Name")]
+        public string name { get; set; }
+
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
     }

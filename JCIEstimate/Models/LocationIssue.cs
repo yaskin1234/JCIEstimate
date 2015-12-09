@@ -27,10 +27,10 @@ namespace JCIEstimate.Models
         public System.DateTime date { get; set; }
         public string locationIssue1 { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual AspNetUser AspNetUser1 { get; set; }
         public virtual Location Location { get; set; }
         public virtual WarrantyStatu WarrantyStatu { get; set; }
         public virtual ICollection<LocationNote> LocationNotes { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
     }
 }

@@ -21,8 +21,8 @@ namespace JCIEstimate.Models
         public System.DateTime date { get; set; }
         public string aspNetUserUidAsCreated { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual EquipmentNoteType EquipmentNoteType { get; set; }
         public virtual Equipment Equipment { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }
