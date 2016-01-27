@@ -930,6 +930,8 @@
         })
         $("#" + changedID + "__endDateID").html(addWeekdays(changedStartDate, changedDuration));
         var changedEndDate = $("#" + changedID + "__endDateID").html();
+        var changedParentUid = $("#" + changedID + "__parent").attr("class");
+        var changedParentSeq = $("#" + changedParentUid + "__sequence").html();
 
         $("[name='sequenceField']").each(function () {
             var thisID = this.id.split("_")[0];
@@ -944,7 +946,7 @@
                 var newStartDateText = addWeekdays(newStartDate, 0);
                 $("#" + thisID + "__startDateID").val(newStartDateText);
                 $("#" + thisID + "__startDateID").change(); 
-            }
+            }            
 
             if (thisPredecessor != "") {                
                 $("#" + thisID + "__startDateID").prop('disabled', true);
@@ -952,57 +954,34 @@
             else {
                 $("#" + thisID + "__startDateID").prop('disabled', false);
             }
+
+            ProcessParentTasks(thisID);
+
+            var parentEndDate = $("#" + changedParentUid + "__endDateID").val();            
+
+            if (changedParentSeq == thisPredecessor) {
+                var pEndDate = new Date(parentEndDate);
+                var newStartDate = new Date(addWeekdays(pEndDate, 1));
+                var pStartDateText = addWeekdays(newStartDate, 0);
+                $("#" + thisID + "__startDateID").val(pStartDateText);
+                $("#" + thisID + "__startDateID").change();
+            }
         });
     });
 
     $("[name='sequenceField']").each(function () {
         var thisID = this.id.split("_")[0];
         var thisSeq = $(this).html();
-        var thisPredecessor = $("#" + thisID + "__predecessorID").val();
-        var thisParentText = $("#" + thisID + "__parent").html();
-        var thisDuration = $("#" + thisID + "__durationID");
-        var element_Predecessor = $("#" + thisID + "__predecessorID");        
+        var thisPredecessor = $("#" + thisID + "__predecessorID").val();        
 
         if (thisPredecessor != "") {
             $("#" + thisID + "__startDateID").prop('disabled', true);
         }
         else {
-            $("#" + thisID + "__startDateID").prop('disabled', false);
-        }
+            $("#" + thisID + "__startDateID").prop('disabled', false);        }
 
+        ProcessParentTasks(thisID);
 
-        if (thisParentText > "") {
-            var parentUid = $("#" + thisID + "__parentUid").val();
-            var parentStartDate = new Date("12/31/2199");;
-            var parentEndDate = new Date("1/1/1900");
-            var currentStartDate;
-            var currentEndDate;            
-            //$("#" + thisID + "__startDateID").remove();
-            //$("#" + thisID + "__endDateID").remove();
-            //$("#" + thisID + "__sequence").remove();
-            //$(thisDuration).remove();
-            var categoryDuration = 0;
-            $(element_Predecessor).remove();
-            $("." + parentUid).each(function () {
-                var childID = this.id.split("_")[0];
-                var childStartDate = $("#" + childID + "__startDateID").val();
-                var childEndDate = $("#" + childID + "__endDateID").html();
-                currentStartDate = new Date(childStartDate);
-                currentEndDate = new Date(childEndDate);
-                if (currentStartDate < parentStartDate) {
-                    parentStartDate = currentStartDate;
-                }
-                if (currentEndDate > parentEndDate) {
-                    parentEndDate = currentEndDate;
-                }
-                categoryDuration += parseInt($("#" + childID + "__durationID").val());                
-            });
-            $("#" + thisID + "__startDateID").val(addWeekdays(parentStartDate, 0));
-            $("#" + thisID + "__endDateID").html(addWeekdays(parentEndDate, 0));
-            $("#" + thisID + "__startDateID").prop('disabled', true);
-            $(thisDuration).prop('disabled', true);
-            $(thisDuration).val(categoryDuration);
-        }
     });
 
     $(".datepicker").change(function () {
@@ -1043,6 +1022,46 @@
 
 });
 
+function ProcessParentTasks(thisID) {
+    var thisParentText = $("#" + thisID + "__parent").html();
+
+    if (thisParentText > "") {
+        var parentUid = $("#" + thisID + "__parentUid").val();
+        var parentStartDate = new Date("12/31/2199");;
+        var parentEndDate = new Date("1/1/1900");
+        var currentStartDate;
+        var currentEndDate;
+        var element_Predecessor = $("#" + thisID + "__predecessorID");
+        var thisDuration = $("#" + thisID + "__durationID");        
+        var categoryDuration = 0;        
+
+        $(element_Predecessor).remove();
+        $("#" + thisID + "__startDateID").css("display", "none");
+        $(thisDuration).remove();
+        $("#" + thisID + "__endDateID").parent().css('background-color', 'lightblue');
+
+        $("." + parentUid).each(function () {
+            var childID = this.id.split("_")[0];
+            var childStartDate = $("#" + childID + "__startDateID").val();
+            var childEndDate = $("#" + childID + "__endDateID").html();
+            currentStartDate = new Date(childStartDate);
+            currentEndDate = new Date(childEndDate);
+            if (currentStartDate < parentStartDate) {
+                parentStartDate = currentStartDate;
+            }
+            if (currentEndDate > parentEndDate) {
+                parentEndDate = currentEndDate;
+            }
+            categoryDuration += parseInt($("#" + childID + "__durationID").val());
+        });
+        $("#" + thisID + "__startDateID").val(addWeekdays(parentStartDate, 0));
+        $("#" + thisID + "__endDateID").html(addWeekdays(parentEndDate, 0));
+        $("#" + thisID + "__startDateID").prop('disabled', true);
+        //$(thisDuration).prop('disabled', true);
+        //$(thisDuration).val(categoryDuration);        
+    }    
+}
+
 Number.prototype.formatMoney = function (c, d, t) {
     var n = this,
         c = isNaN(c = Math.abs(c)) ? 2 : c,
@@ -1053,25 +1072,7 @@ Number.prototype.formatMoney = function (c, d, t) {
         j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 };
-//$(function () {
-//    $('#locationUid').change(function () {
-//        $.ajax({
-//            url: "/WarrantyIssues/EquipmentForLocation",            
-//            type: "POST",
-//            data: { locationUid: $(this).val() },
-//            dataType: "json",
-//            success: function (data) {
-//                alert("check " + data);
-//            }
-//        }).done(function () {
-//            alert("done");
-//        }).fail(function () {
-//            alert("fail");
-//        }).always(function () {
-//            alert("always");
-//        })
-//    });
-//});
+  
 
 function DateDiff(date1,date2,interval) {
     var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;

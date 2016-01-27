@@ -8,10 +8,10 @@
 
 
 @if(Model.Count() == 0)
-{
-    <a id="lnkAddTasksToProject">Add tasks to project</a>
-    @:&nbsp; &nbsp;
-    <input type="date" id="startDate" name="startDate" value="" />
+{    
+    
+    <input type="date" id="startDate" name="startDate" value="" />@:&nbsp; &nbsp;
+    <a style="cursor:pointer;" id="lnkAddTasksToProject">Add tasks to project</a>
 }
 
 
@@ -64,7 +64,7 @@
             }
             @if (item.ProjectTaskList2 == null)
             {
-                <span id="@parentID" style="font-weight:bold;">@item.projectTask</span>
+                <span class="taskParent" id="@parentID" style="font-weight:bold;">@item.projectTask</span>
                 <input type="hidden" id="@parentUidID" value="@item.projectTaskListUid" />
             }
             else
@@ -106,7 +106,7 @@
             @{
     var endDateID = item.projectTaskListUid + "__endDateID";
             }
-            <span id="@endDateID">@String.Format("{0:ddd, MMM d, yyyy}", JCIExtensions.MCVExtensions.AddWeekdays(item.projectTaskStartDate, item.projectTaskDuration))</span>
+            <span name="projectTaskList" id="@endDateID">@String.Format("{0:ddd, MMM d, yyyy}", JCIExtensions.MCVExtensions.AddWeekdays(item.projectTaskStartDate, item.projectTaskDuration))</span>
         </td>                
         <td>
             @{

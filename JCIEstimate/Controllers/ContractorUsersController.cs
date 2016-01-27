@@ -40,8 +40,8 @@ namespace JCIEstimate.Controllers
         // GET: ContractorUsers/Create
         public ActionResult Create()
         {
-            ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName");
-            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "Email");
+            ViewBag.contractorUid = new SelectList(db.Contractors.OrderBy(c=>c.contractorName), "contractorUid", "contractorName");
+            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers.OrderBy(c=>c.Email), "Id", "Email");
             return View();
         }
 
@@ -60,8 +60,8 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", contractorUser.contractorUid);
-            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "Email", contractorUser.aspNetUserUid);
+            ViewBag.contractorUid = new SelectList(db.Contractors.OrderBy(c => c.contractorName), "contractorUid", "contractorName", contractorUser.contractorUid);
+            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers.OrderBy(c => c.Email), "Id", "Email", contractorUser.aspNetUserUid);
             return View(contractorUser);
         }
 
@@ -77,8 +77,8 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", contractorUser.contractorUid);
-            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "Email", contractorUser.aspNetUserUid);
+            ViewBag.contractorUid = new SelectList(db.Contractors.OrderBy(c => c.contractorName), "contractorUid", "contractorName", contractorUser.contractorUid);
+            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers.OrderBy(c => c.Email), "Id", "Email", contractorUser.aspNetUserUid);
             return View(contractorUser);
         }
 
@@ -95,8 +95,8 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", contractorUser.contractorUid);
-            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "Email", contractorUser.aspNetUserUid);
+            ViewBag.contractorUid = new SelectList(db.Contractors.OrderBy(c => c.contractorName), "contractorUid", "contractorName", contractorUser.contractorUid);
+            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers.OrderBy(c => c.Email), "Id", "Email", contractorUser.aspNetUserUid);
             return View(contractorUser);
         }
 

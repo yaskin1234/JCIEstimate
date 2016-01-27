@@ -15,10 +15,18 @@ using System.IO;
 
 namespace JCIEstimate.Controllers
 {
+    public class previousValues
+    {
+        public System.String contractorUid { get; set; }
+        public System.String locationUid { get; set; }
+        public System.String ecmUid { get; set; }
+        public System.String categoryUid { get; set; }
+        public System.String estimateStatusUid { get; set; }
+    }
+
     public class EstimatesController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
-
 
         //// GET: Estimates
         //public ActionResult Index2()
@@ -319,14 +327,29 @@ namespace JCIEstimate.Controllers
                               orderby cc.contractorName
                               select cc;
             }
-            
 
-            ViewBag.ecmUid = ecms.ToSelectList(d => d.ecmNumber + " - " + d.ecmDescription, d => d.ecmUid.ToString(), "");
-            ViewBag.locationUid = locations.ToSelectList(d => d.location1, d => d.locationUid.ToString(), "");
-            ViewBag.categoryUid = db.Categories.OrderBy(m=>m.category1).ToSelectList(d => d.category1, d => d.categoryUid.ToString(), "");
-            ViewBag.contractorUid = contractors.ToSelectList(d => d.contractorName, d => d.contractorUid.ToString(), "");
+            previousValues p;
+
+            if (HttpContext.Session["previousValues"] != null)
+            {
+                p = (previousValues)HttpContext.Session["previousValues"];
+            }
+            else
+            {
+                p = new previousValues();
+                p.contractorUid = "";
+                p.locationUid = "";
+                p.ecmUid = "";
+                p.categoryUid = "";
+                p.estimateStatusUid = "";
+            }
+
+            ViewBag.ecmUid = ecms.ToSelectList(d => d.ecmNumber + " - " + d.ecmDescription, d => d.ecmUid.ToString(), p.ecmUid);
+            ViewBag.locationUid = locations.ToSelectList(d => d.location1, d => d.locationUid.ToString(), p.locationUid);
+            ViewBag.categoryUid = db.Categories.OrderBy(m=>m.category1).ToSelectList(d => d.category1, d => d.categoryUid.ToString(), p.categoryUid);
+            ViewBag.contractorUid = contractors.ToSelectList(d => d.contractorName, d => d.contractorUid.ToString(), p.contractorUid);
             ViewBag.estimateOptionUid = new SelectList(db.EstimateOptions.OrderBy(m => m.EstimateOption1), "estimateOptionUid", "EstimateOption1"); 
-            ViewBag.estimateStatusUid = db.EstimateStatus.OrderBy(m => m.estimateStatus).ToSelectList(d => d.estimateStatus, d => d.estimateStatusUid.ToString(), "");
+            ViewBag.estimateStatusUid = db.EstimateStatus.OrderBy(m => m.estimateStatus).ToSelectList(d => d.estimateStatus, d => d.estimateStatusUid.ToString(), p.estimateStatusUid);
             return View();
         }
 
@@ -342,6 +365,19 @@ namespace JCIEstimate.Controllers
             {
                 estimate.estimateUid = Guid.NewGuid();
                 db.Estimates.Add(estimate);
+
+                if (HttpContext.Session["previousValues"] == null)
+                {
+                    HttpContext.Session.Remove("previousValues");
+                }
+                previousValues p = new previousValues();
+                p.contractorUid = estimate.contractorUid.ToString();
+                p.locationUid = estimate.locationUid.ToString();
+                p.ecmUid = estimate.ecmUid.ToString();
+                p.categoryUid = estimate.categoryUid.ToString();
+                p.estimateStatusUid = estimate.estimateStatusUid.ToString();
+                HttpContext.Session.Add("previousValues", p);
+                
 
                 //add equipment attribnute type task assignments                
                 IQueryable<EquipmentAttributeTypeTask> tasks = from cc in db.Equipments
@@ -373,8 +409,12 @@ namespace JCIEstimate.Controllers
                     }
                 }
 
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                db.SaveChanges();
+                var newES = from cc in db.Estimates.Include(c=>c.Contractor).Include(c=>c.ECM)
+                            where cc.estimateUid == estimate.estimateUid
+                            select cc;                
+                Session["newEstimateMessage"] = "Bid proposal added successfully for " + newES.FirstOrDefault().Contractor.contractorName + " and " + newES.FirstOrDefault().ECM.ecmString + " in the amount " + String.Format("{0:C}", newES.FirstOrDefault().amount) + ".";
+                return RedirectToAction("Create");
             }
 
             ViewBag.categoryUid = new SelectList(db.Categories, "categoryUid", "category1", estimate.categoryUid);

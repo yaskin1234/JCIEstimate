@@ -2138,6 +2138,7 @@
     <Content Include="Views\ProjectTaskLists\AddTasksForProject.cshtml" />
     <Content Include="Views\ProjectTaskLists\GetAssignmentList.cshtml" />
     <Content Include="Views\ProjectTaskLists\SaveAssignment.cshtml" />
+    <Content Include="Views\Reports\rptLocationList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

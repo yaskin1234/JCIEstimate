@@ -78,6 +78,18 @@ namespace JCIEstimate.Controllers
             }
         }
 
+        public ActionResult GetLocationList()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptLocationList");
+            }
+        }
+
         public ActionResult GetEstimateSummary()
         {
             if (Session["projectUid"] == null)
