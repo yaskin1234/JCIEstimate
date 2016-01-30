@@ -384,6 +384,7 @@ namespace JCIEstimate.Controllers
                                                                join qq in db.EquipmentAttributeTypes on cc.equipmentAttributeTypeUid equals qq.equipmentAttributeTypeUid
                                                                join dd in db.EquipmentAttributeTypeTasks on qq.equipmentAttributeTypeUid equals dd.equipmentAttributeTypeUid
                                                                where cc.ecmUid == estimate.ecmUid
+                                                               && qq.excludeFromDropDown == false
                                                                select dd;
 
                 tasks = tasks.GroupBy(c => c.equipmentAttributeTypeTaskUid).Select(grp => grp.FirstOrDefault());

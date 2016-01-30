@@ -18,7 +18,7 @@ namespace JCIEstimate.Controllers
         // GET: EquipmentAttributeTypes
         public async Task<ActionResult> Index()
         {
-            return View(await db.EquipmentAttributeTypes.ToListAsync());
+            return View(await db.EquipmentAttributeTypes.OrderBy(c=>c.equipmentAttributeType1).ToListAsync());
         }
 
         // GET: EquipmentAttributeTypes/Details/5
@@ -47,7 +47,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentAttributeTypeUid,equipmentAttributeType1,behaviorIndicator")] EquipmentAttributeType equipmentAttributeType)
+        public async Task<ActionResult> Create([Bind(Include = "equipmentAttributeTypeUid,equipmentAttributeType1,behaviorIndicator,excludeFromDropDown")] EquipmentAttributeType equipmentAttributeType)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentAttributeTypeUid,equipmentAttributeType1,behaviorIndicator")] EquipmentAttributeType equipmentAttributeType)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentAttributeTypeUid,equipmentAttributeType1,behaviorIndicator,excludeFromDropDown")] EquipmentAttributeType equipmentAttributeType)
         {
             if (ModelState.IsValid)
             {

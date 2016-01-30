@@ -41,7 +41,7 @@ namespace JCIEstimate.Controllers
         // GET: EquipmentAttributeTypeTasks/Create
         public ActionResult Create()
         {
-            ViewBag.equipmentAttributeTypeUid = db.EquipmentAttributeTypes.OrderBy(c=>c.equipmentAttributeType1).ToSelectList(c=>c.equipmentAttributeType1, c=>c.equipmentAttributeTypeUid.ToString(), "");
+            ViewBag.equipmentAttributeTypeUid = db.EquipmentAttributeTypes.OrderBy(c => c.equipmentAttributeType1).Where(c => c.excludeFromDropDown == false).ToSelectList(c => c.equipmentAttributeType1, c => c.equipmentAttributeTypeUid.ToString(), "");
             return View();
         }
 
@@ -60,7 +60,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipmentAttributeTypeTask.equipmentAttributeTypeUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false), "equipmentAttributeTypeUid", "equipmentAttributeType1", equipmentAttributeTypeTask.equipmentAttributeTypeUid);
             return View(equipmentAttributeTypeTask);
         }
 
@@ -76,7 +76,7 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.equipmentAttributeTypeUid = db.EquipmentAttributeTypes.OrderBy(c => c.equipmentAttributeType1).ToSelectList(c => c.equipmentAttributeType1, c => c.equipmentAttributeTypeUid.ToString(), equipmentAttributeTypeTask.equipmentAttributeTypeUid.ToString());            
+            ViewBag.equipmentAttributeTypeUid = db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false).OrderBy(c => c.equipmentAttributeType1).ToSelectList(c => c.equipmentAttributeType1, c => c.equipmentAttributeTypeUid.ToString(), equipmentAttributeTypeTask.equipmentAttributeTypeUid.ToString());            
             return View(equipmentAttributeTypeTask);
         }
 
@@ -93,7 +93,7 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipmentAttributeTypeTask.equipmentAttributeTypeUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false), "equipmentAttributeTypeUid", "equipmentAttributeType1", equipmentAttributeTypeTask.equipmentAttributeTypeUid);
             return View(equipmentAttributeTypeTask);
         }
 

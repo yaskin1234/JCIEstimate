@@ -25,6 +25,7 @@ namespace JCIEstimate.Models
         public System.Guid equipmentAttributeTypeUid { get; set; }
         public string equipmentAttributeType1 { get; set; }
         public string behaviorIndicator { get; set; }
+        public bool excludeFromDropDown { get; set; }
     
         public virtual ICollection<EquipmentAttribute> EquipmentAttributes { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }

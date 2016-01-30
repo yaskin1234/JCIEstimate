@@ -326,6 +326,7 @@
           <Property Name="equipmentAttributeTypeUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="equipmentAttributeType" Type="varchar" MaxLength="200" />
           <Property Name="behaviorIndicator" Type="varchar" MaxLength="10" />
+          <Property Name="excludeFromDropDown" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="EquipmentAttributeTypeTask">
           <Key>
@@ -4921,6 +4922,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_AttributeType" FromRole="EquipmentAttributeType" ToRole="Equipment" />
           <NavigationProperty Name="EquipmentAttributeTypeTasks" Relationship="JCIEstimateModel.fk_EquipmentAttributeTypeTask_AttributeType" FromRole="EquipmentAttributeType" ToRole="EquipmentAttributeTypeTask" />
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_AttributeType" FromRole="EquipmentAttributeType" ToRole="EquipmentTypeTaskAssignment" />
+          <Property Name="excludeFromDropDown" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="AppDataType">
           <Key>
@@ -7881,6 +7883,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="EquipmentAttributeTypes">
             <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentAttributeType">
               <MappingFragment StoreEntitySet="EquipmentAttributeType">
+                <ScalarProperty Name="excludeFromDropDown" ColumnName="excludeFromDropDown" />
                 <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
                 <ScalarProperty Name="equipmentAttributeType1" ColumnName="equipmentAttributeType" />
                 <ScalarProperty Name="equipmentAttributeTypeUid" ColumnName="equipmentAttributeTypeUid" />

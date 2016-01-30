@@ -24,7 +24,7 @@ namespace JCIEstimate.Controllers
                         where cc.projectUid == sessionProject
                         select cc;
                 
-            locations = locations.Include(l => l.Project);
+            locations = locations.OrderBy(c=>c.location1).Include(l => l.Project);
             return View(await locations.ToListAsync());
         }
 

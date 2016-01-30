@@ -384,7 +384,7 @@ namespace JCIEstimate.Controllers
                                            select cc;
 
             ViewBag.equipmentAttributeValues = equipmentAttributeValues;
-            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false).OrderBy(c => c.equipmentAttributeType1), "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject).OrderBy(c=>c.location1), "locationUid", "location1", equipment.locationUid);
             ViewBag.heatTypeUid = new SelectList(db.HeatTypes, "heatTypeUid", "heatType1", equipment.heatTypeUid);
             ViewBag.controlTypeUid = new SelectList(db.ControlTypes, "controlTypeUid", "controlType1", equipment.controlTypeUid);            
@@ -448,8 +448,8 @@ namespace JCIEstimate.Controllers
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();                        
             decimal? jciTag = null;
 
-            ViewBag.equipmentAttributes = db.EquipmentAttributes.OrderBy(c => c.equipmentAttribute1);            
-            ViewBag.equipmentAttributeTypeUid = db.EquipmentAttributeTypes.OrderBy(c=>c.equipmentAttributeType1).ToSelectList(c => c.equipmentAttributeType1, c => c.equipmentAttributeTypeUid.ToString(), "");
+            ViewBag.equipmentAttributes = db.EquipmentAttributes.OrderBy(c => c.equipmentAttribute1);
+            ViewBag.equipmentAttributeTypeUid = db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false).OrderBy(c => c.equipmentAttributeType1).ToSelectList(c => c.equipmentAttributeType1, c => c.equipmentAttributeTypeUid.ToString(), "");
 
             ViewBag.locationUid = db.Locations.Where(c => c.projectUid == sessionProject).OrderBy(c=>c.location1).ToSelectList(c => c.location1, c => c.locationUid.ToString(), "");
             ViewBag.heatTypeUid = db.HeatTypes.ToSelectList(c => c.heatType1, c => c.heatTypeUid.ToString(), "");
@@ -544,7 +544,7 @@ namespace JCIEstimate.Controllers
             }
 
             ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).ToSelectList(c => c.ecmString, c => c.ecmUid.ToString(), equipment.ecmUid.ToString());
-            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false).OrderBy(c => c.equipmentAttributeType1), "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
             ViewBag.heatTypeUid = new SelectList(db.HeatTypes, "heatTypeUid", "heatType1",equipment.heatTypeUid);
             ViewBag.equipmentConditionUid = db.EquipmentConditions.ToSelectList(c => c.equipmentCondition1, c => c.equipmentConditionUid.ToString(), "");
@@ -804,7 +804,7 @@ namespace JCIEstimate.Controllers
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
             ViewBag.ecms = ecms.ToSelectList(c => c.ecmString, c => c.ecmUid.ToString(), ecmUid);
-            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipmentAttributeTypeUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false).OrderBy(c => c.equipmentAttributeType1), "equipmentAttributeTypeUid", "equipmentAttributeType1", equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations.OrderBy(c => c.location1).Where(c => c.projectUid == sessionProject), "locationUid", "location1", locationUid);
             ViewBag.equipmentUidAsReplaced = replacementEqupments.OrderBy(c => c.jciTag).ToSelectList(d => d.jciTag + " - " + d.Location.location1, d => d.equipmentUid.ToString(), equipmentUidAsReplaced);
             ViewBag.jciTag = jciTag;
@@ -855,7 +855,7 @@ namespace JCIEstimate.Controllers
             }
 
             ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).ToSelectList(c => c.ecmString, c => c.ecmUid.ToString(), "");
-            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false).OrderBy(c => c.equipmentAttributeType1), "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
             return View(equipment);
         }
@@ -958,7 +958,7 @@ namespace JCIEstimate.Controllers
             ViewBag.previousEquipment = previousEquipment;
             ViewBag.equipmentAttributeValues = equipmentAttributeValues;
             ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).ToSelectList(c=>c.ecmString, c=>c.ecmUid.ToString() , equipment.ecmUid.ToString());
-            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false).OrderBy(c => c.equipmentAttributeType1), "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1", equipment.locationUid);
             ViewBag.equipmentUidAsReplaced = replacementEqupments.OrderBy(c=>c.jciTag).ToSelectList(d => d.Location.location1 + " - " + d.jciTag, d => d.equipmentUid.ToString(), equipment.equipmentUidAsReplaced.ToString());
             ViewBag.equipmentConditionUid = new SelectList(db.EquipmentConditions, "equipmentConditionUid", "equipmentCondition1", equipment.equipmentConditionUid);
@@ -992,7 +992,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).ToSelectList(c => c.ecmString, c => c.ecmUid.ToString(), equipment.ecmUid.ToString());
-            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes, "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
+            ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false).OrderBy(c => c.equipmentAttributeType1), "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.equipmentConditionUid = new SelectList(db.EquipmentConditions, "equipmentConditionUid", "equipmentCondition1", equipment.equipmentConditionUid);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", equipment.locationUid);
             return View(equipment);
