@@ -22,6 +22,7 @@ namespace JCIEstimate.Models
         public System.Guid equipmentTaskUid { get; set; }
         public string equipmentTask1 { get; set; }
         public string equipmentTaskDescription { get; set; }
+        public string behaviorIndicator { get; set; }
     
         public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
     }

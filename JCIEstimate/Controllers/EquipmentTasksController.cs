@@ -47,7 +47,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentTaskUid,equipmentTask1,equipmentTaskDescription")] EquipmentTask equipmentTask)
+        public async Task<ActionResult> Create([Bind(Include = "equipmentTaskUid,equipmentTask1,equipmentTaskDescription,behaviorIndicator")] EquipmentTask equipmentTask)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentTaskUid,equipmentTask1,equipmentTaskDescription")] EquipmentTask equipmentTask)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentTaskUid,equipmentTask1,equipmentTaskDescription,behaviorIndicator")] EquipmentTask equipmentTask)
         {
             if (ModelState.IsValid)
             {

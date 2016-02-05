@@ -72,7 +72,7 @@ namespace JCIEstimate.Controllers
             {
                 equipments = equipments.OrderBy(c => c.Location.location1).ThenBy(c => c.EquipmentAttributeType.equipmentAttributeType1).ThenBy(c => c.jciTag);
             }
-
+            
             equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).Include(c=>c.Equipment2);
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
@@ -87,12 +87,18 @@ namespace JCIEstimate.Controllers
             //apply filter if there is one
             string[] filterPart = null;
             string type = "";
-            string uid = Guid.Empty.ToString();
+            string uid = Guid.Empty.ToString();            
+            var replaceTaskUids = from cc in db.EquipmentTasks
+                             where cc.behaviorIndicator == "R"
+                             select cc.equipmentTaskUid;
+            Guid replaceTaskUid = replaceTaskUids.FirstOrDefault();
+
             if (!String.IsNullOrEmpty(filterId))
             {
                 filterPart = filterId.Split('|');
                 type = filterPart[0];
                 uid = filterPart[1];
+
 
                 if (type == "E")
                 {
@@ -109,6 +115,10 @@ namespace JCIEstimate.Controllers
                 else if (type == "L")
                 {
                     equipments = equipments.Where(c => c.locationUid.ToString() == uid);
+                }
+                else if (type == "R")
+                {
+                    equipments = equipments.Where(c => c.EquipmentToDoes.Any(p=>p.equipmentTaskUid == replaceTaskUid));
                 }
             }
             else
@@ -300,9 +310,15 @@ namespace JCIEstimate.Controllers
             wf.selected = (wf.value == filterId || String.IsNullOrEmpty(filterId));
             aryFo.Add(wf);
 
+            //wf = new FilterOptionModel();
+            //wf.text = "All";
+            //wf.value = "A|" + Guid.Empty.ToString().Substring(0, 35) + "1";
+            //wf.selected = (wf.value == filterId);
+            //aryFo.Add(wf);
+
             wf = new FilterOptionModel();
-            wf.text = "All";
-            wf.value = "A|" + Guid.Empty.ToString().Substring(0, 35) + "1";
+            wf.text = "Replaced";
+            wf.value = "R|" + Guid.Empty.ToString().Substring(0, 35) + "2";
             wf.selected = (wf.value == filterId);
             aryFo.Add(wf);
 
@@ -885,8 +901,8 @@ namespace JCIEstimate.Controllers
 
                 if (filterColumn == "A")
                 {
-                    filterColumn = "\"" + Guid.Empty.ToString().Substring(0, 35) + "1" + "\"";
-                    filterValue = Guid.Parse(Guid.Empty.ToString().Substring(0, 35) + "1");
+                    filterColumn = "'" + Guid.Empty.ToString() + "'";
+                    filterValue = Guid.Empty;
                 }
                 
                 if (filterColumn == "E")

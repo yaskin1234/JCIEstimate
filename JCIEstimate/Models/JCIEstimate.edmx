@@ -381,6 +381,7 @@
           <Property Name="equipmentTaskUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="equipmentTask" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="equipmentTaskDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="behaviorIndicator" Type="char" MaxLength="2" />
         </EntityType>
         <EntityType Name="EquipmentToDo">
           <Key>
@@ -4876,6 +4877,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="equipmentTask1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="equipmentTaskDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EquipmentToDoes" Relationship="JCIEstimateModel.fk_equipmenttodo_equipmenttask" FromRole="EquipmentTask" ToRole="EquipmentToDo" />
+          <Property Name="behaviorIndicator" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityType Name="EquipmentToDo">
           <Key>
@@ -7853,6 +7855,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="EquipmentTasks">
             <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentTask">
               <MappingFragment StoreEntitySet="EquipmentTask">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
                 <ScalarProperty Name="equipmentTaskDescription" ColumnName="equipmentTaskDescription" />
                 <ScalarProperty Name="equipmentTask1" ColumnName="equipmentTask" />
                 <ScalarProperty Name="equipmentTaskUid" ColumnName="equipmentTaskUid" />

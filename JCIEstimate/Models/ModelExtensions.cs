@@ -74,16 +74,37 @@ namespace JCIEstimate.Models
     public partial class Equipment
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
+        private Boolean _isReplaced;
+        
 
         public IEnumerable<EquipmentToDo> GetToDosForEquipment()
         {
             return this.EquipmentToDoes.Where(c => c.equipmentUid == this.equipmentUid);
         }
 
+        public Boolean isReplaced { 
+            get
+            {
+                var replaceTask = from cc in db.EquipmentTasks
+                where cc.behaviorIndicator == "R"
+                select cc.equipmentTaskUid;
+
+                if (isTaskForEquipment(replaceTask.FirstOrDefault()) == "CHECKED")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }            
+        }
+         
+
         public IEnumerable<EquipmentAttribute> GetAttributesForEquipment()
         {
             return db.EquipmentAttributes.Where(c => c.equipmentAttributeTypeUid == this.equipmentAttributeTypeUid);
-        }
+        }        
 
         public EquipmentAttributeValue GetEquipmentAttributeValueForEquipmentAttribute(Guid equipmentAttributeUid)
         {

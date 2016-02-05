@@ -2,8 +2,8 @@
 @foreach (var item in ViewBag.equipment)
 {
     <tr>
-        <td class="GridTable"><a href="~/Equipments/Edit/@item.equipmentUid?returnURL=GridEdit">@item.Location.location1 - @item.jciTag - @item.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.installDate).Year - @((item.ECM != null) ? item.ECM.ecmNumber : "" )</a></td>                
-        <td>
+        <td class="GridTable"><a href="~/Equipments/Edit/@item.equipmentUid?returnURL=GridEdit">@item.Location.location1 - @item.jciTag - @item.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.installDate).Year</a></td>                
+        @*<td>
             @if (item.equipmentUidAsReplaced == null)
             {
                 <a href="~/Equipments/Create?returnURL=GridEdit&equipmentUidAsReplaced=@item.equipmentUid"><img src="~/Images/AddItem.png" height="15" width="15" alt="Add Replacement" /></a>
@@ -13,7 +13,7 @@
                 <input type="checkbox" name="@item.equipmentUid" class="chkEngineerUseReplacement" @((item.useReplacement) ? "CHECKED" : "") />
             }
             
-        </td>        
+        </td>*@        
         @foreach (var task in ViewBag.equipmentTasks)
         {
             string chked = "";

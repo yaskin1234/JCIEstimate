@@ -59,30 +59,30 @@
                     }
                 </th>
                 <th style="border-bottom:none;">
-                    @if (Session["equipmentSort"] == null)
+                    @*@if (Session["equipmentSort"] == null)
                     {
-                        <a href="/Equipments/Index?sort=isNewToSite|asc">
-                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Is New To Site" title="click to sort by Is New To Site" />
+                        <a href="/Equipments/Index?sort=isReplaced|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Is Replaced" title="click to sort by Is Replaced" />
                         </a>
                     }
-                    else if (Session["equipmentSort"].ToString() == "isNewToSite|asc")
+                    else if (Session["equipmentSort"].ToString() == "isReplaced|asc")
                     {
-                        <a href="/Equipments/Index?sort=isNewToSite|desc">
-                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Is New To Site descending" title="click to sort by Is New To Site" />
+                        <a href="/Equipments/Index?sort=isReplacedToSite|desc">
+                            <img src="~/Images/SortUp.png" height="8px" width="10px" alt="click to sort by Is Replaced descending" title="click to sort by Is Replaced" />
                         </a>
                     }
-                    else if (Session["equipmentSort"].ToString() == "isNewToSite|desc")
+                    else if (Session["equipmentSort"].ToString() == "isReplacedToSite|desc")
                     {
-                        <a href="/Equipments/Index?sort=isNewToSite|asc">
-                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Is New To Site ascending" title="click to sort by Is New To Site" />
+                        <a href="/Equipments/Index?sort=isReplacedToSite|asc">
+                            <img src="~/Images/SortDown.png" height="8px" width="10px" alt="click to sort by Is Replaced ascending" title="click to sort by Is Replaced" />
                         </a>
                     }
                     else
                     {
-                        <a href="/Equipments/Index?sort=isNewToSite|asc">
-                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Is New To Site" title="click to sort by Is New To Site" />
+                        <a href="/Equipments/Index?sort=isReplaced|asc">
+                            <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Is Replaced" title="click to sort by Is Replaced" />
                         </a>
-                    }
+                    }*@
                 </th>
                 <th style="border-bottom:none;">
                     @if (Session["equipmentSort"] == null)
@@ -328,7 +328,7 @@
                     @Html.DisplayNameFor(model => model.Location)                    
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.isNewToSite)
+                    Is Replaced?
                 </th>
                 <th>
                     ECM
@@ -374,14 +374,14 @@
                             <img class="toggleReplacedEquipment" src="@Url.Content("~/Images/replace.png")" alt="Click to see replaced equipment" height="15" width="15" />
                         }
                         <img class="toggleEquipmentTasks" src="@Url.Content("~/Images/tasks.png")" alt="Click to see equipment tasks" height="15" width="15" />
-                        <img class="toggleEquipmentAttributes" src="@Url.Content("~/Images/attr.png")" alt="Click to see equipment attributes" height="15" width="15" />
+                        <!--<img class="toggleEquipmentAttributes" src="@Url.Content("~/Images/attr.png")" alt="Click to see equipment attributes" height="15" width="15" />-->
                         <span style="display:none">@item.equipmentUid.ToString()</span>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Location.location1)
                     </td>
-                    <td>
-                        <span>@((item.isNewToSite) ? "Yes" : "No")</span>
+                    <td>                        
+                        <span>@((item.isReplaced) ? "Yes" : "No")</span>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ECM.ecmNumber)

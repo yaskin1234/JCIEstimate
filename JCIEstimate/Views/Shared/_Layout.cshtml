@@ -231,7 +231,7 @@
                             </ul>
                         </li>
                     }
-                    @if (Request.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("ProjectManager")) && Session["projectUid"] != null)
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin") && Session["projectUid"] != null)
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project Manager</a>
@@ -252,6 +252,55 @@
                                 <li>@Html.ActionLink("Project Grand Totals", "GetProjectGrandTotal", "Reports")</li>
                             </ul>
                         </li>
+                    }
+                    
+                    @if (Request.IsAuthenticated && User.IsInRole("Project Manager") && Session["projectUid"] != null)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project Setup</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("ECM Updates", "Index", "ECMs")</li>
+                                <li>@Html.ActionLink("Location Updates", "Index", "Locations")</li>
+                                <li>@Html.ActionLink("Equipment List", "Index", "Equipments")</li>
+                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>
+                                <li>@Html.ActionLink("Addendums", "Index", "ProjectAddendums")</li>
+                                <li>@Html.ActionLink("Monthly Expenses", "Index", "ExpenseMonthlies")</li>
+                                <li>@Html.ActionLink("Project Tasks", "Index", "ProjectTaskPrototypes")</li>
+                                <li>@Html.ActionLink("Report -- ECM List", "GetECMList", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- Location List", "GetLocationList", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- Estimate Comparison", "GetEstimateComparison", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- Estimate Comparison - Active Bids", "GetEstimateComparisonActive", "Reports")</li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Request.IsAuthenticated && User.IsInRole("Project Manager") && Session["projectUid"] != null)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contractor</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>
+                                <li>@Html.ActionLink("Site Plans", "Index", "ProjectAttachments")</li>
+                                <li>@Html.ActionLink("RFIs", "Index", "ProjectRFIs")</li>            
+                                <li>@Html.ActionLink("Bid Proposals", "Index", "Estimates")</li>                                
+                                <li>@Html.ActionLink("Inclusions, Exclusions, Assumptions", "Index", "ContractorNotes")</li>
+                                <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                                
+                                <li>@Html.ActionLink("Report -- Equipment List by ECM", "GetEquipmentForECM", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- New Equipment", "GetEquipmentForECMToPurchase", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>
+                            </ul>
+                        </li>
+                    }
+                @if (Request.IsAuthenticated && User.IsInRole("Project Manager") && Session["projectUid"] != null)
+                    {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Engineer</a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Create JCI Tag", "EngineerCreate", "Equipments")</li>
+                            <li>@Html.ActionLink("Add Pictures", "AddPicturesForEquipment", "Equipments")</li>
+                            <li>@Html.ActionLink("Equipment Grid", "GridEdit", "Equipments")</li>
+                            <li>@Html.ActionLink("Location Completion Grid", "Edit", "LocationCompletionCategories")</li>
+                        </ul>
+                    </li>
                     }
                     
                 </ul>

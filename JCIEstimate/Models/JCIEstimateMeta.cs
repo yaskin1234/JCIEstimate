@@ -571,7 +571,7 @@ namespace JCIEstimate.Models
         [Display(Name = "Install Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> installDate { get; set; }
-        [Display(Name = "Area")]        
+        [Display(Name = "Room")]        
         public string area { get; set; }
         [Display(Name = "Equipment Attribute Type")]
         public string equipmentAttributeTypeUid { get; set; }
