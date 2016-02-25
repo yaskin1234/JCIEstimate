@@ -31,7 +31,8 @@
                             <li>@Html.ActionLink("Roles Admin", "Index", "RolesAdmin")</li>
                             <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>
                             <li>@Html.ActionLink("To Do Status", "Index", "ToDoStatus")</li>
-                            <li>@Html.ActionLink("To Do List", "Index", "ProjectToDoes")</li>
+                            <li>@Html.ActionLink("To Do List", "Index", "ProjectToDoes")</li>                            
+                            <li>@Html.ActionLink("Mass Email", "MassEmail", "UsersAdmin")</li>
                             <li class="divider"></li>                            
                             <li>@Html.ActionLink("App Data Types", "Index", "AppDataTypes")</li>
                             <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
@@ -93,12 +94,12 @@
                                 <li>@Html.ActionLink("Equipment", "Index", "Equipments")</li>                                
                                 <li>@Html.ActionLink("Equipment Attribute", "Index", "EquipmentAttributes")</li>                                                                
                                 <li>@Html.ActionLink("Equipment Attachment", "Index", "EquipmentAttachments")</li>
-                                <li>@Html.ActionLink("Equipment Notes", "Index", "EquipmentNotes")</li>
-                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>
+                                <li>@Html.ActionLink("Equipment Notes", "Index", "EquipmentNotes")</li>                                
+                                <li>@Html.ActionLink("Scope Of Work", "Index", "ScopeOfWorks")</li>                                
                                 <li>@Html.ActionLink("Project Addendums", "Index", "ProjectAddendums")</li>
+                                <li>@Html.ActionLink("Report Definition", "Index", "ReportDefinitions")</li>
                                 <li class="divider"></li>                                
-                                <li>@Html.ActionLink("Master Schedules", "Index", "MasterSchedules")</li>                                              
-                                
+                                <li>@Html.ActionLink("Master Schedules", "Index", "MasterSchedules")</li>                                                                              
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Construction Expenses", "Index", "ExpenseConstructions")</li>
                                 <li>@Html.ActionLink("Construction Expense Draws", "Index", "ExpenseConstructionDraws")</li>
@@ -118,6 +119,7 @@
                                 <li>@Html.ActionLink("Report -- Draw Schedules", "GetDrawSchedules", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Estimate Comparison", "GetEstimateComparison", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Estimate Comparison - Active Bids", "GetEstimateComparisonActive", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- Scope Of Work Equipment List", "GetScopeOfWorkMaster", "Reports")</li>                               
                                 
                             </ul>
                         </li>
@@ -171,7 +173,7 @@
                                 <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>
                                 <li class="divider"></li>
                                 <li><a href="/ContractorSignoffs/Index">View signed proposals</a></li>
-                                <li>@Html.ActionLink("Generate Final Signoffs", "GenerateSignoff", "ContractorSignoffFinals")</li>
+                                <li>@Html.ActionLink("Generate Signoffs", "GenerateSignoff", "ContractorSignoffFinals")</li>
                                 <li><a href="/ContractorSignoffFinals/Index">View signed final proposals</a></li>
                             </ul>
                         </li>

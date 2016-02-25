@@ -567,6 +567,8 @@ namespace JCIEstimate.Models
         public string ownerTag { get; set; }
         [Display(Name = "Manufacturer")]        
         public string manufacturer { get; set; }
+        [Display(Name = "New Manufacturer")]
+        public string newManufacturer { get; set; }
         [DataType(DataType.Date)]       
         [Display(Name = "Install Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -579,6 +581,10 @@ namespace JCIEstimate.Models
         public string serialNumber { get; set; }
         [Display(Name = "Model")]
         public string model { get; set; }
+        [Display(Name = "New Serial Number")]
+        public string newSerial { get; set; }
+        [Display(Name = "New Model")]
+        public string newModel { get; set; }
         [Display(Name = "Replacement For")]
         public string equipmentUidAsReplaced { get; set; }
         [Display(Name = "New To Site")]

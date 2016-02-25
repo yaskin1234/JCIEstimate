@@ -19,7 +19,10 @@ namespace JCIEstimate.Controllers
         // GET: EquipmentNotes
         public async Task<ActionResult> Index()
         {
-            var equipmentNotes = db.EquipmentNotes.Include(e => e.Equipment).Include(e => e.EquipmentNoteType);
+
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
+            var equipmentNotes = db.EquipmentNotes.Where(c=>c.Equipment.Location.projectUid == sessionProject).OrderBy(c=>c.Equipment.ECM.ecmNumber).Include(e => e.Equipment).Include(e => e.EquipmentNoteType);
             return View(await equipmentNotes.ToListAsync());
         }
 
@@ -46,7 +49,7 @@ namespace JCIEstimate.Controllers
             var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject).OrderBy(c=>c.jciTag);
             equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(c => c.jciTag);
 
-            ViewBag.equipmentUid = equipments.ToSelectList(c => c.Location.location1 + "-" + c.jciTag + "-" + c.EquipmentAttributeType.equipmentAttributeType1 + "-" + Convert.ToDateTime(c.installDate).Year + "-" + c.ECM.ecmNumber, c => c.equipmentUid.ToString(), "");
+            ViewBag.equipmentUid = equipments.ToSelectList(c => c.Location.location1 + "-" + c.jciTag + "-" + c.EquipmentAttributeType.equipmentAttributeType1 + "-" + Convert.ToDateTime(c.installDate).Year, c => c.equipmentUid.ToString(), "");
             ViewBag.equipmentNoteTypeUid = new SelectList(db.EquipmentNoteTypes, "equipmentNoteTypeUid", "equipmentNoteType1");
             return View();
         }
@@ -91,9 +94,9 @@ namespace JCIEstimate.Controllers
 
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             var equipments = db.Equipments.Where(c => c.Location.projectUid == sessionProject);
-            equipments = equipments.Include(e => e.ECM).Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(c => c.jciTag);
+            equipments = equipments.Include(e => e.EquipmentAttributeType).Include(e => e.Location).OrderBy(c => c.jciTag);
 
-            ViewBag.equipmentUid = equipments.ToSelectList(c => c.Location.location1 + "-" + c.jciTag + "-" + c.EquipmentAttributeType.equipmentAttributeType1 + "-" + Convert.ToDateTime(c.installDate).Year + "-" + c.ECM.ecmNumber, c => c.equipmentUid.ToString(), equipmentNote.equipmentUid.ToString());
+            ViewBag.equipmentUid = equipments.ToSelectList(c => c.Location.location1 + "-" + c.jciTag + "-" + c.EquipmentAttributeType.equipmentAttributeType1 + "-" + Convert.ToDateTime(c.installDate).Year, c => c.equipmentUid.ToString(), equipmentNote.equipmentUid.ToString());
             ViewBag.equipmentNoteTypeUid = new SelectList(db.EquipmentNoteTypes, "equipmentNoteTypeUid", "equipmentNoteType1", equipmentNote.equipmentNoteTypeUid);
             return View(equipmentNote);
         }
@@ -109,7 +112,7 @@ namespace JCIEstimate.Controllers
             {
                 db.Entry(equipmentNote).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Equipments", new { id=equipmentNote.equipmentUid });
             }
             ViewBag.equipmentUid = new SelectList(db.Equipments, "equipmentUid", "ownerTag", equipmentNote.equipmentUid);
             ViewBag.equipmentNoteTypeUid = new SelectList(db.EquipmentNoteTypes, "equipmentNoteTypeUid", "equipmentNoteType1", equipmentNote.equipmentNoteTypeUid);
@@ -139,7 +142,7 @@ namespace JCIEstimate.Controllers
             EquipmentNote equipmentNote = await db.EquipmentNotes.FindAsync(id);
             db.EquipmentNotes.Remove(equipmentNote);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Edit", "Equipments", new { id = equipmentNote.equipmentUid });
         }
 
         protected override void Dispose(bool disposing)

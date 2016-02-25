@@ -266,6 +266,21 @@
           <Property Name="ecmDescription" Type="nvarchar" MaxLength="200" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ecmString" Type="nvarchar" MaxLength="218" StoreGeneratedPattern="Computed" />
+          <Property Name="scopeOfWorkNote" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote2" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote3" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote4" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote5" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote6" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote7" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote8" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote9" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote10" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote11" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote12" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote13" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote14" Type="nvarchar(max)" />
+          <Property Name="scopeOfWorkNote15" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Eddress">
           <Key>
@@ -298,6 +313,9 @@
           <Property Name="heatTypeUid" Type="uniqueidentifier" />
           <Property Name="controlTypeUid" Type="uniqueidentifier" />
           <Property Name="equipmentConditionUid" Type="uniqueidentifier" />
+          <Property Name="newManufacturer" Type="varchar" MaxLength="2000" />
+          <Property Name="newModel" Type="varchar" MaxLength="2000" />
+          <Property Name="newSerial" Type="varchar" MaxLength="2000" />
         </EntityType>
         <EntityType Name="EquipmentAttachment">
           <Key>
@@ -876,6 +894,64 @@
           <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="isReceivingWarrantyEmail" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportDefinition">
+          <Key>
+            <PropertyRef Name="ReportDefinitionUid" />
+          </Key>
+          <Property Name="ReportDefinitionUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ssrsReportName" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="textBox1" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox2" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox3" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox4" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox5" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox6" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox7" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox8" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox9" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox10" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox11" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox12" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox13" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox14" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox15" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox16" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox17" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox18" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox19" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox20" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox21" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox22" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox23" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox24" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox25" Type="nvarchar" MaxLength="2000" />
+          <Property Name="projectUid" Type="uniqueidentifier" />
+          <Property Name="textBox26" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox27" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox28" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox29" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox30" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox31" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox32" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox33" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox34" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox35" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox36" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox37" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox38" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox39" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox40" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox41" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox42" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox43" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox44" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox45" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox46" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox47" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox48" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox49" Type="nvarchar" MaxLength="2000" />
+          <Property Name="textBox50" Type="nvarchar" MaxLength="2000" />
         </EntityType>
         <EntityType Name="RfiStatus">
           <Key>
@@ -2720,6 +2796,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_ReportDefinition_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="ReportDefinition" Type="Self.ReportDefinition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ReportDefinition">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_SalesOpportunity_Opportunity">
           <End Role="Opportunity" Type="Self.Opportunity" Multiplicity="1" />
           <End Role="SalesOpportunity" Type="Self.SalesOpportunity" Multiplicity="*" />
@@ -3002,6 +3090,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="ProjectTaskPrototype" EntityType="Self.ProjectTaskPrototype" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectToDo" EntityType="Self.ProjectToDo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectUser" EntityType="Self.ProjectUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportDefinition" EntityType="Self.ReportDefinition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RfiStatus" EntityType="Self.RfiStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RfiType" EntityType="Self.RfiType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesOpportunity" EntityType="Self.SalesOpportunity" Schema="dbo" store:Type="Tables" />
@@ -3590,6 +3679,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ToDoStatus" EntitySet="ToDoStatus" />
             <End Role="ProjectToDo" EntitySet="ProjectToDo" />
           </AssociationSet>
+          <AssociationSet Name="fk_ReportDefinition_Project" Association="Self.fk_ReportDefinition_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ReportDefinition" EntitySet="ReportDefinition" />
+          </AssociationSet>
           <AssociationSet Name="fk_SalesOpportunity_Opportunity" Association="Self.fk_SalesOpportunity_Opportunity">
             <End Role="Opportunity" EntitySet="Opportunity" />
             <End Role="SalesOpportunity" EntitySet="SalesOpportunity" />
@@ -3905,62 +3998,17 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ExpenseConstructionDrawSchedule" EntitySet="ExpenseConstructionDrawSchedules" />
           </AssociationSet>
           <EntitySet Name="ECMs" EntityType="JCIEstimateModel.ECM" />
-          <EntitySet Name="Equipments" EntityType="JCIEstimateModel.Equipment" />
           <AssociationSet Name="fk_ecm_project" Association="JCIEstimateModel.fk_ecm_project">
             <End Role="Project" EntitySet="Projects" />
             <End Role="ECM" EntitySet="ECMs" />
-          </AssociationSet>
-          <AssociationSet Name="fk_equipment_ecm" Association="JCIEstimateModel.fk_equipment_ecm">
-            <End Role="ECM" EntitySet="ECMs" />
-            <End Role="Equipment" EntitySet="Equipments" />
           </AssociationSet>
           <AssociationSet Name="fk_ProjectRFI_ECM" Association="JCIEstimateModel.fk_ProjectRFI_ECM">
             <End Role="ECM" EntitySet="ECMs" />
             <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
           </AssociationSet>
-          <AssociationSet Name="fk_equipment_AttributeType" Association="JCIEstimateModel.fk_equipment_AttributeType">
-            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeTypes" />
-            <End Role="Equipment" EntitySet="Equipments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_equipment_equipmentAsReplaced" Association="JCIEstimateModel.fk_equipment_equipmentAsReplaced">
-            <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="Equipment1" EntitySet="Equipments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Equipment_equipmentAttributeUid" Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid">
-            <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="EquipmentAttributeValue" EntitySet="EquipmentAttributeValues" />
-          </AssociationSet>
-          <AssociationSet Name="fk_equipment_location" Association="JCIEstimateModel.fk_equipment_location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="Equipment" EntitySet="Equipments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_EquipmentAttachment_Equipment" Association="JCIEstimateModel.fk_EquipmentAttachment_Equipment">
-            <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="EquipmentAttachment" EntitySet="EquipmentAttachments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Equipmentnote_Equipment" Association="JCIEstimateModel.fk_Equipmentnote_Equipment">
-            <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="EquipmentNote" EntitySet="EquipmentNotes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_equipmenttodo_equipment" Association="JCIEstimateModel.fk_equipmenttodo_equipment">
-            <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="EquipmentToDo" EntitySet="EquipmentToDoes" />
-          </AssociationSet>
           <EntitySet Name="ControlTypes" EntityType="JCIEstimateModel.ControlType" />
           <EntitySet Name="HeatTypes" EntityType="JCIEstimateModel.HeatType" />
-          <AssociationSet Name="fk_equipment_controlType" Association="JCIEstimateModel.fk_equipment_controlType">
-            <End Role="ControlType" EntitySet="ControlTypes" />
-            <End Role="Equipment" EntitySet="Equipments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_equipment_HeatType" Association="JCIEstimateModel.fk_equipment_HeatType">
-            <End Role="HeatType" EntitySet="HeatTypes" />
-            <End Role="Equipment" EntitySet="Equipments" />
-          </AssociationSet>
           <EntitySet Name="EquipmentConditions" EntityType="JCIEstimateModel.EquipmentCondition" />
-          <AssociationSet Name="fk_equipment_Condition" Association="JCIEstimateModel.fk_equipment_Condition">
-            <End Role="EquipmentCondition" EntitySet="EquipmentConditions" />
-            <End Role="Equipment" EntitySet="Equipments" />
-          </AssociationSet>
           <EntitySet Name="ContractorSignoffs" EntityType="JCIEstimateModel.ContractorSignoff" />
           <AssociationSet Name="fk_ContractorSignoff_Contractor" Association="JCIEstimateModel.fk_ContractorSignoff_Contractor">
             <End Role="Contractor" EntitySet="Contractors" />
@@ -4353,6 +4401,56 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ProjectTaskList" EntitySet="ProjectTaskLists" />
             <End Role="ProjectTaskList1" EntitySet="ProjectTaskLists" />
           </AssociationSet>
+          <EntitySet Name="Equipments" EntityType="JCIEstimateModel.Equipment" />
+          <AssociationSet Name="fk_equipment_controlType" Association="JCIEstimateModel.fk_equipment_controlType">
+            <End Role="ControlType" EntitySet="ControlTypes" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipment_ecm" Association="JCIEstimateModel.fk_equipment_ecm">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipment_AttributeType" Association="JCIEstimateModel.fk_equipment_AttributeType">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeTypes" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipment_Condition" Association="JCIEstimateModel.fk_equipment_Condition">
+            <End Role="EquipmentCondition" EntitySet="EquipmentConditions" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipment_equipmentAsReplaced" Association="JCIEstimateModel.fk_equipment_equipmentAsReplaced">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="Equipment1" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Equipment_equipmentAttributeUid" Association="JCIEstimateModel.fk_Equipment_equipmentAttributeUid">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="EquipmentAttributeValue" EntitySet="EquipmentAttributeValues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipment_HeatType" Association="JCIEstimateModel.fk_equipment_HeatType">
+            <End Role="HeatType" EntitySet="HeatTypes" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipment_location" Association="JCIEstimateModel.fk_equipment_location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentAttachment_Equipment" Association="JCIEstimateModel.fk_EquipmentAttachment_Equipment">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="EquipmentAttachment" EntitySet="EquipmentAttachments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Equipmentnote_Equipment" Association="JCIEstimateModel.fk_Equipmentnote_Equipment">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="EquipmentNote" EntitySet="EquipmentNotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipmenttodo_equipment" Association="JCIEstimateModel.fk_equipmenttodo_equipment">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="EquipmentToDo" EntitySet="EquipmentToDoes" />
+          </AssociationSet>
+          <EntitySet Name="ReportDefinitions" EntityType="JCIEstimateModel.ReportDefinition" />
+          <AssociationSet Name="fk_ReportDefinition_Project" Association="JCIEstimateModel.fk_ReportDefinition_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ReportDefinition" EntitySet="ReportDefinitions" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -4453,6 +4551,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ProjectCalendarDayTasks" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_Project" FromRole="Project" ToRole="ProjectCalendarDayTask" />
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_PM" FromRole="Project" ToRole="AspNetUser" />
           <NavigationProperty Name="ProjectTaskLists" Relationship="JCIEstimateModel.fk_ProjectTaskList_Project" FromRole="Project" ToRole="ProjectTaskList" />
+          <NavigationProperty Name="ReportDefinitions" Relationship="JCIEstimateModel.fk_ReportDefinition_Project" FromRole="Project" ToRole="ReportDefinition" />
           </EntityType>
         <Association Name="fk_contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -4921,10 +5020,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="equipmentAttributeType1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="behaviorIndicator" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="EquipmentAttributes" Relationship="JCIEstimateModel.fk_EquipmentAttribute_equipmentAttributeTypeUid" FromRole="EquipmentAttributeType" ToRole="EquipmentAttribute" />
-          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_AttributeType" FromRole="EquipmentAttributeType" ToRole="Equipment" />
           <NavigationProperty Name="EquipmentAttributeTypeTasks" Relationship="JCIEstimateModel.fk_EquipmentAttributeTypeTask_AttributeType" FromRole="EquipmentAttributeType" ToRole="EquipmentAttributeTypeTask" />
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_AttributeType" FromRole="EquipmentAttributeType" ToRole="EquipmentTypeTaskAssignment" />
           <Property Name="excludeFromDropDown" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_AttributeType" FromRole="EquipmentAttributeType" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="AppDataType">
           <Key>
@@ -5017,13 +5116,13 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="LocationIssues" Relationship="JCIEstimateModel.fk_LocationIssue_location" FromRole="Location" ToRole="LocationIssue" />
           <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_location" FromRole="Location" ToRole="WarrantyIssue" />
           <NavigationProperty Name="WarrantyUnits" Relationship="JCIEstimateModel.fk_WarrantyUnit_location" FromRole="Location" ToRole="WarrantyUnit" />
-          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Location" ToRole="Equipment" />
           <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Location" FromRole="Location" ToRole="LocationCompletionCategory" />
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" FromRole="Location" ToRole="EquipmentTypeTaskAssignment" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Location" ToRole="Estimate" />
           <NavigationProperty Name="MasterSchedules" Relationship="JCIEstimateModel.fk_MasterSchedule_Location" FromRole="Location" ToRole="MasterSchedule" />
           <NavigationProperty Name="CalendarDayTasks" Relationship="JCIEstimateModel.fk_CalendarDayTask_Location" FromRole="Location" ToRole="CalendarDayTask" />
           <NavigationProperty Name="ProjectCalendarDayTasks" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_Location" FromRole="Location" ToRole="ProjectCalendarDayTask" />
+          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Location" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="LocationIssue">
           <Key>
@@ -5224,8 +5323,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="date" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="aspNetUserUidAsCreated" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EquipmentNoteType" Relationship="JCIEstimateModel.fk_Equipmentnote__Equipmentnotetype" FromRole="EquipmentNote" ToRole="EquipmentNoteType" />
-          <NavigationProperty Name="Equipment" Relationship="JCIEstimateModel.fk_Equipmentnote_Equipment" FromRole="EquipmentNote" ToRole="Equipment" />
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_Equipmentnote__aspNetUser" FromRole="EquipmentNote" ToRole="AspNetUser" />
+          <NavigationProperty Name="Equipment" Relationship="JCIEstimateModel.fk_Equipmentnote_Equipment" FromRole="EquipmentNote" ToRole="Equipment" />
         </EntityType>
         <Association Name="fk_Equipmentnote__Equipmentnotetype">
           <End Type="JCIEstimateModel.EquipmentNoteType" Role="EquipmentNoteType" Multiplicity="0..1" />
@@ -5687,45 +5786,25 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="projectUid" Type="Guid" Nullable="false" />
           <Property Name="ecmString" Type="String" MaxLength="218" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="ECM" ToRole="Project" />
-          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="ECM" ToRole="Equipment" />
           <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_ECM" FromRole="ECM" ToRole="ProjectRFI" />
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" FromRole="ECM" ToRole="EquipmentTypeTaskAssignment" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
-        </EntityType>
-        <EntityType Name="Equipment">
-          <Key>
-            <PropertyRef Name="equipmentUid" />
-          </Key>
-          <Property Name="equipmentUid" Type="Guid" Nullable="false" />
-          <Property Name="equipmentAttributeTypeUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmUid" Type="Guid" />
-          <Property Name="locationUid" Type="Guid" Nullable="false" />
-          <Property Name="jciTag" Type="Decimal" Precision="11" Scale="2" />
-          <Property Name="ownerTag" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="manufacturer" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="model" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="serialNumber" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="installDate" Type="DateTime" Precision="0" />
-          <Property Name="area" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="equipmentUidAsReplaced" Type="Guid" />
-          <Property Name="isNewToSite" Type="Boolean" Nullable="false" />
-          <Property Name="useReplacement" Type="Boolean" Nullable="false" />
-          <Property Name="price" Type="Decimal" Precision="11" Scale="2" />
-          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="Equipment" ToRole="ECM" />
-          <NavigationProperty Name="EquipmentAttributeType" Relationship="JCIEstimateModel.fk_equipment_AttributeType" FromRole="Equipment" ToRole="EquipmentAttributeType" />
-          <NavigationProperty Name="Equipment1" Relationship="JCIEstimateModel.fk_equipment_equipmentAsReplaced" FromRole="Equipment" ToRole="Equipment1" />
-          <NavigationProperty Name="Equipment2" Relationship="JCIEstimateModel.fk_equipment_equipmentAsReplaced" FromRole="Equipment1" ToRole="Equipment" />
-          <NavigationProperty Name="EquipmentAttributeValues" Relationship="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" FromRole="Equipment" ToRole="EquipmentAttributeValue" />
-          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Equipment" ToRole="Location" />
-          <NavigationProperty Name="EquipmentAttachments" Relationship="JCIEstimateModel.fk_EquipmentAttachment_Equipment" FromRole="Equipment" ToRole="EquipmentAttachment" />
-          <NavigationProperty Name="EquipmentNotes" Relationship="JCIEstimateModel.fk_Equipmentnote_Equipment" FromRole="Equipment" ToRole="EquipmentNote" />
-          <NavigationProperty Name="EquipmentToDoes" Relationship="JCIEstimateModel.fk_equipmenttodo_equipment" FromRole="Equipment" ToRole="EquipmentToDo" />
-          <Property Name="heatTypeUid" Type="Guid" />
-          <Property Name="controlTypeUid" Type="Guid" />
-          <NavigationProperty Name="ControlType" Relationship="JCIEstimateModel.fk_equipment_controlType" FromRole="Equipment" ToRole="ControlType" />
-          <NavigationProperty Name="HeatType" Relationship="JCIEstimateModel.fk_equipment_HeatType" FromRole="Equipment" ToRole="HeatType" />
-          <Property Name="equipmentConditionUid" Type="Guid" />
-          <NavigationProperty Name="EquipmentCondition" Relationship="JCIEstimateModel.fk_equipment_Condition" FromRole="Equipment" ToRole="EquipmentCondition" />
+          <Property Name="scopeOfWorkNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="ECM" ToRole="Equipment" />
+          <Property Name="scopeOfWorkNote2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote5" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote6" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote7" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote8" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote9" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote10" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote11" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote12" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote13" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote14" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote15" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="fk_ecm_project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
@@ -5739,18 +5818,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_equipment_ecm">
-          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
-            </Principal>
-            <Dependent Role="Equipment">
-              <PropertyRef Name="ecmUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ProjectRFI_ECM">
           <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
           <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
@@ -5760,98 +5827,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="ProjectRFI">
               <PropertyRef Name="ecmUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_equipment_AttributeType">
-          <End Type="JCIEstimateModel.EquipmentAttributeType" Role="EquipmentAttributeType" Multiplicity="1" />
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EquipmentAttributeType">
-              <PropertyRef Name="equipmentAttributeTypeUid" />
-            </Principal>
-            <Dependent Role="Equipment">
-              <PropertyRef Name="equipmentAttributeTypeUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_equipment_equipmentAsReplaced">
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentUid" />
-            </Principal>
-            <Dependent Role="Equipment1">
-              <PropertyRef Name="equipmentUidAsReplaced" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Equipment_equipmentAttributeUid">
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="JCIEstimateModel.EquipmentAttributeValue" Role="EquipmentAttributeValue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentUid" />
-            </Principal>
-            <Dependent Role="EquipmentAttributeValue">
-              <PropertyRef Name="equipmentUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_equipment_location">
-          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="locationUid" />
-            </Principal>
-            <Dependent Role="Equipment">
-              <PropertyRef Name="locationUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_EquipmentAttachment_Equipment">
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="JCIEstimateModel.EquipmentAttachment" Role="EquipmentAttachment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentUid" />
-            </Principal>
-            <Dependent Role="EquipmentAttachment">
-              <PropertyRef Name="equipmentUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Equipmentnote_Equipment">
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="JCIEstimateModel.EquipmentNote" Role="EquipmentNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentUid" />
-            </Principal>
-            <Dependent Role="EquipmentNote">
-              <PropertyRef Name="equipmentUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_equipmenttodo_equipment">
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="JCIEstimateModel.EquipmentToDo" Role="EquipmentToDo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentUid" />
-            </Principal>
-            <Dependent Role="EquipmentToDo">
-              <PropertyRef Name="equipmentUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5875,30 +5850,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_HeatType" FromRole="HeatType" ToRole="Equipment" />
         </EntityType>
-        <Association Name="fk_equipment_controlType">
-          <End Type="JCIEstimateModel.ControlType" Role="ControlType" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ControlType">
-              <PropertyRef Name="controlTypeUid" />
-            </Principal>
-            <Dependent Role="Equipment">
-              <PropertyRef Name="controlTypeUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_equipment_HeatType">
-          <End Type="JCIEstimateModel.HeatType" Role="HeatType" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HeatType">
-              <PropertyRef Name="heatTypeUid" />
-            </Principal>
-            <Dependent Role="Equipment">
-              <PropertyRef Name="heatTypeUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="EquipmentCondition">
           <Key>
             <PropertyRef Name="equipmentConditionUid" />
@@ -5908,18 +5859,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="behaviorIndicator" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_Condition" FromRole="EquipmentCondition" ToRole="Equipment" />
         </EntityType>
-        <Association Name="fk_equipment_Condition">
-          <End Type="JCIEstimateModel.EquipmentCondition" Role="EquipmentCondition" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EquipmentCondition">
-              <PropertyRef Name="equipmentConditionUid" />
-            </Principal>
-            <Dependent Role="Equipment">
-              <PropertyRef Name="equipmentConditionUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ContractorSignoff">
           <Key>
             <PropertyRef Name="contractorSignoffUid" />
@@ -7557,6 +7496,255 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Equipment">
+          <Key>
+            <PropertyRef Name="equipmentUid" />
+          </Key>
+          <Property Name="equipmentUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentAttributeTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="ecmUid" Type="Guid" />
+          <Property Name="locationUid" Type="Guid" Nullable="false" />
+          <Property Name="jciTag" Type="Decimal" Precision="11" Scale="2" />
+          <Property Name="ownerTag" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="manufacturer" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="model" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="serialNumber" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="installDate" Type="DateTime" Precision="0" />
+          <Property Name="area" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="equipmentUidAsReplaced" Type="Guid" />
+          <Property Name="isNewToSite" Type="Boolean" Nullable="false" />
+          <Property Name="useReplacement" Type="Boolean" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="11" Scale="2" />
+          <Property Name="heatTypeUid" Type="Guid" />
+          <Property Name="controlTypeUid" Type="Guid" />
+          <Property Name="equipmentConditionUid" Type="Guid" />
+          <NavigationProperty Name="ControlType" Relationship="JCIEstimateModel.fk_equipment_controlType" FromRole="Equipment" ToRole="ControlType" />
+          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="Equipment" ToRole="ECM" />
+          <NavigationProperty Name="EquipmentAttributeType" Relationship="JCIEstimateModel.fk_equipment_AttributeType" FromRole="Equipment" ToRole="EquipmentAttributeType" />
+          <NavigationProperty Name="EquipmentCondition" Relationship="JCIEstimateModel.fk_equipment_Condition" FromRole="Equipment" ToRole="EquipmentCondition" />
+          <NavigationProperty Name="Equipment1" Relationship="JCIEstimateModel.fk_equipment_equipmentAsReplaced" FromRole="Equipment" ToRole="Equipment1" />
+          <NavigationProperty Name="Equipment2" Relationship="JCIEstimateModel.fk_equipment_equipmentAsReplaced" FromRole="Equipment1" ToRole="Equipment" />
+          <NavigationProperty Name="EquipmentAttributeValues" Relationship="JCIEstimateModel.fk_Equipment_equipmentAttributeUid" FromRole="Equipment" ToRole="EquipmentAttributeValue" />
+          <NavigationProperty Name="HeatType" Relationship="JCIEstimateModel.fk_equipment_HeatType" FromRole="Equipment" ToRole="HeatType" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Equipment" ToRole="Location" />
+          <NavigationProperty Name="EquipmentAttachments" Relationship="JCIEstimateModel.fk_EquipmentAttachment_Equipment" FromRole="Equipment" ToRole="EquipmentAttachment" />
+          <NavigationProperty Name="EquipmentNotes" Relationship="JCIEstimateModel.fk_Equipmentnote_Equipment" FromRole="Equipment" ToRole="EquipmentNote" />
+          <NavigationProperty Name="EquipmentToDoes" Relationship="JCIEstimateModel.fk_equipmenttodo_equipment" FromRole="Equipment" ToRole="EquipmentToDo" />
+          <Property Name="newManufacturer" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="newModel" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="newSerial" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="fk_equipment_controlType">
+          <End Type="JCIEstimateModel.ControlType" Role="ControlType" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ControlType">
+              <PropertyRef Name="controlTypeUid" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="controlTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_ecm">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_AttributeType">
+          <End Type="JCIEstimateModel.EquipmentAttributeType" Role="EquipmentAttributeType" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_Condition">
+          <End Type="JCIEstimateModel.EquipmentCondition" Role="EquipmentCondition" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentCondition">
+              <PropertyRef Name="equipmentConditionUid" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="equipmentConditionUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_equipmentAsReplaced">
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="Equipment1">
+              <PropertyRef Name="equipmentUidAsReplaced" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Equipment_equipmentAttributeUid">
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.EquipmentAttributeValue" Role="EquipmentAttributeValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttributeValue">
+              <PropertyRef Name="equipmentUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_HeatType">
+          <End Type="JCIEstimateModel.HeatType" Role="HeatType" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HeatType">
+              <PropertyRef Name="heatTypeUid" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="heatTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentAttachment_Equipment">
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.EquipmentAttachment" Role="EquipmentAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="EquipmentAttachment">
+              <PropertyRef Name="equipmentUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Equipmentnote_Equipment">
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.EquipmentNote" Role="EquipmentNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="EquipmentNote">
+              <PropertyRef Name="equipmentUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipmenttodo_equipment">
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.EquipmentToDo" Role="EquipmentToDo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentUid" />
+            </Principal>
+            <Dependent Role="EquipmentToDo">
+              <PropertyRef Name="equipmentUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ReportDefinition">
+          <Key>
+            <PropertyRef Name="ReportDefinitionUid" />
+          </Key>
+          <Property Name="ReportDefinitionUid" Type="Guid" Nullable="false" />
+          <Property Name="ssrsReportName" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="textBox1" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox2" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox3" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox4" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox5" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox6" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox7" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox8" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox9" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox10" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox11" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox12" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox13" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox14" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox15" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox16" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox17" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox18" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox19" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox20" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox21" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox22" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox23" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox24" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox25" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="projectUid" Type="Guid" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ReportDefinition_Project" FromRole="ReportDefinition" ToRole="Project" />
+          <Property Name="textBox26" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox27" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox28" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox29" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox30" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox31" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox32" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox33" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox34" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox35" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox36" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox37" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox38" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox39" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox40" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox41" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox42" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox43" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox44" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox45" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox46" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox47" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox48" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox49" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="textBox50" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="fk_ReportDefinition_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ReportDefinition" Role="ReportDefinition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ReportDefinition">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8204,35 +8392,26 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="ECMs">
             <EntityTypeMapping TypeName="JCIEstimateModel.ECM">
               <MappingFragment StoreEntitySet="ECM">
+                <ScalarProperty Name="scopeOfWorkNote15" ColumnName="scopeOfWorkNote15" />
+                <ScalarProperty Name="scopeOfWorkNote14" ColumnName="scopeOfWorkNote14" />
+                <ScalarProperty Name="scopeOfWorkNote13" ColumnName="scopeOfWorkNote13" />
+                <ScalarProperty Name="scopeOfWorkNote12" ColumnName="scopeOfWorkNote12" />
+                <ScalarProperty Name="scopeOfWorkNote11" ColumnName="scopeOfWorkNote11" />
+                <ScalarProperty Name="scopeOfWorkNote10" ColumnName="scopeOfWorkNote10" />
+                <ScalarProperty Name="scopeOfWorkNote9" ColumnName="scopeOfWorkNote9" />
+                <ScalarProperty Name="scopeOfWorkNote8" ColumnName="scopeOfWorkNote8" />
+                <ScalarProperty Name="scopeOfWorkNote7" ColumnName="scopeOfWorkNote7" />
+                <ScalarProperty Name="scopeOfWorkNote6" ColumnName="scopeOfWorkNote6" />
+                <ScalarProperty Name="scopeOfWorkNote5" ColumnName="scopeOfWorkNote5" />
+                <ScalarProperty Name="scopeOfWorkNote4" ColumnName="scopeOfWorkNote4" />
+                <ScalarProperty Name="scopeOfWorkNote3" ColumnName="scopeOfWorkNote3" />
+                <ScalarProperty Name="scopeOfWorkNote2" ColumnName="scopeOfWorkNote2" />
+                <ScalarProperty Name="scopeOfWorkNote" ColumnName="scopeOfWorkNote" />
                 <ScalarProperty Name="ecmString" ColumnName="ecmString" />
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
                 <ScalarProperty Name="ecmDescription" ColumnName="ecmDescription" />
                 <ScalarProperty Name="ecmNumber" ColumnName="ecmNumber" />
                 <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Equipments">
-            <EntityTypeMapping TypeName="JCIEstimateModel.Equipment">
-              <MappingFragment StoreEntitySet="Equipment">
-                <ScalarProperty Name="equipmentConditionUid" ColumnName="equipmentConditionUid" />
-                <ScalarProperty Name="controlTypeUid" ColumnName="controlTypeUid" />
-                <ScalarProperty Name="heatTypeUid" ColumnName="heatTypeUid" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="useReplacement" ColumnName="useReplacement" />
-                <ScalarProperty Name="isNewToSite" ColumnName="isNewToSite" />
-                <ScalarProperty Name="equipmentUidAsReplaced" ColumnName="equipmentUidAsReplaced" />
-                <ScalarProperty Name="area" ColumnName="area" />
-                <ScalarProperty Name="installDate" ColumnName="installDate" />
-                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
-                <ScalarProperty Name="model" ColumnName="model" />
-                <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
-                <ScalarProperty Name="ownerTag" ColumnName="ownerTag" />
-                <ScalarProperty Name="jciTag" ColumnName="jciTag" />
-                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
-                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
-                <ScalarProperty Name="equipmentAttributeTypeUid" ColumnName="equipmentAttributeTypeUid" />
-                <ScalarProperty Name="equipmentUid" ColumnName="equipmentUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8746,6 +8925,92 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="projectTaskListUidAsParent" ColumnName="projectTaskListUidAsParent" />
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
                 <ScalarProperty Name="projectTaskListUid" ColumnName="projectTaskListUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipments">
+            <EntityTypeMapping TypeName="JCIEstimateModel.Equipment">
+              <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="newSerial" ColumnName="newSerial" />
+                <ScalarProperty Name="newModel" ColumnName="newModel" />
+                <ScalarProperty Name="newManufacturer" ColumnName="newManufacturer" />
+                <ScalarProperty Name="equipmentConditionUid" ColumnName="equipmentConditionUid" />
+                <ScalarProperty Name="controlTypeUid" ColumnName="controlTypeUid" />
+                <ScalarProperty Name="heatTypeUid" ColumnName="heatTypeUid" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="useReplacement" ColumnName="useReplacement" />
+                <ScalarProperty Name="isNewToSite" ColumnName="isNewToSite" />
+                <ScalarProperty Name="equipmentUidAsReplaced" ColumnName="equipmentUidAsReplaced" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="installDate" ColumnName="installDate" />
+                <ScalarProperty Name="serialNumber" ColumnName="serialNumber" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="manufacturer" ColumnName="manufacturer" />
+                <ScalarProperty Name="ownerTag" ColumnName="ownerTag" />
+                <ScalarProperty Name="jciTag" ColumnName="jciTag" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
+                <ScalarProperty Name="equipmentAttributeTypeUid" ColumnName="equipmentAttributeTypeUid" />
+                <ScalarProperty Name="equipmentUid" ColumnName="equipmentUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportDefinitions">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ReportDefinition">
+              <MappingFragment StoreEntitySet="ReportDefinition">
+                <ScalarProperty Name="textBox50" ColumnName="textBox50" />
+                <ScalarProperty Name="textBox49" ColumnName="textBox49" />
+                <ScalarProperty Name="textBox48" ColumnName="textBox48" />
+                <ScalarProperty Name="textBox47" ColumnName="textBox47" />
+                <ScalarProperty Name="textBox46" ColumnName="textBox46" />
+                <ScalarProperty Name="textBox45" ColumnName="textBox45" />
+                <ScalarProperty Name="textBox44" ColumnName="textBox44" />
+                <ScalarProperty Name="textBox43" ColumnName="textBox43" />
+                <ScalarProperty Name="textBox42" ColumnName="textBox42" />
+                <ScalarProperty Name="textBox41" ColumnName="textBox41" />
+                <ScalarProperty Name="textBox40" ColumnName="textBox40" />
+                <ScalarProperty Name="textBox39" ColumnName="textBox39" />
+                <ScalarProperty Name="textBox38" ColumnName="textBox38" />
+                <ScalarProperty Name="textBox37" ColumnName="textBox37" />
+                <ScalarProperty Name="textBox36" ColumnName="textBox36" />
+                <ScalarProperty Name="textBox35" ColumnName="textBox35" />
+                <ScalarProperty Name="textBox34" ColumnName="textBox34" />
+                <ScalarProperty Name="textBox33" ColumnName="textBox33" />
+                <ScalarProperty Name="textBox32" ColumnName="textBox32" />
+                <ScalarProperty Name="textBox31" ColumnName="textBox31" />
+                <ScalarProperty Name="textBox30" ColumnName="textBox30" />
+                <ScalarProperty Name="textBox29" ColumnName="textBox29" />
+                <ScalarProperty Name="textBox28" ColumnName="textBox28" />
+                <ScalarProperty Name="textBox27" ColumnName="textBox27" />
+                <ScalarProperty Name="textBox26" ColumnName="textBox26" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="textBox25" ColumnName="textBox25" />
+                <ScalarProperty Name="textBox24" ColumnName="textBox24" />
+                <ScalarProperty Name="textBox23" ColumnName="textBox23" />
+                <ScalarProperty Name="textBox22" ColumnName="textBox22" />
+                <ScalarProperty Name="textBox21" ColumnName="textBox21" />
+                <ScalarProperty Name="textBox20" ColumnName="textBox20" />
+                <ScalarProperty Name="textBox19" ColumnName="textBox19" />
+                <ScalarProperty Name="textBox18" ColumnName="textBox18" />
+                <ScalarProperty Name="textBox17" ColumnName="textBox17" />
+                <ScalarProperty Name="textBox16" ColumnName="textBox16" />
+                <ScalarProperty Name="textBox15" ColumnName="textBox15" />
+                <ScalarProperty Name="textBox14" ColumnName="textBox14" />
+                <ScalarProperty Name="textBox13" ColumnName="textBox13" />
+                <ScalarProperty Name="textBox12" ColumnName="textBox12" />
+                <ScalarProperty Name="textBox11" ColumnName="textBox11" />
+                <ScalarProperty Name="textBox10" ColumnName="textBox10" />
+                <ScalarProperty Name="textBox9" ColumnName="textBox9" />
+                <ScalarProperty Name="textBox8" ColumnName="textBox8" />
+                <ScalarProperty Name="textBox7" ColumnName="textBox7" />
+                <ScalarProperty Name="textBox6" ColumnName="textBox6" />
+                <ScalarProperty Name="textBox5" ColumnName="textBox5" />
+                <ScalarProperty Name="textBox4" ColumnName="textBox4" />
+                <ScalarProperty Name="textBox3" ColumnName="textBox3" />
+                <ScalarProperty Name="textBox2" ColumnName="textBox2" />
+                <ScalarProperty Name="textBox1" ColumnName="textBox1" />
+                <ScalarProperty Name="ssrsReportName" ColumnName="ssrsReportName" />
+                <ScalarProperty Name="ReportDefinitionUid" ColumnName="ReportDefinitionUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

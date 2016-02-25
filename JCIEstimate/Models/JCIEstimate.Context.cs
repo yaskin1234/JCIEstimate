@@ -82,7 +82,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ExpenseConstructionDrawSchedule> ExpenseConstructionDrawSchedules { get; set; }
         public virtual DbSet<ExpenseConstructionDraw> ExpenseConstructionDraws { get; set; }
         public virtual DbSet<ECM> ECMs { get; set; }
-        public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<ControlType> ControlTypes { get; set; }
         public virtual DbSet<HeatType> HeatTypes { get; set; }
         public virtual DbSet<EquipmentCondition> EquipmentConditions { get; set; }
@@ -130,5 +129,7 @@ namespace JCIEstimate.Models
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUsersExtension> AspNetUsersExtensions { get; set; }
         public virtual DbSet<ProjectTaskList> ProjectTaskLists { get; set; }
+        public virtual DbSet<Equipment> Equipments { get; set; }
+        public virtual DbSet<ReportDefinition> ReportDefinitions { get; set; }
     }
 }

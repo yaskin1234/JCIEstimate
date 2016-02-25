@@ -41,18 +41,21 @@ namespace JCIEstimate.Models
         public Nullable<System.Guid> heatTypeUid { get; set; }
         public Nullable<System.Guid> controlTypeUid { get; set; }
         public Nullable<System.Guid> equipmentConditionUid { get; set; }
+        public string newManufacturer { get; set; }
+        public string newModel { get; set; }
+        public string newSerial { get; set; }
     
+        public virtual ControlType ControlType { get; set; }
         public virtual ECM ECM { get; set; }
         public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }
+        public virtual EquipmentCondition EquipmentCondition { get; set; }
         public virtual ICollection<Equipment> Equipment1 { get; set; }
         public virtual Equipment Equipment2 { get; set; }
         public virtual ICollection<EquipmentAttributeValue> EquipmentAttributeValues { get; set; }
+        public virtual HeatType HeatType { get; set; }
         public virtual Location Location { get; set; }
         public virtual ICollection<EquipmentAttachment> EquipmentAttachments { get; set; }
         public virtual ICollection<EquipmentNote> EquipmentNotes { get; set; }
         public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
-        public virtual ControlType ControlType { get; set; }
-        public virtual HeatType HeatType { get; set; }
-        public virtual EquipmentCondition EquipmentCondition { get; set; }
     }
 }

@@ -310,11 +310,11 @@ namespace JCIEstimate.Controllers
             wf.selected = (wf.value == filterId || String.IsNullOrEmpty(filterId));
             aryFo.Add(wf);
 
-            //wf = new FilterOptionModel();
-            //wf.text = "All";
-            //wf.value = "A|" + Guid.Empty.ToString().Substring(0, 35) + "1";
-            //wf.selected = (wf.value == filterId);
-            //aryFo.Add(wf);
+            wf = new FilterOptionModel();
+            wf.text = "All";
+            wf.value = "A|" + Guid.Empty.ToString().Substring(0, 35) + "1";
+            wf.selected = (wf.value == filterId);
+            aryFo.Add(wf);
 
             wf = new FilterOptionModel();
             wf.text = "Replaced";
@@ -833,7 +833,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,isNewToSite,useReplacement,price,equipmentConditionUid")] Equipment equipment, string ecms, string equipmentUidAsReplaced, string newTasks)
+        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,isNewToSite,useReplacement,price,equipmentConditionUid,newManufacturer,newModel,newSerial")] Equipment equipment, string ecms, string equipmentUidAsReplaced, string newTasks)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             if (ModelState.IsValid)
@@ -901,7 +901,7 @@ namespace JCIEstimate.Controllers
 
                 if (filterColumn == "A")
                 {
-                    filterColumn = "'" + Guid.Empty.ToString() + "'";
+                    filterColumn = "";
                     filterValue = Guid.Empty;
                 }
                 
@@ -963,23 +963,26 @@ namespace JCIEstimate.Controllers
             if (equipment == null)
             {
                 return HttpNotFound();
-            }
+            }            
             
             var replacementEqupments = db.Equipments.Where(c => c.Location.projectUid == sessionProject);
 
             var equipmentAttributeValues = from cc in db.EquipmentAttributeValues
                                            where cc.equipmentUid == equipment.equipmentUid
                                            select cc;
+            
             ViewBag.nextEquipment = nextEquipment;
             ViewBag.previousEquipment = previousEquipment;
             ViewBag.equipmentAttributeValues = equipmentAttributeValues;
-            ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).ToSelectList(c=>c.ecmString, c=>c.ecmUid.ToString() , equipment.ecmUid.ToString());
+            ViewBag.ecmUid = db.ECMs.Where(c => c.projectUid == sessionProject).OrderBy(c=>c.ecmNumber).ToSelectList(c=>c.ecmString, c=>c.ecmUid.ToString() , equipment.ecmUid.ToString());
             ViewBag.equipmentAttributeTypeUid = new SelectList(db.EquipmentAttributeTypes.Where(c => c.excludeFromDropDown == false).OrderBy(c => c.equipmentAttributeType1), "equipmentAttributeTypeUid", "equipmentAttributeType1", equipment.equipmentAttributeTypeUid);
             ViewBag.locationUid = new SelectList(db.Locations.Where(c => c.projectUid == sessionProject), "locationUid", "location1", equipment.locationUid);
             ViewBag.equipmentUidAsReplaced = replacementEqupments.OrderBy(c=>c.jciTag).ToSelectList(d => d.Location.location1 + " - " + d.jciTag, d => d.equipmentUid.ToString(), equipment.equipmentUidAsReplaced.ToString());
             ViewBag.equipmentConditionUid = new SelectList(db.EquipmentConditions, "equipmentConditionUid", "equipmentCondition1", equipment.equipmentConditionUid);
             ViewBag.equipmentTasks = db.EquipmentTasks;
             ViewBag.equipmentToDoes = db.EquipmentToDoes;
+            ViewBag.equipmentNoteTypeUid = db.EquipmentNoteTypes.ToSelectList(c=>c.equipmentNoteType1, c=>c.equipmentNoteTypeUid.ToString(), "");
+
             return View(equipment);
         }
 
@@ -988,13 +991,30 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,price,useReplacement,equipmentConditionUid")] Equipment equipment, string ecms, string equipmentUidAsReplaced)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,price,useReplacement,equipmentConditionUid,newManufacturer,newModel,newSerial")] Equipment equipment, string ecms, string equipmentUidAsReplaced, Guid equipmentNoteTypeUid, string newNote)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             if (ModelState.IsValid)
             {
                 db.Entry(equipment).State = EntityState.Modified;
+                if (equipmentNoteTypeUid != Guid.Empty && newNote.Length > 0)
+                {
+                    var user = from cq in db.AspNetUsers
+                               where cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                               select cq;
+
+                    EquipmentNote eqn = new EquipmentNote();
+                    eqn.equipmentNoteUid = Guid.NewGuid();
+                    eqn.equipmentNote1 = newNote;
+                    eqn.equipmentNoteTypeUid = equipmentNoteTypeUid;
+                    eqn.equipmentUid = equipment.equipmentUid;
+                    eqn.aspNetUserUidAsCreated = user.FirstOrDefault().Id;
+                    eqn.date = DateTime.Now;
+                    db.EquipmentNotes.Add(eqn);
+                }
+
+
                 if (equipmentUidAsReplaced == Guid.Empty.ToString())
                 {
                     equipment.equipmentUidAsReplaced = null;

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
+using JCIExtensions;
 
 namespace IdentitySample.Controllers
 {
@@ -84,6 +85,90 @@ namespace IdentitySample.Controllers
         {
             //Get the list of Roles
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+            return View();
+        }
+
+        public async Task<ActionResult> MassEmail(string filterId)
+        {
+
+            IQueryable<MassEmailViewModel> list;
+            List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
+            string[] filterPart = null;
+            string type = "";
+            string uid = Guid.Empty.ToString();
+
+            if (!String.IsNullOrEmpty(filterId))
+            {
+                filterPart = filterId.Split('|');
+                type = filterPart[0];
+                uid = filterPart[1];
+            }
+
+            FilterOptionModel wf = new FilterOptionModel();
+            wf.text = "-- Choose --";
+            wf.value = "X|" + Guid.Empty.ToString();
+            wf.selected = (wf.value == filterId || String.IsNullOrEmpty(filterId));
+            aryFo.Add(wf);
+
+            wf = new FilterOptionModel();
+            wf.text = "-- All --";
+            wf.value = "A|" + Guid.Empty.ToString();
+            wf.selected = (wf.value == filterId);
+            aryFo.Add(wf);
+
+
+            foreach (var item in db.Projects.GroupBy(c => c.projectUid).Select(v => v.FirstOrDefault()))
+            {
+                wf = new FilterOptionModel();
+                wf.text = item.project1;
+                wf.value = "P|" + item.projectUid.ToString();
+                wf.selected = (wf.value == filterId);
+                aryFo.Add(wf);
+            }
+
+            list = from cc in db.AspNetUsers
+                   join ff in db.AspNetUsersExtensions on cc.Id equals ff.aspnetUserUid
+                   where 1 == 0
+                   select new MassEmailViewModel
+                    {
+                        id = cc.Id,
+                        Name = cc.AspNetUsersExtensions.FirstOrDefault().name,
+                        PhoneNumber = cc.PhoneNumber,
+                        Email = cc.Email
+                    };
+
+            if (type == "A")
+            {
+                list = from cc in db.AspNetUsers
+                       join ff in db.AspNetUsersExtensions on cc.Id equals ff.aspnetUserUid                       
+                       select new MassEmailViewModel
+                       {
+                           id = cc.Id,
+                           Name = cc.AspNetUsersExtensions.FirstOrDefault().name,
+                           PhoneNumber = cc.PhoneNumber,
+                           Email = cc.Email
+                       };
+            }
+            else if(type == "P")
+            {
+                Guid val = Guid.Parse(uid);
+                list = from cc in db.AspNetUsers
+                join ff in db.AspNetUsersExtensions on cc.Id equals ff.aspnetUserUid
+                join pp in db.ProjectUsers on cc.Id equals pp.aspNetUserUid
+                where pp.projectUid == val
+                select new MassEmailViewModel
+                {
+                    id = cc.Id,
+                    Name = cc.AspNetUsersExtensions.FirstOrDefault().name,
+                    PhoneNumber = cc.PhoneNumber,
+                    Email = cc.Email
+                };
+            }
+
+            ViewBag.list = list.OrderBy(c=>c.Email).ToList();            
+            ViewBag.recipientList = aryFo.ToSelectList(c => c.text, c => c.value, wf.selected.ToString(),false);
+
+
             return View();
         }
 

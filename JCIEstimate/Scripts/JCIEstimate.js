@@ -20,6 +20,12 @@
         document.location = url + "?filterId=" + escape(selectedValue);
     })
 
+    $("#recipientList").change(function () {
+        var selectedValue = $("#recipientList").val();
+        var url = "/UsersAdmin/MassEmail";
+        document.location = url + "?filterId=" + escape(selectedValue);
+    })
+
     $("#srchJCITag").click(function () {
         var selectedValue = $("#equipmentFilterJCITag").val();
         var url = "/Equipments/Index";

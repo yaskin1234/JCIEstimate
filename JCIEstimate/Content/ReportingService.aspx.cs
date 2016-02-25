@@ -38,6 +38,11 @@ namespace JCIEstimate.Content
                         ReportViewer1.ShowExportControls = true;
                         ReportViewer1.ShowParameterPrompts = false;
                     }
+                    //else if (report == "ScopeOfWorkECM")
+                    //{
+                    //    ReportParameter format = new ReportParameter("rs:Format", "word");
+                    //    ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { format });
+                    //}
 
                     if (userUid != null) 
                     {

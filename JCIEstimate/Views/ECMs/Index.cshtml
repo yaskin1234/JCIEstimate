@@ -20,6 +20,10 @@
         <th>
             @Html.DisplayNameFor(model => model.ecmDescription)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.scopeOfWorkNote)
+        </th>
+        
         <th></th>
     </tr>
 
@@ -33,6 +37,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ecmDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.scopeOfWorkNote)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ecmUid }) |

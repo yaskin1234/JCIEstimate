@@ -30,7 +30,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @item.Equipment.Location.location1 - @item.Equipment.jciTag - @item.Equipment.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.Equipment.installDate).Year - @item.Equipment.ECM.ecmNumber
+            @item.Equipment.Location.location1 - @item.Equipment.jciTag - @item.Equipment.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.Equipment.installDate).Year
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.equipmentNote1)

@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Mass Email";
+    var model = ViewBag.list;
+}
+
+<h2>Mass Email</h2>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Phone Number
+        </th>
+        <th>
+            Email
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in model)
+{
+    <tr>
+        <td>
+            @item.Name
+        </td>
+        <td>
+            @item.PhoneNumber
+        </td>
+        <td>
+            @item.Email
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id })
+        </td>
+    </tr>
+}
+</table>
+
+<table>
+    <tr>
+        <td>Recipients: </td>
+        <td>@Html.DropDownList("recipientList")</td>
+    </tr>
+    <tr>
+        <td>Subject: </td>
+        <td>@Html.Editor("Subject")</td>
+    </tr>
+    <tr>
+        <td>Body: </td>
+        <td>@Html.TextArea("Body")</td>
+    </tr>
+</table>
+

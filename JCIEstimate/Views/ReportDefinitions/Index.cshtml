@@ -1,0 +1,99 @@
+﻿@model IEnumerable<JCIEstimate.Models.ReportDefinition>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ssrsReportName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.projectUid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.textBox1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.textBox2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.textBox3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.textBox4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.textBox5)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.textBox6)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.textBox7)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.textBox8)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.textBox9)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.textBox10)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ssrsReportName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.project1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.textBox1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.textBox2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.textBox3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.textBox4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.textBox5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.textBox6)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.textBox7)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.textBox8)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.textBox9)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.textBox10)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ReportDefinitionUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ReportDefinitionUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ReportDefinitionUid })
+        </td>
+    </tr>
+}
+
+</table>

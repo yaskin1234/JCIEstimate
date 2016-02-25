@@ -26,7 +26,7 @@ namespace JCIEstimate.Controllers
             IQueryable<ContractorSignoffFinal> contractorSignoffFinals;
             if (User.IsInRole("Admin"))
             {
-                contractorSignoffFinals = db.ContractorSignoffFinals.Include(c => c.AspNetUser).Include(c => c.Contractor).Include(c => c.Project).OrderBy(c => c.dateCreated);
+                contractorSignoffFinals = db.ContractorSignoffFinals.Where(c => c.projectUid == sessionProject).Include(c => c.AspNetUser).Include(c => c.Contractor).Include(c => c.Project).OrderByDescending(c => c.dateCreated);
             }
             else
             {
@@ -36,7 +36,7 @@ namespace JCIEstimate.Controllers
                                           where cc.projectUid == sessionProject
                                           && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
                                           select cc;
-                contractorSignoffFinals = contractorSignoffFinals.Include(c => c.AspNetUser).Include(c => c.Contractor).Include(c => c.Project).OrderBy(c => c.dateCreated);
+                contractorSignoffFinals = contractorSignoffFinals.Include(c => c.AspNetUser).Include(c => c.Contractor).Include(c => c.Project).OrderByDescending(c => c.dateCreated);
             }
             
             return View(await contractorSignoffFinals.ToListAsync());
@@ -102,53 +102,84 @@ namespace JCIEstimate.Controllers
         }
 
 
-        private void CreateFinalSignoff(string contractorUid)
+        private void CreateFinalSignoff(string contractorUid, bool isActiveOnly)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             ContractorSignoffFinal contractorSignoffFinal = new ContractorSignoffFinal();
+            ContractorSignoff cf = new ContractorSignoff();
+            byte[] byteArray;
+
+            IEnumerable<Contractor> contractor;
+            IEnumerable<Estimate> estimates;
+            IEnumerable<AspNetUser> user;
+            var currentUser = IdentityExtensions.GetUserId(User.Identity);
+
+            user = from cc in db.AspNetUsers
+                   where cc.Id == currentUser
+                   select cc;
+
+            string typedName = user.FirstOrDefault().AspNetUsersExtensions.FirstOrDefault().name;
+
+            contractor = from cc in db.Contractors
+                         where cc.contractorUid.ToString() == contractorUid
+                         select cc;
+
+            estimates = from cc in db.Estimates
+                        join dd in db.Locations on cc.locationUid equals dd.locationUid
+                        where dd.projectUid == sessionProject
+                        && cc.contractorUid.ToString() == contractorUid
+                        where cc.isActive == true
+                        select cc;
             
-                IQueryable<Estimate> estimates;
 
-                estimates = from cc in db.Estimates
-                            join dd in db.Locations on cc.locationUid equals dd.locationUid                            
-                            where dd.projectUid == sessionProject
-                            && cc.contractorUid.ToString() == contractorUid
-                            where cc.isActive == true
-                            select cc;
+            string directory = "JCIEstimate";
+            string reportName = "ContractorSignoff";
 
-                string directory = "JCIEstimate";
-                string reportName = "ContractorSignoff";
+            string saveFolder = "Signoffs";
+            string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=word&projectUid=" + sessionProject.ToString() + "&contractorUid=" + contractorUid.ToString() + "&typedName=" + typedName + "&isActive=" + ((isActiveOnly) ? "1" : "0");
+            string saveFile = "";
 
-                string saveFolder = "Signoffs";
-                string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=word&projectUid=" + sessionProject.ToString() + "&contractorUid=" + estimates.First().contractorUid.ToString() + "&typedName=" + "N/A" + "&isActive=1";
-                string saveFile = "";
+            //saveFile = saveFolder + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";
+            saveFile = Server.MapPath("\\" + saveFolder) + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".doc";
 
-                //saveFile = saveFolder + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";
-                saveFile = Server.MapPath("\\" + saveFolder) + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".doc";
+            SaveFileFromURL(addressRoot, saveFile, 600000, CredentialCache.DefaultNetworkCredentials);
 
-                SaveFileFromURL(addressRoot, saveFile, 600000, CredentialCache.DefaultNetworkCredentials);
-                byte[] byteArray = System.IO.File.ReadAllBytes(saveFile);
-
-                var currentUser = IdentityExtensions.GetUserId(User.Identity);
-
+            if (!System.IO.File.Exists(saveFile))
+            {
+                ViewBag.message = "file failed to create";
+            }
+            else
+            {
+                byteArray = System.IO.File.ReadAllBytes(saveFile);
                 DateTime dateCreated = DateTime.Now;
 
-                contractorSignoffFinal.contractorUid = estimates.First().contractorUid;
-                contractorSignoffFinal.contractorSignoffFinalUid = Guid.NewGuid();
-                contractorSignoffFinal.projectUid = sessionProject;
-                contractorSignoffFinal.attachment = byteArray;
-                contractorSignoffFinal.dateCreated = dateCreated;
-                contractorSignoffFinal.fileType = "doc";
-                contractorSignoffFinal.typedName = "N/A";
-                contractorSignoffFinal.documentName = estimates.First().Contractor.contractorName + "_" + String.Format("{0:yyyyMMddHHmmss}", dateCreated) + "." + contractorSignoffFinal.fileType;
-                contractorSignoffFinal.aspNetUserUidAsCreated = currentUser;
-
-                ViewBag.estimates = estimates.OrderBy(c => c.ECM.ecmNumber).ToList();
-
-
-                if (1==1)
+                if (isActiveOnly)
                 {
-                db.ContractorSignoffFinals.Add(contractorSignoffFinal);
+                    contractorSignoffFinal.contractorUid = Guid.Parse(contractorUid);
+                    contractorSignoffFinal.contractorSignoffFinalUid = Guid.NewGuid();
+                    contractorSignoffFinal.projectUid = sessionProject;
+                    contractorSignoffFinal.attachment = byteArray;
+                    contractorSignoffFinal.dateCreated = dateCreated;
+                    contractorSignoffFinal.fileType = "doc";
+                    contractorSignoffFinal.typedName = "N/A";
+                    contractorSignoffFinal.documentName = contractor.First().contractorName + "_" + String.Format("{0:yyyyMMddHHmmss}", dateCreated) + "." + contractorSignoffFinal.fileType;
+                    contractorSignoffFinal.aspNetUserUidAsCreated = currentUser;
+                    db.ContractorSignoffFinals.Add(contractorSignoffFinal);
+                }
+                else
+                {
+                    cf.contractorUid = Guid.Parse(contractorUid);
+                    cf.contractorSignoffUid = Guid.NewGuid();
+                    cf.projectUid = sessionProject;
+                    cf.attachment = byteArray;
+                    cf.dateCreated = dateCreated;
+                    cf.fileType = "doc";
+                    cf.typedName = user.FirstOrDefault().AspNetUsersExtensions.FirstOrDefault().name;
+                    cf.documentName = contractor.First().contractorName + "_" + String.Format("{0:yyyyMMddHHmmss}", dateCreated) + "." + cf.fileType;
+                    cf.aspNetUserUidAsCreated = currentUser;
+                    db.ContractorSignoffs.Add(cf);
+                }
+    
                 try
                 {
                     db.SaveChanges();
@@ -165,7 +196,7 @@ namespace JCIEstimate.Controllers
 
                         }
                     }
-                }                
+                }
             }
         }
         
@@ -174,9 +205,17 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GenerateSignoff(ContractorSignoffFinal contractorSignoffFinal, string contractorUid)
+        public async Task<ActionResult> GenerateSignoff(ContractorSignoffFinal contractorSignoffFinal, string contractorUid, string mode)
         {
-            CreateFinalSignoff(contractorUid);
+            if (mode == "proposed")
+            {
+                CreateFinalSignoff(contractorUid, false);
+            }
+            else
+            {
+                CreateFinalSignoff(contractorUid, true);
+            }
+            
 
             var contractors = db.Estimates.GroupBy(c => c.contractorUid)
                 .Select(grp => grp.FirstOrDefault()).Include(c => c.Contractor).OrderBy(c => c.Contractor.contractorName);
@@ -187,7 +226,7 @@ namespace JCIEstimate.Controllers
                            where cc.contractorUid.ToString() == contractorUid
                            select cc.contractorName;
 
-            ViewBag.message = cName.FirstOrDefault() + " generated successfully.";
+            ViewBag.message = cName.FirstOrDefault() + " -- " + mode + " generated successfully.";
             return View(contractorSignoffFinal);
         }
 
@@ -396,7 +435,7 @@ namespace JCIEstimate.Controllers
 
             catch (Exception err)
             {
-                Console.WriteLine("Error saving " + destinationFileName + " from URL:" + err.Message, err);
+                throw new Exception("Error generating report " + destinationFileName + ".  Error: " + err.Message, err.InnerException);
             }
             return true;
         }

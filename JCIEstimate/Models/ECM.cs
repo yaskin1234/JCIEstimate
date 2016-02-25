@@ -16,10 +16,10 @@ namespace JCIEstimate.Models
     {
         public ECM()
         {
-            this.Equipments = new HashSet<Equipment>();
             this.ProjectRFIs = new HashSet<ProjectRFI>();
             this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
             this.Estimates = new HashSet<Estimate>();
+            this.Equipments = new HashSet<Equipment>();
         }
     
         public System.Guid ecmUid { get; set; }
@@ -27,11 +27,26 @@ namespace JCIEstimate.Models
         public string ecmDescription { get; set; }
         public System.Guid projectUid { get; set; }
         public string ecmString { get; set; }
+        public string scopeOfWorkNote { get; set; }
+        public string scopeOfWorkNote2 { get; set; }
+        public string scopeOfWorkNote3 { get; set; }
+        public string scopeOfWorkNote4 { get; set; }
+        public string scopeOfWorkNote5 { get; set; }
+        public string scopeOfWorkNote6 { get; set; }
+        public string scopeOfWorkNote7 { get; set; }
+        public string scopeOfWorkNote8 { get; set; }
+        public string scopeOfWorkNote9 { get; set; }
+        public string scopeOfWorkNote10 { get; set; }
+        public string scopeOfWorkNote11 { get; set; }
+        public string scopeOfWorkNote12 { get; set; }
+        public string scopeOfWorkNote13 { get; set; }
+        public string scopeOfWorkNote14 { get; set; }
+        public string scopeOfWorkNote15 { get; set; }
     
         public virtual Project Project { get; set; }
-        public virtual ICollection<Equipment> Equipments { get; set; }
         public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
         public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual ICollection<Equipment> Equipments { get; set; }
     }
 }

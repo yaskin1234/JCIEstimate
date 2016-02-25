@@ -62,7 +62,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectUid")] ECM eCM)
+        public async Task<ActionResult> Create([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectUid,scopeOfWorkNote,scopeOfWorkNote2,scopeOfWorkNote3,scopeOfWorkNote4,scopeOfWorkNote5,scopeOfWorkNote6,scopeOfWorkNote7,scopeOfWorkNote8,scopeOfWorkNote9,scopeOfWorkNote10,scopeOfWorkNote11,scopeOfWorkNote12,scopeOfWorkNote13,scopeOfWorkNote14,scopeOfWorkNote15")] ECM eCM)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectUid")] ECM eCM)
+        public async Task<ActionResult> Edit([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectUid,scopeOfWorkNote,scopeOfWorkNote2,scopeOfWorkNote3,scopeOfWorkNote4,scopeOfWorkNote5,scopeOfWorkNote6,scopeOfWorkNote7,scopeOfWorkNote8,scopeOfWorkNote9,scopeOfWorkNote10,scopeOfWorkNote11,scopeOfWorkNote12,scopeOfWorkNote13,scopeOfWorkNote14,scopeOfWorkNote15")] ECM eCM)
         {
             if (ModelState.IsValid)
             {

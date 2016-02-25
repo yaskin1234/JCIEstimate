@@ -36,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.equipmentUidAsReplaced, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.DropDownList("equipmentUidAsReplaced", null, htmlAttributes: new { @class = "form-control" })
                 }
@@ -51,7 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.equipmentAttributeTypeUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.DropDownList("equipmentAttributeTypeUid", null, htmlAttributes: new { @class = "form-control" })
                 }
@@ -78,7 +78,7 @@
                             <td>
                                 @if (item.EquipmentAttribute.AppDataType.appDataType1 == "Boolean")
                                 {
-                                    if (User.IsInRole("Admin"))
+                                    if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                                     {
                                         <input type="checkbox" name="@item.equipmentAttributeUid" @((item.equipmentAttributeValue1 == "on") ? "CHECKED" : "") />
                                     }
@@ -90,7 +90,7 @@
                                 }
                                 else
                                 {
-                                    if (User.IsInRole("Admin"))
+                                    if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                                     {
                                         <input type="text" name="@item.equipmentAttributeUid" value="@item.equipmentAttributeValue1" />
                                     }
@@ -109,7 +109,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.isNewToSite, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.CheckBoxFor(model => model.isNewToSite)
                 }
@@ -125,7 +125,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ecmUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.DropDownList("ecmUid", null, htmlAttributes: new { @class = "form-control" })
                 }
@@ -140,7 +140,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.locationUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.DropDownList("locationUid", null, htmlAttributes: new { @class = "form-control" })
                 }
@@ -155,7 +155,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.jciTag, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.EditorFor(model => model.jciTag, new { htmlAttributes = new { @class = "form-control" } })
                 }
@@ -170,7 +170,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ownerTag, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.EditorFor(model => model.ownerTag, new { htmlAttributes = new { @class = "form-control" } })
                 }
@@ -185,7 +185,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.manufacturer, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.EditorFor(model => model.manufacturer, new { htmlAttributes = new { @class = "form-control" } })
                 }
@@ -200,7 +200,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.model, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.EditorFor(model => model.model, new { htmlAttributes = new { @class = "form-control" } })
                 }
@@ -215,7 +215,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.serialNumber, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.EditorFor(model => model.serialNumber, new { htmlAttributes = new { @class = "form-control" } })
                 }
@@ -227,10 +227,56 @@
             </div>
         </div>
 
+
         <div class="form-group">
+            @Html.LabelFor(model => model.newManufacturer, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                {
+                    @Html.EditorFor(model => model.newManufacturer, new { htmlAttributes = new { @class = "form-control" } })
+                }
+                else
+                {
+                    @Model.manufacturer
+                }
+                @Html.ValidationMessageFor(model => model.newManufacturer, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.newModel, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                {
+                    @Html.EditorFor(model => model.newModel, new { htmlAttributes = new { @class = "form-control" } })
+                }
+                else
+                {
+                    @Model.model
+                }
+                @Html.ValidationMessageFor(model => model.newModel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.newSerial, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                {
+                    @Html.EditorFor(model => model.newSerial, new { htmlAttributes = new { @class = "form-control" } })
+                }
+                else
+                {
+                    @Model.serialNumber
+                }
+                @Html.ValidationMessageFor(model => model.newSerial, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
             @Html.LabelFor(model => model.installDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.EditorFor(model => model.installDate, new { htmlAttributes = new { @class = "form-control" } })
                 }
@@ -240,12 +286,12 @@
                 }                
                 @Html.ValidationMessageFor(model => model.installDate, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+        <div @*class="form-group">
             @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
                 }
@@ -255,12 +301,12 @@
                 }
                 @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.area, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.EditorFor(model => model.area, new { htmlAttributes = new { @class = "form-control" } })
                 }
@@ -275,7 +321,7 @@
         <div class="form-group">
             @Html.Label("Equipment Condition", null, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                 {
                     @Html.DropDownList("equipmentConditionUid", null, htmlAttributes: new { @class = "form-control" })
                 }
@@ -317,7 +363,7 @@
                                     chked = "CHECKED";
                                 }
                             }
-                            if (User.IsInRole("Admin"))
+                            if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                             {
                                 <td class="GridTable"><input class="gridCheckBox" type="checkbox" name="@(Model.equipmentUid)_@(task.equipmentTaskUid)" @chked /> </td>
                             }
@@ -332,7 +378,44 @@
                 </table>
             </div>
         </div>        
-        @if (User.IsInRole("Admin"))
+
+
+        <div class="form-group">
+            @Html.Label("Equipment Notes", null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <table class="table">
+                    <tr>
+                        <th>Type</th>
+                        <th>Note</th>
+                    </tr>
+                    @foreach (var note in Model.EquipmentNotes)
+                    {
+                        
+                        <tr>
+                            <td>@note.EquipmentNoteType.equipmentNoteType1</td>
+                            <td>@note.equipmentNote1</td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "EquipmentNotes", new { id = note.equipmentNoteUid }, null) |
+                                @Html.ActionLink("Delete", "Delete", "EquipmentNotes", new { id = note.equipmentNoteUid }, null)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Add Equipment Note", null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <table class="table">
+                    <tr>
+                        <td>@Html.DropDownList("equipmentNoteTypeUid", null, htmlAttributes: new { @class = "form-control" })</td>
+                        <td>@Html.TextBox("newNote")</td>                        
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
         {
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -359,7 +442,7 @@
                     <tr>
                         <td>@item.equipmentAttachment1</td>
                         <td><img class="img-zoom" src="@Url.Action("showImage", "Equipments", new { id = item.equipmentAttachmentUid } )" alt="test" /></td>
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
                         {
                             <td><a href="@Url.Action("Delete", "EquipmentAttachments", new { id = item.equipmentAttachmentUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a></td>
                         }

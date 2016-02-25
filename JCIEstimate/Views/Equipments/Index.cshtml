@@ -240,7 +240,7 @@
                         </a>
                     }
                 </th>
-                <th style="border-bottom:none;">
+                @*<th style="border-bottom:none;">
                     @if (Session["equipmentSort"] == null)
                     {
                         <a href="/Equipments/Index?sort=installDate|asc">
@@ -265,8 +265,8 @@
                             <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Install Date" title="click to sort by Install Date" />
                         </a>
                     }
-                </th>
-                <th style="border-bottom:none;">
+                </th>*@
+                @*<th style="border-bottom:none;">
                     @if (Session["equipmentSort"] == null)
                     {
                         <a href="/Equipments/Index?sort=price|asc">
@@ -291,7 +291,7 @@
                             <img src="~/Images/SortArrows.png" height="10px" width="10px" alt="click to sort by Price" title="click to sort by Price" />
                         </a>
                     }
-                </th>
+                </th>*@
                 <th style="border-bottom:none;">
                     @if (Session["equipmentSort"] == null)
                     {
@@ -348,12 +348,12 @@
                 <th>
                     Type
                 </th>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.installDate)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.price)
-                </th>
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.area)
                 </th>
@@ -401,12 +401,12 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.EquipmentAttributeType.equipmentAttributeType1)
                     </td>
-                    <td>
+                    @*<td>
                         @String.Format("{0:yyyy}", item.installDate)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.price)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.area)
                     </td>

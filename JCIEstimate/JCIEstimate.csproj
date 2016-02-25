@@ -2139,6 +2139,13 @@
     <Content Include="Views\ProjectTaskLists\GetAssignmentList.cshtml" />
     <Content Include="Views\ProjectTaskLists\SaveAssignment.cshtml" />
     <Content Include="Views\Reports\rptLocationList.cshtml" />
+    <Content Include="Views\UsersAdmin\MassEmail.cshtml" />
+    <Content Include="Views\Reports\rptScopeOfWorkMaster.cshtml" />
+    <Content Include="Views\ReportDefinitions\Create.cshtml" />
+    <Content Include="Views\ReportDefinitions\Delete.cshtml" />
+    <Content Include="Views\ReportDefinitions\Details.cshtml" />
+    <Content Include="Views\ReportDefinitions\Edit.cshtml" />
+    <Content Include="Views\ReportDefinitions\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2333,6 +2340,7 @@
     <Compile Include="Controllers\ProjectTaskPrototypesController.cs" />
     <Compile Include="Controllers\ProjectToDoesController.cs" />
     <Compile Include="Controllers\ProjectUsersController.cs" />
+    <Compile Include="Controllers\ReportDefinitionsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RfiStatusController.cs" />
     <Compile Include="Controllers\RfiTypesController.cs" />
@@ -2636,6 +2644,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectUser.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportDefinition.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RfiStatu.cs">

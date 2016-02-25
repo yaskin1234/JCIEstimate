@@ -17,9 +17,9 @@ namespace JCIEstimate.Models
         public EquipmentAttributeType()
         {
             this.EquipmentAttributes = new HashSet<EquipmentAttribute>();
-            this.Equipments = new HashSet<Equipment>();
             this.EquipmentAttributeTypeTasks = new HashSet<EquipmentAttributeTypeTask>();
             this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
+            this.Equipments = new HashSet<Equipment>();
         }
     
         public System.Guid equipmentAttributeTypeUid { get; set; }
@@ -28,8 +28,8 @@ namespace JCIEstimate.Models
         public bool excludeFromDropDown { get; set; }
     
         public virtual ICollection<EquipmentAttribute> EquipmentAttributes { get; set; }
-        public virtual ICollection<Equipment> Equipments { get; set; }
         public virtual ICollection<EquipmentAttributeTypeTask> EquipmentAttributeTypeTasks { get; set; }
         public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
+        public virtual ICollection<Equipment> Equipments { get; set; }
     }
 }

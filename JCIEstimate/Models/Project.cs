@@ -39,6 +39,7 @@ namespace JCIEstimate.Models
             this.CalendarDayTasks = new HashSet<CalendarDayTask>();
             this.ProjectCalendarDayTasks = new HashSet<ProjectCalendarDayTask>();
             this.ProjectTaskLists = new HashSet<ProjectTaskList>();
+            this.ReportDefinitions = new HashSet<ReportDefinition>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -75,5 +76,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<ProjectTaskList> ProjectTaskLists { get; set; }
+        public virtual ICollection<ReportDefinition> ReportDefinitions { get; set; }
     }
 }
