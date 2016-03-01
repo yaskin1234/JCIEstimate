@@ -44,6 +44,7 @@ namespace JCIEstimate.Models
         public string newManufacturer { get; set; }
         public string newModel { get; set; }
         public string newSerial { get; set; }
+        public bool showOnScopeReport { get; set; }
     
         public virtual ControlType ControlType { get; set; }
         public virtual ECM ECM { get; set; }

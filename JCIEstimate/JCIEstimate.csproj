@@ -637,6 +637,8 @@
     <Content Include="Images\loading2.gif" />
     <Content Include="Images\logo.gif" />
     <Content Include="Images\magnet.jpg" />
+    <Content Include="Images\minus.ico" />
+    <Content Include="Images\minus.png" />
     <Content Include="Images\next.png" />
     <Content Include="Images\previous.png" />
     <Content Include="Images\replace.png" />
@@ -2146,6 +2148,11 @@
     <Content Include="Views\ReportDefinitions\Details.cshtml" />
     <Content Include="Views\ReportDefinitions\Edit.cshtml" />
     <Content Include="Views\ReportDefinitions\Index.cshtml" />
+    <Content Include="Views\ECMs\ToggleEquipmentForScope.cshtml" />
+    <Content Include="Views\ECMs\ToggleEquipmentDetail.cshtml" />
+    <Content Include="Views\ECMs\GetEquipmentForECM.cshtml" />
+    <Content Include="Views\Equipments\SetShowOnScope.cshtml" />
+    <Content Include="Views\Equipments\SetShowOnScopeForECM.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<JCIEstimate.Models.Equipment>
+
+<table class="table">
+    
+    @foreach (var item in ViewBag.equipments)
+    {
+        <tr>
+            <td>
+                @Html.DisplayNameFor(item.equipmentUid) <input type="checkbox" name="test" value=" " />
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.equipmentUid }) |
+                @Html.ActionLink("Details", "Details", new { id = item.equipmentUid }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.equipmentUid })
+            </td>
+        </tr>
+    }
+</table>

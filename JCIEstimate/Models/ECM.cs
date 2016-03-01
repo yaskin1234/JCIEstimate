@@ -42,6 +42,7 @@ namespace JCIEstimate.Models
         public string scopeOfWorkNote13 { get; set; }
         public string scopeOfWorkNote14 { get; set; }
         public string scopeOfWorkNote15 { get; set; }
+        public bool showOnScopeReport { get; set; }
     
         public virtual Project Project { get; set; }
         public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }

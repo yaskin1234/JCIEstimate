@@ -1,0 +1,11 @@
+﻿@model IEnumerable<JCIEstimate.Models.Equipment>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.jciTag) - @Html.DisplayFor(modelItem => item.EquipmentAttributeType.equipmentAttributeType1) - @Html.DisplayFor(modelItem => item.manufacturer)- @Html.DisplayFor(modelItem => item.model) - @Html.DisplayFor(modelItem => item.serialNumber)             
+        </td>
+        <td>
+            <input class="showOnScopeCheckbox" type="checkbox" name="@item.equipmentUid" id="@item.equipmentUid" value="@item.equipmentUid" @((item.showOnScopeReport) ? "CHECKED" : "") />
+        </td>
+    </tr>
+}

@@ -117,6 +117,58 @@
         }
     })
 
+    
+    $(".expandEquipmentForECM").click(function () {
+        var ecmUid = this.id.split('_')[1];
+        $("#tblEquipment_" + ecmUid).show();
+        $("#collapse_" + ecmUid).show();
+        $("#expand_" + ecmUid).hide();
+    })
+
+    $(".collapseEquipmentForECM").click(function () {
+        var ecmUid = this.id.split('_')[1];
+        $("#tblEquipment_" + ecmUid).hide();
+        $("#collapse_" + ecmUid).hide();
+        $("#expand_" + ecmUid).show();
+    })
+
+    $(".showOnScopeCheckbox").change(function () {
+        var equipmentUid = this.id;
+        
+        $.ajax({
+            url: "/Equipments/SetShowOnScope",
+            type: "POST",
+            data: {
+                id: equipmentUid,
+                value: this.checked
+            },
+            dataType: "json",
+            success: function (data) {
+            }
+        }).done(function () {
+        })
+    })
+
+    $(".showOnScopeForECM").change(function () {
+        var ecmUid = this.id;
+
+        $.ajax({
+            url: "/Equipments/SetShowOnScopeForECM",
+            type: "POST",
+            data: {
+                id: ecmUid,
+                value: this.checked
+            },
+            dataType: "json",
+            success: function (data) {
+            }
+        }).done(function () {
+        })
+    })
+
+    
+    
+
     $(".assignedToImage").click(function () {
         var id = this.id.split("_")[0];
         var span = $("#" + id + "__assignedToSpanID");

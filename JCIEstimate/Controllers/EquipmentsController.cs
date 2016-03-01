@@ -833,7 +833,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,isNewToSite,useReplacement,price,equipmentConditionUid,newManufacturer,newModel,newSerial")] Equipment equipment, string ecms, string equipmentUidAsReplaced, string newTasks)
+        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,isNewToSite,useReplacement,price,equipmentConditionUid,newManufacturer,newModel,newSerial,showOnScopeReport")] Equipment equipment, string ecms, string equipmentUidAsReplaced, string newTasks)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             if (ModelState.IsValid)
@@ -991,7 +991,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,price,useReplacement,equipmentConditionUid,newManufacturer,newModel,newSerial")] Equipment equipment, string ecms, string equipmentUidAsReplaced, Guid equipmentNoteTypeUid, string newNote)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,price,useReplacement,equipmentConditionUid,newManufacturer,newModel,newSerial,showOnScopeReport")] Equipment equipment, string ecms, string equipmentUidAsReplaced, Guid equipmentNoteTypeUid, string newNote)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
@@ -1249,6 +1249,90 @@ namespace JCIEstimate.Controllers
             return View();
         }
 
+        // GET: EquipmentToDoes/SetShowOnScope/5
+        public async Task<ActionResult> SetShowOnScope(string id, string value)
+        {
+
+            Equipment eq = db.Equipments.Find(Guid.Parse(id));
+
+            if (value == "true")
+            {
+                eq.showOnScopeReport = true;
+                db.Entry(eq).State = EntityState.Modified;
+                try
+                {                    
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+            }
+            else
+            {
+                eq.showOnScopeReport = false;
+                db.Entry(eq).State = EntityState.Modified;
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+            }
+            return View();
+        }
+
+        public async Task<ActionResult> SetShowOnScopeForECM(string id, string value)
+        {
+
+            ECM ecm = db.ECMs.Find(Guid.Parse(id));
+
+            if (value == "true")
+            {
+                ecm.showOnScopeReport = true;
+                db.Entry(ecm).State = EntityState.Modified;
+                //foreach (var eq in ecm.Equipments)
+                //{
+                //    eq.showOnScopeReport = true;
+                //    db.Entry(eq).State = EntityState.Modified;                 
+                //}
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            else
+            {
+                ecm.showOnScopeReport = false;
+                db.Entry(ecm).State = EntityState.Modified;
+                //foreach (var eq in ecm.Equipments)
+                //{
+                //    eq.showOnScopeReport = false;
+                //    db.Entry(eq).State = EntityState.Modified;
+                //}
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+            }
+            return View();
+        }
+
+
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

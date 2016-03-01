@@ -1,0 +1,30 @@
+﻿@model IEnumerable<JCIEstimate.Models.ECM>
+
+@{
+    ViewBag.Title = "ToggleEquipmentForScope";
+}
+
+<h2>ToggleEquipmentForScope</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ecmString)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>            
+            <input class="showOnScopeForECM" type="checkbox" name="cbECM_@item.ecmUid" id="@item.ecmUid" @((item.showOnScopeReport) ? "CHECKED" : "") />
+            <img src="~/Images/AddItem.png" height="15" width="15" alt="Expand Equipment" id="expand_@item.ecmUid" class="expandEquipmentForECM" />
+            <img src="~/Images/minus.png" height="15" width="15" alt="Shrink Equipment" id="collapse_@item.ecmUid" class="collapseEquipmentForECM" style="display:none;" />
+            @Html.DisplayFor(modelItem => item.ecmString)
+            <table id="tblEquipment_@item.ecmUid" style="display:none;">
+                @Html.Partial("ToggleEquipmentDetail", item.Equipments)
+            </table>
+        </td>
+    </tr>
+}
+
+</table>

@@ -281,6 +281,7 @@
           <Property Name="scopeOfWorkNote13" Type="nvarchar(max)" />
           <Property Name="scopeOfWorkNote14" Type="nvarchar(max)" />
           <Property Name="scopeOfWorkNote15" Type="nvarchar(max)" />
+          <Property Name="showOnScopeReport" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Eddress">
           <Key>
@@ -316,6 +317,7 @@
           <Property Name="newManufacturer" Type="varchar" MaxLength="2000" />
           <Property Name="newModel" Type="varchar" MaxLength="2000" />
           <Property Name="newSerial" Type="varchar" MaxLength="2000" />
+          <Property Name="showOnScopeReport" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="EquipmentAttachment">
           <Key>
@@ -5805,6 +5807,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="scopeOfWorkNote13" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="scopeOfWorkNote14" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="scopeOfWorkNote15" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="showOnScopeReport" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="fk_ecm_project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
@@ -7533,6 +7536,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="newManufacturer" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="newModel" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="newSerial" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="showOnScopeReport" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="fk_equipment_controlType">
           <End Type="JCIEstimateModel.ControlType" Role="ControlType" Multiplicity="0..1" />
@@ -8392,6 +8396,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="ECMs">
             <EntityTypeMapping TypeName="JCIEstimateModel.ECM">
               <MappingFragment StoreEntitySet="ECM">
+                <ScalarProperty Name="showOnScopeReport" ColumnName="showOnScopeReport" />
                 <ScalarProperty Name="scopeOfWorkNote15" ColumnName="scopeOfWorkNote15" />
                 <ScalarProperty Name="scopeOfWorkNote14" ColumnName="scopeOfWorkNote14" />
                 <ScalarProperty Name="scopeOfWorkNote13" ColumnName="scopeOfWorkNote13" />
@@ -8931,6 +8936,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="Equipments">
             <EntityTypeMapping TypeName="JCIEstimateModel.Equipment">
               <MappingFragment StoreEntitySet="Equipment">
+                <ScalarProperty Name="showOnScopeReport" ColumnName="showOnScopeReport" />
                 <ScalarProperty Name="newSerial" ColumnName="newSerial" />
                 <ScalarProperty Name="newModel" ColumnName="newModel" />
                 <ScalarProperty Name="newManufacturer" ColumnName="newManufacturer" />

@@ -29,6 +29,21 @@ namespace JCIEstimate.Controllers
             return View(await eCMs.ToListAsync());
         }
 
+        public async Task<ActionResult> ToggleEquipmentForScope()
+        {
+            IQueryable<ECM> ecms;
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
+            ecms = from cc in db.ECMs                   
+                   where cc.projectUid == sessionProject                        
+                   orderby cc.ecmNumber
+                   select cc;
+            var eCMs = ecms.Include(e => e.Project);
+            return View(await eCMs.ToListAsync());
+        }
+
+        
+
         // GET: ECMs/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
@@ -140,6 +155,15 @@ namespace JCIEstimate.Controllers
             db.ECMs.Remove(eCM);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> GetEquipmentForECM(Guid ecmUid)
+        {
+            ECM eCM = await db.ECMs.FindAsync(ecmUid);
+            ViewBag.ecms = eCM;
+            ViewBag.equipments = eCM.Equipments;
+
+            return PartialView(eCM.Equipments);
         }
 
         protected override void Dispose(bool disposing)
