@@ -41,6 +41,7 @@
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
                             <li>@Html.ActionLink("Estimate Option", "Index", "EstimateOptions")</li>
+                            <li>@Html.ActionLink("Commission Status", "Index", "CommissionStatus")</li>
                             <li>@Html.ActionLink("Warranty Status", "Index", "WarrantyStatus")</li>
                             <li>@Html.ActionLink("Equipment Tasks", "Index", "EquipmentTasks")</li>
                             <li>@Html.ActionLink("Expense Types", "Index", "ExpenseTypes")</li>
@@ -119,8 +120,8 @@
                                 <li>@Html.ActionLink("Report -- Active Estiamtes", "GetActiveEstimates", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Draw Schedules", "GetDrawSchedules", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Estimate Comparison", "GetEstimateComparison", "Reports")</li>
-                                <li>@Html.ActionLink("Report -- Estimate Comparison - Active Bids", "GetEstimateComparisonActive", "Reports")</li>
-                                <li>@Html.ActionLink("Report -- Scope Of Work Equipment List", "GetScopeOfWorkMaster", "Reports")</li>                               
+                                <li>@Html.ActionLink("Report -- Estimate Comparison - Active Bids", "GetEstimateComparisonActive", "Reports")</li>                                                     
+                                <li>@Html.ActionLink("Report -- JCI Worksite Export", "GetJCIWorksiteExport", "Reports")</li>           
                                 
                             </ul>
                         </li>
@@ -136,6 +137,16 @@
                             </ul>
                         </li>
                     }
+                    
+                    @if (Request.IsAuthenticated && Session["projectUid"] != null && (User.IsInRole("Admin") || User.IsInRole("Commission")))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Commission</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Commission Issues", "Index", "CommissionIssues")</li>                                
+                            </ul>
+                        </li>
+                    }
                     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <li class="dropdown">
@@ -148,6 +159,7 @@
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Sales Opportunities", "Index", "SalesOpportunities")</li>
                                 <li>@Html.ActionLink("Sales Opportunity Task Summary", "SalesOpportunityTaskSummary", "SalesOpportunities")</li>
+                                <li>@Html.ActionLink("Sales Team Grid", "SalesTeams", "SalesTeams")</li>
                                 
                                 @*<li>@Html.ActionLink("Sales Opportunity Milestones", "Index", "SalesOpportunityMilestones")</li>
                                 <li>@Html.ActionLink("Sales Opportunity Tasks", "Index", "SalesOpportunityTasks")</li>*@
@@ -173,6 +185,7 @@
                                 <li>@Html.ActionLink("Report -- Equipment List by ECM", "GetEquipmentForECM", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- New Equipment", "GetEquipmentForECMToPurchase", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- Scope Of Work Equipment List", "GetScopeOfWorkMaster", "Reports")</li>          
                                 <li class="divider"></li>
                                 <li><a href="/ContractorSignoffs/Index">View signed proposals</a></li>
                                 <li>@Html.ActionLink("Generate Signoffs", "GenerateSignoff", "ContractorSignoffFinals")</li>
@@ -205,7 +218,8 @@
                                 <li class="divider"></li>
                                 <li>@Html.ActionLink("Report -- Bid Summary", "getContractorSummary", "Reports")</li>                
                                 <li>@Html.ActionLink("Report -- New Equipment", "GetEquipmentForECMToPurchase", "Reports")</li>
-                                <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>                                            
+                                <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>               
+                                <li>@Html.ActionLink("Report -- Scope Of Work Equipment List", "GetScopeOfWorkMaster", "Reports")</li>                                       
                                 <li class="divider"></li>
                                 
                                 
@@ -291,6 +305,7 @@
                                 <li>@Html.ActionLink("Report -- Equipment List by ECM", "GetEquipmentForECM", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- New Equipment", "GetEquipmentForECMToPurchase", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Equipment Detail", "GetEquipmentDetailMaster", "Reports")</li>
+                                <li>@Html.ActionLink("Report -- Scope Of Work Equipment List", "GetScopeOfWorkMaster", "Reports")</li>          
                             </ul>
                         </li>
                     }

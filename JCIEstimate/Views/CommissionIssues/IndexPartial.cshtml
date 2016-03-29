@@ -1,0 +1,85 @@
+﻿@model IEnumerable<JCIEstimate.Models.CommissionIssue>
+@{var maxCharLength = 100;}
+<table class="table">
+    <tr>
+        <th> </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Equipment.metasysNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommissionStatu.commissionStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.commissionIssue1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            Age
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.projectUserUid)
+        </th>
+        <th>
+            Last Comment
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        var rowColor = item.CommissionStatu.behaviorIndicator == "N" ? "#ffbbbb" : item.CommissionStatu.behaviorIndicator == "R" ? "#aaffdd" : "#ddffdd";
+        <tr style="background-color:@rowColor;">
+            <td>
+                <a href="@Url.Action("Edit", "CommissionIssues", new { id = item.commissionIssueUid })"><img src="@Url.Content("~/Images/edit.png")" height="15" width="15" alt="Click to Edit" title="Click to Edit" /></a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Equipment.metasysNumber)
+            </td><td>
+                @Html.DisplayFor(modelItem => item.CommissionStatu.commissionStatus)
+            </td>
+            <td>
+                @if (item.commissionIssue1.Length > maxCharLength)
+                {
+                    @Html.DisplayFor(modelItem => item.commissionIssue1).ToString().Substring(0, maxCharLength)
+                    @Html.Raw("...")
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.commissionIssue1)
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @(Convert.ToInt32((DateTime.Now - item.date).TotalDays))d
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectUser.AspNetUser.Email)
+            </td>
+            <td>
+                @if (item.CommissionNotes.Count > 0)
+                {
+                    if (item.CommissionNotes.OrderBy(c => c.date).Last().commissionNote1.Replace(Environment.NewLine, @"<br/>").Length > maxCharLength)
+                    {
+                        @Html.Raw(item.CommissionNotes.OrderBy(c => c.date).Last().commissionNote1.Replace(Environment.NewLine, @"<br/>").ToString().Substring(0, maxCharLength))
+                        @Html.Raw("...")
+                    }
+                    else
+                    {
+                        @Html.Raw(item.CommissionNotes.OrderBy(c => c.date).Last().commissionNote1.Replace(Environment.NewLine, @"<br/>"))
+                    }
+                }
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a href="@Url.Action("Delete", "CommissionIssues", new { id = item.commissionIssueUid })"><img src="@Url.Content("~/Images/delete-icon.png")" height="15" width="15" alt="Click to Delete" title="Click to Delete" /></a>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

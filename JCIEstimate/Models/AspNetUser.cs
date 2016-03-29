@@ -43,6 +43,8 @@ namespace JCIEstimate.Models
             this.SalesTeamMembers = new HashSet<SalesTeamMember>();
             this.AspNetUsersExtensions = new HashSet<AspNetUsersExtension>();
             this.ProjectTaskLists = new HashSet<ProjectTaskList>();
+            this.CommissionNotes = new HashSet<CommissionNote>();
+            this.CommissionIssues = new HashSet<CommissionIssue>();
         }
     
         public string Id { get; set; }
@@ -86,5 +88,7 @@ namespace JCIEstimate.Models
         public virtual ICollection<SalesTeamMember> SalesTeamMembers { get; set; }
         public virtual ICollection<AspNetUsersExtension> AspNetUsersExtensions { get; set; }
         public virtual ICollection<ProjectTaskList> ProjectTaskLists { get; set; }
+        public virtual ICollection<CommissionNote> CommissionNotes { get; set; }
+        public virtual ICollection<CommissionIssue> CommissionIssues { get; set; }
     }
 }

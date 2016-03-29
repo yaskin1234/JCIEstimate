@@ -1,0 +1,50 @@
+﻿@model JCIEstimate.Models.CommissionStatu
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CommissionStatu</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.commissionStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.commissionStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.commissionStatusDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.commissionStatusDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.behaviorIndicator)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.listOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.listOrder)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.commissionStatusUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

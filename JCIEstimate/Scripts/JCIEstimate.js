@@ -14,6 +14,11 @@
         $("#tblWarrantyIssues").load("/WarrantyIssues/IndexPartial?filterId=" + escape(selectedValue));        
     })
 
+    $("#commissionFilter").change(function () {
+        var selectedValue = $("#commissionFilter").val();        
+        $("#tblCommissionIssues").load("/CommissionIssues/IndexPartial?filterId=" + escape(selectedValue));
+    })
+
     $(".equipmentFilter").change(function () {
         var selectedValue = $("#equipmentFilter").val();
         var url = "/Equipments/Index";
@@ -54,6 +59,13 @@
         $val = $("#txtFilter").val();
         if ($val.length + 1 > 2) {
             $("#tblWarrantyIssues").load("/WarrantyIssues/IndexPartial?location=" + escape($val));
+        }
+    })
+
+    $("#txtCommissionFilter").keyup(function () {
+        $val = $("#txtCommissionFilter").val();
+        if ($val.length + 1 > 2) {
+            $("#tblCommissionIssues").load("/CommissionIssues/IndexPartial?metasysNumber=" + escape($val));
         }
     })
 
@@ -329,6 +341,26 @@
         });
     })
 
+    $("#commission_LocationUid").change(function () {
+        var loc = $(this).val();
+        $.getJSON("/CommissionIssues/GetEquipments?locationUid=" + loc, function (result) {
+            var options = $("#commission_EquipmentUid");
+            //don't forget error handling!
+            options.empty();
+            options.append($("<option />").val("00000000-0000-0000-0000-000000000000").text("-- Choose --"));
+            $.each(result, function (item) {
+                options.append($("<option />").val(this.id).text(this.name));
+            });
+        });
+
+
+        $("#CommissionDetails").show("slow", function () {
+            // Animation complete.
+        });
+    })
+
+
+
     $(":text").labelify({ labelledClass: "titleTextBox" });
 
     $("#toggleControlLocationIssues").click(function () {
@@ -367,6 +399,25 @@
 
     });
 
+    $("#toggleControlCommissionAttachments").click(function () {
+
+        $header = $(this);
+        $count = document.getElementById("commissionAttachmentCount");
+        //getting the next element
+        $content = $header.next();
+        //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+        $content.slideToggle(500, function () {
+            //execute this after slideToggle is done
+            //change text of header based on visibility of content div
+            $header.text(function () {
+                //change text based on condition
+                return $content.is(":visible") ? "Hide Attachments(" + $count.innerHTML + ")" : "Show Attachments(" + $count.innerHTML + ")";
+            });
+        });
+
+    });
+
+
     $("#toggleControlComments").click(function () {
 
         $header = $(this);
@@ -385,6 +436,27 @@
 
         currentySelectedEquipment = $td;
     });
+
+
+    $("#toggleControlCommissionComments").click(function () {
+
+        $header = $(this);
+        $count = document.getElementById("commissionCommentCount");
+        //getting the next element
+        $content = $header.next();
+        //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+        $content.slideToggle(500, function () {
+            //execute this after slideToggle is done
+            //change text of header based on visibility of content div
+            $header.text(function () {
+                //change text based on condition
+                return $content.is(":visible") ? "Hide Comments(" + $count.innerHTML + ")" : "Show Comments(" + $count.innerHTML + ")";
+            });
+        });
+
+        currentySelectedEquipment = $td;
+    });
+
     
     $(".toggleEquipmentAttributes").click(function () {
 

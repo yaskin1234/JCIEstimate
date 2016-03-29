@@ -1,0 +1,72 @@
+﻿@model JCIEstimate.Models.CommissionIssue
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CommissionIssue</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.commissionIssue1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.commissionIssue1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.AllowableContractors)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.AllowableContractors)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommissionStatu.commissionStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommissionStatu.commissionStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Equipment.ownerTag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Equipment.ownerTag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectUser.aspNetUserUid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectUser.aspNetUserUid)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

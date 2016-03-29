@@ -139,7 +139,7 @@ namespace IdentitySample.Controllers
 
             if (type == "A")
             {
-                list = from cc in db.AspNetUsers
+                list = (from cc in db.AspNetUsers
                        join ff in db.AspNetUsersExtensions on cc.Id equals ff.aspnetUserUid                       
                        select new MassEmailViewModel
                        {
@@ -147,12 +147,22 @@ namespace IdentitySample.Controllers
                            Name = cc.AspNetUsersExtensions.FirstOrDefault().name,
                            PhoneNumber = cc.PhoneNumber,
                            Email = cc.Email
-                       };
+                       }).Union
+                (from dd in db.ContractorUsers
+                 join dp in db.AspNetUsers on dd.aspNetUserUid equals dp.Id
+                 where dd.Contractor.Estimates.Count() > 0
+                 select new MassEmailViewModel
+                 {
+                     id = dp.Id,
+                     Name = dd.Contractor.contractorName,
+                     PhoneNumber = dp.PhoneNumber,
+                     Email = dp.Email
+                 });
             }
             else if(type == "P")
             {
                 Guid val = Guid.Parse(uid);
-                list = from cc in db.AspNetUsers
+                list = (from cc in db.AspNetUsers
                 join ff in db.AspNetUsersExtensions on cc.Id equals ff.aspnetUserUid
                 join pp in db.ProjectUsers on cc.Id equals pp.aspNetUserUid
                 where pp.projectUid == val
@@ -162,14 +172,43 @@ namespace IdentitySample.Controllers
                     Name = cc.AspNetUsersExtensions.FirstOrDefault().name,
                     PhoneNumber = cc.PhoneNumber,
                     Email = cc.Email
-                };
+                }).Union
+                (from dd in db.ContractorUsers
+                 join dp in db.AspNetUsers on dd.aspNetUserUid equals dp.Id
+                 where dd.Contractor.Estimates.Where(c=>c.Location.projectUid == val).Count() > 0
+                 select new MassEmailViewModel
+                 {
+                     id = dp.Id,
+                     Name = dd.Contractor.contractorName,
+                     PhoneNumber = dp.PhoneNumber,
+                     Email = dp.Email
+                 });
             }
 
             ViewBag.list = list.OrderBy(c=>c.Email).ToList();            
             ViewBag.recipientList = aryFo.ToSelectList(c => c.text, c => c.value, wf.selected.ToString(),false);
 
-
             return View();
+        }
+
+        //
+        // POST: /Users/MassEmail
+        [HttpPost]
+        public async Task<ActionResult> MassEmail(string[] massEmailCheckBox, string subject, string body)
+        {            
+            foreach (string inString in massEmailCheckBox.Distinct())
+            {
+                string id = inString.Split('_')[0];
+                string name = inString.Split('_')[1];
+                
+                var user = from cc in db.AspNetUsers
+                           where cc.Id == id
+                           select cc;
+
+                body = body.Replace("{{Name}}", name);
+                JCIExtensions.MCVExtensions.SendEmail(user.FirstOrDefault().Email, subject, body, true);
+            }
+            return RedirectToAction("MassEmail");
         }
 
         //

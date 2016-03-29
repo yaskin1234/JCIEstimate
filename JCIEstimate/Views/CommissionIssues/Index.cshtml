@@ -1,0 +1,31 @@
+﻿@model IEnumerable<JCIEstimate.Models.CommissionIssue>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table>
+    <tr>
+        <td>
+            <input type="text" name="txtCommissionFilter" title="search metasys number" id="txtCommissionFilter" value="" />
+        </td>
+        <td>
+            <select class="filter" id="commissionFilter" name="commissionFilter">
+                @foreach (var item in ViewBag.filterList)
+                {
+                    <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>
+                }
+            </select>
+        </td>
+    </tr>
+</table>
+<div id="tblCommissionIssues">
+    @Html.Partial("IndexPartial")
+</div>
+

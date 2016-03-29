@@ -21,6 +21,9 @@
         <th>
             @Html.DisplayNameFor(model => model.contractorSelected)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contractorGroup)
+        </th>
         <th></th>
     </tr>
 
@@ -37,6 +40,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.contractorSelected)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contractorGroup)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.contractorUid }) |

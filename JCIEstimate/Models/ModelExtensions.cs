@@ -71,6 +71,19 @@ namespace JCIEstimate.Models
         }
     }
 
+    public partial class Milestone
+    {
+        public DateTime? getSalesOpportunityMilesoneValue(Guid salesOpportunityUid)
+        {
+            var val = from cc in this.SalesOpportunityMilestones
+                      where cc.milestoneUid == this.milestoneUid
+                      && cc.salesOpportunityUid == salesOpportunityUid
+                      select cc.dateCompleted;
+            return val.FirstOrDefault();
+
+        }
+    }
+
     public partial class Equipment
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();

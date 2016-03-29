@@ -64,6 +64,10 @@ namespace JCIEstimate.Controllers
                 {
                     return RedirectToAction("Index", "WarrantyIssues");
                 }
+                else if (User.IsInRole("Commission"))
+                {
+                    return RedirectToAction("Index", "CommissionIssues");
+                }
                 else if (User.IsInRole("Contractor"))
                 {
                     return RedirectToAction("Index", "Estimates", new { filterId = "A|00000000-0000-0000-0000-000000000001" });

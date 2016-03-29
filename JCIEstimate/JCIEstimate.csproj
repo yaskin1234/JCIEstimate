@@ -617,6 +617,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Emails\CommissionIssue.html" />
     <Content Include="Emails\WarrantyIssueEdit.html" />
     <Content Include="Emails\WarrantyIssue.html" />
     <Content Include="Emails\NewAddendum.html" />
@@ -2153,6 +2154,19 @@
     <Content Include="Views\ECMs\GetEquipmentForECM.cshtml" />
     <Content Include="Views\Equipments\SetShowOnScope.cshtml" />
     <Content Include="Views\Equipments\SetShowOnScopeForECM.cshtml" />
+    <Content Include="Views\CommissionStatus\Create.cshtml" />
+    <Content Include="Views\CommissionStatus\Delete.cshtml" />
+    <Content Include="Views\CommissionStatus\Details.cshtml" />
+    <Content Include="Views\CommissionStatus\Edit.cshtml" />
+    <Content Include="Views\CommissionStatus\Index.cshtml" />
+    <Content Include="Views\CommissionIssues\Create.cshtml" />
+    <Content Include="Views\CommissionIssues\Delete.cshtml" />
+    <Content Include="Views\CommissionIssues\Details.cshtml" />
+    <Content Include="Views\CommissionIssues\Edit.cshtml" />
+    <Content Include="Views\CommissionIssues\Index.cshtml" />
+    <Content Include="Views\CommissionIssues\IndexPartial.cshtml" />
+    <Content Include="Views\Reports\rptJCIWorksiteExport.cshtml" />
+    <Content Include="Views\SalesTeams\SalesTeams.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2276,6 +2290,8 @@
     <Compile Include="Controllers\CalendarDayTasksController.cs" />
     <Compile Include="Controllers\CalendarsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CommissionIssuesController.cs" />
+    <Compile Include="Controllers\CommissionStatusController.cs" />
     <Compile Include="Controllers\CompletionCategoriesController.cs" />
     <Compile Include="Controllers\ContractorContactsController.cs" />
     <Compile Include="Controllers\ContractorDrawsController.cs" />
@@ -2397,6 +2413,18 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommissionAttachment.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommissionIssue.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommissionNote.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommissionStatu.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CompletionCategory.cs">

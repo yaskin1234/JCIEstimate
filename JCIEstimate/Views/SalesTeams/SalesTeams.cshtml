@@ -1,0 +1,33 @@
+﻿@model IEnumerable<JCIEstimate.Models.SalesTeam>
+
+@{
+    ViewBag.Title = "SalesTeams";
+}
+<table class="table">
+    <tr style="background-color:beige;">
+        <td></td>
+        @foreach (var item in ViewBag.milestones)
+        {
+            <th>@item.milestone1</th>
+        }
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <th style="background-color:lightblue;" colspan="12">
+            @Html.DisplayFor(modelItem => item.salesTeam1)
+        </th>
+    </tr>
+        foreach (var opp in item.SalesOpportunities)
+        {
+            <tr>
+                <td style="padding-left:30px;">@opp.Opportunity.opportunity1</td>                
+                @foreach (var mItem in ViewBag.milestones)
+                {   
+                    var inputID = opp.salesOpportunityUid.ToString() + "_" + mItem.milestoneUid.ToString();
+                    <td><input class="salesGridInput" size="10" type="text" id="@inputID" name="@inputID" value="@((mItem.getSalesOpportunityMilesoneValue(opp.salesOpportunityUid) != null) ? mItem.getSalesOpportunityMilesoneValue(opp.salesOpportunityUid).ToString("yyyy-MM-dd") : "")" /> </td>
+                }
+            </tr>            
+        }
+}
+</table>

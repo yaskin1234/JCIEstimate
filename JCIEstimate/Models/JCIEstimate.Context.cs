@@ -129,7 +129,11 @@ namespace JCIEstimate.Models
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUsersExtension> AspNetUsersExtensions { get; set; }
         public virtual DbSet<ProjectTaskList> ProjectTaskLists { get; set; }
-        public virtual DbSet<Equipment> Equipments { get; set; }
         public virtual DbSet<ReportDefinition> ReportDefinitions { get; set; }
+        public virtual DbSet<CommissionAttachment> CommissionAttachments { get; set; }
+        public virtual DbSet<CommissionNote> CommissionNotes { get; set; }
+        public virtual DbSet<CommissionStatu> CommissionStatus { get; set; }
+        public virtual DbSet<CommissionIssue> CommissionIssues { get; set; }
+        public virtual DbSet<Equipment> Equipments { get; set; }
     }
 }

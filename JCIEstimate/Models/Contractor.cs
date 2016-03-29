@@ -33,6 +33,7 @@ namespace JCIEstimate.Models
         public bool isActive { get; set; }
         public Nullable<System.DateTime> engScopeCompleted { get; set; }
         public Nullable<System.DateTime> contractorSelected { get; set; }
+        public string contractorGroup { get; set; }
     
         public virtual ICollection<ContractorContact> ContractorContacts { get; set; }
         public virtual ICollection<ContractorUser> ContractorUsers { get; set; }

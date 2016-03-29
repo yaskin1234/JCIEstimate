@@ -1,0 +1,51 @@
+﻿@model IEnumerable<JCIEstimate.Models.CommissionStatu>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.commissionStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.commissionStatusDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.behaviorIndicator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.listOrder)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.commissionStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.commissionStatusDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.behaviorIndicator)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.listOrder)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.commissionStatusUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.commissionStatusUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.commissionStatusUid })
+        </td>
+    </tr>
+}
+
+</table>

@@ -70,7 +70,7 @@ namespace JCIEstimate.Controllers
                         join cn in db.ContractorUsers on cc.contractorUid equals cn.contractorUid
                         join cq in db.AspNetUsers on cn.aspNetUserUid equals cq.Id
                         where dd.projectUid == sessionProject
-                        && cq.UserName == System.Web.HttpContext.Current.User.Identity.Name
+                        && ( cq.UserName == System.Web.HttpContext.Current.User.Identity.Name || User.IsInRole("Admin") )
                         where cc.isActive == true
                         select cc;
 

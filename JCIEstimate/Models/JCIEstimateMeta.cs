@@ -593,6 +593,8 @@ namespace JCIEstimate.Models
         public bool useReplacement { get; set; }        
         [Display(Name = "Price"), DisplayFormat(DataFormatString = "{0:C0}")]
         public bool price { get; set; }
+        [Display(Name = "Metasys Number")]
+        public bool metasysNumber { get; set; }
 
         public Guid[] selectedTasks { get; set; }        
     }
@@ -1732,6 +1734,31 @@ namespace JCIEstimate.Models
     }
 
 
+    /// <summary>
+    /// CommissionIssue
+    /// </summary>
+    [MetadataType(typeof(CommissionIssueMetaData))]
+    public partial class CommissionIssue
+    {
+    }
+
+    public class CommissionIssueMetaData
+    {
+        [Display(Name = "Commission Issue")]
+        public System.Guid commissionIssueUid { get; set; }
+        [Display(Name = "Equipment")]
+        public System.Guid equipmentUid { get; set; }
+        [Display(Name = "Status")]
+        public System.Guid commissionStatusUid { get; set; }
+        [Display(Name = "Assigned To")]
+        public Nullable<System.Guid> projectUserUid { get; set; }
+        [Display(Name = "Issue Description")]
+        public string commissionIssue1 { get; set; }
+        [Display(Name = "Created By")]
+        public string aspNetUserUidAsCreated { get; set; }
+        [Display(Name = "Date Created")]
+        public System.DateTime date { get; set; }
+    }
     
 
 }

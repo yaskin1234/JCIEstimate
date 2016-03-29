@@ -21,6 +21,12 @@ namespace JCIEstimate.Controllers
             return View(await db.SalesTeams.OrderBy(c=>c.salesTeam1).ToListAsync());
         }
 
+        public async Task<ActionResult> SalesTeams()
+        {
+            ViewBag.milestones = db.Milestones.OrderBy(c=>c.defaultListOrder).ToList();
+            return View(await db.SalesTeams.OrderBy(c => c.salesTeam1).ToListAsync());
+        }
+
         // GET: SalesTeams/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {

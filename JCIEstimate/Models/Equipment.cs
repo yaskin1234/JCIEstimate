@@ -16,6 +16,7 @@ namespace JCIEstimate.Models
     {
         public Equipment()
         {
+            this.CommissionIssues = new HashSet<CommissionIssue>();
             this.Equipment1 = new HashSet<Equipment>();
             this.EquipmentAttributeValues = new HashSet<EquipmentAttributeValue>();
             this.EquipmentAttachments = new HashSet<EquipmentAttachment>();
@@ -45,7 +46,9 @@ namespace JCIEstimate.Models
         public string newModel { get; set; }
         public string newSerial { get; set; }
         public bool showOnScopeReport { get; set; }
+        public string metasysNumber { get; set; }
     
+        public virtual ICollection<CommissionIssue> CommissionIssues { get; set; }
         public virtual ControlType ControlType { get; set; }
         public virtual ECM ECM { get; set; }
         public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }

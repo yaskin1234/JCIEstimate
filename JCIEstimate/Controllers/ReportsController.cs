@@ -78,6 +78,18 @@ namespace JCIEstimate.Controllers
             }
         }
 
+        public ActionResult GetJCIWorksiteExport()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptJCIWorksiteExport");
+            }
+        }
+
         public ActionResult GetScopeOfWorkMaster()
         {
             if (Session["projectUid"] == null)

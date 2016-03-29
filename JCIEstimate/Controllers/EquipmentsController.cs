@@ -991,7 +991,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,price,useReplacement,equipmentConditionUid,newManufacturer,newModel,newSerial,showOnScopeReport")] Equipment equipment, string ecms, string equipmentUidAsReplaced, Guid equipmentNoteTypeUid, string newNote)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,equipmentUidAsReplaced,isNewToSite,price,useReplacement,equipmentConditionUid,newManufacturer,newModel,newSerial,showOnScopeReport,metasysNumber")] Equipment equipment, string ecms, string equipmentUidAsReplaced, Guid equipmentNoteTypeUid, string newNote)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 

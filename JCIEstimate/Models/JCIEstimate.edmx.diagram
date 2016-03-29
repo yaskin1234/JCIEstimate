@@ -245,7 +245,20 @@
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListParent" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListPredecessor" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="20.625" PointY="36.625" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ReportDefinition" Width="1.5" PointX="3.375" PointY="21.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ReportDefinition_Project" />
+        <EntityTypeShape EntityType="JCIEstimateModel.CommissionAttachment" Width="1.5" PointX="33.875" PointY="31.375" />
+        <EntityTypeShape EntityType="JCIEstimateModel.CommissionNote" Width="1.5" PointX="33.875" PointY="35" />
+        <EntityTypeShape EntityType="JCIEstimateModel.CommissionStatu" Width="1.5" PointX="29.375" PointY="39.5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_AspNetUser_CommissionNotecreated" />
+        <EntityTypeShape EntityType="JCIEstimateModel.CommissionIssue" Width="1.5" PointX="31.375" PointY="31.375" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CommissionIssueAspNetUser_created" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CommissionAttachment_Commissionissue" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Commissionissue_CommissionStatus" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CommissionIssue_ProjectUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Commissionnote_Commissionissue" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="31.625" PointY="36.5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CommissionIssue_Equipment" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_controlType" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_AttributeType" />
@@ -257,8 +270,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttachment_Equipment" />
         <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote_Equipment" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipment" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ReportDefinition" Width="1.5" PointX="3.375" PointY="21.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ReportDefinition_Project" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

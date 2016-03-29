@@ -5,53 +5,58 @@
 
 <h2>Mass Email</h2>
 
-
-
-<table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Phone Number
-        </th>
-        <th>
-            Email
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in model)
+@using (Html.BeginForm())
 {
-    <tr>
-        <td>
-            @item.Name
-        </td>
-        <td>
-            @item.PhoneNumber
-        </td>
-        <td>
-            @item.Email
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id })
-        </td>
-    </tr>
+    @Html.AntiForgeryToken()
+
+    <table class="table">
+        <tr>
+            <th>        
+                @*<input type="checkbox" name="massEmailSelectAll" id="massEmailSelectAll" value="massEmailSelectAll" />*@    
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in model)
+    {
+        <tr>
+            <td>
+                <input class="massEmailCheckBox" type="checkbox" name="massEmailCheckBox" id="massEmailCheckBox_@item.id" checked value="@(item.id + "_" + item.Name)" />                
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Email
+            </td>        
+        </tr>
+    }
+    </table>
+
+    <table>
+        <tr>
+            <td>Recipients: </td>
+            <td>@Html.DropDownList("recipientList")</td>
+        </tr>
+        <tr>
+            <td>Subject: </td>
+            <td><input type="text" name="subject" value="" size="59" /></td>
+        </tr>
+        <tr>
+            <td>Body: </td>
+            <td>@Html.TextArea("body", "", 10, 60, null)</td>
+        </tr>
+    </table>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Send Emails" class="btn btn-default" />
+        </div>
+    </div>
 }
-</table>
-
-<table>
-    <tr>
-        <td>Recipients: </td>
-        <td>@Html.DropDownList("recipientList")</td>
-    </tr>
-    <tr>
-        <td>Subject: </td>
-        <td>@Html.Editor("Subject")</td>
-    </tr>
-    <tr>
-        <td>Body: </td>
-        <td>@Html.TextArea("Body")</td>
-    </tr>
-</table>
-

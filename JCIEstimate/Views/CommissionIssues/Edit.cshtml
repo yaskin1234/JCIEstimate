@@ -1,0 +1,162 @@
+﻿@model JCIEstimate.Models.CommissionIssue
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit", "CommissionIssues", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Commission Issue</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.commissionIssueUid)
+        @Html.HiddenFor(model => model.equipmentUid)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Created By</label>
+            <div class="col-md-10">
+                <div id="email" style="padding-top:7px;">@((Model.AspNetUser != null) ? Model.AspNetUser.Email : "") </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div id="date" style="padding-top:7px;">@Model.date.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                @Html.ValidationMessageFor(model => model.date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Equipment.locationUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div id="unit" style="padding-top:7px;">
+                    @Model.Equipment.Location.location1
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Equipment", null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div id="unit" style="padding-top:7px;">
+                    @(String.Format("{0:F0}", Model.Equipment.metasysNumber) + " - " + Model.Equipment.EquipmentAttributeType.equipmentAttributeType1)
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.commissionIssue1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div id="commissionIssue1" style="padding-top:7px;">@Html.Raw(Model.commissionIssue1.Replace(Environment.NewLine, @"<br/>"))</div>
+                @Html.ValidationMessageFor(model => model.commissionIssue1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <label id="commissionAttachmentCount" hidden="hidden">@Model.CommissionAttachments.Count</label>
+        <label id="commissionCommentCount" hidden="hidden">@Model.CommissionNotes.Count</label>
+
+        <div class="form-group">
+            <label id="toggleControlCommissionAttachments" class="control-label col-md-2" style="color:blue;">Show Attachments(@Model.CommissionAttachments.Count)</label>
+            <div id="commissionAttachmentsToToggle" class="col-md-10" style="display:none;">
+                <table border="1" cellpadding="5px">
+                    <tr>
+                        <th style=" background-color:#f1f3f4;">
+                            Filename
+                        </th>
+                        <th style=" background-color:#f1f3f4;">
+                            Attachment description
+                        </th>
+                        <th style=" background-color:#f1f3f4;">
+                            Size
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.CommissionAttachments)
+                    {
+                        <tr>
+                            <td style="vertical-align:middle;padding-right:20px;">
+                                <a href="@Url.Action("GetCommissionAttachment", "CommissionIssues", new { commissionAttachmentUid = item.commissionAttachmentUid })" title="Click to Download">@item.documentName</a>
+
+                            </td>
+                            <td style="vertical-align:middle;padding-right:20px;">
+                                @item.commissionAttachment1
+                            </td>
+                            <td style="vertical-align:middle;padding-right:20px;">
+                                @(item.document.Length / 1024)KB
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <label id="toggleControlCommissionComments" class="control-label col-md-2" style="color:blue;">Show Comments(@Model.CommissionNotes.Count)</label>
+            <div class="col-md-10" id="commissionCommentsToToggle" style="display:none;">
+                <table>
+                    @foreach (var item in Model.CommissionNotes)
+                    {
+                        <tr>
+                            <th>
+                                @item.date -- @item.AspNetUser.Email
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="padding-right:20px;padding-left:20px; background-color:#f1f3f4;">
+                                @Html.Raw(item.commissionNote1.Replace(Environment.NewLine, @"<br/>"))
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.commissionStatusUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("commissionStatusUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.commissionStatusUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.projectUserUid, null, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("projectUserUid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.projectUserUid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Add Attachment", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input class="form-control text-box single-line" id="commissionAttachment1" name="commissionAttachment1" type="text" title="File Description" />
+                <input type="file" name="postedFile" id="postedFile" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Add Comment</label>
+            <div class="col-md-10">
+                @Html.TextArea("addComment", "", 5, 40, null)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
