@@ -150,16 +150,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectEstimateEmail__v" Width="1.5" PointX="3.375" PointY="18.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.EstimateOption" Width="1.5" PointX="0.75" PointY="20.875" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Estimate" Width="1.5" PointX="26.625" PointY="30.625" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_category" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_estiamteOption" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_status" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimateException_estimate" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimateExclusion_estimate" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimateInclusion_estimate" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorNoteType" Width="1.5" PointX="26.125" PointY="36.25" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorNoteStatu" Width="1.5" PointX="14.375" PointY="6.875" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorNote" Width="1.5" PointX="29.375" PointY="20.125" />
@@ -270,6 +260,16 @@
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttachment_Equipment" />
         <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote_Equipment" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipment" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Estimate" Width="1.5" PointX="20.625" PointY="36.125" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_category" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_estiamteOption" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_status" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimateException_estimate" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimateExclusion_estimate" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimateInclusion_estimate" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

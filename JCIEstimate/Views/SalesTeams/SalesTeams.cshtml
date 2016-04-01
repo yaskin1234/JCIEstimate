@@ -3,31 +3,88 @@
 @{
     ViewBag.Title = "SalesTeams";
 }
-<table class="table">
-    <tr style="background-color:beige;">
-        <td></td>
-        @foreach (var item in ViewBag.milestones)
-        {
-            <th>@item.milestone1</th>
-        }
-    </tr>
-    
-@foreach (var item in Model) {
-    <tr>
-        <th style="background-color:lightblue;" colspan="12">
-            @Html.DisplayFor(modelItem => item.salesTeam1)
-        </th>
-    </tr>
-        foreach (var opp in item.SalesOpportunities)
+<table class="table" id="tblSalesTeamGrid">
+    <thead>
+        <tr style="background-color:beige;">
+            <td></td>
+            @foreach (var item in ViewBag.milestones)
+            {
+                <th></th>
+                <th>@item.milestone1</th>
+            }
+            <th>Total Days</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
         {
             <tr>
-                <td style="padding-left:30px;">@opp.Opportunity.opportunity1</td>                
-                @foreach (var mItem in ViewBag.milestones)
-                {   
-                    var inputID = opp.salesOpportunityUid.ToString() + "_" + mItem.milestoneUid.ToString();
-                    <td><input class="salesGridInput" size="10" type="text" id="@inputID" name="@inputID" value="@((mItem.getSalesOpportunityMilesoneValue(opp.salesOpportunityUid) != null) ? mItem.getSalesOpportunityMilesoneValue(opp.salesOpportunityUid).ToString("yyyy-MM-dd") : "")" /> </td>
-                }
-            </tr>            
+                <th style="background-color:lightblue;" colspan="20">
+                    @Html.DisplayFor(modelItem => item.salesTeam1)
+                </th>
+            </tr>
+            foreach (var opp in item.SalesOpportunities)
+            {
+                DateTime previousDate = new DateTime();
+                double daysBetween = 0;
+                double cumulativeDays = 0;
+                bool isStalled = false;
+                int counter = 0;
+                <tr>
+                    <td style="padding-left:30px;">
+                        @Html.ActionLink(opp.Opportunity.opportunity1, "Edit", "SalesOpportunities", new { id = opp.salesOpportunityUid }, null)<br />
+                        <p>
+                            Projected: @String.Format("{0:C}", opp.Opportunity.projectedProjectSize)
+                            Spent: @String.Format("{0:C}", opp.Opportunity.spentToDate)
+                        </p>
+
+
+                    </td>
+
+                    @foreach (var mItem in ViewBag.milestones)
+                    {
+                        DateTime milestoneValue = new DateTime();
+                        if (mItem.getSalesOpportunityMilesoneValue(opp.salesOpportunityUid) != null)
+                        {
+                            milestoneValue = (DateTime)mItem.getSalesOpportunityMilesoneValue(opp.salesOpportunityUid);
+                        }
+
+
+                        if (milestoneValue != DateTime.Parse("1/1/0001") && previousDate != DateTime.Parse("1/1/0001"))
+                        {
+                            daysBetween = (milestoneValue - previousDate).TotalDays;
+                            cumulativeDays += daysBetween;
+                            isStalled = false;
+                        }
+                        else
+                        {
+                            if (milestoneValue == DateTime.Parse("1/1/0001") && previousDate != DateTime.Parse("1/1/0001"))
+                            {
+                                daysBetween = (DateTime.Now - previousDate).TotalDays;
+                                isStalled = true;
+                            }
+                            else
+                            {
+                                daysBetween = 0;
+                                isStalled = false;
+                            }
+                        }
+                        var inputID = opp.salesOpportunityUid.ToString() + "_" + mItem.milestoneUid.ToString();
+                        <td style="@((isStalled) ? "color:red;font-weight:bold;" : "")">
+                            @if (counter > 0 && daysBetween > 0)
+                            {
+                                <div>(@Convert.ToInt16(daysBetween))</div>
+                            }
+                        </td>
+                        <td>
+                            <div style="white-space:nowrap;overflow:hidden;" class="salesGridInput" id="@inputID">@((mItem.getSalesOpportunityMilesoneValue(opp.salesOpportunityUid) != null) ? mItem.getSalesOpportunityMilesoneValue(opp.salesOpportunityUid).ToString("yyyy-MM-dd") : "")</div>
+                        </td>
+                            previousDate = milestoneValue;
+                            counter++;
+                    }
+                    <td><b>@cumulativeDays</b></td>
+                </tr>
+            }
         }
-}
+    </tbody>
 </table>

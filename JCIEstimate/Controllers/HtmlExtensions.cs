@@ -160,7 +160,8 @@ namespace JCIExtensions
             MailMessage mail = new MailMessage();
 
             //Setting From , To and CC
-            mail.From = new MailAddress("info@bernservices.com", "Info");
+            //Should be discovered based upond Project manager of current project???
+            mail.From = new MailAddress("Mark.A.Cloud@jci.com", "Mark Cloud");
             mail.To.Add(new MailAddress(emailAddress));
             mail.Subject = subject;
             if (isHtml)

@@ -32,6 +32,7 @@ namespace JCIEstimate.Models
         public decimal activeAmount { get; set; }
         public string notes { get; set; }
         public Nullable<System.Guid> estimateOptionUid { get; set; }
+        public string jciNote { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Contractor Contractor { get; set; }

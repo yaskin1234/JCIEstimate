@@ -359,7 +359,7 @@ namespace JCIEstimate.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,amount,activeAmount,notes,contractorUid,estimateOptionUid")] Estimate estimate)
+        public async Task<ActionResult> Create([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,amount,activeAmount,notes,jciNote,contractorUid,estimateOptionUid")] Estimate estimate)
         {
             if (ModelState.IsValid)
             {
@@ -489,7 +489,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,amount,activeAmount,notes,contractorUid,estimateOptionUid")] Estimate estimate, string submit)
+        public async Task<ActionResult> Edit([Bind(Include = "estimateUid,locationUid,ecmUid,categoryUid,estimateStatusUid,isActive,amount,activeAmount,notes,jciNote,contractorUid,estimateOptionUid")] Estimate estimate, string submit)
         {
             if (ModelState.IsValid)
             {

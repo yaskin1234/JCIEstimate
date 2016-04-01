@@ -42,8 +42,7 @@ namespace JCIEstimate.Controllers
 
             //apply session project predicate
             warrantyIssues = from cc in warrantyIssues
-                             where cc.WarrantyUnit.Location.projectUid == sessionProject ||
-                                 cc.Location.projectUid == sessionProject
+                             where cc.Location.projectUid == sessionProject                             
                              select cc;
 
             if (filterId == "A" || String.IsNullOrEmpty(filterId)) //all issues for project            
@@ -96,8 +95,7 @@ namespace JCIEstimate.Controllers
 
             //apply session project predicate
             warrantyIssues = from cc in warrantyIssues
-                             where cc.WarrantyUnit.Location.projectUid == sessionProject ||
-                                 cc.Location.projectUid == sessionProject
+                             where cc.Location.projectUid == sessionProject
                              select cc;
 
             //Build Drop down filter

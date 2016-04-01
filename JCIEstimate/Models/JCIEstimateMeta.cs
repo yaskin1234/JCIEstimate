@@ -316,6 +316,9 @@ namespace JCIEstimate.Models
         [DataType(DataType.MultilineText)]
         [Display(Name = "Notes")]
         public string notes { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "JCI Notes")]
+        public string jciNote { get; set; }
     }
 
 

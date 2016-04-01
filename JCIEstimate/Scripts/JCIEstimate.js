@@ -534,6 +534,9 @@
     var $table1 = $('#tblEquipment');
     $table1.floatThead();
 
+    var $table2 = $('#tblSalesTeamGrid');
+    $table2.floatThead();
+
     $(".gridCheckBox").click(function () {
         $.ajax({
             url: "/EquipmentToDoes/SaveCheckedBox",

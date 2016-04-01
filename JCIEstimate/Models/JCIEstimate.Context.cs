@@ -100,7 +100,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ProjectUser> ProjectUsers { get; set; }
         public virtual DbSet<ProjectEstimateEmail__v> ProjectEstimateEmail__v { get; set; }
         public virtual DbSet<EstimateOption> EstimateOptions { get; set; }
-        public virtual DbSet<Estimate> Estimates { get; set; }
         public virtual DbSet<ContractorNoteType> ContractorNoteTypes { get; set; }
         public virtual DbSet<ContractorNoteStatu> ContractorNoteStatus { get; set; }
         public virtual DbSet<ContractorNote> ContractorNotes { get; set; }
@@ -135,5 +134,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<CommissionStatu> CommissionStatus { get; set; }
         public virtual DbSet<CommissionIssue> CommissionIssues { get; set; }
         public virtual DbSet<Equipment> Equipments { get; set; }
+        public virtual DbSet<Estimate> Estimates { get; set; }
     }
 }
