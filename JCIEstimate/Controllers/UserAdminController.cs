@@ -140,13 +140,14 @@ namespace IdentitySample.Controllers
             if (type == "A")
             {
                 list = (from cc in db.AspNetUsers
-                       join ff in db.AspNetUsersExtensions on cc.Id equals ff.aspnetUserUid                       
+                       join ff in db.AspNetUsersExtensions on cc.Id equals ff.aspnetUserUid                                                        
                        select new MassEmailViewModel
                        {
                            id = cc.Id,
                            Name = cc.AspNetUsersExtensions.FirstOrDefault().name,
                            PhoneNumber = cc.PhoneNumber,
-                           Email = cc.Email
+                           Email = cc.Email,
+                           Company = "N/A"
                        }).Union
                 (from dd in db.ContractorUsers
                  join dp in db.AspNetUsers on dd.aspNetUserUid equals dp.Id
@@ -156,7 +157,8 @@ namespace IdentitySample.Controllers
                      id = dp.Id,
                      Name = dd.Contractor.contractorName,
                      PhoneNumber = dp.PhoneNumber,
-                     Email = dp.Email
+                     Email = dp.Email,
+                     Company = dd.Contractor.contractorName
                  });
             }
             else if(type == "P")
@@ -171,7 +173,8 @@ namespace IdentitySample.Controllers
                     id = cc.Id,
                     Name = cc.AspNetUsersExtensions.FirstOrDefault().name,
                     PhoneNumber = cc.PhoneNumber,
-                    Email = cc.Email
+                    Email = cc.Email,
+                    Company = "N/A"
                 }).Union
                 (from dd in db.ContractorUsers
                  join dp in db.AspNetUsers on dd.aspNetUserUid equals dp.Id
@@ -181,7 +184,8 @@ namespace IdentitySample.Controllers
                      id = dp.Id,
                      Name = dd.Contractor.contractorName,
                      PhoneNumber = dp.PhoneNumber,
-                     Email = dp.Email
+                     Email = dp.Email,
+                     Company = dd.Contractor.contractorName
                  });
             }
 

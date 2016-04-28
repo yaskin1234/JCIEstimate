@@ -270,6 +270,8 @@
         <AssociationConnector Association="JCIEstimateModel.fk_estimateException_estimate" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimateExclusion_estimate" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimateInclusion_estimate" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ContractorClassification" Width="1.5" PointX="6.375" PointY="23.5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Contractor_Classification" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

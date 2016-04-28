@@ -152,6 +152,15 @@
           <Property Name="contractorSelected" Type="datetime" />
           <Property Name="isActive" Type="bit" Nullable="false" />
           <Property Name="contractorGroup" Type="varchar" MaxLength="100" />
+          <Property Name="contractorClassificationUid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="ContractorClassification">
+          <Key>
+            <PropertyRef Name="contractorClassificationUid" />
+          </Key>
+          <Property Name="contractorClassificationUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorClassification" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="contractorClassificationDescription" Type="nvarchar" MaxLength="2000" />
         </EntityType>
         <EntityType Name="ContractorContact">
           <Key>
@@ -1543,6 +1552,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="ContractorContact">
               <PropertyRef Name="contractorUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Contractor_Classification">
+          <End Role="ContractorClassification" Type="Self.ContractorClassification" Multiplicity="0..1" />
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorClassification">
+              <PropertyRef Name="contractorClassificationUid" />
+            </Principal>
+            <Dependent Role="Contractor">
+              <PropertyRef Name="contractorClassificationUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3148,6 +3169,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="CommissionStatus" EntityType="Self.CommissionStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompletionCategory" EntityType="Self.CompletionCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contractor" EntityType="Self.Contractor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractorClassification" EntityType="Self.ContractorClassification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorContact" EntityType="Self.ContractorContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorDraw" EntityType="Self.ContractorDraw" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorDrawSchedule" EntityType="Self.ContractorDrawSchedule" Schema="dbo" store:Type="Tables" />
@@ -3390,6 +3412,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_contractor" Association="Self.fk_contractor">
             <End Role="Contractor" EntitySet="Contractor" />
             <End Role="ContractorContact" EntitySet="ContractorContact" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Contractor_Classification" Association="Self.fk_Contractor_Classification">
+            <End Role="ContractorClassification" EntitySet="ContractorClassification" />
+            <End Role="Contractor" EntitySet="Contractor" />
           </AssociationSet>
           <AssociationSet Name="fk_contractor_user" Association="Self.fk_contractor_user">
             <End Role="Contractor" EntitySet="Contractor" />
@@ -4639,6 +4665,11 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Estimate" EntitySet="Estimates" />
             <End Role="EstimateInclusion" EntitySet="EstimateInclusions" />
           </AssociationSet>
+          <EntitySet Name="ContractorClassifications" EntityType="JCIEstimateModel.ContractorClassification" />
+          <AssociationSet Name="fk_Contractor_Classification" Association="JCIEstimateModel.fk_Contractor_Classification">
+            <End Role="ContractorClassification" EntitySet="ContractorClassifications" />
+            <End Role="Contractor" EntitySet="Contractors" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -4670,6 +4701,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorSchedules" Relationship="JCIEstimateModel.fk_ContractorSchedule_Contractor" FromRole="Contractor" ToRole="ContractorSchedule" />
           <Property Name="contractorGroup" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Contractor" ToRole="Estimate" />
+          <Property Name="contractorClassificationUid" Type="Guid" />
+          <NavigationProperty Name="ContractorClassification" Relationship="JCIEstimateModel.fk_Contractor_Classification" FromRole="Contractor" ToRole="ContractorClassification" />
           </EntityType>
         <EntityType Name="ContractorContact">
           <Key>
@@ -8083,6 +8116,27 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ContractorClassification">
+          <Key>
+            <PropertyRef Name="contractorClassificationUid" />
+          </Key>
+          <Property Name="contractorClassificationUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorClassification1" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="contractorClassificationDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contractors" Relationship="JCIEstimateModel.fk_Contractor_Classification" FromRole="ContractorClassification" ToRole="Contractor" />
+        </EntityType>
+        <Association Name="fk_Contractor_Classification">
+          <End Type="JCIEstimateModel.ContractorClassification" Role="ContractorClassification" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorClassification">
+              <PropertyRef Name="contractorClassificationUid" />
+            </Principal>
+            <Dependent Role="Contractor">
+              <PropertyRef Name="contractorClassificationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8101,6 +8155,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="Contractors">
             <EntityTypeMapping TypeName="JCIEstimateModel.Contractor">
               <MappingFragment StoreEntitySet="Contractor">
+                <ScalarProperty Name="contractorClassificationUid" ColumnName="contractorClassificationUid" />
                 <ScalarProperty Name="contractorGroup" ColumnName="contractorGroup" />
                 <ScalarProperty Name="contractorSelected" ColumnName="contractorSelected" />
                 <ScalarProperty Name="engScopeCompleted" ColumnName="engScopeCompleted" />
@@ -9401,6 +9456,15 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="locationUid" ColumnName="locationUid" />
                 <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
                 <ScalarProperty Name="estimateUid" ColumnName="estimateUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorClassifications">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ContractorClassification">
+              <MappingFragment StoreEntitySet="ContractorClassification">
+                <ScalarProperty Name="contractorClassificationDescription" ColumnName="contractorClassificationDescription" />
+                <ScalarProperty Name="contractorClassification1" ColumnName="contractorClassification" />
+                <ScalarProperty Name="contractorClassificationUid" ColumnName="contractorClassificationUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -67,6 +67,7 @@
                             <li>@Html.ActionLink("Project Tasks", "Index", "ProjectTaskPrototypes")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
+                            <li>@Html.ActionLink("Contractor Classifications", "Index", "ContractorClassifications")</li>
                             <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>
                             <li>@Html.ActionLink("Project Users", "Index", "ProjectUsers")</li>
                             <li>@Html.ActionLink("Warranty Notes", "Index", "WarrantyNotes")</li>
@@ -266,7 +267,8 @@
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Category and ECM By Contractor", "GetCategoryECMByContractor", "Reports")</li>
                                 <li>@Html.ActionLink("Vert Bar Graph Summary", "GetBarGraphSummary", "Reports")</li>
-                                <li>@Html.ActionLink("Bid Summary", "GetBidSummary", "Reports")</li>
+                                <li>@Html.ActionLink("Bid Summary", "GetBidSummary", "Reports")</li>                
+                                <li>@Html.ActionLink("Bids By Classification", "GetBidsByClassification", "Reports")</li>                
                                 <li>@Html.ActionLink("Project Grand Totals", "GetProjectGrandTotal", "Reports")</li>
                             </ul>
                         </li>

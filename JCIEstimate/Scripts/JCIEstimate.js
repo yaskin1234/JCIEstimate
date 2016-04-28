@@ -863,6 +863,10 @@
         window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#dvEquipmentData').html()));
     });
 
+    $("#btnExportMassEmail").click(function () {        
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#dvMassEmailData').html()));
+    });
+    
     $("#lnkExportCalendar").click(function () {
         $(".toRemoveForExport").remove();        
         $(".addNewCalendarTask").remove();

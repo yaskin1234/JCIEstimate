@@ -1762,6 +1762,24 @@ namespace JCIEstimate.Models
         [Display(Name = "Date Created")]
         public System.DateTime date { get; set; }
     }
-    
+
+
+    /// <summary>
+    /// CommissionIssue
+    /// </summary>
+    [MetadataType(typeof(ContractorClassificationMetaData))]
+    public partial class ContractorClassification
+    {
+    }
+
+    public class ContractorClassificationMetaData
+    {
+        [Display(Name = "Contractor Classification")]
+        public System.Guid contractorClassificationUid { get; set; }
+        [Display(Name = "Contractor Classification")]
+        public string contractorClassification1 { get; set; }
+        [Display(Name = "Contractor Classification Description")]
+        public string contractorClassificationDescription { get; set; }
+    }
 
 }

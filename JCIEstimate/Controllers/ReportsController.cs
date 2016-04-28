@@ -53,6 +53,17 @@ namespace JCIEstimate.Controllers
             }
         }
 
+        public ActionResult GetBidsByClassification()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptBidsByClassification");
+            }
+        }
 
         public ActionResult GetCategoryECMByContractor()
         {

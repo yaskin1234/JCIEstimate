@@ -8,116 +8,111 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
-using JCIExtensions;
 
 namespace JCIEstimate.Controllers
 {
-    [Authorize]
-    public class ContractorsController : Controller
+    public class ContractorClassificationsController : Controller
     {
         private JCIEstimateEntities db = new JCIEstimateEntities();
 
-        // GET: Contractors
+        // GET: /ContractorClassifications/
         public async Task<ActionResult> Index()
         {
-            return View(await db.Contractors.OrderBy(c=>c.contractorName).ToListAsync());
+            return View(await db.ContractorClassifications.ToListAsync());
         }
 
-        // GET: Contractors/Details/5
+        // GET: /ContractorClassifications/Details/5
         public async Task<ActionResult> Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contractor contractor = await db.Contractors.FindAsync(id);
-            if (contractor == null)
+            ContractorClassification contractorclassification = await db.ContractorClassifications.FindAsync(id);
+            if (contractorclassification == null)
             {
                 return HttpNotFound();
             }
-            return View(contractor);
+            return View(contractorclassification);
         }
 
-        // GET: Contractors/Create
+        // GET: /ContractorClassifications/Create
         public ActionResult Create()
         {
-            ViewBag.contractorClassificationUid = db.ContractorClassifications.ToSelectList(c=>c.contractorClassification1, c=>c.contractorClassificationUid.ToString(), "");
             return View();
         }
 
-        // POST: Contractors/Create
+        // POST: /ContractorClassifications/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "contractorUid,contractorName,isActive,engScopeCompleted,contractorSelected,contractorGroup,contractorClassificationUid")] Contractor contractor)
+        public async Task<ActionResult> Create([Bind(Include="contractorClassificationUid,contractorClassification1,contractorClassificationDescription")] ContractorClassification contractorclassification)
         {
             if (ModelState.IsValid)
             {
-                contractor.contractorUid = Guid.NewGuid();
-                db.Contractors.Add(contractor);
+                contractorclassification.contractorClassificationUid = Guid.NewGuid();
+                db.ContractorClassifications.Add(contractorclassification);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(contractor);
+            return View(contractorclassification);
         }
 
-        // GET: Contractors/Edit/5
+        // GET: /ContractorClassifications/Edit/5
         public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contractor contractor = await db.Contractors.FindAsync(id);
-            if (contractor == null)
+            ContractorClassification contractorclassification = await db.ContractorClassifications.FindAsync(id);
+            if (contractorclassification == null)
             {
                 return HttpNotFound();
             }
-
-            ViewBag.contractorClassificationUid = db.ContractorClassifications.ToSelectList(c => c.contractorClassification1, c => c.contractorClassificationUid.ToString(), contractor.contractorClassificationUid.ToString());
-            return View(contractor);
+            return View(contractorclassification);
         }
 
-        // POST: Contractors/Edit/5
+        // POST: /ContractorClassifications/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "contractorUid,contractorName,isActive,engScopeCompleted,contractorSelected,contractorGroup,contractorClassificationUid")] Contractor contractor)
+        public async Task<ActionResult> Edit([Bind(Include="contractorClassificationUid,contractorClassification1,contractorClassificationDescription")] ContractorClassification contractorclassification)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(contractor).State = EntityState.Modified;
+                db.Entry(contractorclassification).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(contractor);
+            return View(contractorclassification);
         }
 
-        // GET: Contractors/Delete/5
+        // GET: /ContractorClassifications/Delete/5
         public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contractor contractor = await db.Contractors.FindAsync(id);
-            if (contractor == null)
+            ContractorClassification contractorclassification = await db.ContractorClassifications.FindAsync(id);
+            if (contractorclassification == null)
             {
                 return HttpNotFound();
             }
-            return View(contractor);
+            return View(contractorclassification);
         }
 
-        // POST: Contractors/Delete/5
+        // POST: /ContractorClassifications/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
-            Contractor contractor = await db.Contractors.FindAsync(id);
-            db.Contractors.Remove(contractor);
+            ContractorClassification contractorclassification = await db.ContractorClassifications.FindAsync(id);
+            db.ContractorClassifications.Remove(contractorclassification);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
