@@ -35,6 +35,7 @@ namespace JCIEstimate.Models
         public Nullable<System.DateTime> contractorSelected { get; set; }
         public string contractorGroup { get; set; }
         public Nullable<System.Guid> contractorClassificationUid { get; set; }
+        public Nullable<System.Guid> costCodeUid { get; set; }
     
         public virtual ICollection<ContractorContact> ContractorContacts { get; set; }
         public virtual ICollection<ContractorUser> ContractorUsers { get; set; }
@@ -47,5 +48,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorSchedule> ContractorSchedules { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ContractorClassification ContractorClassification { get; set; }
+        public virtual CostCode CostCode { get; set; }
     }
 }

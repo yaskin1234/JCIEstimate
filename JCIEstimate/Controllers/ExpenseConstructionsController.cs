@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
 using JCIExtensions;
+using JCIExtensions;
 
 namespace JCIEstimate.Controllers
 {
@@ -57,7 +58,8 @@ namespace JCIEstimate.Controllers
 
             ViewBag.projectUid = new SelectList(projects, "projectUid", "project1");
             ViewBag.intervalUid = new SelectList(db.Intervals, "intervalUid", "interval1");
-            ViewBag.expenseTypeUid = new SelectList(db.ExpenseTypes, "expenseTypeUid", "expenseType1");            
+            ViewBag.expenseTypeUid = new SelectList(db.ExpenseTypes, "expenseTypeUid", "expenseType1");
+            ViewBag.costCodeUid = db.CostCodes.OrderBy(c => c.costCode1).ToSelectList(c => c.costCode1 + " - " + c.costCodeDescription, c => c.costCodeUid.ToString(), "");
             return View();
         }
 
@@ -66,7 +68,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "expenseConstructionUid,projectUid,expenseConstruction1,expenseConstructionDescription,rate,intervalUid,quantity,total,expenseTypeUid")] ExpenseConstruction expenseConstruction)
+        public async Task<ActionResult> Create([Bind(Include = "expenseConstructionUid,projectUid,expenseConstruction1,expenseConstructionDescription,rate,intervalUid,quantity,total,expenseTypeUid,costCodeUid")] ExpenseConstruction expenseConstruction)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +104,8 @@ namespace JCIEstimate.Controllers
 
             ViewBag.projectUid = new SelectList(projects, "projectUid", "project1", expenseConstruction.projectUid);
             ViewBag.intervalUid = new SelectList(db.Intervals, "intervalUid", "interval1", expenseConstruction.intervalUid);
-            ViewBag.expenseTypeUid = new SelectList(db.ExpenseTypes, "expenseTypeUid", "expenseType1", expenseConstruction.expenseTypeUid);            
+            ViewBag.expenseTypeUid = new SelectList(db.ExpenseTypes, "expenseTypeUid", "expenseType1", expenseConstruction.expenseTypeUid);
+            ViewBag.costCodeUid = db.CostCodes.OrderBy(c => c.costCode1).ToSelectList(c => c.costCode1 + " - " + c.costCodeDescription, c => c.costCodeUid.ToString(), expenseConstruction.costCodeUid.ToString());
             return View(expenseConstruction);
         }
 
@@ -111,7 +114,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "expenseConstructionUid,projectUid,expenseConstruction1,expenseConstructionDescription,rate,intervalUid,quantity,total,expenseTypeUid")] ExpenseConstruction expenseConstruction)
+        public async Task<ActionResult> Edit([Bind(Include = "expenseConstructionUid,projectUid,expenseConstruction1,expenseConstructionDescription,rate,intervalUid,quantity,total,expenseTypeUid,costCodeUid")] ExpenseConstruction expenseConstruction)
         {
             if (ModelState.IsValid)
             {

@@ -481,7 +481,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EngineerCreate([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,locationUid,area,jciTag,heatTypeUid,controlTypeUid,ownerTag,model,serialNumber,equipmentConditionUid")] Equipment equipment, IEnumerable<HttpPostedFileBase> pics)
+        public async Task<ActionResult> EngineerCreate([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,locationUid,area,jciTag,heatTypeUid,controlTypeUid,ownerTag,model,serialNumber,equipmentConditionUid,metasysNumber")] Equipment equipment, IEnumerable<HttpPostedFileBase> pics)
         {
             Guid sessionProject = MCVExtensions.getSessionProject();
 
@@ -833,7 +833,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,isNewToSite,useReplacement,price,equipmentConditionUid,newManufacturer,newModel,newSerial,showOnScopeReport")] Equipment equipment, string ecms, string equipmentUidAsReplaced, string newTasks)
+        public async Task<ActionResult> Create([Bind(Include = "equipmentUid,equipmentAttributeTypeUid,ecmUid,locationUid,jciTag,ownerTag,manufacturer,model,serialNumber,installDate,area,isNewToSite,useReplacement,price,equipmentConditionUid,newManufacturer,newModel,newSerial,showOnScopeReport,metasysNumber")] Equipment equipment, string ecms, string equipmentUidAsReplaced, string newTasks)
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
             if (ModelState.IsValid)

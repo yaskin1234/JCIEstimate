@@ -1,0 +1,10 @@
+﻿@model JCIEstimate.Models.Estimate
+
+@{
+    ViewBag.Title = "Commission Issue Summary";
+    Layout = "";
+}
+<div style="height:auto;">
+    <iframe style="border:none;" src="~/Content/ReportingService.aspx?report=CommissionIssueSummary&projectUid=@JCIExtensions.MCVExtensions.getSessionProject().ToString()" height="1000" width="100%"></iframe>
+</div>
+    

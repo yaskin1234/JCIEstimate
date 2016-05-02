@@ -38,6 +38,7 @@
                             <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
                             <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
                             <li>@Html.ActionLink("Misc Expenses", "Index", "ExpenseMiscellaneous")</li>
+                            <li>@Html.ActionLink("Cost Codes", "Index", "CostCodes")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
                             <li>@Html.ActionLink("Estimate Option", "Index", "EstimateOptions")</li>
@@ -144,7 +145,9 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Commission</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Commission Issues", "Index", "CommissionIssues")</li>                                
+                                <li>@Html.ActionLink("Commission Issues", "Index", "CommissionIssues")</li>        
+                                <li>@Html.ActionLink("Commission Issues Summary", "GetCommissionIssueSummary", "Reports", null, new { target="_blank" })</li>        
+                                
                             </ul>
                         </li>
                     }
@@ -269,6 +272,7 @@
                                 <li>@Html.ActionLink("Vert Bar Graph Summary", "GetBarGraphSummary", "Reports")</li>
                                 <li>@Html.ActionLink("Bid Summary", "GetBidSummary", "Reports")</li>                
                                 <li>@Html.ActionLink("Bids By Classification", "GetBidsByClassification", "Reports")</li>                
+                                <li>@Html.ActionLink("Bids By JCI Cost Code", "GetBidsByClassificationAndJCICode", "Reports")</li>
                                 <li>@Html.ActionLink("Project Grand Totals", "GetProjectGrandTotal", "Reports")</li>
                             </ul>
                         </li>

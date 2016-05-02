@@ -41,6 +41,18 @@ namespace JCIEstimate.Controllers
             }
         }
 
+        public ActionResult GetCommissionIssueSummary()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptCommissionIssueSummary");
+            }
+        }
+
         public ActionResult GetEstimateComparisonActive()
         {
             if (Session["projectUid"] == null)
@@ -62,6 +74,18 @@ namespace JCIEstimate.Controllers
             else
             {
                 return View("rptBidsByClassification");
+            }
+        }
+
+        public ActionResult GetBidsByClassificationAndJCICode()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptBidsByClassificationAndJCICode");
             }
         }
 

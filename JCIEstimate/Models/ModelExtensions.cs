@@ -5,6 +5,7 @@ using System.Web;
 
 namespace JCIEstimate.Models
 {
+
     public partial class MasterSchedule
     {
         public IEnumerable<MasterScheduleTask> GetTasksForMaster()

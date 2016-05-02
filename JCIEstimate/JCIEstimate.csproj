@@ -2173,6 +2173,13 @@
     <Content Include="Views\ContractorClassifications\Edit.cshtml" />
     <Content Include="Views\ContractorClassifications\Index.cshtml" />
     <Content Include="Views\Reports\rptBidsByClassification.cshtml" />
+    <Content Include="Views\CostCodes\Create.cshtml" />
+    <Content Include="Views\CostCodes\Delete.cshtml" />
+    <Content Include="Views\CostCodes\Details.cshtml" />
+    <Content Include="Views\CostCodes\Edit.cshtml" />
+    <Content Include="Views\CostCodes\Index.cshtml" />
+    <Content Include="Views\Reports\rptBidsByClassificationAndJCICode.cshtml" />
+    <Content Include="Views\Reports\rptCommissionIssueSummary.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2312,6 +2319,7 @@
     <Compile Include="Controllers\ContractorSignoffsController.cs" />
     <Compile Include="Controllers\ContractorUsersController.cs" />
     <Compile Include="Controllers\ControlTypesController.cs" />
+    <Compile Include="Controllers\CostCodesController.cs" />
     <Compile Include="Controllers\ECMsController.cs" />
     <Compile Include="Controllers\EddressesController.cs" />
     <Compile Include="Controllers\EquipmentAttachmentsController.cs" />
@@ -2486,6 +2494,9 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ControlType.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CostCode.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ECM.cs">

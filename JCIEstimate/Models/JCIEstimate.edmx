@@ -153,6 +153,7 @@
           <Property Name="isActive" Type="bit" Nullable="false" />
           <Property Name="contractorGroup" Type="varchar" MaxLength="100" />
           <Property Name="contractorClassificationUid" Type="uniqueidentifier" />
+          <Property Name="costCodeUid" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ContractorClassification">
           <Key>
@@ -309,6 +310,15 @@
           <Property Name="controlType" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="controlTypeDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CostCode">
+          <Key>
+            <PropertyRef Name="costCodeUid" />
+          </Key>
+          <Property Name="costCodeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="costCode" Type="int" Nullable="false" />
+          <Property Name="costCodeDescription" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="jciCodeDescription" Type="nvarchar" MaxLength="2000" Nullable="false" />
         </EntityType>
         <EntityType Name="ECM">
           <Key>
@@ -592,6 +602,7 @@
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="total" Type="money" StoreGeneratedPattern="Computed" />
           <Property Name="expenseTypeUid" Type="uniqueidentifier" />
+          <Property Name="costCodeUid" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ExpenseConstructionDraw">
           <Key>
@@ -641,6 +652,7 @@
           <Property Name="projectDurationInMonths" Type="int" Nullable="false" />
           <Property Name="total" Type="money" StoreGeneratedPattern="Computed" />
           <Property Name="expenseTypeUid" Type="uniqueidentifier" />
+          <Property Name="costCodeUid" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ExpensePercentage">
           <Key>
@@ -1567,6 +1579,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Contractor_CostCode">
+          <End Role="CostCode" Type="Self.CostCode" Multiplicity="0..1" />
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCode">
+              <PropertyRef Name="costCodeUid" />
+            </Principal>
+            <Dependent Role="Contractor">
+              <PropertyRef Name="costCodeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_contractor_user">
           <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
           <End Role="ContractorUser" Type="Self.ContractorUser" Multiplicity="*" />
@@ -2285,6 +2309,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_expenseConstruction_CostCode">
+          <End Role="CostCode" Type="Self.CostCode" Multiplicity="0..1" />
+          <End Role="ExpenseConstruction" Type="Self.ExpenseConstruction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCode">
+              <PropertyRef Name="costCodeUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstruction">
+              <PropertyRef Name="costCodeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_expenseConstruction_ExpenseType">
           <End Role="ExpenseType" Type="Self.ExpenseType" Multiplicity="0..1" />
           <End Role="ExpenseConstruction" Type="Self.ExpenseConstruction" Multiplicity="*" />
@@ -2380,6 +2416,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="ExpenseMiscellaneousProject">
               <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_expenseMonthly_CostCode">
+          <End Role="CostCode" Type="Self.CostCode" Multiplicity="0..1" />
+          <End Role="ExpenseMonthly" Type="Self.ExpenseMonthly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCode">
+              <PropertyRef Name="costCodeUid" />
+            </Principal>
+            <Dependent Role="ExpenseMonthly">
+              <PropertyRef Name="costCodeUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3184,6 +3232,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="ContractorSignoffFinalAttachment" EntityType="Self.ContractorSignoffFinalAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContractorUser" EntityType="Self.ContractorUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ControlType" EntityType="Self.ControlType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostCode" EntityType="Self.CostCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ECM" EntityType="Self.ECM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Eddress" EntityType="Self.Eddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
@@ -3415,6 +3464,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           </AssociationSet>
           <AssociationSet Name="fk_Contractor_Classification" Association="Self.fk_Contractor_Classification">
             <End Role="ContractorClassification" EntitySet="ContractorClassification" />
+            <End Role="Contractor" EntitySet="Contractor" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Contractor_CostCode" Association="Self.fk_Contractor_CostCode">
+            <End Role="CostCode" EntitySet="CostCode" />
             <End Role="Contractor" EntitySet="Contractor" />
           </AssociationSet>
           <AssociationSet Name="fk_contractor_user" Association="Self.fk_contractor_user">
@@ -3649,6 +3702,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="EstimateInclusion" EntitySet="EstimateInclusion" />
             <End Role="EstimateInclusionResponse" EntitySet="EstimateInclusionResponse" />
           </AssociationSet>
+          <AssociationSet Name="fk_expenseConstruction_CostCode" Association="Self.fk_expenseConstruction_CostCode">
+            <End Role="CostCode" EntitySet="CostCode" />
+            <End Role="ExpenseConstruction" EntitySet="ExpenseConstruction" />
+          </AssociationSet>
           <AssociationSet Name="fk_expenseConstruction_ExpenseType" Association="Self.fk_expenseConstruction_ExpenseType">
             <End Role="ExpenseType" EntitySet="ExpenseType" />
             <End Role="ExpenseConstruction" EntitySet="ExpenseConstruction" />
@@ -3680,6 +3737,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_expensemiscellaneousproject_project" Association="Self.fk_expensemiscellaneousproject_project">
             <End Role="Project" EntitySet="Project" />
             <End Role="ExpenseMiscellaneousProject" EntitySet="ExpenseMiscellaneousProject" />
+          </AssociationSet>
+          <AssociationSet Name="fk_expenseMonthly_CostCode" Association="Self.fk_expenseMonthly_CostCode">
+            <End Role="CostCode" EntitySet="CostCode" />
+            <End Role="ExpenseMonthly" EntitySet="ExpenseMonthly" />
           </AssociationSet>
           <AssociationSet Name="fk_ExpenseMonthly_ExpenseType" Association="Self.fk_ExpenseMonthly_ExpenseType">
             <End Role="ExpenseType" EntitySet="ExpenseType" />
@@ -4670,6 +4731,19 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ContractorClassification" EntitySet="ContractorClassifications" />
             <End Role="Contractor" EntitySet="Contractors" />
           </AssociationSet>
+          <EntitySet Name="CostCodes" EntityType="JCIEstimateModel.CostCode" />
+          <AssociationSet Name="fk_Contractor_CostCode" Association="JCIEstimateModel.fk_Contractor_CostCode">
+            <End Role="CostCode" EntitySet="CostCodes" />
+            <End Role="Contractor" EntitySet="Contractors" />
+          </AssociationSet>
+          <AssociationSet Name="fk_expenseConstruction_CostCode" Association="JCIEstimateModel.fk_expenseConstruction_CostCode">
+            <End Role="CostCode" EntitySet="CostCodes" />
+            <End Role="ExpenseConstruction" EntitySet="ExpenseConstructions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_expenseMonthly_CostCode" Association="JCIEstimateModel.fk_expenseMonthly_CostCode">
+            <End Role="CostCode" EntitySet="CostCodes" />
+            <End Role="ExpenseMonthly" EntitySet="ExpenseMonthlies" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -4703,6 +4777,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_contractor" FromRole="Contractor" ToRole="Estimate" />
           <Property Name="contractorClassificationUid" Type="Guid" />
           <NavigationProperty Name="ContractorClassification" Relationship="JCIEstimateModel.fk_Contractor_Classification" FromRole="Contractor" ToRole="ContractorClassification" />
+          <Property Name="costCodeUid" Type="Guid" />
+          <NavigationProperty Name="CostCode" Relationship="JCIEstimateModel.fk_Contractor_CostCode" FromRole="Contractor" ToRole="CostCode" />
           </EntityType>
         <EntityType Name="ContractorContact">
           <Key>
@@ -4828,6 +4904,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="expenseTypeUid" Type="Guid" />
           <NavigationProperty Name="ExpenseType" Relationship="JCIEstimateModel.fk_expenseConstruction_ExpenseType" FromRole="ExpenseConstruction" ToRole="ExpenseType" />
           <NavigationProperty Name="ExpenseType1" Relationship="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType" FromRole="ExpenseConstruction" ToRole="ExpenseType" />
+          <Property Name="costCodeUid" Type="Guid" />
+          <NavigationProperty Name="CostCode" Relationship="JCIEstimateModel.fk_expenseConstruction_CostCode" FromRole="ExpenseConstruction" ToRole="CostCode" />
         </EntityType>
         <Association Name="fk_expenseConstruction_project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
@@ -5028,6 +5106,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ExpenseMonthly_project" FromRole="ExpenseMonthly" ToRole="Project" />
           <Property Name="expenseTypeUid" Type="Guid" />
           <NavigationProperty Name="ExpenseType" Relationship="JCIEstimateModel.fk_ExpenseMonthly_ExpenseType1" FromRole="ExpenseMonthly" ToRole="ExpenseType" />
+          <Property Name="costCodeUid" Type="Guid" />
+          <NavigationProperty Name="CostCode" Relationship="JCIEstimateModel.fk_expenseMonthly_CostCode" FromRole="ExpenseMonthly" ToRole="CostCode" />
         </EntityType>
         <Association Name="fk_ExpenseMonthly_project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
@@ -8137,6 +8217,54 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CostCode">
+          <Key>
+            <PropertyRef Name="costCodeUid" />
+          </Key>
+          <Property Name="costCodeUid" Type="Guid" Nullable="false" />
+          <Property Name="costCode1" Type="Int32" Nullable="false" />
+          <Property Name="costCodeDescription" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="jciCodeDescription" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contractors" Relationship="JCIEstimateModel.fk_Contractor_CostCode" FromRole="CostCode" ToRole="Contractor" />
+          <NavigationProperty Name="ExpenseConstructions" Relationship="JCIEstimateModel.fk_expenseConstruction_CostCode" FromRole="CostCode" ToRole="ExpenseConstruction" />
+          <NavigationProperty Name="ExpenseMonthlies" Relationship="JCIEstimateModel.fk_expenseMonthly_CostCode" FromRole="CostCode" ToRole="ExpenseMonthly" />
+        </EntityType>
+        <Association Name="fk_Contractor_CostCode">
+          <End Type="JCIEstimateModel.CostCode" Role="CostCode" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCode">
+              <PropertyRef Name="costCodeUid" />
+            </Principal>
+            <Dependent Role="Contractor">
+              <PropertyRef Name="costCodeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_expenseConstruction_CostCode">
+          <End Type="JCIEstimateModel.CostCode" Role="CostCode" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ExpenseConstruction" Role="ExpenseConstruction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCode">
+              <PropertyRef Name="costCodeUid" />
+            </Principal>
+            <Dependent Role="ExpenseConstruction">
+              <PropertyRef Name="costCodeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_expenseMonthly_CostCode">
+          <End Type="JCIEstimateModel.CostCode" Role="CostCode" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ExpenseMonthly" Role="ExpenseMonthly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CostCode">
+              <PropertyRef Name="costCodeUid" />
+            </Principal>
+            <Dependent Role="ExpenseMonthly">
+              <PropertyRef Name="costCodeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8155,6 +8283,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="Contractors">
             <EntityTypeMapping TypeName="JCIEstimateModel.Contractor">
               <MappingFragment StoreEntitySet="Contractor">
+                <ScalarProperty Name="costCodeUid" ColumnName="costCodeUid" />
                 <ScalarProperty Name="contractorClassificationUid" ColumnName="contractorClassificationUid" />
                 <ScalarProperty Name="contractorGroup" ColumnName="contractorGroup" />
                 <ScalarProperty Name="contractorSelected" ColumnName="contractorSelected" />
@@ -8213,6 +8342,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="ExpenseConstructions">
             <EntityTypeMapping TypeName="JCIEstimateModel.ExpenseConstruction">
               <MappingFragment StoreEntitySet="ExpenseConstruction">
+                <ScalarProperty Name="costCodeUid" ColumnName="costCodeUid" />
                 <ScalarProperty Name="expenseTypeUid" ColumnName="expenseTypeUid" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
@@ -8315,6 +8445,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="ExpenseMonthlies">
             <EntityTypeMapping TypeName="JCIEstimateModel.ExpenseMonthly">
               <MappingFragment StoreEntitySet="ExpenseMonthly">
+                <ScalarProperty Name="costCodeUid" ColumnName="costCodeUid" />
                 <ScalarProperty Name="expenseTypeUid" ColumnName="expenseTypeUid" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="projectDurationInMonths" ColumnName="projectDurationInMonths" />
@@ -9465,6 +9596,16 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="contractorClassificationDescription" ColumnName="contractorClassificationDescription" />
                 <ScalarProperty Name="contractorClassification1" ColumnName="contractorClassification" />
                 <ScalarProperty Name="contractorClassificationUid" ColumnName="contractorClassificationUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CostCodes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.CostCode">
+              <MappingFragment StoreEntitySet="CostCode">
+                <ScalarProperty Name="jciCodeDescription" ColumnName="jciCodeDescription" />
+                <ScalarProperty Name="costCodeDescription" ColumnName="costCodeDescription" />
+                <ScalarProperty Name="costCode1" ColumnName="costCode" />
+                <ScalarProperty Name="costCodeUid" ColumnName="costCodeUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -272,6 +272,10 @@
         <AssociationConnector Association="JCIEstimateModel.fk_estimateInclusion_estimate" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorClassification" Width="1.5" PointX="6.375" PointY="23.5" />
         <AssociationConnector Association="JCIEstimateModel.fk_Contractor_Classification" />
+        <EntityTypeShape EntityType="JCIEstimateModel.CostCode" Width="1.5" PointX="14.375" PointY="9.875" />
+        <AssociationConnector Association="JCIEstimateModel.fk_Contractor_CostCode" />
+        <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_CostCode" />
+        <AssociationConnector Association="JCIEstimateModel.fk_expenseMonthly_CostCode" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
