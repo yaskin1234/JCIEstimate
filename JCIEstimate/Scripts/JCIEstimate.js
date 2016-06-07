@@ -49,6 +49,12 @@
         document.location = url + "?filterId=" + escape(selectedValue);
     })
 
+    $(".equipmentTaskDetailFilter").change(function () {
+        var selectedValue = $("#equipmentTaskDetailFilter").val();
+        var url = "/EquipmentTaskDetails/Index";
+        document.location = url + "?filterId=" + escape(selectedValue);
+    })
+
     $(".contractorNoteFilter").change(function () {
         var selectedValue = $("#contractorNoteFilter").val();
         var url = "/ContractorNotes/Index";
@@ -528,8 +534,8 @@
 
     //$("#gridFilter").kendoComboBox();
 
-    var $table = $('#GridTable');
-    $table.floatThead();
+    //var $table = $('#GridTable');
+    //$table.floatThead();
 
     var $table1 = $('#tblEquipment');
     $table1.floatThead();

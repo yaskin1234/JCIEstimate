@@ -26,6 +26,7 @@ namespace JCIEstimate.Models
             this.ContractorNotes = new HashSet<ContractorNote>();
             this.ContractorSchedules = new HashSet<ContractorSchedule>();
             this.Estimates = new HashSet<Estimate>();
+            this.EquipmentTaskDetailItems = new HashSet<EquipmentTaskDetailItem>();
         }
     
         public System.Guid contractorUid { get; set; }
@@ -49,5 +50,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ContractorClassification ContractorClassification { get; set; }
         public virtual CostCode CostCode { get; set; }
+        public virtual ICollection<EquipmentTaskDetailItem> EquipmentTaskDetailItems { get; set; }
     }
 }

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<JCIEstimate.Models.EquipmentTaskDetailItem>
+
+@{
+    ViewBag.Title = "EditList";
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EquipmentToDo.EquipmentTask.equipmentTask1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EquipmentTaskDetail.equipmentTaskDetail1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contractor.contractorName)
+        </th>      
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EquipmentToDo.EquipmentTask.equipmentTask1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EquipmentTaskDetail.equipmentTaskDetail1)
+        </td>
+        <td>            
+            @Html.DropDownList("contractorUidAsAssigned", null, htmlAttributes: new { @class = "form-control" })            
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>    
+    @Html.ActionLink("Back to List", "GridEdit", "Equipments" )
+</div>

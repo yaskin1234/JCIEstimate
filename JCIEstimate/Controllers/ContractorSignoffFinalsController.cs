@@ -136,11 +136,11 @@ namespace JCIEstimate.Controllers
             string reportName = "ContractorSignoff";
 
             string saveFolder = "Signoffs";
-            string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=word&projectUid=" + sessionProject.ToString() + "&contractorUid=" + contractorUid.ToString() + "&typedName=" + typedName + "&isActive=" + ((isActiveOnly) ? "1" : "0");
+            string addressRoot = "http://localhost/ReportServer?/" + directory + "/" + reportName + "&rs:Format=pdf&projectUid=" + sessionProject.ToString() + "&contractorUid=" + contractorUid.ToString() + "&typedName=" + typedName + "&isActive=" + ((isActiveOnly) ? "1" : "0");
             string saveFile = "";
 
             //saveFile = saveFolder + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".xls";
-            saveFile = Server.MapPath("\\" + saveFolder) + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".doc";
+            saveFile = Server.MapPath("\\" + saveFolder) + "\\Contractor Signoff" + "_" + DateTime.Now.ToFileTime() + ".pdf";
 
             SaveFileFromURL(addressRoot, saveFile, 600000, CredentialCache.DefaultNetworkCredentials);
 
@@ -160,7 +160,7 @@ namespace JCIEstimate.Controllers
                     contractorSignoffFinal.projectUid = sessionProject;
                     contractorSignoffFinal.attachment = byteArray;
                     contractorSignoffFinal.dateCreated = dateCreated;
-                    contractorSignoffFinal.fileType = "doc";
+                    contractorSignoffFinal.fileType = "pdf";
                     contractorSignoffFinal.typedName = "N/A";
                     contractorSignoffFinal.documentName = contractor.First().contractorName + "_" + String.Format("{0:yyyyMMddHHmmss}", dateCreated) + "." + contractorSignoffFinal.fileType;
                     contractorSignoffFinal.aspNetUserUidAsCreated = currentUser;
@@ -173,7 +173,7 @@ namespace JCIEstimate.Controllers
                     cf.projectUid = sessionProject;
                     cf.attachment = byteArray;
                     cf.dateCreated = dateCreated;
-                    cf.fileType = "doc";
+                    cf.fileType = "pdf";
                     cf.typedName = user.FirstOrDefault().AspNetUsersExtensions.FirstOrDefault().name;
                     cf.documentName = contractor.First().contractorName + "_" + String.Format("{0:yyyyMMddHHmmss}", dateCreated) + "." + cf.fileType;
                     cf.aspNetUserUidAsCreated = currentUser;

@@ -466,6 +466,28 @@
           <Property Name="equipmentTask" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="equipmentTaskDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="behaviorIndicator" Type="char" MaxLength="2" />
+          <Property Name="equipmentAttributeTypeUid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="EquipmentTaskDetail">
+          <Key>
+            <PropertyRef Name="equipmentTaskDetailUid" />
+          </Key>
+          <Property Name="equipmentTaskDetailUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentTaskUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentTaskDetail" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="sequence" Type="decimal" Precision="11" Scale="1" />
+          <Property Name="isScheduleList" Type="bit" Nullable="false" />
+          <Property Name="isEquipmentExpected" Type="bit" Nullable="false" />
+          <Property Name="isWarrantyStart" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EquipmentTaskDetailItem">
+          <Key>
+            <PropertyRef Name="equipmentTaskDetailItemUid" />
+          </Key>
+          <Property Name="equipmentTaskDetailItemUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentTaskDetailUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="equipmentToDoUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorUidAsAssigned" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="EquipmentToDo">
           <Key>
@@ -2079,6 +2101,76 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_equipmentTask_type">
+          <End Role="EquipmentAttributeType" Type="Self.EquipmentAttributeType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EquipmentTask" Type="Self.EquipmentTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentTask">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTaskDetail_equipmentTask">
+          <End Role="EquipmentTask" Type="Self.EquipmentTask" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EquipmentTaskDetail" Type="Self.EquipmentTaskDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentTask">
+              <PropertyRef Name="equipmentTaskUid" />
+            </Principal>
+            <Dependent Role="EquipmentTaskDetail">
+              <PropertyRef Name="equipmentTaskUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTaskDetailItem_Contractor">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EquipmentTaskDetailItem" Type="Self.EquipmentTaskDetailItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="EquipmentTaskDetailItem">
+              <PropertyRef Name="contractorUidAsAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTaskDetailItem_equipmentTaskDetail">
+          <End Role="EquipmentTaskDetail" Type="Self.EquipmentTaskDetail" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EquipmentTaskDetailItem" Type="Self.EquipmentTaskDetailItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentTaskDetail">
+              <PropertyRef Name="equipmentTaskDetailUid" />
+            </Principal>
+            <Dependent Role="EquipmentTaskDetailItem">
+              <PropertyRef Name="equipmentTaskDetailUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTaskDetailItem_equipmentToDo">
+          <End Role="EquipmentToDo" Type="Self.EquipmentToDo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EquipmentTaskDetailItem" Type="Self.EquipmentTaskDetailItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentToDo">
+              <PropertyRef Name="equipmentToDoUid" />
+            </Principal>
+            <Dependent Role="EquipmentTaskDetailItem">
+              <PropertyRef Name="equipmentToDoUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_equipmenttodo_equipment">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -3245,6 +3337,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="EquipmentNote" EntityType="Self.EquipmentNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentNoteType" EntityType="Self.EquipmentNoteType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentTask" EntityType="Self.EquipmentTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentTaskDetail" EntityType="Self.EquipmentTaskDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentTaskDetailItem" EntityType="Self.EquipmentTaskDetailItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentToDo" EntityType="Self.EquipmentToDo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentType" EntityType="Self.EquipmentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentTypeTaskAssignment" EntityType="Self.EquipmentTypeTaskAssignment" Schema="dbo" store:Type="Tables" />
@@ -3625,6 +3719,26 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_Equipmentnote_Equipment" Association="Self.fk_Equipmentnote_Equipment">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="EquipmentNote" EntitySet="EquipmentNote" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipmentTask_type" Association="Self.fk_equipmentTask_type">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeType" />
+            <End Role="EquipmentTask" EntitySet="EquipmentTask" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTaskDetail_equipmentTask" Association="Self.fk_EquipmentTaskDetail_equipmentTask">
+            <End Role="EquipmentTask" EntitySet="EquipmentTask" />
+            <End Role="EquipmentTaskDetail" EntitySet="EquipmentTaskDetail" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTaskDetailItem_Contractor" Association="Self.fk_EquipmentTaskDetailItem_Contractor">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="EquipmentTaskDetailItem" EntitySet="EquipmentTaskDetailItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTaskDetailItem_equipmentTaskDetail" Association="Self.fk_EquipmentTaskDetailItem_equipmentTaskDetail">
+            <End Role="EquipmentTaskDetail" EntitySet="EquipmentTaskDetail" />
+            <End Role="EquipmentTaskDetailItem" EntitySet="EquipmentTaskDetailItem" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTaskDetailItem_equipmentToDo" Association="Self.fk_EquipmentTaskDetailItem_equipmentToDo">
+            <End Role="EquipmentToDo" EntitySet="EquipmentToDo" />
+            <End Role="EquipmentTaskDetailItem" EntitySet="EquipmentTaskDetailItem" />
           </AssociationSet>
           <AssociationSet Name="fk_equipmenttodo_equipment" Association="Self.fk_equipmenttodo_equipment">
             <End Role="Equipment" EntitySet="Equipment" />
@@ -4744,6 +4858,28 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="CostCode" EntitySet="CostCodes" />
             <End Role="ExpenseMonthly" EntitySet="ExpenseMonthlies" />
           </AssociationSet>
+          <AssociationSet Name="fk_equipmentTask_type" Association="JCIEstimateModel.fk_equipmentTask_type">
+            <End Role="EquipmentAttributeType" EntitySet="EquipmentAttributeTypes" />
+            <End Role="EquipmentTask" EntitySet="EquipmentTasks" />
+          </AssociationSet>
+          <EntitySet Name="EquipmentTaskDetails" EntityType="JCIEstimateModel.EquipmentTaskDetail" />
+          <EntitySet Name="EquipmentTaskDetailItems" EntityType="JCIEstimateModel.EquipmentTaskDetailItem" />
+          <AssociationSet Name="fk_EquipmentTaskDetailItem_Contractor" Association="JCIEstimateModel.fk_EquipmentTaskDetailItem_Contractor">
+            <End Role="Contractor" EntitySet="Contractors" />
+            <End Role="EquipmentTaskDetailItem" EntitySet="EquipmentTaskDetailItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTaskDetail_equipmentTask" Association="JCIEstimateModel.fk_EquipmentTaskDetail_equipmentTask">
+            <End Role="EquipmentTask" EntitySet="EquipmentTasks" />
+            <End Role="EquipmentTaskDetail" EntitySet="EquipmentTaskDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTaskDetailItem_equipmentTaskDetail" Association="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentTaskDetail">
+            <End Role="EquipmentTaskDetail" EntitySet="EquipmentTaskDetails" />
+            <End Role="EquipmentTaskDetailItem" EntitySet="EquipmentTaskDetailItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTaskDetailItem_equipmentToDo" Association="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentToDo">
+            <End Role="EquipmentToDo" EntitySet="EquipmentToDoes" />
+            <End Role="EquipmentTaskDetailItem" EntitySet="EquipmentTaskDetailItems" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -4779,6 +4915,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorClassification" Relationship="JCIEstimateModel.fk_Contractor_Classification" FromRole="Contractor" ToRole="ContractorClassification" />
           <Property Name="costCodeUid" Type="Guid" />
           <NavigationProperty Name="CostCode" Relationship="JCIEstimateModel.fk_Contractor_CostCode" FromRole="Contractor" ToRole="CostCode" />
+          <NavigationProperty Name="EquipmentTaskDetailItems" Relationship="JCIEstimateModel.fk_EquipmentTaskDetailItem_Contractor" FromRole="Contractor" ToRole="EquipmentTaskDetailItem" />
           </EntityType>
         <EntityType Name="ContractorContact">
           <Key>
@@ -5279,6 +5416,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="equipmentTaskDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EquipmentToDoes" Relationship="JCIEstimateModel.fk_equipmenttodo_equipmenttask" FromRole="EquipmentTask" ToRole="EquipmentToDo" />
           <Property Name="behaviorIndicator" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="equipmentAttributeTypeUid" Type="Guid" />
+          <NavigationProperty Name="EquipmentAttributeType" Relationship="JCIEstimateModel.fk_equipmentTask_type" FromRole="EquipmentTask" ToRole="EquipmentAttributeType" />
+          <NavigationProperty Name="EquipmentTaskDetails" Relationship="JCIEstimateModel.fk_EquipmentTaskDetail_equipmentTask" FromRole="EquipmentTask" ToRole="EquipmentTaskDetail" />
         </EntityType>
         <EntityType Name="EquipmentToDo">
           <Key>
@@ -5290,6 +5430,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="daysToComplete" Type="Decimal" Precision="11" Scale="2" />
           <NavigationProperty Name="EquipmentTask" Relationship="JCIEstimateModel.fk_equipmenttodo_equipmenttask" FromRole="EquipmentToDo" ToRole="EquipmentTask" />
           <NavigationProperty Name="Equipment" Relationship="JCIEstimateModel.fk_equipmenttodo_equipment" FromRole="EquipmentToDo" ToRole="Equipment" />
+          <NavigationProperty Name="EquipmentTaskDetailItems" Relationship="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentToDo" FromRole="EquipmentToDo" ToRole="EquipmentTaskDetailItem" />
         </EntityType>
         <Association Name="fk_equipmenttodo_equipmenttask">
           <End Type="JCIEstimateModel.EquipmentTask" Role="EquipmentTask" Multiplicity="1" />
@@ -5326,6 +5467,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_AttributeType" FromRole="EquipmentAttributeType" ToRole="EquipmentTypeTaskAssignment" />
           <Property Name="excludeFromDropDown" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_AttributeType" FromRole="EquipmentAttributeType" ToRole="Equipment" />
+          <NavigationProperty Name="EquipmentTasks" Relationship="JCIEstimateModel.fk_equipmentTask_type" FromRole="EquipmentAttributeType" ToRole="EquipmentTask" />
         </EntityType>
         <EntityType Name="AppDataType">
           <Key>
@@ -8265,6 +8407,102 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_equipmentTask_type">
+          <End Type="JCIEstimateModel.EquipmentAttributeType" Role="EquipmentAttributeType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.EquipmentTask" Role="EquipmentTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentAttributeType">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Principal>
+            <Dependent Role="EquipmentTask">
+              <PropertyRef Name="equipmentAttributeTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EquipmentTaskDetail">
+          <Key>
+            <PropertyRef Name="equipmentTaskDetailUid" />
+          </Key>
+          <Property Name="equipmentTaskDetailUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentTaskUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentTaskDetail1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="sequence" Type="Int32" />
+          <Property Name="isScheduleList" Type="Boolean" Nullable="false" />
+          <Property Name="isEquipmentExpected" Type="Boolean" Nullable="false" />
+          <Property Name="isWarrantyStart" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EquipmentTask" Relationship="JCIEstimateModel.fk_EquipmentTaskDetail_equipmentTask" FromRole="EquipmentTaskDetail" ToRole="EquipmentTask" />
+          <NavigationProperty Name="EquipmentTaskDetailItems" Relationship="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentTaskDetail" FromRole="EquipmentTaskDetail" ToRole="EquipmentTaskDetailItem" />
+        </EntityType>
+        <EntityType Name="EquipmentTaskDetailItem">
+          <Key>
+            <PropertyRef Name="equipmentTaskDetailItemUid" />
+          </Key>
+          <Property Name="equipmentTaskDetailItemUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentTaskDetailUid" Type="Guid" Nullable="false" />
+          <Property Name="equipmentToDoUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorUidAsAssigned" Type="Guid" />
+          <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_EquipmentTaskDetailItem_Contractor" FromRole="EquipmentTaskDetailItem" ToRole="Contractor" />
+          <NavigationProperty Name="EquipmentTaskDetail" Relationship="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentTaskDetail" FromRole="EquipmentTaskDetailItem" ToRole="EquipmentTaskDetail" />
+          <NavigationProperty Name="EquipmentToDo" Relationship="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentToDo" FromRole="EquipmentTaskDetailItem" ToRole="EquipmentToDo" />
+        </EntityType>
+        <Association Name="fk_EquipmentTaskDetailItem_Contractor">
+          <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.EquipmentTaskDetailItem" Role="EquipmentTaskDetailItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="contractorUid" />
+            </Principal>
+            <Dependent Role="EquipmentTaskDetailItem">
+              <PropertyRef Name="contractorUidAsAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTaskDetail_equipmentTask">
+          <End Type="JCIEstimateModel.EquipmentTask" Role="EquipmentTask" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.EquipmentTaskDetail" Role="EquipmentTaskDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentTask">
+              <PropertyRef Name="equipmentTaskUid" />
+            </Principal>
+            <Dependent Role="EquipmentTaskDetail">
+              <PropertyRef Name="equipmentTaskUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTaskDetailItem_equipmentTaskDetail">
+          <End Type="JCIEstimateModel.EquipmentTaskDetail" Role="EquipmentTaskDetail" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.EquipmentTaskDetailItem" Role="EquipmentTaskDetailItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentTaskDetail">
+              <PropertyRef Name="equipmentTaskDetailUid" />
+            </Principal>
+            <Dependent Role="EquipmentTaskDetailItem">
+              <PropertyRef Name="equipmentTaskDetailUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTaskDetailItem_equipmentToDo">
+          <End Type="JCIEstimateModel.EquipmentToDo" Role="EquipmentToDo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.EquipmentTaskDetailItem" Role="EquipmentTaskDetailItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentToDo">
+              <PropertyRef Name="equipmentToDoUid" />
+            </Principal>
+            <Dependent Role="EquipmentTaskDetailItem">
+              <PropertyRef Name="equipmentToDoUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8568,6 +8806,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="EquipmentTasks">
             <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentTask">
               <MappingFragment StoreEntitySet="EquipmentTask">
+                <ScalarProperty Name="equipmentAttributeTypeUid" ColumnName="equipmentAttributeTypeUid" />
                 <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
                 <ScalarProperty Name="equipmentTaskDescription" ColumnName="equipmentTaskDescription" />
                 <ScalarProperty Name="equipmentTask1" ColumnName="equipmentTask" />
@@ -9606,6 +9845,29 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="costCodeDescription" ColumnName="costCodeDescription" />
                 <ScalarProperty Name="costCode1" ColumnName="costCode" />
                 <ScalarProperty Name="costCodeUid" ColumnName="costCodeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentTaskDetails">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentTaskDetail">
+              <MappingFragment StoreEntitySet="EquipmentTaskDetail">
+                <ScalarProperty Name="isWarrantyStart" ColumnName="isWarrantyStart" />
+                <ScalarProperty Name="isEquipmentExpected" ColumnName="isEquipmentExpected" />
+                <ScalarProperty Name="isScheduleList" ColumnName="isScheduleList" />
+                <ScalarProperty Name="sequence" ColumnName="sequence" />
+                <ScalarProperty Name="equipmentTaskDetail1" ColumnName="equipmentTaskDetail" />
+                <ScalarProperty Name="equipmentTaskUid" ColumnName="equipmentTaskUid" />
+                <ScalarProperty Name="equipmentTaskDetailUid" ColumnName="equipmentTaskDetailUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentTaskDetailItems">
+            <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentTaskDetailItem">
+              <MappingFragment StoreEntitySet="EquipmentTaskDetailItem">
+                <ScalarProperty Name="contractorUidAsAssigned" ColumnName="contractorUidAsAssigned" />
+                <ScalarProperty Name="equipmentToDoUid" ColumnName="equipmentToDoUid" />
+                <ScalarProperty Name="equipmentTaskDetailUid" ColumnName="equipmentTaskDetailUid" />
+                <ScalarProperty Name="equipmentTaskDetailItemUid" ColumnName="equipmentTaskDetailItemUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -37,6 +37,7 @@ namespace JCIEstimate.Content
                         //ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { format });
                         ReportViewer1.ShowExportControls = true;
                         ReportViewer1.ShowParameterPrompts = false;
+                        ReportViewer1.ServerReport.Timeout = 60000;
                     }
                     //else if (report == "ScopeOfWorkECM")
                     //{

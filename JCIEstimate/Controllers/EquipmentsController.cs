@@ -762,7 +762,7 @@ namespace JCIEstimate.Controllers
             List<FilterOptionModel> aryFo = new List<FilterOptionModel>();
 
             //apply session project predicate
-            var equipments = from cc in db.Equipments
+            var equipments = from cc in db.Equipments                             
                              where cc.Location.projectUid == sessionProject
                              select cc;
 
@@ -771,6 +771,8 @@ namespace JCIEstimate.Controllers
             equipments = equipments.Include(w => w.Location).OrderBy(n => n.Location.location1).ThenBy(n=>n.jciTag);
 
             aryFo = buildFilterDropDown(filterId, equipments);
+
+            //equipments.FirstOrDefault().EquipmentAttributeType.EquipmentTasks
 
             ViewBag.filterList = aryFo.ToList();
             ViewBag.equipmentTasks = db.EquipmentTasks;

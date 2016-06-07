@@ -19,19 +19,6 @@
     </tr>
 </table>
 <table id="GridTable" class="GridTable">
-    <thead>
-        <tr>
-            <th>
-                <span> </span>
-            </th>
-            @*<th>Replace</th>*@
-            @foreach (var item in ViewBag.equipmentTasks)
-            {
-                <th class="GridTable">@item.equipmentTask1</th>
-            }
-            <th>&nbsp;</th>
-        </tr>
-    </thead>
     <tbody id="tbEquipment">
         @Html.Partial("GridEditPartial")
     </tbody>

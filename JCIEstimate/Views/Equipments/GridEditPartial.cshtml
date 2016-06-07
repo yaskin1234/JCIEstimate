@@ -2,7 +2,7 @@
 @foreach (var item in ViewBag.equipment)
 {
     <tr>
-        <td class="GridTable"><a href="~/Equipments/Edit/@item.equipmentUid?returnURL=GridEdit">@item.Location.location1 - @item.jciTag - @item.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.installDate).Year</a></td>                
+        <td class="GridTable"><a href="~/Equipments/Edit/@item.equipmentUid?returnURL=GridEdit">@((item.ECM != null) ? item.ECM.ecmNumber : "" ) - @item.Location.location1 - @item.jciTag - @item.EquipmentAttributeType.equipmentAttributeType1 - @Convert.ToDateTime(item.installDate).Year</a></td>                
         @*<td>
             @if (item.equipmentUidAsReplaced == null)
             {
@@ -14,11 +14,11 @@
             }
             
         </td>*@        
-        @foreach (var task in ViewBag.equipmentTasks)
+        @foreach (var task in item.EquipmentAttributeType.EquipmentTasks)
         {
             string chked = "";
-            chked = item.isTaskForEquipment(task.equipmentTaskUid);                                                
-            <td class="GridTable"><input class="gridCheckBox" type="checkbox" name="@(item.equipmentUid)_@(task.equipmentTaskUid)" @chked /> </td>
+            chked = item.isTaskForEquipment(task.equipmentTaskUid);
+            <td class="GridTable"><table class="table-bordered"><tr><td><a href="@Url.Action("EditList", "EquipmentTaskDetailItems", new { id = item.equipmentUid + "_" + task.equipmentTaskUid })"> @task.equipmentTask1</a></td><td><input class="gridCheckBox" type="checkbox" id="@(item.equipmentUid)_@(task.equipmentTaskUid)" name="@(item.equipmentUid)_@(task.equipmentTaskUid)" @chked /></td></tr></table></td>
         }
         <td class="GridTable">
             @if (Request.IsAuthenticated && User.IsInRole("Admin"))

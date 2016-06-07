@@ -2180,6 +2180,14 @@
     <Content Include="Views\CostCodes\Index.cshtml" />
     <Content Include="Views\Reports\rptBidsByClassificationAndJCICode.cshtml" />
     <Content Include="Views\Reports\rptCommissionIssueSummary.cshtml" />
+    <Content Include="Views\Reports\rptScopeOfWorkECMDetailsEquipmentNote.cshtml" />
+    <Content Include="Views\EquipmentTaskDetails\Create.cshtml" />
+    <Content Include="Views\EquipmentTaskDetails\Delete.cshtml" />
+    <Content Include="Views\EquipmentTaskDetails\Details.cshtml" />
+    <Content Include="Views\EquipmentTaskDetails\Edit.cshtml" />
+    <Content Include="Views\EquipmentTaskDetails\Index.cshtml" />
+    <Content Include="Views\EquipmentTaskDetailItems\EditList.cshtml" />
+    <Content Include="Views\Reports\rptEquipmentTaskExport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2331,6 +2339,8 @@
     <Compile Include="Controllers\EquipmentNotesController.cs" />
     <Compile Include="Controllers\EquipmentNoteTypesController.cs" />
     <Compile Include="Controllers\EquipmentsController.cs" />
+    <Compile Include="Controllers\EquipmentTaskDetailItemsController.cs" />
+    <Compile Include="Controllers\EquipmentTaskDetailsController.cs" />
     <Compile Include="Controllers\EquipmentTasksController.cs" />
     <Compile Include="Controllers\EquipmentToDoesController.cs" />
     <Compile Include="Controllers\EquipmentTypesController.cs" />
@@ -2533,6 +2543,12 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EquipmentTask.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentTaskDetail.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentTaskDetailItem.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EquipmentToDo.cs">

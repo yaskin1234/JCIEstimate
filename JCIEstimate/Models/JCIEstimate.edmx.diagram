@@ -276,6 +276,13 @@
         <AssociationConnector Association="JCIEstimateModel.fk_Contractor_CostCode" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_CostCode" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseMonthly_CostCode" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipmentTask_type" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentTaskDetail" Width="1.5" PointX="25.625" PointY="45.375" />
+        <EntityTypeShape EntityType="JCIEstimateModel.EquipmentTaskDetailItem" Width="1.5" PointX="27.875" PointY="10.625" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTaskDetailItem_Contractor" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTaskDetail_equipmentTask" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentTaskDetail" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentToDo" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

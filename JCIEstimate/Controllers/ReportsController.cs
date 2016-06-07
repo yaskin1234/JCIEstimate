@@ -309,6 +309,18 @@ namespace JCIEstimate.Controllers
         }
 
 
+        public ActionResult GetScopeOfWorkECMDetailsEquipmentNote()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptScopeOfWorkECMDetailsEquipmentNote");
+            }
+        }
+
         public ActionResult GetProjectMilestoneActions()
         {
             if (Session["projectUid"] == null)
@@ -332,6 +344,18 @@ namespace JCIEstimate.Controllers
             else
             {
                 return View("rptEquipmentExport");
+            }
+        }
+
+        public ActionResult GetEquipmentTaskExport()
+        {
+            if (Session["projectUid"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("rptEquipmentTaskExport");
             }
         }
     }

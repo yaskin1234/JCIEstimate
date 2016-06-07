@@ -17,13 +17,17 @@ namespace JCIEstimate.Models
         public EquipmentTask()
         {
             this.EquipmentToDoes = new HashSet<EquipmentToDo>();
+            this.EquipmentTaskDetails = new HashSet<EquipmentTaskDetail>();
         }
     
         public System.Guid equipmentTaskUid { get; set; }
         public string equipmentTask1 { get; set; }
         public string equipmentTaskDescription { get; set; }
         public string behaviorIndicator { get; set; }
+        public Nullable<System.Guid> equipmentAttributeTypeUid { get; set; }
     
         public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
+        public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }
+        public virtual ICollection<EquipmentTaskDetail> EquipmentTaskDetails { get; set; }
     }
 }

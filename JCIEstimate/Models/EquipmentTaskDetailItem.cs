@@ -12,20 +12,15 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EquipmentToDo
+    public partial class EquipmentTaskDetailItem
     {
-        public EquipmentToDo()
-        {
-            this.EquipmentTaskDetailItems = new HashSet<EquipmentTaskDetailItem>();
-        }
-    
+        public System.Guid equipmentTaskDetailItemUid { get; set; }
+        public System.Guid equipmentTaskDetailUid { get; set; }
         public System.Guid equipmentToDoUid { get; set; }
-        public System.Guid equipmentUid { get; set; }
-        public System.Guid equipmentTaskUid { get; set; }
-        public Nullable<decimal> daysToComplete { get; set; }
+        public Nullable<System.Guid> contractorUidAsAssigned { get; set; }
     
-        public virtual EquipmentTask EquipmentTask { get; set; }
-        public virtual Equipment Equipment { get; set; }
-        public virtual ICollection<EquipmentTaskDetailItem> EquipmentTaskDetailItems { get; set; }
+        public virtual Contractor Contractor { get; set; }
+        public virtual EquipmentTaskDetail EquipmentTaskDetail { get; set; }
+        public virtual EquipmentToDo EquipmentToDo { get; set; }
     }
 }

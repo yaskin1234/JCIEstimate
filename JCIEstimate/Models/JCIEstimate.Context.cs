@@ -137,5 +137,7 @@ namespace JCIEstimate.Models
         public virtual DbSet<Estimate> Estimates { get; set; }
         public virtual DbSet<ContractorClassification> ContractorClassifications { get; set; }
         public virtual DbSet<CostCode> CostCodes { get; set; }
+        public virtual DbSet<EquipmentTaskDetail> EquipmentTaskDetails { get; set; }
+        public virtual DbSet<EquipmentTaskDetailItem> EquipmentTaskDetailItems { get; set; }
     }
 }

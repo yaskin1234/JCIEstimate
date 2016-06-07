@@ -1,0 +1,70 @@
+﻿@model IEnumerable<JCIEstimate.Models.EquipmentTaskDetail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<select class="equipmentTaskDetailFilter" id="equipmentTaskDetailFilter" name="equipmentTaskDetailFilter">
+    @foreach (var item in ViewBag.filterList)
+    {
+        <option value="@item.value" @((item.selected) ? "selected" : "")>@item.text</option>
+    }
+</select>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EquipmentTask.equipmentTask1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.equipmentTaskDetail1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sequence)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isScheduleList)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isEquipmentExpected)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isWarrantyStart)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.EquipmentTask.EquipmentAttributeType.equipmentAttributeType1 - @item.EquipmentTask.equipmentTask1
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.equipmentTaskDetail1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sequence)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isScheduleList)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isEquipmentExpected)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isWarrantyStart)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.equipmentTaskDetailUid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.equipmentTaskDetailUid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.equipmentTaskDetailUid })
+        </td>
+    </tr>
+}
+
+</table>

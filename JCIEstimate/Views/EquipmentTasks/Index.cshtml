@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.EquipmentAttributeType.equipmentAttributeType1)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.equipmentTask1)
         </th>
         <th>
@@ -25,6 +28,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EquipmentAttributeType.equipmentAttributeType1)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.equipmentTask1)
         </td>

@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
+using JCIExtensions;
 
 namespace JCIEstimate.Controllers
 {
@@ -18,7 +19,7 @@ namespace JCIEstimate.Controllers
         // GET: EquipmentTasks
         public async Task<ActionResult> Index()
         {
-            return View(await db.EquipmentTasks.ToListAsync());
+            return View(await db.EquipmentTasks.OrderBy(c=>c.EquipmentAttributeType.equipmentAttributeType1).ThenBy(c=>c.equipmentTask1).ToListAsync());
         }
 
         // GET: EquipmentTasks/Details/5
@@ -39,6 +40,7 @@ namespace JCIEstimate.Controllers
         // GET: EquipmentTasks/Create
         public ActionResult Create()
         {
+            ViewBag.equipmentAttributeTypeUid = db.EquipmentAttributeTypes.OrderBy(c => c.equipmentAttributeType1).ToSelectList(c=>c.equipmentAttributeType1, c=>c.equipmentAttributeTypeUid.ToString(), "");
             return View();
         }
 
@@ -47,7 +49,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "equipmentTaskUid,equipmentTask1,equipmentTaskDescription,behaviorIndicator")] EquipmentTask equipmentTask)
+        public async Task<ActionResult> Create([Bind(Include = "equipmentTaskUid,equipmentTask1,equipmentTaskDescription,behaviorIndicator,equipmentAttributeTypeUid")] EquipmentTask equipmentTask)
         {
             if (ModelState.IsValid)
             {
@@ -72,6 +74,9 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.equipmentAttributeTypeUid = db.EquipmentAttributeTypes.OrderBy(c => c.equipmentAttributeType1).ToSelectList(c => c.equipmentAttributeType1, c => c.equipmentAttributeTypeUid.ToString(), equipmentTask.equipmentAttributeTypeUid.ToString());
+
             return View(equipmentTask);
         }
 
@@ -80,7 +85,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "equipmentTaskUid,equipmentTask1,equipmentTaskDescription,behaviorIndicator")] EquipmentTask equipmentTask)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentTaskUid,equipmentTask1,equipmentTaskDescription,behaviorIndicator,equipmentAttributeTypeUid")] EquipmentTask equipmentTask)
         {
             if (ModelState.IsValid)
             {

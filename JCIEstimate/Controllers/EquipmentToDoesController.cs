@@ -44,7 +44,21 @@ namespace JCIEstimate.Controllers
                 try
                 {
                     db.EquipmentToDoes.Add(newEQ);
-                    await db.SaveChangesAsync();                             
+
+                    var details = from cc in db.EquipmentTaskDetails
+                                  where cc.equipmentTaskUid == newEQ.equipmentTaskUid
+                                  select cc;
+
+                    foreach (var item in details)
+                    {
+                        EquipmentTaskDetailItem etdi = new EquipmentTaskDetailItem();
+                        etdi.equipmentTaskDetailItemUid = Guid.NewGuid();
+                        etdi.equipmentToDoUid = newEQ.equipmentToDoUid;
+                        etdi.equipmentTaskDetailUid = item.equipmentTaskDetailUid;
+                        db.EquipmentTaskDetailItems.Add(etdi);
+                    }
+
+                    await db.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {

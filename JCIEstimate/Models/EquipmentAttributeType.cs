@@ -20,6 +20,7 @@ namespace JCIEstimate.Models
             this.EquipmentAttributeTypeTasks = new HashSet<EquipmentAttributeTypeTask>();
             this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
             this.Equipments = new HashSet<Equipment>();
+            this.EquipmentTasks = new HashSet<EquipmentTask>();
         }
     
         public System.Guid equipmentAttributeTypeUid { get; set; }
@@ -31,5 +32,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<EquipmentAttributeTypeTask> EquipmentAttributeTypeTasks { get; set; }
         public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }
+        public virtual ICollection<EquipmentTask> EquipmentTasks { get; set; }
     }
 }

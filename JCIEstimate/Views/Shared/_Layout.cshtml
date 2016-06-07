@@ -45,6 +45,7 @@
                             <li>@Html.ActionLink("Commission Status", "Index", "CommissionStatus")</li>
                             <li>@Html.ActionLink("Warranty Status", "Index", "WarrantyStatus")</li>
                             <li>@Html.ActionLink("Equipment Tasks", "Index", "EquipmentTasks")</li>
+                            <li>@Html.ActionLink("Equipment Task Details", "Index", "EquipmentTaskDetails")</li>
                             <li>@Html.ActionLink("Expense Types", "Index", "ExpenseTypes")</li>
                             <li>@Html.ActionLink("Project Attachment Types", "Index", "ProjectAttachmentTypes")</li>
                             <li>@Html.ActionLink("Equipment Types", "Index", "EquipmentTypes")</li>
@@ -124,7 +125,7 @@
                                 <li>@Html.ActionLink("Report -- Estimate Comparison", "GetEstimateComparison", "Reports")</li>
                                 <li>@Html.ActionLink("Report -- Estimate Comparison - Active Bids", "GetEstimateComparisonActive", "Reports")</li>                                                     
                                 <li>@Html.ActionLink("Report -- JCI Worksite Export", "GetJCIWorksiteExport", "Reports")</li>           
-                                
+                                <li>@Html.ActionLink("Report -- Equipment Notes", "GetScopeOfWorkECMDetailsEquipmentNote", "Reports")</li>
                             </ul>
                         </li>
                     }                          
@@ -250,6 +251,7 @@
                                 <li>@Html.ActionLink("Add Pictures", "AddPicturesForEquipment", "Equipments")</li>
                                 <li>@Html.ActionLink("Equipment Grid", "GridEdit", "Equipments")</li>
                                 <li>@Html.ActionLink("Location Completion Grid", "Edit", "LocationCompletionCategories")</li>
+                                <li>@Html.ActionLink("Report - Equipment Task Export", "GetEquipmentTaskExport", "Reports")</li>
                             </ul>
                         </li>
                     }
