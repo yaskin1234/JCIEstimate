@@ -23,9 +23,9 @@ namespace JCIEstimate.Models
         public Nullable<int> amount { get; set; }
     
         public virtual Contractor Contractor { get; set; }
-        public virtual ECM ECM { get; set; }
         public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }
         public virtual EquipmentAttributeTypeTask EquipmentAttributeTypeTask { get; set; }
         public virtual Location Location { get; set; }
+        public virtual ECM ECM { get; set; }
     }
 }

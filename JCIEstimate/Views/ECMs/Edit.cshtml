@@ -7,7 +7,7 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "ECMs", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -50,6 +50,20 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <b><span class="control-label col-md-2">Current Scope PDF</span></b>
+            <div class="col-md-10">
+                @((Model.pdfSnippetFileName == null) ? "No Document Uploaded" : Model.pdfSnippetFileName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2"><b>Add/Update PDF Snippet</b></div>
+            <div class="col-md-10">
+                <input type="file" name="pics" multiple class="btn btn-default" />                
+            </div>
+        </div>
+        
         @*<div class="form-group">
             @Html.LabelFor(model => model.scopeOfWorkNote2, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

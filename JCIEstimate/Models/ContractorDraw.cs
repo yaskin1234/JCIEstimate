@@ -25,7 +25,7 @@ namespace JCIEstimate.Models
         public Nullable<System.DateTime> dateCreated { get; set; }
     
         public virtual Contractor Contractor { get; set; }
-        public virtual Project Project { get; set; }
         public virtual ICollection<ContractorDrawSchedule> ContractorDrawSchedules { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

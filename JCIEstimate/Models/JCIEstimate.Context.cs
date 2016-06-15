@@ -30,7 +30,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ContractorContact> ContractorContacts { get; set; }
         public virtual DbSet<ContractorUser> ContractorUsers { get; set; }
         public virtual DbSet<Eddress> Eddresses { get; set; }
-        public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<ExpenseConstruction> ExpenseConstructions { get; set; }
         public virtual DbSet<Interval> Intervals { get; set; }
         public virtual DbSet<EquipmentType> EquipmentTypes { get; set; }
@@ -81,7 +80,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ExpenseType> ExpenseTypes { get; set; }
         public virtual DbSet<ExpenseConstructionDrawSchedule> ExpenseConstructionDrawSchedules { get; set; }
         public virtual DbSet<ExpenseConstructionDraw> ExpenseConstructionDraws { get; set; }
-        public virtual DbSet<ECM> ECMs { get; set; }
         public virtual DbSet<ControlType> ControlTypes { get; set; }
         public virtual DbSet<HeatType> HeatTypes { get; set; }
         public virtual DbSet<EquipmentCondition> EquipmentConditions { get; set; }
@@ -139,5 +137,7 @@ namespace JCIEstimate.Models
         public virtual DbSet<CostCode> CostCodes { get; set; }
         public virtual DbSet<EquipmentTaskDetail> EquipmentTaskDetails { get; set; }
         public virtual DbSet<EquipmentTaskDetailItem> EquipmentTaskDetailItems { get; set; }
+        public virtual DbSet<ECM> ECMs { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
     }
 }

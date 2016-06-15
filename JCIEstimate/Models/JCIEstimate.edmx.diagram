@@ -10,29 +10,23 @@
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorUser" Width="1.5" PointX="11.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="JCIEstimateModel.Eddress" Width="1.5" PointX="17.25" PointY="3.875" />
-        <EntityTypeShape EntityType="JCIEstimateModel.Project" Width="1.5" PointX="16.125" PointY="16.5" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractor_user" />
         <AssociationConnector Association="JCIEstimateModel.fk_contractorContact" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstruction" Width="1.5" PointX="7.625" PointY="18.625" />
-        <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.Interval" Width="1.5" PointX="0.75" PointY="0.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_interval" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentType" Width="1.5" PointX="21.125" PointY="23" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseMiscellaneou" Width="1.5" PointX="16.125" PointY="24" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseMiscellaneousProject" Width="1.5" PointX="18.375" PointY="18.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_expensemiscellaneousproject_expensemiscellaneous" />
-        <AssociationConnector Association="JCIEstimateModel.fk_expensemiscellaneousproject_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpensePercentage" Width="1.5" PointX="18.375" PointY="21.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_expensePercentage_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ToDoStatu" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectToDo" Width="1.5" PointX="3" PointY="4.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_projecttodo_todostatus" />
         <EntityTypeShape EntityType="JCIEstimateModel.ScopeOfWork" Width="1.5" PointX="18.375" PointY="13.625" />
         <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_category" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseMonthly" Width="1.5" PointX="18.375" PointY="24.375" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ExpenseMonthly_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.EstimateException" Width="1.5" PointX="17.625" PointY="29.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.EstimateExceptionResponse" Width="1.5" PointX="19.875" PointY="29.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.EstimateExclusion" Width="1.5" PointX="17.625" PointY="8.875" />
@@ -62,7 +56,6 @@
         <EntityTypeShape EntityType="JCIEstimateModel.LocationIssue" Width="1.5" PointX="20.625" PointY="16.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.LocationNote" Width="1.5" PointX="22.875" PointY="9.25" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyIssue" Width="1.5" PointX="23.625" PointY="16.25" />
-        <AssociationConnector Association="JCIEstimateModel.fk_location_project" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyUnit_location" />
@@ -77,26 +70,21 @@
         <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote__Equipmentnotetype" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectAttachment" Width="1.5" PointX="18.375" PointY="41.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectAttachmentType" Width="1.5" PointX="7.375" PointY="0.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectAttachment_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectRFIResponse" Width="1.5" PointX="24.625" PointY="3" />
         <EntityTypeShape EntityType="JCIEstimateModel.RfiType" Width="1.5" PointX="20.125" PointY="4.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectRFI" Width="1.5" PointX="25.375" PointY="8.375" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_Contractor" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_RfiType" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFIResponse_ProjectRFI" />
         <EntityTypeShape EntityType="JCIEstimateModel.RfiStatu" Width="1.5" PointX="5.375" PointY="9.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_RfiStatus" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectAddendum" Width="1.5" PointX="18.375" PointY="44.5" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectAddendum_project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectManagerAttachment" Width="1.5" PointX="22.375" PointY="5.5" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectManagerAttachment_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorTotalsByProject" Width="1.5" PointX="3.75" PointY="13.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.v__ContractorECMByCategory" Width="1.5" PointX="5.75" PointY="13.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.v__ExpensePercentage" Width="1.5" PointX="9.75" PointY="6.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorDraw" Width="1.5" PointX="26.375" PointY="14" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorDraw_Contractor" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ContractorDraw_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorDrawSchedule" Width="1.5" PointX="28.625" PointY="14.25" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorDrawSchedule_ContractorDraw" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseType" Width="1.5" PointX="12.375" PointY="6.875" />
@@ -106,29 +94,22 @@
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstructionDrawSchedule" Width="1.5" PointX="23.625" PointY="38.375" />
         <EntityTypeShape EntityType="JCIEstimateModel.ExpenseConstructionDraw" Width="1.5" PointX="26.375" PointY="21.375" />
         <AssociationConnector Association="JCIEstimateModel.fk_ExpenseConstructionDraw_ExpenseConstructionType" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ExpenseConstructionDraw_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ExpenseConstructionDrawSchedule_ExpenseConstructionDraw" />
-        <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="18.375" PointY="48.125" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ecm_project" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_ECM" />
         <EntityTypeShape EntityType="JCIEstimateModel.ControlType" Width="1.5" PointX="0.75" PointY="12.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.HeatType" Width="1.5" PointX="12.75" PointY="13.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentCondition" Width="1.5" PointX="12.375" PointY="16.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoff" Width="1.5" PointX="22.375" PointY="0.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Contractor" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffAttachment" Width="1.5" PointX="24.625" PointY="0.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffAttachment_contractorSignoffUid" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffFinal" Width="1.5" PointX="27.375" PointY="2" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorSignoffFinalAttachment" Width="1.5" PointX="29.625" PointY="1.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffFinal_Contractor" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffFinal_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffFinalAttachment_contractorSignoffFinalUid" />
         <EntityTypeShape EntityType="JCIEstimateModel.CompletionCategory" Width="1.5" PointX="18.375" PointY="52.25" />
         <EntityTypeShape EntityType="JCIEstimateModel.LocationCompletionCategory" Width="1.5" PointX="20.625" PointY="26" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationCompletionCategory_CompletionCategory" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationCompletionCategory_Location" />
-        <AssociationConnector Association="JCIEstimateModel.fk_LocationCompletionCategory_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.PECTask" Width="1.5" PointX="26.125" PointY="24.875" />
         <EntityTypeShape EntityType="JCIEstimateModel.Week" Width="1.5" PointX="26.125" PointY="27.375" />
         <EntityTypeShape EntityType="JCIEstimateModel.PECExpenseType" Width="1.5" PointX="0.75" PointY="17.75" />
@@ -136,17 +117,14 @@
         <AssociationConnector Association="JCIEstimateModel.fk_PECCost_ExpenseType" />
         <AssociationConnector Association="JCIEstimateModel.fk_PECCost_Location" />
         <AssociationConnector Association="JCIEstimateModel.fk_PECCost_PecTask" />
-        <AssociationConnector Association="JCIEstimateModel.fk_PECCost_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentAttributeTypeTask" Width="1.5" PointX="21.375" PointY="45" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentAttributeTypeTask_AttributeType" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentTypeTaskAssignment" Width="1.5" PointX="23.625" PointY="29.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_contractor" />
-        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_AttributeType" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_equipmentAttributeTypeTaskUid" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectUser" Width="1.5" PointX="21.375" PointY="12.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_project_user" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectEstimateEmail__v" Width="1.5" PointX="3.375" PointY="18.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.EstimateOption" Width="1.5" PointX="0.75" PointY="20.875" />
@@ -156,14 +134,12 @@
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_Contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_ContractorNoteStatus" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_ContractorNoteType" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.Shift" Width="1.5" PointX="28.625" PointY="36.5" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorSchedule" Width="1.5" PointX="33.875" PointY="15.25" />
         <EntityTypeShape EntityType="JCIEstimateModel.MasterSchedule" Width="1.5" PointX="28.625" PointY="26.875" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSchedule_Contractor" />
         <AssociationConnector Association="JCIEstimateModel.fk_ContractorSchedule_MasterSchedule" />
         <AssociationConnector Association="JCIEstimateModel.fk_MasterSchedule_Location" />
-        <AssociationConnector Association="JCIEstimateModel.fk_MasterSchedule_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.MasterScheduleTask" Width="1.5" PointX="30.875" PointY="27.25" />
         <AssociationConnector Association="JCIEstimateModel.fk_MasterScheduleTask_MasterSchedule" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorScheduleTask" Width="1.5" PointX="36.125" PointY="25.25" />
@@ -191,7 +167,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDay_Calendar" />
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_CalendarDay" />
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_Location" />
-        <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectCalendar" Width="1.5" PointX="16.5" PointY="64.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectCalendarDay" Width="1.5" PointX="18.75" PointY="64.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDay_ProjectCalendar" />
@@ -199,7 +174,6 @@
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectCalendarDayTask" Width="1.5" PointX="27" PointY="39.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectTaskPrototype" Width="1.5" PointX="14.375" PointY="26.75" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_Location" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectCalendarDay" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectTaskCategory" />
         <EntityTypeShape EntityType="JCIEstimateModel.AspNetUser" Width="1.5" PointX="8" PointY="30.625" />
@@ -220,7 +194,6 @@
         <AssociationConnector Association="JCIEstimateModel.fk_Equipmentnote__aspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_AspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_project_AspNetUser" />
-        <AssociationConnector Association="JCIEstimateModel.fk_project_PM" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectAddemdum_created" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser" />
@@ -232,11 +205,9 @@
         <AssociationConnector Association="JCIEstimateModel.fk_AspNetUsersExtension_AspNetUser" />
         <EntityTypeShape EntityType="JCIEstimateModel.ProjectTaskList" Width="1.5" PointX="29.375" PointY="31" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_AspNetUser" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListParent" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListPredecessor" />
         <EntityTypeShape EntityType="JCIEstimateModel.ReportDefinition" Width="1.5" PointX="3.375" PointY="21.75" />
-        <AssociationConnector Association="JCIEstimateModel.fk_ReportDefinition_Project" />
         <EntityTypeShape EntityType="JCIEstimateModel.CommissionAttachment" Width="1.5" PointX="33.875" PointY="31.375" />
         <EntityTypeShape EntityType="JCIEstimateModel.CommissionNote" Width="1.5" PointX="33.875" PointY="35" />
         <EntityTypeShape EntityType="JCIEstimateModel.CommissionStatu" Width="1.5" PointX="29.375" PointY="39.5" />
@@ -250,7 +221,6 @@
         <EntityTypeShape EntityType="JCIEstimateModel.Equipment" Width="1.5" PointX="31.625" PointY="36.5" />
         <AssociationConnector Association="JCIEstimateModel.fk_CommissionIssue_Equipment" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_controlType" />
-        <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_AttributeType" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_Condition" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipment_equipmentAsReplaced" />
@@ -263,7 +233,6 @@
         <EntityTypeShape EntityType="JCIEstimateModel.Estimate" Width="1.5" PointX="20.625" PointY="36.125" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_category" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_contractor" />
-        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_estiamteOption" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_status" />
@@ -283,6 +252,37 @@
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTaskDetail_equipmentTask" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentTaskDetail" />
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentToDo" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ECM" Width="1.5" PointX="18.375" PointY="68.125" />
+        <AssociationConnector Association="JCIEstimateModel.fk_equipment_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" />
+        <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_ECM" />
+        <EntityTypeShape EntityType="JCIEstimateModel.Project" Width="1.5" PointX="10.25" PointY="37.25" />
+        <AssociationConnector Association="JCIEstimateModel.fk_project_PM" />
+        <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorDraw_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorNote_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoff_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ContractorSignoffFinal_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ecm_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_expenseConstruction_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ExpenseConstructionDraw_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_expensemiscellaneousproject_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ExpenseMonthly_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_expensePercentage_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_location_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_LocationCompletionCategory_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_MasterSchedule_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_PECCost_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_project_user" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectAddendum_project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectAttachment_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectManagerAttachment_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ReportDefinition_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_project" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

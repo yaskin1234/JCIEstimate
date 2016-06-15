@@ -23,6 +23,21 @@ namespace JCIEstimate.Controllers
             return View(await db.Projects.OrderBy(c=>c.project1).ToListAsync());        
         }
 
+        public ActionResult GetScopeDocument(Guid id)
+        {
+            Project project = db.Projects.Find(id);
+            byte[] contents = project.scopeDocumentPDF;
+            if (contents != null)
+            {
+                return File(contents, "application/pdf", project.project1 + "_ScopeDocument_" + DateTime.Now.ToFileTime() + ".pdf");
+            }
+            else
+            {
+                return View();
+            }
+            
+        }
+
         // GET: ChooseProject
         public async Task<ActionResult> ChooseProject()
         {

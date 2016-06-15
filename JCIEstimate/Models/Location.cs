@@ -33,7 +33,6 @@ namespace JCIEstimate.Models
         public string locationDescription { get; set; }
         public System.Guid projectUid { get; set; }
     
-        public virtual Project Project { get; set; }
         public virtual ICollection<LocationIssue> LocationIssues { get; set; }
         public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
         public virtual ICollection<WarrantyUnit> WarrantyUnits { get; set; }
@@ -44,5 +43,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

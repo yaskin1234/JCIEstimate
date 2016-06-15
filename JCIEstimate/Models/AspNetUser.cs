@@ -33,7 +33,6 @@ namespace JCIEstimate.Models
             this.EquipmentNotes = new HashSet<EquipmentNote>();
             this.LocationIssues1 = new HashSet<LocationIssue>();
             this.ProjectUsers = new HashSet<ProjectUser>();
-            this.Projects = new HashSet<Project>();
             this.ProjectAddendums = new HashSet<ProjectAddendum>();
             this.ProjectCalendarDayTasks = new HashSet<ProjectCalendarDayTask>();
             this.ProjectCalendars = new HashSet<ProjectCalendar>();
@@ -45,6 +44,7 @@ namespace JCIEstimate.Models
             this.ProjectTaskLists = new HashSet<ProjectTaskList>();
             this.CommissionNotes = new HashSet<CommissionNote>();
             this.CommissionIssues = new HashSet<CommissionIssue>();
+            this.Projects = new HashSet<Project>();
         }
     
         public string Id { get; set; }
@@ -78,7 +78,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<EquipmentNote> EquipmentNotes { get; set; }
         public virtual ICollection<LocationIssue> LocationIssues1 { get; set; }
         public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
-        public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<ProjectAddendum> ProjectAddendums { get; set; }
         public virtual ICollection<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
         public virtual ICollection<ProjectCalendar> ProjectCalendars { get; set; }
@@ -90,5 +89,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ProjectTaskList> ProjectTaskLists { get; set; }
         public virtual ICollection<CommissionNote> CommissionNotes { get; set; }
         public virtual ICollection<CommissionIssue> CommissionIssues { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
     }
 }

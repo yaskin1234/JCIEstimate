@@ -50,7 +50,6 @@ namespace JCIEstimate.Models
     
         public virtual ICollection<CommissionIssue> CommissionIssues { get; set; }
         public virtual ControlType ControlType { get; set; }
-        public virtual ECM ECM { get; set; }
         public virtual EquipmentAttributeType EquipmentAttributeType { get; set; }
         public virtual EquipmentCondition EquipmentCondition { get; set; }
         public virtual ICollection<Equipment> Equipment1 { get; set; }
@@ -61,5 +60,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<EquipmentAttachment> EquipmentAttachments { get; set; }
         public virtual ICollection<EquipmentNote> EquipmentNotes { get; set; }
         public virtual ICollection<EquipmentToDo> EquipmentToDoes { get; set; }
+        public virtual ECM ECM { get; set; }
     }
 }

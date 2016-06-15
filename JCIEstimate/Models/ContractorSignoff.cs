@@ -30,8 +30,8 @@ namespace JCIEstimate.Models
         public System.Guid contractorUid { get; set; }
     
         public virtual Contractor Contractor { get; set; }
-        public virtual Project Project { get; set; }
         public virtual ICollection<ContractorSignoffAttachment> ContractorSignoffAttachments { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

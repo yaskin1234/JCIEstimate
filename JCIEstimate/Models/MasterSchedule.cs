@@ -29,7 +29,7 @@ namespace JCIEstimate.Models
     
         public virtual ICollection<ContractorSchedule> ContractorSchedules { get; set; }
         public virtual Location Location { get; set; }
-        public virtual Project Project { get; set; }
         public virtual ICollection<MasterScheduleTask> MasterScheduleTasks { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

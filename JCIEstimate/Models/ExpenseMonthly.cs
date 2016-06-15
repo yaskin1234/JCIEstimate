@@ -25,8 +25,8 @@ namespace JCIEstimate.Models
         public Nullable<System.Guid> expenseTypeUid { get; set; }
         public Nullable<System.Guid> costCodeUid { get; set; }
     
-        public virtual Project Project { get; set; }
         public virtual ExpenseType ExpenseType { get; set; }
         public virtual CostCode CostCode { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

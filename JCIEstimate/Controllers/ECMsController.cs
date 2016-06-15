@@ -8,6 +8,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JCIEstimate.Models;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+using PdfSharp.Drawing;
 
 namespace JCIEstimate.Controllers
 {
@@ -119,16 +125,74 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectUid,scopeOfWorkNote,scopeOfWorkNote2,scopeOfWorkNote3,scopeOfWorkNote4,scopeOfWorkNote5,scopeOfWorkNote6,scopeOfWorkNote7,scopeOfWorkNote8,scopeOfWorkNote9,scopeOfWorkNote10,scopeOfWorkNote11,scopeOfWorkNote12,scopeOfWorkNote13,scopeOfWorkNote14,scopeOfWorkNote15")] ECM eCM)
+        public async Task<ActionResult> Edit([Bind(Include = "ecmUid,ecmNumber,ecmDescription,ecmString,projectUid,scopeOfWorkNote,scopeOfWorkNote2,scopeOfWorkNote3,scopeOfWorkNote4,scopeOfWorkNote5,scopeOfWorkNote6,scopeOfWorkNote7,scopeOfWorkNote8,scopeOfWorkNote9,scopeOfWorkNote10,scopeOfWorkNote11,scopeOfWorkNote12,scopeOfWorkNote13,scopeOfWorkNote14,scopeOfWorkNote15")] ECM eCM, IEnumerable<HttpPostedFileBase> pics)
         {
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+
+            ECM currentECM = db.ECMs.AsNoTracking().Single(c => c.ecmUid == eCM.ecmUid);
+            byte[] currentFile = currentECM.pdfSnippet;
+            string currentEcmFileName = currentECM.pdfSnippetFileName;
+            currentECM = null;
+
             if (ModelState.IsValid)
-            {
+            {                
                 db.Entry(eCM).State = EntityState.Modified;
+                //add pictures
+                foreach (var file in pics)
+                {
+                    if (file != null)
+                    {
+                        int fileSize = file.ContentLength;                        
+                        byte[] uploadedFile = new byte[file.InputStream.Length];
+                        file.InputStream.Read(uploadedFile, 0, uploadedFile.Length);                                                
+                        eCM.pdfSnippet = uploadedFile;
+                        eCM.pdfSnippetFileName = file.FileName;
+                    }
+                    else
+                    {
+                        eCM.pdfSnippet = currentFile;
+                        eCM.pdfSnippetFileName = currentEcmFileName;
+                    }
+                }
+
                 await db.SaveChangesAsync();
+
+                if (pics != null)
+                {
+                    PdfDocument final = new PdfDocument();
+                    foreach (var oECM in db.ECMs.Where(c=>c.projectUid == eCM.projectUid).Where(c=>c.pdfSnippet != null).Where(c=>c.showOnScopeReport).OrderBy(c=>c.ecmNumber))
+                    {
+                        MemoryStream ms = new MemoryStream(oECM.pdfSnippet);
+                        PdfDocument from = PdfReader.Open(ms, PdfDocumentOpenMode.Import);
+                        ms.Close();
+                        //PdfDocument from = new PdfDocument(@"F:\Dloads\!!HealthInsurance\DentalEOB_5.2012.pdf");
+                        CopyPages(from, final);
+                    }
+
+                    MemoryStream finalMS = new MemoryStream();
+                    final.Save(finalMS, false);                    
+                    MemoryStream target = new MemoryStream();
+                    byte[] finalPDF = new byte[finalMS.Length];
+                    finalMS.Read(finalPDF, 0, finalPDF.Length);
+                    finalMS.Close();
+                    Project p = db.Projects.Where(c => c.projectUid == sessionProject).FirstOrDefault();
+                    db.Entry(p).State = EntityState.Modified;
+                    p.scopeDocumentPDF = finalPDF;
+                    await db.SaveChangesAsync();                    
+                }
+                
                 return RedirectToAction("Index");
             }
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", eCM.projectUid);
             return View(eCM);
+        }
+
+        void CopyPages(PdfDocument from, PdfDocument to)
+        {
+            for (int i = 0; i < from.PageCount; i++)
+            {
+                to.AddPage(from.Pages[i]);
+            }
         }
 
         // GET: ECMs/Delete/5
