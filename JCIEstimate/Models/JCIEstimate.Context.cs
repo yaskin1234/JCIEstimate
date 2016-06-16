@@ -138,6 +138,7 @@ namespace JCIEstimate.Models
         public virtual DbSet<EquipmentTaskDetail> EquipmentTaskDetails { get; set; }
         public virtual DbSet<EquipmentTaskDetailItem> EquipmentTaskDetailItems { get; set; }
         public virtual DbSet<ECM> ECMs { get; set; }
+        public virtual DbSet<ProjectScope> ProjectScopes { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
     }
 }

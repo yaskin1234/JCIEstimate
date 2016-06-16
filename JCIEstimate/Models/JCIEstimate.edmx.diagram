@@ -257,6 +257,7 @@
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_ECM" />
+        <EntityTypeShape EntityType="JCIEstimateModel.ProjectScope" Width="1.5" PointX="12.5" PointY="40.375" />
         <EntityTypeShape EntityType="JCIEstimateModel.Project" Width="1.5" PointX="10.25" PointY="37.25" />
         <AssociationConnector Association="JCIEstimateModel.fk_project_PM" />
         <AssociationConnector Association="JCIEstimateModel.fk_CalendarDayTask_Project" />
@@ -280,6 +281,7 @@
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectCalendarDayTask_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectManagerAttachment_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_Project" />
+        <AssociationConnector Association="JCIEstimateModel.fk_ProjectScope_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ReportDefinition_Project" />
         <AssociationConnector Association="JCIEstimateModel.fk_ScopeOfWork_project" />

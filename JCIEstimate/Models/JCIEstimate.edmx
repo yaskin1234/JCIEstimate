@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="JCIEstimateModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="JCIEstimateModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AppDataType">
           <Key>
             <PropertyRef Name="appDataTypeUid" />
@@ -838,7 +838,6 @@
           <Property Name="contractAmount" Type="int" Nullable="false" />
           <Property Name="startDate" Type="date" />
           <Property Name="drawPeriods" Type="int" Nullable="false" />
-          <Property Name="scopeDocumentPDF" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="ProjectAddendum">
           <Key>
@@ -937,6 +936,14 @@
           <Property Name="dateCreated" Type="datetime" Nullable="false" />
           <Property Name="aspNetUserUidAsResponded" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="projectRFIResponse" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="ProjectScope">
+          <Key>
+            <PropertyRef Name="projectScopeUid" />
+          </Key>
+          <Property Name="projectScopeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="projectScopePDF" Type="varbinary(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="ProjectTaskCategory">
           <Key>
@@ -3036,6 +3043,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_ProjectScope_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="ProjectScope" Type="Self.ProjectScope" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectScope">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_ProjectTaskList_AspNetUser">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="ProjectTaskList" Type="Self.ProjectTaskList" Multiplicity="*" />
@@ -3385,6 +3404,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="ProjectManagerAttachment" EntityType="Self.ProjectManagerAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectRFI" EntityType="Self.ProjectRFI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectRFIResponse" EntityType="Self.ProjectRFIResponse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectScope" EntityType="Self.ProjectScope" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectTaskCategory" EntityType="Self.ProjectTaskCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectTaskList" EntityType="Self.ProjectTaskList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectTaskPrototype" EntityType="Self.ProjectTaskPrototype" Schema="dbo" store:Type="Tables" />
@@ -4022,6 +4042,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_ProjectRFIResponse_ProjectRFI" Association="Self.fk_ProjectRFIResponse_ProjectRFI">
             <End Role="ProjectRFI" EntitySet="ProjectRFI" />
             <End Role="ProjectRFIResponse" EntitySet="ProjectRFIResponse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectScope_Project" Association="Self.fk_ProjectScope_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="ProjectScope" EntitySet="ProjectScope" />
           </AssociationSet>
           <AssociationSet Name="fk_ProjectTaskList_AspNetUser" Association="Self.fk_ProjectTaskList_AspNetUser">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -4782,6 +4806,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ECM" EntitySet="ECMs" />
             <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
           </AssociationSet>
+          <EntitySet Name="ProjectScopes" EntityType="JCIEstimateModel.ProjectScope" />
           <EntitySet Name="Projects" EntityType="JCIEstimateModel.Project" />
           <AssociationSet Name="fk_project_PM" Association="JCIEstimateModel.fk_project_PM">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
@@ -4870,6 +4895,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_ProjectRFI_Project" Association="JCIEstimateModel.fk_ProjectRFI_Project">
             <End Role="Project" EntitySet="Projects" />
             <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectScope_Project" Association="JCIEstimateModel.fk_ProjectScope_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ProjectScope" EntitySet="ProjectScopes" />
           </AssociationSet>
           <AssociationSet Name="fk_ProjectTaskList_Project" Association="JCIEstimateModel.fk_ProjectTaskList_Project">
             <End Role="Project" EntitySet="Projects" />
@@ -8165,6 +8194,15 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProjectScope">
+          <Key>
+            <PropertyRef Name="projectScopeUid" />
+          </Key>
+          <Property Name="projectScopeUid" Type="Guid" Nullable="false" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="projectScopePDF" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectScope_Project" FromRole="ProjectScope" ToRole="Project" />
+        </EntityType>
         <EntityType Name="Project">
           <Key>
             <PropertyRef Name="projectUid" />
@@ -8178,7 +8216,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="contractAmount" Type="Int32" Nullable="false" />
           <Property Name="startDate" Type="DateTime" Precision="0" />
           <Property Name="drawPeriods" Type="Int32" Nullable="false" />
-          <Property Name="scopeDocumentPDF" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_PM" FromRole="Project" ToRole="AspNetUser" />
           <NavigationProperty Name="CalendarDayTasks" Relationship="JCIEstimateModel.fk_CalendarDayTask_Project" FromRole="Project" ToRole="CalendarDayTask" />
           <NavigationProperty Name="ContractorDraws" Relationship="JCIEstimateModel.fk_ContractorDraw_Project" FromRole="Project" ToRole="ContractorDraw" />
@@ -8201,6 +8238,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ProjectCalendarDayTasks" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_Project" FromRole="Project" ToRole="ProjectCalendarDayTask" />
           <NavigationProperty Name="ProjectManagerAttachments" Relationship="JCIEstimateModel.fk_ProjectManagerAttachment_Project" FromRole="Project" ToRole="ProjectManagerAttachment" />
           <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_Project" FromRole="Project" ToRole="ProjectRFI" />
+          <NavigationProperty Name="ProjectScopes" Relationship="JCIEstimateModel.fk_ProjectScope_Project" FromRole="Project" ToRole="ProjectScope" />
           <NavigationProperty Name="ProjectTaskLists" Relationship="JCIEstimateModel.fk_ProjectTaskList_Project" FromRole="Project" ToRole="ProjectTaskList" />
           <NavigationProperty Name="ReportDefinitions" Relationship="JCIEstimateModel.fk_ReportDefinition_Project" FromRole="Project" ToRole="ReportDefinition" />
           <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="Project" ToRole="ScopeOfWork" />
@@ -8469,6 +8507,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               <PropertyRef Name="projectUid" />
             </Principal>
             <Dependent Role="ProjectRFI">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectScope_Project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectScope" Role="ProjectScope" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ProjectScope">
               <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
@@ -9864,10 +9914,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ProjectScopes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ProjectScope">
+              <MappingFragment StoreEntitySet="ProjectScope">
+                <ScalarProperty Name="projectScopePDF" ColumnName="projectScopePDF" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="projectScopeUid" ColumnName="projectScopeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="JCIEstimateModel.Project">
               <MappingFragment StoreEntitySet="Project">
-                <ScalarProperty Name="scopeDocumentPDF" ColumnName="scopeDocumentPDF" />
                 <ScalarProperty Name="drawPeriods" ColumnName="drawPeriods" />
                 <ScalarProperty Name="startDate" ColumnName="startDate" />
                 <ScalarProperty Name="contractAmount" ColumnName="contractAmount" />

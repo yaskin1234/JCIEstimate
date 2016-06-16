@@ -14,6 +14,9 @@ using Ionic.Zip;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq.Dynamic;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+using PdfSharp.Drawing;
 
 namespace JCIEstimate.Controllers
 {
@@ -1292,6 +1295,7 @@ namespace JCIEstimate.Controllers
         {
 
             ECM ecm = db.ECMs.Find(Guid.Parse(id));
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             if (value == "true")
             {
@@ -1330,6 +1334,42 @@ namespace JCIEstimate.Controllers
                     throw ex;
                 }
             }
+
+            PdfDocument final = new PdfDocument();
+            foreach (var oECM in db.ECMs.Where(c => c.projectUid == ecm.projectUid).Where(c => c.pdfSnippet != null).Where(c => c.showOnScopeReport).OrderBy(c => c.ecmNumber))
+            {
+                MemoryStream ms = new MemoryStream(oECM.pdfSnippet);
+                PdfDocument from = PdfReader.Open(ms, PdfDocumentOpenMode.Import);
+                ms.Close();
+                //PdfDocument from = new PdfDocument(@"F:\Dloads\!!HealthInsurance\DentalEOB_5.2012.pdf");
+                CopyPages(from, final);
+            }
+
+            if (final.PageCount > 0)
+            {
+                MemoryStream finalMS = new MemoryStream();
+                final.Save(finalMS, false);
+                MemoryStream target = new MemoryStream();
+                byte[] finalPDF = new byte[finalMS.Length];
+                finalMS.Read(finalPDF, 0, finalPDF.Length);
+                finalMS.Close();
+                ProjectScope p = db.ProjectScopes.Where(c => c.projectUid == sessionProject).FirstOrDefault();
+                if (p == null)
+                {
+                    p = new ProjectScope();
+                    p.projectScopeUid = Guid.NewGuid();
+                    p.projectUid = ecm.projectUid;
+                    p.projectScopePDF = finalPDF;
+                    db.ProjectScopes.Add(p);
+                }
+                else
+                {
+                    db.Entry(p).State = EntityState.Modified;
+                    p.projectScopePDF = finalPDF;
+                }
+                await db.SaveChangesAsync();
+            }
+            
             return View();
         }
 
@@ -1342,6 +1382,14 @@ namespace JCIEstimate.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        void CopyPages(PdfDocument from, PdfDocument to)
+        {
+            for (int i = 0; i < from.PageCount; i++)
+            {
+                to.AddPage(from.Pages[i]);
+            }
         }
 
         public Task<string> equipments { get; set; }

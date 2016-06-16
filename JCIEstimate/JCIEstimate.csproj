@@ -2707,6 +2707,9 @@
     <Compile Include="Models\ProjectRFIResponse.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectScope.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProjectTaskCategory.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>

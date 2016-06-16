@@ -129,14 +129,16 @@ namespace JCIEstimate.Controllers
         {
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
-            ECM currentECM = db.ECMs.AsNoTracking().Single(c => c.ecmUid == eCM.ecmUid);
-            byte[] currentFile = currentECM.pdfSnippet;
-            string currentEcmFileName = currentECM.pdfSnippetFileName;
-            currentECM = null;
+            //ECM currentECM = db.ECMs.AsNoTracking().Single(c => c.ecmUid == eCM.ecmUid);
+            byte[] currentFile = null; //currentECM.pdfSnippet;
+            //string currentEcmFileName = currentECM.pdfSnippetFileName;
+            bool showOnScopeReport = true; // currentECM.showOnScopeReport;
+            //currentECM = null;
 
             if (ModelState.IsValid)
             {                
                 db.Entry(eCM).State = EntityState.Modified;
+                eCM.showOnScopeReport = showOnScopeReport;
                 //add pictures
                 foreach (var file in pics)
                 {
@@ -151,7 +153,7 @@ namespace JCIEstimate.Controllers
                     else
                     {
                         eCM.pdfSnippet = currentFile;
-                        eCM.pdfSnippetFileName = currentEcmFileName;
+                        //eCM.pdfSnippetFileName = currentEcmFileName;
                     }
                 }
 
@@ -169,16 +171,31 @@ namespace JCIEstimate.Controllers
                         CopyPages(from, final);
                     }
 
-                    MemoryStream finalMS = new MemoryStream();
-                    final.Save(finalMS, false);                    
-                    MemoryStream target = new MemoryStream();
-                    byte[] finalPDF = new byte[finalMS.Length];
-                    finalMS.Read(finalPDF, 0, finalPDF.Length);
-                    finalMS.Close();
-                    Project p = db.Projects.Where(c => c.projectUid == sessionProject).FirstOrDefault();
-                    db.Entry(p).State = EntityState.Modified;
-                    p.scopeDocumentPDF = finalPDF;
-                    await db.SaveChangesAsync();                    
+                    if (final.PageCount > 0)
+                    {
+                        MemoryStream finalMS = new MemoryStream();
+                        final.Save(finalMS, false);
+                        MemoryStream target = new MemoryStream();
+                        byte[] finalPDF = new byte[finalMS.Length];
+                        finalMS.Read(finalPDF, 0, finalPDF.Length);
+                        finalMS.Close();
+                        ProjectScope p = db.ProjectScopes.Where(c => c.projectUid == sessionProject).FirstOrDefault();
+                        if (p == null)
+                        {
+                            p = new ProjectScope();
+                            p.projectScopeUid = Guid.NewGuid();
+                            p.projectUid = eCM.projectUid;
+                            p.projectScopePDF = finalPDF;
+                            db.ProjectScopes.Add(p);                            
+                        }
+                        else
+                        {
+                            db.Entry(p).State = EntityState.Modified;
+                            p.projectScopePDF = finalPDF;                            
+                        }
+                        await db.SaveChangesAsync();                        
+                    }
+                        
                 }
                 
                 return RedirectToAction("Index");

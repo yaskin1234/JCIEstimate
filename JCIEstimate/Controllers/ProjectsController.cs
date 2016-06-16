@@ -25,11 +25,12 @@ namespace JCIEstimate.Controllers
 
         public ActionResult GetScopeDocument(Guid id)
         {
-            Project project = db.Projects.Find(id);
-            byte[] contents = project.scopeDocumentPDF;
+            Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
+            ProjectScope projectScope = db.ProjectScopes.Where(c => c.projectUid == sessionProject).FirstOrDefault();
+            byte[] contents = projectScope.projectScopePDF;
             if (contents != null)
             {
-                return File(contents, "application/pdf", project.project1 + "_ScopeDocument_" + DateTime.Now.ToFileTime() + ".pdf");
+                return File(contents, "application/pdf", projectScope.Project.project1 + "_ScopeDocument_" + DateTime.Now.ToFileTime() + ".pdf");
             }
             else
             {

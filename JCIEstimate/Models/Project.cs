@@ -37,6 +37,7 @@ namespace JCIEstimate.Models
             this.ProjectCalendarDayTasks = new HashSet<ProjectCalendarDayTask>();
             this.ProjectManagerAttachments = new HashSet<ProjectManagerAttachment>();
             this.ProjectRFIs = new HashSet<ProjectRFI>();
+            this.ProjectScopes = new HashSet<ProjectScope>();
             this.ProjectTaskLists = new HashSet<ProjectTaskList>();
             this.ReportDefinitions = new HashSet<ReportDefinition>();
             this.ScopeOfWorks = new HashSet<ScopeOfWork>();
@@ -51,7 +52,6 @@ namespace JCIEstimate.Models
         public int contractAmount { get; set; }
         public Nullable<System.DateTime> startDate { get; set; }
         public int drawPeriods { get; set; }
-        public byte[] scopeDocumentPDF { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<CalendarDayTask> CalendarDayTasks { get; set; }
@@ -75,6 +75,7 @@ namespace JCIEstimate.Models
         public virtual ICollection<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
         public virtual ICollection<ProjectManagerAttachment> ProjectManagerAttachments { get; set; }
         public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
+        public virtual ICollection<ProjectScope> ProjectScopes { get; set; }
         public virtual ICollection<ProjectTaskList> ProjectTaskLists { get; set; }
         public virtual ICollection<ReportDefinition> ReportDefinitions { get; set; }
         public virtual ICollection<ScopeOfWork> ScopeOfWorks { get; set; }
