@@ -312,7 +312,7 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", commissionIssue.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", commissionIssue.aspNetUserUidAsCreated);
             ViewBag.commissionStatusUid = new SelectList(db.CommissionStatus.OrderBy(c=>c.listOrder), "commissionStatusUid", "commissionStatus", commissionIssue.commissionStatusUid);
             ViewBag.equipmentUid = new SelectList(db.Equipments.Where(c => c.metasysNumber != null).OrderBy(c => c.metasysNumber), "equipmentUid", "ownerTag", commissionIssue.equipmentUid);
             ViewBag.projectUserUid = db.ProjectUsers.Where(c=>c.projectUid == sessionProject).OrderBy(c=>c.AspNetUser.Email).ToSelectList(c=>c.AspNetUser.Email, c=>c.projectUserUid.ToString(), commissionIssue.projectUserUid.ToString());

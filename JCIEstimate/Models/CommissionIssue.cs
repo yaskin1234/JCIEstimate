@@ -28,11 +28,11 @@ namespace JCIEstimate.Models
         public string aspNetUserUidAsCreated { get; set; }
         public System.DateTime date { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<CommissionAttachment> CommissionAttachments { get; set; }
         public virtual CommissionStatu CommissionStatu { get; set; }
         public virtual ProjectUser ProjectUser { get; set; }
         public virtual ICollection<CommissionNote> CommissionNotes { get; set; }
         public virtual Equipment Equipment { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

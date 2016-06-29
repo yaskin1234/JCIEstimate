@@ -60,7 +60,7 @@ namespace JCIEstimate.Controllers
         // GET: ProjectCalendarDayTasks/Create
         public ActionResult Create()
         {
-            ViewBag.aspnetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "AllowableContractors");
+            ViewBag.aspnetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "Email");
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1");
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
             ViewBag.projectCalendarDayUid = new SelectList(db.ProjectCalendarDays, "projectCalendarDayUid", "projectCalendarDayUid");
@@ -97,7 +97,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Edit", "ProjectCalendars", new { @id=projectCalendarUid.FirstOrDefault() });
             }
 
-            ViewBag.aspnetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", projectCalendarDayTask.aspnetUserUidAsAssigned);
+            ViewBag.aspnetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "Email", projectCalendarDayTask.aspnetUserUidAsAssigned);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", projectCalendarDayTask.locationUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectCalendarDayTask.projectUid);
             ViewBag.projectCalendarDayUid = new SelectList(db.ProjectCalendarDays, "projectCalendarDayUid", "projectCalendarDayUid", projectCalendarDayTask.projectCalendarDayUid);
@@ -128,7 +128,7 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.aspnetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", projectCalendarDayTask.aspnetUserUidAsAssigned);
+            ViewBag.aspnetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "Email", projectCalendarDayTask.aspnetUserUidAsAssigned);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", projectCalendarDayTask.locationUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectCalendarDayTask.projectUid);
             ViewBag.projectCalendarDayUid = new SelectList(db.ProjectCalendarDays, "projectCalendarDayUid", "projectCalendarDayUid", projectCalendarDayTask.projectCalendarDayUid);
@@ -148,7 +148,7 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.aspnetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", projectCalendarDayTask.aspnetUserUidAsAssigned);
+            ViewBag.aspnetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "Email", projectCalendarDayTask.aspnetUserUidAsAssigned);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1", projectCalendarDayTask.locationUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectCalendarDayTask.projectUid);
             ViewBag.projectCalendarDayUid = new SelectList(db.ProjectCalendarDays, "projectCalendarDayUid", "projectCalendarDayUid", projectCalendarDayTask.projectCalendarDayUid);

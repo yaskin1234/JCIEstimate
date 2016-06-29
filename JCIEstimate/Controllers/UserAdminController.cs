@@ -178,7 +178,8 @@ namespace IdentitySample.Controllers
                 }).Union
                 (from dd in db.ContractorUsers
                  join dp in db.AspNetUsers on dd.aspNetUserUid equals dp.Id
-                 where dd.Contractor.Estimates.Where(c=>c.Location.projectUid == val).Count() > 0
+                 join dq in db.v__ContractorsForProject on dd.contractorUid equals dq.contractorUid
+                 where dq.projectUid == val
                  select new MassEmailViewModel
                  {
                      id = dp.Id,

@@ -113,7 +113,7 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", projectManagerAttachment.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", projectManagerAttachment.aspNetUserUidAsCreated);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectManagerAttachment.projectUid);
             return View(projectManagerAttachment);
         }
@@ -131,7 +131,7 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", projectManagerAttachment.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", projectManagerAttachment.aspNetUserUidAsCreated);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectManagerAttachment.projectUid);
             return View(projectManagerAttachment);
         }

@@ -14,14 +14,14 @@ namespace IdentitySample.Models
 
     public class EditUserViewModel
     {
+        [Display(Name = "Allowable Contractors")]
+        public string AllowableContractors { get; set; }
         public string Id { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Email")]
         [EmailAddress]
-        public string Email { get; set; }
-
-        public string AllowableContractors { get; set; }
+        public string Email { get; set; }        
 
         public string name { get; set; }
 

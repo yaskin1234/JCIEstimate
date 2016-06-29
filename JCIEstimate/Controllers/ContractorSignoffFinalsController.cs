@@ -280,7 +280,7 @@ namespace JCIEstimate.Controllers
         // GET: ContractorSignoffFinals/Create
         public ActionResult Create()
         {
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors");
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email");
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName");
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
             return View();
@@ -301,7 +301,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", contractorSignoffFinal.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", contractorSignoffFinal.aspNetUserUidAsCreated);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", contractorSignoffFinal.contractorUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", contractorSignoffFinal.projectUid);
             return View(contractorSignoffFinal);
@@ -323,7 +323,7 @@ namespace JCIEstimate.Controllers
             }
 
             ViewBag.signoffFinalAttachments = contractorSignoffFinal.ContractorSignoffFinalAttachments.OrderByDescending(c => c.dateCreated);
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", contractorSignoffFinal.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", contractorSignoffFinal.aspNetUserUidAsCreated);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", contractorSignoffFinal.contractorUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", contractorSignoffFinal.projectUid);
             return View(contractorSignoffFinal);
@@ -364,7 +364,7 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", contractorSignoffFinal.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", contractorSignoffFinal.aspNetUserUidAsCreated);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", contractorSignoffFinal.contractorUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", contractorSignoffFinal.projectUid);
             return View(contractorSignoffFinal);

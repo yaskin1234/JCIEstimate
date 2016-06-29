@@ -119,8 +119,8 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.aspNetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", projectRFI.aspNetUserUidAsAssigned);
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", projectRFI.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "Email", projectRFI.aspNetUserUidAsAssigned);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", projectRFI.aspNetUserUidAsCreated);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", projectRFI.contractorUid);
             ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", projectRFI.ecmUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectRFI.projectUid);
@@ -215,8 +215,8 @@ namespace JCIEstimate.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.aspNetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", projectRFI.aspNetUserUidAsAssigned);
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", projectRFI.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsAssigned = new SelectList(db.AspNetUsers, "Id", "Email", projectRFI.aspNetUserUidAsAssigned);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", projectRFI.aspNetUserUidAsCreated);
             ViewBag.contractorUid = new SelectList(db.Contractors, "contractorUid", "contractorName", projectRFI.contractorUid);
             ViewBag.ecmUid = new SelectList(db.ECMs, "ecmUid", "ecmNumber", projectRFI.ecmUid);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", projectRFI.projectUid);

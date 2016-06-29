@@ -16,12 +16,26 @@ namespace JCIEstimate.Content
         {
             if (!IsPostBack)
             {
-                if (Session["projectUid"] != null)
-                {
+                //if (Session["projectUid"] != null)
+                //{
                     string report = Request.QueryString["report"];
                     ReportViewer1.ServerReport.ReportPath = "/JCIEstimate/" + report;
-                    ReportParameter rp = new ReportParameter("projectUid", Session["projectUid"].ToString());
-                    ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { rp });                    
+                    bool isFound = false;
+                    foreach (var item in ReportViewer1.ServerReport.GetParameters())
+                    {
+                        if (item.Name == "projectUid")
+                        {
+                            isFound = true;
+                            break;
+                        }
+                    }
+
+                    if (isFound)
+                    {
+                        ReportParameter rp = new ReportParameter("projectUid", Session["projectUid"].ToString());
+                        ReportViewer1.ServerReport.SetParameters(new ReportParameter[] { rp });                    
+                    }
+                    
                     ReportViewer1.ShowParameterPrompts = true;
                     string userUid = Request.QueryString["userUid"];
 
@@ -60,7 +74,7 @@ namespace JCIEstimate.Content
                         ReportViewer1.ShowExportControls = true;
                         ReportViewer1.ShowParameterPrompts = true;
                     }
-                }                                
+                //}                                
             }
         }
     }

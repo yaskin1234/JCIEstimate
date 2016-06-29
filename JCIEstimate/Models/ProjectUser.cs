@@ -26,8 +26,8 @@ namespace JCIEstimate.Models
         public bool isReceivingWarrantyEmail { get; set; }
     
         public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<CommissionIssue> CommissionIssues { get; set; }
         public virtual Project Project { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

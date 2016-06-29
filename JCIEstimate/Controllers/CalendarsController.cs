@@ -77,7 +77,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", calendar.aspNetUserUid);
+            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "Email", calendar.aspNetUserUid);
             return View(calendar);
         }
 
@@ -94,7 +94,7 @@ namespace JCIEstimate.Controllers
                 return HttpNotFound();
             }
             DateTime endDate = DateTime.Now.AddYears(1);
-            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", calendar.aspNetUserUid);
+            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "Email", calendar.aspNetUserUid);
             ViewBag.calendarDays = db.CalendarDays.Where(c => c.calendarUid == calendar.calendarUid).Where(c => c.date <= endDate).OrderBy(c => c.date);
             ViewBag.locationUid = new SelectList(db.Locations, "locationUid", "location1");
             ViewBag.projectUid = db.Projects.OrderBy(c => c.project1).ToSelectList(c => c.project1, c => c.projectUid.ToString(), projectUid.ToString());
@@ -132,7 +132,7 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", calendar.aspNetUserUid);
+            ViewBag.aspNetUserUid = new SelectList(db.AspNetUsers, "Id", "Email", calendar.aspNetUserUid);
             return View(calendar);
         }
 

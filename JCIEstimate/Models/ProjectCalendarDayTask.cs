@@ -25,7 +25,7 @@ namespace JCIEstimate.Models
     
         public virtual Location Location { get; set; }
         public virtual ProjectCalendarDay ProjectCalendarDay { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Project Project { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

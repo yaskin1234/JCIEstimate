@@ -21,7 +21,7 @@ namespace JCIEstimate.Models
         public string projectAddendum1 { get; set; }
         public int addendumId { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Project Project { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

@@ -36,7 +36,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="AllowableContractors" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar" MaxLength="256" />
           <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
           <Property Name="PasswordHash" Type="nvarchar(max)" />
@@ -48,6 +47,7 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="AllowableContractors" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="AspNetUsersExtension">
           <Key>
@@ -1277,6 +1277,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ContractorECMByCategory' does n
           <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="project" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="intEcmNumber" Type="nvarchar" MaxLength="3" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'JCIEstimate.dbo.v__ContractorsForProject' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v__ContractorsForProject">
+          <Key>
+            <PropertyRef Name="projectUid" />
+            <PropertyRef Name="contractorUid" />
+            <PropertyRef Name="contractorName" />
+          </Key>
+          <Property Name="projectUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="contractorName" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -3468,6 +3480,13 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
     [v__ContractorECMByCategory].[intEcmNumber] AS [intEcmNumber]
     FROM [dbo].[v__ContractorECMByCategory] AS [v__ContractorECMByCategory]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="v__ContractorsForProject" EntityType="Self.v__ContractorsForProject" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v__ContractorsForProject].[projectUid] AS [projectUid], 
+    [v__ContractorsForProject].[contractorUid] AS [contractorUid], 
+    [v__ContractorsForProject].[contractorName] AS [contractorName]
+    FROM [dbo].[v__ContractorsForProject] AS [v__ContractorsForProject]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="v__ExpensePercentage" EntityType="Self.v__ExpensePercentage" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [v__ExpensePercentage].[total] AS [total], 
@@ -4527,113 +4546,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ProjectTaskCategory" EntitySet="ProjectTaskCategories" />
             <End Role="ProjectTaskPrototype" EntitySet="ProjectTaskPrototypes" />
           </AssociationSet>
-          <EntitySet Name="AspNetUsers" EntityType="JCIEstimateModel.AspNetUser" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="JCIEstimateModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser" Association="JCIEstimateModel.fk_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ContractorUser" EntitySet="ContractorUsers" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_created" Association="JCIEstimateModel.fk_AspNetUser_created">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_created1" Association="JCIEstimateModel.fk_AspNetUser_created1">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ProjectManagerAttachment" EntitySet="ProjectManagerAttachments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_created2" Association="JCIEstimateModel.fk_AspNetUser_created2">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ContractorSignoff" EntitySet="ContractorSignoffs" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_created3" Association="JCIEstimateModel.fk_AspNetUser_created3">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ContractorSignoffFinal" EntitySet="ContractorSignoffFinals" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_created4" Association="JCIEstimateModel.fk_AspNetUser_created4">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ContractorSignoffAttachment" EntitySet="ContractorSignoffAttachments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_created5" Association="JCIEstimateModel.fk_AspNetUser_created5">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ContractorSignoffFinalAttachment" EntitySet="ContractorSignoffFinalAttachments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_createdAs" Association="JCIEstimateModel.fk_AspNetUser_createdAs">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="LocationIssue" EntitySet="LocationIssues" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_LocationNotecreated" Association="JCIEstimateModel.fk_AspNetUser_LocationNotecreated">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="LocationNote" EntitySet="LocationNotes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUser_Notecreated" Association="JCIEstimateModel.fk_AspNetUser_Notecreated">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="WarrantyNote" EntitySet="WarrantyNotes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AspNetUserPECCost" Association="JCIEstimateModel.fk_AspNetUserPECCost">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="PECCost" EntitySet="PECCosts" />
-          </AssociationSet>
-          <AssociationSet Name="fk_CalendarMember_AspNetUser" Association="JCIEstimateModel.fk_CalendarMember_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Calendar" EntitySet="Calendars" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Equipmentnote__aspNetUser" Association="JCIEstimateModel.fk_Equipmentnote__aspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="EquipmentNote" EntitySet="EquipmentNotes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_LocationIssue_AspNetUser" Association="JCIEstimateModel.fk_LocationIssue_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="LocationIssue" EntitySet="LocationIssues" />
-          </AssociationSet>
-          <AssociationSet Name="fk_project_AspNetUser" Association="JCIEstimateModel.fk_project_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ProjectUser" EntitySet="ProjectUsers" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ProjectAddemdum_created" Association="JCIEstimateModel.fk_ProjectAddemdum_created">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ProjectAddendum" EntitySet="ProjectAddendums" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ProjectCalendarDayTask_userAsAssigned" Association="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ProjectCalendarDayTask" EntitySet="ProjectCalendarDayTasks" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ProjectCalendarMember_AspNetUser" Association="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ProjectCalendar" EntitySet="ProjectCalendars" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ProjectRFI_userAssigned" Association="JCIEstimateModel.fk_ProjectRFI_userAssigned">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ProjectRFI_userCreated" Association="JCIEstimateModel.fk_ProjectRFI_userCreated">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ProjectRFI_userRresponded" Association="JCIEstimateModel.fk_ProjectRFI_userRresponded">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ProjectRFIResponse" EntitySet="ProjectRFIResponses" />
-          </AssociationSet>
-          <AssociationSet Name="fk_SalesTeamMemberMember_AspNetUser" Association="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="SalesTeamMember" EntitySet="SalesTeamMembers" />
-          </AssociationSet>
           <EntitySet Name="AspNetUsersExtensions" EntityType="JCIEstimateModel.AspNetUsersExtension" />
-          <AssociationSet Name="fk_AspNetUsersExtension_AspNetUser" Association="JCIEstimateModel.fk_AspNetUsersExtension_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="AspNetUsersExtension" EntitySet="AspNetUsersExtensions" />
-          </AssociationSet>
           <EntitySet Name="ProjectTaskLists" EntityType="JCIEstimateModel.ProjectTaskList" />
-          <AssociationSet Name="fk_ProjectTaskList_AspNetUser" Association="JCIEstimateModel.fk_ProjectTaskList_AspNetUser">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="ProjectTaskList" EntitySet="ProjectTaskLists" />
-          </AssociationSet>
           <AssociationSet Name="fk_ProjectTaskList_ProjectTaskListParent" Association="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListParent">
             <End Role="ProjectTaskList" EntitySet="ProjectTaskLists" />
             <End Role="ProjectTaskList1" EntitySet="ProjectTaskLists" />
@@ -4646,15 +4560,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="CommissionAttachments" EntityType="JCIEstimateModel.CommissionAttachment" />
           <EntitySet Name="CommissionNotes" EntityType="JCIEstimateModel.CommissionNote" />
           <EntitySet Name="CommissionStatus" EntityType="JCIEstimateModel.CommissionStatu" />
-          <AssociationSet Name="fk_AspNetUser_CommissionNotecreated" Association="JCIEstimateModel.fk_AspNetUser_CommissionNotecreated">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="CommissionNote" EntitySet="CommissionNotes" />
-          </AssociationSet>
           <EntitySet Name="CommissionIssues" EntityType="JCIEstimateModel.CommissionIssue" />
-          <AssociationSet Name="fk_CommissionIssueAspNetUser_created" Association="JCIEstimateModel.fk_CommissionIssueAspNetUser_created">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="CommissionIssue" EntitySet="CommissionIssues" />
-          </AssociationSet>
           <AssociationSet Name="fk_CommissionAttachment_Commissionissue" Association="JCIEstimateModel.fk_CommissionAttachment_Commissionissue">
             <End Role="CommissionIssue" EntitySet="CommissionIssues" />
             <End Role="CommissionAttachment" EntitySet="CommissionAttachments" />
@@ -4808,10 +4714,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           </AssociationSet>
           <EntitySet Name="ProjectScopes" EntityType="JCIEstimateModel.ProjectScope" />
           <EntitySet Name="Projects" EntityType="JCIEstimateModel.Project" />
-          <AssociationSet Name="fk_project_PM" Association="JCIEstimateModel.fk_project_PM">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Project" EntitySet="Projects" />
-          </AssociationSet>
           <AssociationSet Name="fk_CalendarDayTask_Project" Association="JCIEstimateModel.fk_CalendarDayTask_Project">
             <End Role="Project" EntitySet="Projects" />
             <End Role="CalendarDayTask" EntitySet="CalendarDayTasks" />
@@ -4912,6 +4814,124 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Project" EntitySet="Projects" />
             <End Role="ScopeOfWork" EntitySet="ScopeOfWorks" />
           </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="JCIEstimateModel.AspNetUser" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="JCIEstimateModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser" Association="JCIEstimateModel.fk_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ContractorUser" EntitySet="ContractorUsers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_CommissionNotecreated" Association="JCIEstimateModel.fk_AspNetUser_CommissionNotecreated">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="CommissionNote" EntitySet="CommissionNotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_created" Association="JCIEstimateModel.fk_AspNetUser_created">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_created1" Association="JCIEstimateModel.fk_AspNetUser_created1">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectManagerAttachment" EntitySet="ProjectManagerAttachments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_created2" Association="JCIEstimateModel.fk_AspNetUser_created2">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ContractorSignoff" EntitySet="ContractorSignoffs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_created3" Association="JCIEstimateModel.fk_AspNetUser_created3">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ContractorSignoffFinal" EntitySet="ContractorSignoffFinals" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_created4" Association="JCIEstimateModel.fk_AspNetUser_created4">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ContractorSignoffAttachment" EntitySet="ContractorSignoffAttachments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_created5" Association="JCIEstimateModel.fk_AspNetUser_created5">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ContractorSignoffFinalAttachment" EntitySet="ContractorSignoffFinalAttachments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_createdAs" Association="JCIEstimateModel.fk_AspNetUser_createdAs">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="LocationIssue" EntitySet="LocationIssues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_LocationNotecreated" Association="JCIEstimateModel.fk_AspNetUser_LocationNotecreated">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="LocationNote" EntitySet="LocationNotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUser_Notecreated" Association="JCIEstimateModel.fk_AspNetUser_Notecreated">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="WarrantyNote" EntitySet="WarrantyNotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUserPECCost" Association="JCIEstimateModel.fk_AspNetUserPECCost">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="PECCost" EntitySet="PECCosts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AspNetUsersExtension_AspNetUser" Association="JCIEstimateModel.fk_AspNetUsersExtension_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUsersExtension" EntitySet="AspNetUsersExtensions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CalendarMember_AspNetUser" Association="JCIEstimateModel.fk_CalendarMember_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Calendar" EntitySet="Calendars" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CommissionIssueAspNetUser_created" Association="JCIEstimateModel.fk_CommissionIssueAspNetUser_created">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="CommissionIssue" EntitySet="CommissionIssues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Equipmentnote__aspNetUser" Association="JCIEstimateModel.fk_Equipmentnote__aspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="EquipmentNote" EntitySet="EquipmentNotes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LocationIssue_AspNetUser" Association="JCIEstimateModel.fk_LocationIssue_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="LocationIssue" EntitySet="LocationIssues" />
+          </AssociationSet>
+          <AssociationSet Name="fk_project_AspNetUser" Association="JCIEstimateModel.fk_project_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectUser" EntitySet="ProjectUsers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_project_PM" Association="JCIEstimateModel.fk_project_PM">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectAddemdum_created" Association="JCIEstimateModel.fk_ProjectAddemdum_created">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectAddendum" EntitySet="ProjectAddendums" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarDayTask_userAsAssigned" Association="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectCalendarDayTask" EntitySet="ProjectCalendarDayTasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectCalendarMember_AspNetUser" Association="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectCalendar" EntitySet="ProjectCalendars" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_userAssigned" Association="JCIEstimateModel.fk_ProjectRFI_userAssigned">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_userCreated" Association="JCIEstimateModel.fk_ProjectRFI_userCreated">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_userRresponded" Association="JCIEstimateModel.fk_ProjectRFI_userRresponded">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectRFIResponse" EntitySet="ProjectRFIResponses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectTaskList_AspNetUser" Association="JCIEstimateModel.fk_ProjectTaskList_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ProjectTaskList" EntitySet="ProjectTaskLists" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SalesTeamMemberMember_AspNetUser" Association="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="SalesTeamMember" EntitySet="SalesTeamMembers" />
+          </AssociationSet>
+          <EntitySet Name="v__ContractorsForProject" EntityType="JCIEstimateModel.v__ContractorsForProject" />
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -5688,8 +5708,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="date" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="aspNetUserUidAsCreated" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EquipmentNoteType" Relationship="JCIEstimateModel.fk_Equipmentnote__Equipmentnotetype" FromRole="EquipmentNote" ToRole="EquipmentNoteType" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_Equipmentnote__aspNetUser" FromRole="EquipmentNote" ToRole="AspNetUser" />
           <NavigationProperty Name="Equipment" Relationship="JCIEstimateModel.fk_Equipmentnote_Equipment" FromRole="EquipmentNote" ToRole="Equipment" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_Equipmentnote__aspNetUser" FromRole="EquipmentNote" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="fk_Equipmentnote__Equipmentnotetype">
           <End Type="JCIEstimateModel.EquipmentNoteType" Role="EquipmentNoteType" Multiplicity="0..1" />
@@ -5763,10 +5783,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ProjectRFIResponses" Relationship="JCIEstimateModel.fk_ProjectRFIResponse_ProjectRFI" FromRole="ProjectRFI" ToRole="ProjectRFIResponse" />
           <NavigationProperty Name="RfiStatu" Relationship="JCIEstimateModel.fk_ProjectRFI_RfiStatus" FromRole="ProjectRFI" ToRole="RfiStatu" />
           <Property Name="projectRFIID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectRFI_userAssigned" FromRole="ProjectRFI" ToRole="AspNetUser" />
-          <NavigationProperty Name="AspNetUser1" Relationship="JCIEstimateModel.fk_ProjectRFI_userCreated" FromRole="ProjectRFI" ToRole="AspNetUser" />
           <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_ProjectRFI_ECM" FromRole="ProjectRFI" ToRole="ECM" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectRFI_Project" FromRole="ProjectRFI" ToRole="Project" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectRFI_userAssigned" FromRole="ProjectRFI" ToRole="AspNetUser" />
+          <NavigationProperty Name="AspNetUser1" Relationship="JCIEstimateModel.fk_ProjectRFI_userCreated" FromRole="ProjectRFI" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="fk_ProjectRFI_Contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -5837,8 +5857,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="aspNetUserUidAsCreated" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="projectAddendum1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="addendumId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectAddemdum_created" FromRole="ProjectAddendum" ToRole="AspNetUser" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectAddendum_project" FromRole="ProjectAddendum" ToRole="Project" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectAddemdum_created" FromRole="ProjectAddendum" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="ProjectManagerAttachment">
           <Key>
@@ -5852,8 +5872,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="attachment" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="fileType" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="documentName" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created1" FromRole="ProjectManagerAttachment" ToRole="AspNetUser" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectManagerAttachment_Project" FromRole="ProjectManagerAttachment" ToRole="Project" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created1" FromRole="ProjectManagerAttachment" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="ContractorTotalsByProject">
           <Key>
@@ -6113,8 +6133,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="contractorUid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_ContractorSignoff_Contractor" FromRole="ContractorSignoff" ToRole="Contractor" />
           <NavigationProperty Name="ContractorSignoffAttachments" Relationship="JCIEstimateModel.fk_ContractorSignoffAttachment_contractorSignoffUid" FromRole="ContractorSignoff" ToRole="ContractorSignoffAttachment" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created2" FromRole="ContractorSignoff" ToRole="AspNetUser" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ContractorSignoff_Project" FromRole="ContractorSignoff" ToRole="Project" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created2" FromRole="ContractorSignoff" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="fk_ContractorSignoff_Contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -6172,8 +6192,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="documentName" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_ContractorSignoffFinal_Contractor" FromRole="ContractorSignoffFinal" ToRole="Contractor" />
           <NavigationProperty Name="ContractorSignoffFinalAttachments" Relationship="JCIEstimateModel.fk_ContractorSignoffFinalAttachment_contractorSignoffFinalUid" FromRole="ContractorSignoffFinal" ToRole="ContractorSignoffFinalAttachment" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created3" FromRole="ContractorSignoffFinal" ToRole="AspNetUser" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ContractorSignoffFinal_Project" FromRole="ContractorSignoffFinal" ToRole="Project" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created3" FromRole="ContractorSignoffFinal" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="ContractorSignoffFinalAttachment">
           <Key>
@@ -6307,8 +6327,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="PECExpenseType" Relationship="JCIEstimateModel.fk_PECCost_ExpenseType" FromRole="PECCost" ToRole="PECExpenseType" />
           <NavigationProperty Name="Week" Relationship="JCIEstimateModel.fk_PECCost_Location" FromRole="PECCost" ToRole="Week" />
           <NavigationProperty Name="PECTask" Relationship="JCIEstimateModel.fk_PECCost_PecTask" FromRole="PECCost" ToRole="PECTask" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUserPECCost" FromRole="PECCost" ToRole="AspNetUser" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_PECCost_Project" FromRole="PECCost" ToRole="Project" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUserPECCost" FromRole="PECCost" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="fk_PECCost_ExpenseType">
           <End Type="JCIEstimateModel.PECExpenseType" Role="PECExpenseType" Multiplicity="1">
@@ -6449,9 +6469,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="projectUid" Type="Guid" Nullable="false" />
           <Property Name="isReceivingWarrantyEmail" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" FromRole="ProjectUser" ToRole="WarrantyIssue" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="ProjectUser" ToRole="AspNetUser" />
           <NavigationProperty Name="CommissionIssues" Relationship="JCIEstimateModel.fk_CommissionIssue_ProjectUser" FromRole="ProjectUser" ToRole="CommissionIssue" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_project_user" FromRole="ProjectUser" ToRole="Project" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="ProjectUser" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="fk_WarrantyIssue_ProjectUser">
           <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="0..1" />
@@ -6991,8 +7011,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="task" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_Location" FromRole="ProjectCalendarDayTask" ToRole="Location" />
           <NavigationProperty Name="ProjectCalendarDay" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_ProjectCalendarDay" FromRole="ProjectCalendarDayTask" ToRole="ProjectCalendarDay" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned" FromRole="ProjectCalendarDayTask" ToRole="AspNetUser" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_Project" FromRole="ProjectCalendarDayTask" ToRole="Project" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned" FromRole="ProjectCalendarDayTask" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="ProjectTaskPrototype">
           <Key>
@@ -7040,345 +7060,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="AspNetUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="AllowableContractors" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="JCIEstimateModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
-          <NavigationProperty Name="ContractorUsers" Relationship="JCIEstimateModel.fk_AspNetUser" FromRole="AspNetUser" ToRole="ContractorUser" />
-          <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_AspNetUser_created" FromRole="AspNetUser" ToRole="WarrantyIssue" />
-          <NavigationProperty Name="ProjectManagerAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created1" FromRole="AspNetUser" ToRole="ProjectManagerAttachment" />
-          <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_AspNetUser_created2" FromRole="AspNetUser" ToRole="ContractorSignoff" />
-          <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_AspNetUser_created3" FromRole="AspNetUser" ToRole="ContractorSignoffFinal" />
-          <NavigationProperty Name="ContractorSignoffAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created4" FromRole="AspNetUser" ToRole="ContractorSignoffAttachment" />
-          <NavigationProperty Name="ContractorSignoffFinalAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created5" FromRole="AspNetUser" ToRole="ContractorSignoffFinalAttachment" />
-          <NavigationProperty Name="LocationIssues" Relationship="JCIEstimateModel.fk_AspNetUser_createdAs" FromRole="AspNetUser" ToRole="LocationIssue" />
-          <NavigationProperty Name="LocationNotes" Relationship="JCIEstimateModel.fk_AspNetUser_LocationNotecreated" FromRole="AspNetUser" ToRole="LocationNote" />
-          <NavigationProperty Name="WarrantyNotes" Relationship="JCIEstimateModel.fk_AspNetUser_Notecreated" FromRole="AspNetUser" ToRole="WarrantyNote" />
-          <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_AspNetUserPECCost" FromRole="AspNetUser" ToRole="PECCost" />
-          <NavigationProperty Name="Calendars" Relationship="JCIEstimateModel.fk_CalendarMember_AspNetUser" FromRole="AspNetUser" ToRole="Calendar" />
-          <NavigationProperty Name="EquipmentNotes" Relationship="JCIEstimateModel.fk_Equipmentnote__aspNetUser" FromRole="AspNetUser" ToRole="EquipmentNote" />
-          <NavigationProperty Name="LocationIssues1" Relationship="JCIEstimateModel.fk_LocationIssue_AspNetUser" FromRole="AspNetUser" ToRole="LocationIssue" />
-          <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="AspNetUser" ToRole="ProjectUser" />
-          <NavigationProperty Name="ProjectAddendums" Relationship="JCIEstimateModel.fk_ProjectAddemdum_created" FromRole="AspNetUser" ToRole="ProjectAddendum" />
-          <NavigationProperty Name="ProjectCalendarDayTasks" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned" FromRole="AspNetUser" ToRole="ProjectCalendarDayTask" />
-          <NavigationProperty Name="ProjectCalendars" Relationship="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser" FromRole="AspNetUser" ToRole="ProjectCalendar" />
-          <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_userAssigned" FromRole="AspNetUser" ToRole="ProjectRFI" />
-          <NavigationProperty Name="ProjectRFIs1" Relationship="JCIEstimateModel.fk_ProjectRFI_userCreated" FromRole="AspNetUser" ToRole="ProjectRFI" />
-          <NavigationProperty Name="ProjectRFIResponses" Relationship="JCIEstimateModel.fk_ProjectRFI_userRresponded" FromRole="AspNetUser" ToRole="ProjectRFIResponse" />
-          <NavigationProperty Name="SalesTeamMembers" Relationship="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser" FromRole="AspNetUser" ToRole="SalesTeamMember" />
-          <NavigationProperty Name="AspNetUsersExtensions" Relationship="JCIEstimateModel.fk_AspNetUsersExtension_AspNetUser" FromRole="AspNetUser" ToRole="AspNetUsersExtension" />
-          <NavigationProperty Name="ProjectTaskLists" Relationship="JCIEstimateModel.fk_ProjectTaskList_AspNetUser" FromRole="AspNetUser" ToRole="ProjectTaskList" />
-          <NavigationProperty Name="CommissionNotes" Relationship="JCIEstimateModel.fk_AspNetUser_CommissionNotecreated" FromRole="AspNetUser" ToRole="CommissionNote" />
-          <NavigationProperty Name="CommissionIssues" Relationship="JCIEstimateModel.fk_CommissionIssueAspNetUser_created" FromRole="AspNetUser" ToRole="CommissionIssue" />
-          <NavigationProperty Name="Projects" Relationship="JCIEstimateModel.fk_project_PM" FromRole="AspNetUser" ToRole="Project" />
-        </EntityType>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="JCIEstimateModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaim">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="JCIEstimateModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogin">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ContractorUser" Role="ContractorUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ContractorUser">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_created">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.WarrantyIssue" Role="WarrantyIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="WarrantyIssue">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_created1">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectManagerAttachment" Role="ProjectManagerAttachment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectManagerAttachment">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_created2">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ContractorSignoff" Role="ContractorSignoff" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ContractorSignoff">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_created3">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ContractorSignoffFinal" Role="ContractorSignoffFinal" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ContractorSignoffFinal">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_created4">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ContractorSignoffAttachment" Role="ContractorSignoffAttachment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ContractorSignoffAttachment">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_created5">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ContractorSignoffFinalAttachment" Role="ContractorSignoffFinalAttachment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ContractorSignoffFinalAttachment">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_createdAs">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.LocationIssue" Role="LocationIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LocationIssue">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_LocationNotecreated">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.LocationNote" Role="LocationNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LocationNote">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUser_Notecreated">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.WarrantyNote" Role="WarrantyNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="WarrantyNote">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AspNetUserPECCost">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.PECCost" Role="PECCost" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PECCost">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_CalendarMember_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.Calendar" Role="Calendar" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Calendar">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Equipmentnote__aspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.EquipmentNote" Role="EquipmentNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EquipmentNote">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_LocationIssue_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.LocationIssue" Role="LocationIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LocationIssue">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_project_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectUser">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ProjectAddemdum_created">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.ProjectAddendum" Role="ProjectAddendum" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectAddendum">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ProjectCalendarDayTask_userAsAssigned">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.ProjectCalendarDayTask" Role="ProjectCalendarDayTask" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectCalendarDayTask">
-              <PropertyRef Name="aspnetUserUidAsAssigned" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ProjectCalendarMember_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectCalendar" Role="ProjectCalendar" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectCalendar">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ProjectRFI_userAssigned">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectRFI">
-              <PropertyRef Name="aspNetUserUidAsAssigned" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ProjectRFI_userCreated">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectRFI">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ProjectRFI_userRresponded">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectRFIResponse" Role="ProjectRFIResponse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectRFIResponse">
-              <PropertyRef Name="aspNetUserUidAsResponded" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_SalesTeamMemberMember_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.SalesTeamMember" Role="SalesTeamMember" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SalesTeamMember">
-              <PropertyRef Name="aspNetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="AspNetUsersExtension">
           <Key>
             <PropertyRef Name="aspNetUsersExtensionUid" />
@@ -7388,18 +7069,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="name" Type="String" Nullable="false" MaxLength="900" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUsersExtension_AspNetUser" FromRole="AspNetUsersExtension" ToRole="AspNetUser" />
         </EntityType>
-        <Association Name="fk_AspNetUsersExtension_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.AspNetUsersExtension" Role="AspNetUsersExtension" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUsersExtension">
-              <PropertyRef Name="aspnetUserUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ProjectTaskList">
           <Key>
             <PropertyRef Name="projectTaskListUid" />
@@ -7413,26 +7082,14 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="projectTaskStartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="projectTaskDuration" Type="Int32" Nullable="false" />
           <Property Name="aspNetUserUidAsAssigned" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectTaskList_AspNetUser" FromRole="ProjectTaskList" ToRole="AspNetUser" />
           <NavigationProperty Name="ProjectTaskList1" Relationship="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListParent" FromRole="ProjectTaskList" ToRole="ProjectTaskList1" />
           <NavigationProperty Name="ProjectTaskList2" Relationship="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListParent" FromRole="ProjectTaskList1" ToRole="ProjectTaskList" />
           <NavigationProperty Name="ProjectTaskList11" Relationship="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListPredecessor" FromRole="ProjectTaskList" ToRole="ProjectTaskList1" />
           <NavigationProperty Name="ProjectTaskList3" Relationship="JCIEstimateModel.fk_ProjectTaskList_ProjectTaskListPredecessor" FromRole="ProjectTaskList1" ToRole="ProjectTaskList" />
           <Property Name="isCompleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectTaskList_Project" FromRole="ProjectTaskList" ToRole="Project" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectTaskList_AspNetUser" FromRole="ProjectTaskList" ToRole="AspNetUser" />
         </EntityType>
-        <Association Name="fk_ProjectTaskList_AspNetUser">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.ProjectTaskList" Role="ProjectTaskList" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProjectTaskList">
-              <PropertyRef Name="aspNetUserUidAsAssigned" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ProjectTaskList_ProjectTaskListParent">
           <End Type="JCIEstimateModel.ProjectTaskList" Role="ProjectTaskList" Multiplicity="0..1" />
           <End Type="JCIEstimateModel.ProjectTaskList" Role="ProjectTaskList1" Multiplicity="*" />
@@ -7537,8 +7194,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="commissionNote1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="aspNetUserUidAsCreated" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_CommissionNotecreated" FromRole="CommissionNote" ToRole="AspNetUser" />
           <NavigationProperty Name="CommissionIssue" Relationship="JCIEstimateModel.fk_Commissionnote_Commissionissue" FromRole="CommissionNote" ToRole="CommissionIssue" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_CommissionNotecreated" FromRole="CommissionNote" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="CommissionStatu">
           <Key>
@@ -7551,18 +7208,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="listOrder" Type="Int32" />
           <NavigationProperty Name="CommissionIssues" Relationship="JCIEstimateModel.fk_Commissionissue_CommissionStatus" FromRole="CommissionStatu" ToRole="CommissionIssue" />
         </EntityType>
-        <Association Name="fk_AspNetUser_CommissionNotecreated">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.CommissionNote" Role="CommissionNote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CommissionNote">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CommissionIssue">
           <Key>
             <PropertyRef Name="commissionIssueUid" />
@@ -7574,25 +7219,13 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="commissionIssue1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="aspNetUserUidAsCreated" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="7" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_CommissionIssueAspNetUser_created" FromRole="CommissionIssue" ToRole="AspNetUser" />
           <NavigationProperty Name="CommissionAttachments" Relationship="JCIEstimateModel.fk_CommissionAttachment_Commissionissue" FromRole="CommissionIssue" ToRole="CommissionAttachment" />
           <NavigationProperty Name="CommissionStatu" Relationship="JCIEstimateModel.fk_Commissionissue_CommissionStatus" FromRole="CommissionIssue" ToRole="CommissionStatu" />
           <NavigationProperty Name="ProjectUser" Relationship="JCIEstimateModel.fk_CommissionIssue_ProjectUser" FromRole="CommissionIssue" ToRole="ProjectUser" />
           <NavigationProperty Name="CommissionNotes" Relationship="JCIEstimateModel.fk_Commissionnote_Commissionissue" FromRole="CommissionIssue" ToRole="CommissionNote" />
           <NavigationProperty Name="Equipment" Relationship="JCIEstimateModel.fk_CommissionIssue_Equipment" FromRole="CommissionIssue" ToRole="Equipment" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_CommissionIssueAspNetUser_created" FromRole="CommissionIssue" ToRole="AspNetUser" />
         </EntityType>
-        <Association Name="fk_CommissionIssueAspNetUser_created">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="JCIEstimateModel.CommissionIssue" Role="CommissionIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CommissionIssue">
-              <PropertyRef Name="aspNetUserUidAsCreated" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_CommissionAttachment_Commissionissue">
           <End Type="JCIEstimateModel.CommissionIssue" Role="CommissionIssue" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -8216,7 +7849,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="contractAmount" Type="Int32" Nullable="false" />
           <Property Name="startDate" Type="DateTime" Precision="0" />
           <Property Name="drawPeriods" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_PM" FromRole="Project" ToRole="AspNetUser" />
           <NavigationProperty Name="CalendarDayTasks" Relationship="JCIEstimateModel.fk_CalendarDayTask_Project" FromRole="Project" ToRole="CalendarDayTask" />
           <NavigationProperty Name="ContractorDraws" Relationship="JCIEstimateModel.fk_ContractorDraw_Project" FromRole="Project" ToRole="ContractorDraw" />
           <NavigationProperty Name="ContractorNotes" Relationship="JCIEstimateModel.fk_ContractorNote_Project" FromRole="Project" ToRole="ContractorNote" />
@@ -8242,19 +7874,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ProjectTaskLists" Relationship="JCIEstimateModel.fk_ProjectTaskList_Project" FromRole="Project" ToRole="ProjectTaskList" />
           <NavigationProperty Name="ReportDefinitions" Relationship="JCIEstimateModel.fk_ReportDefinition_Project" FromRole="Project" ToRole="ReportDefinition" />
           <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="Project" ToRole="ScopeOfWork" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_PM" FromRole="Project" ToRole="AspNetUser" />
         </EntityType>
-        <Association Name="fk_project_PM">
-          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Project">
-              <PropertyRef Name="aspNetUserUidAsPM" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_CalendarDayTask_Project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="0..1" />
           <End Type="JCIEstimateModel.CalendarDayTask" Role="CalendarDayTask" Multiplicity="*" />
@@ -8559,6 +8180,415 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="AllowableContractors" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="JCIEstimateModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="JCIEstimateModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="ContractorUsers" Relationship="JCIEstimateModel.fk_AspNetUser" FromRole="AspNetUser" ToRole="ContractorUser" />
+          <NavigationProperty Name="CommissionNotes" Relationship="JCIEstimateModel.fk_AspNetUser_CommissionNotecreated" FromRole="AspNetUser" ToRole="CommissionNote" />
+          <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_AspNetUser_created" FromRole="AspNetUser" ToRole="WarrantyIssue" />
+          <NavigationProperty Name="ProjectManagerAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created1" FromRole="AspNetUser" ToRole="ProjectManagerAttachment" />
+          <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_AspNetUser_created2" FromRole="AspNetUser" ToRole="ContractorSignoff" />
+          <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_AspNetUser_created3" FromRole="AspNetUser" ToRole="ContractorSignoffFinal" />
+          <NavigationProperty Name="ContractorSignoffAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created4" FromRole="AspNetUser" ToRole="ContractorSignoffAttachment" />
+          <NavigationProperty Name="ContractorSignoffFinalAttachments" Relationship="JCIEstimateModel.fk_AspNetUser_created5" FromRole="AspNetUser" ToRole="ContractorSignoffFinalAttachment" />
+          <NavigationProperty Name="LocationIssues" Relationship="JCIEstimateModel.fk_AspNetUser_createdAs" FromRole="AspNetUser" ToRole="LocationIssue" />
+          <NavigationProperty Name="LocationNotes" Relationship="JCIEstimateModel.fk_AspNetUser_LocationNotecreated" FromRole="AspNetUser" ToRole="LocationNote" />
+          <NavigationProperty Name="WarrantyNotes" Relationship="JCIEstimateModel.fk_AspNetUser_Notecreated" FromRole="AspNetUser" ToRole="WarrantyNote" />
+          <NavigationProperty Name="PECCosts" Relationship="JCIEstimateModel.fk_AspNetUserPECCost" FromRole="AspNetUser" ToRole="PECCost" />
+          <NavigationProperty Name="AspNetUsersExtensions" Relationship="JCIEstimateModel.fk_AspNetUsersExtension_AspNetUser" FromRole="AspNetUser" ToRole="AspNetUsersExtension" />
+          <NavigationProperty Name="Calendars" Relationship="JCIEstimateModel.fk_CalendarMember_AspNetUser" FromRole="AspNetUser" ToRole="Calendar" />
+          <NavigationProperty Name="CommissionIssues" Relationship="JCIEstimateModel.fk_CommissionIssueAspNetUser_created" FromRole="AspNetUser" ToRole="CommissionIssue" />
+          <NavigationProperty Name="EquipmentNotes" Relationship="JCIEstimateModel.fk_Equipmentnote__aspNetUser" FromRole="AspNetUser" ToRole="EquipmentNote" />
+          <NavigationProperty Name="LocationIssues1" Relationship="JCIEstimateModel.fk_LocationIssue_AspNetUser" FromRole="AspNetUser" ToRole="LocationIssue" />
+          <NavigationProperty Name="ProjectUsers" Relationship="JCIEstimateModel.fk_project_AspNetUser" FromRole="AspNetUser" ToRole="ProjectUser" />
+          <NavigationProperty Name="Projects" Relationship="JCIEstimateModel.fk_project_PM" FromRole="AspNetUser" ToRole="Project" />
+          <NavigationProperty Name="ProjectAddendums" Relationship="JCIEstimateModel.fk_ProjectAddemdum_created" FromRole="AspNetUser" ToRole="ProjectAddendum" />
+          <NavigationProperty Name="ProjectCalendarDayTasks" Relationship="JCIEstimateModel.fk_ProjectCalendarDayTask_userAsAssigned" FromRole="AspNetUser" ToRole="ProjectCalendarDayTask" />
+          <NavigationProperty Name="ProjectCalendars" Relationship="JCIEstimateModel.fk_ProjectCalendarMember_AspNetUser" FromRole="AspNetUser" ToRole="ProjectCalendar" />
+          <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_userAssigned" FromRole="AspNetUser" ToRole="ProjectRFI" />
+          <NavigationProperty Name="ProjectRFIs1" Relationship="JCIEstimateModel.fk_ProjectRFI_userCreated" FromRole="AspNetUser" ToRole="ProjectRFI" />
+          <NavigationProperty Name="ProjectRFIResponses" Relationship="JCIEstimateModel.fk_ProjectRFI_userRresponded" FromRole="AspNetUser" ToRole="ProjectRFIResponse" />
+          <NavigationProperty Name="ProjectTaskLists" Relationship="JCIEstimateModel.fk_ProjectTaskList_AspNetUser" FromRole="AspNetUser" ToRole="ProjectTaskList" />
+          <NavigationProperty Name="SalesTeamMembers" Relationship="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser" FromRole="AspNetUser" ToRole="SalesTeamMember" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="JCIEstimateModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorUser" Role="ContractorUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContractorUser">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_CommissionNotecreated">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.CommissionNote" Role="CommissionNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CommissionNote">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_created">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.WarrantyIssue" Role="WarrantyIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WarrantyIssue">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_created1">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectManagerAttachment" Role="ProjectManagerAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectManagerAttachment">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_created2">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorSignoff" Role="ContractorSignoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContractorSignoff">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_created3">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorSignoffFinal" Role="ContractorSignoffFinal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContractorSignoffFinal">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_created4">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorSignoffAttachment" Role="ContractorSignoffAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContractorSignoffAttachment">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_created5">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ContractorSignoffFinalAttachment" Role="ContractorSignoffFinalAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContractorSignoffFinalAttachment">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_createdAs">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.LocationIssue" Role="LocationIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LocationIssue">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_LocationNotecreated">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.LocationNote" Role="LocationNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LocationNote">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUser_Notecreated">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.WarrantyNote" Role="WarrantyNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WarrantyNote">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUserPECCost">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.PECCost" Role="PECCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PECCost">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AspNetUsersExtension_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.AspNetUsersExtension" Role="AspNetUsersExtension" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUsersExtension">
+              <PropertyRef Name="aspnetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CalendarMember_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Calendar" Role="Calendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Calendar">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CommissionIssueAspNetUser_created">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.CommissionIssue" Role="CommissionIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CommissionIssue">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Equipmentnote__aspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentNote" Role="EquipmentNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EquipmentNote">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LocationIssue_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.LocationIssue" Role="LocationIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LocationIssue">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_project_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectUser" Role="ProjectUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectUser">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_project_PM">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="aspNetUserUidAsPM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectAddemdum_created">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ProjectAddendum" Role="ProjectAddendum" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectAddendum">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarDayTask_userAsAssigned">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ProjectCalendarDayTask" Role="ProjectCalendarDayTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectCalendarDayTask">
+              <PropertyRef Name="aspnetUserUidAsAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectCalendarMember_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectCalendar" Role="ProjectCalendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectCalendar">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_userAssigned">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="aspNetUserUidAsAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_userCreated">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="aspNetUserUidAsCreated" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_userRresponded">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFIResponse" Role="ProjectRFIResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectRFIResponse">
+              <PropertyRef Name="aspNetUserUidAsResponded" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectTaskList_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.ProjectTaskList" Role="ProjectTaskList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectTaskList">
+              <PropertyRef Name="aspNetUserUidAsAssigned" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_SalesTeamMemberMember_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.SalesTeamMember" Role="SalesTeamMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesTeamMember">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="v__ContractorsForProject">
+          <Key>
+            <PropertyRef Name="projectUid" />
+            <PropertyRef Name="contractorUid" />
+            <PropertyRef Name="contractorName" />
+          </Key>
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorUid" Type="Guid" Nullable="false" />
+          <Property Name="contractorName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9646,25 +9676,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="JCIEstimateModel.AspNetUser">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="AllowableContractors" ColumnName="AllowableContractors" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsersExtensions">
             <EntityTypeMapping TypeName="JCIEstimateModel.AspNetUsersExtension">
               <MappingFragment StoreEntitySet="AspNetUsersExtension">
@@ -9934,6 +9945,34 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="aspNetUserUidAsPM" ColumnName="aspNetUserUidAsPM" />
                 <ScalarProperty Name="projectDescription" ColumnName="projectDescription" />
                 <ScalarProperty Name="project1" ColumnName="project" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="JCIEstimateModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="AllowableContractors" ColumnName="AllowableContractors" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v__ContractorsForProject">
+            <EntityTypeMapping TypeName="JCIEstimateModel.v__ContractorsForProject">
+              <MappingFragment StoreEntitySet="v__ContractorsForProject">
+                <ScalarProperty Name="contractorName" ColumnName="contractorName" />
+                <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
               </MappingFragment>
             </EntityTypeMapping>

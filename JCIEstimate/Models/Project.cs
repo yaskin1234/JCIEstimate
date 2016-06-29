@@ -53,7 +53,6 @@ namespace JCIEstimate.Models
         public Nullable<System.DateTime> startDate { get; set; }
         public int drawPeriods { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<CalendarDayTask> CalendarDayTasks { get; set; }
         public virtual ICollection<ContractorDraw> ContractorDraws { get; set; }
         public virtual ICollection<ContractorNote> ContractorNotes { get; set; }
@@ -79,5 +78,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ProjectTaskList> ProjectTaskLists { get; set; }
         public virtual ICollection<ReportDefinition> ReportDefinitions { get; set; }
         public virtual ICollection<ScopeOfWork> ScopeOfWorks { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

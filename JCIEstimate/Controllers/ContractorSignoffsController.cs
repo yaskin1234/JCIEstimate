@@ -66,7 +66,7 @@ namespace JCIEstimate.Controllers
         // GET: ContractorSignoffs/Create
         public ActionResult Create()
         {
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors");
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email");
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1");
             return View();
         }
@@ -236,7 +236,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", contractorSignoff.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", contractorSignoff.aspNetUserUidAsCreated);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", contractorSignoff.projectUid);
             return View(contractorSignoff);
         }
@@ -269,7 +269,7 @@ namespace JCIEstimate.Controllers
                 return HttpNotFound();
             }
             ViewBag.signoffAttachments = contractorSignoff.ContractorSignoffAttachments.OrderByDescending(c => c.dateCreated);
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", contractorSignoff.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", contractorSignoff.aspNetUserUidAsCreated);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", contractorSignoff.projectUid);
             return View(contractorSignoff);
         }
@@ -310,7 +310,7 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", contractorSignoff.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", contractorSignoff.aspNetUserUidAsCreated);
             ViewBag.projectUid = new SelectList(db.Projects, "projectUid", "project1", contractorSignoff.projectUid);
             return View(contractorSignoff);
         }

@@ -324,8 +324,10 @@ namespace JCIEstimate.Controllers
             else
             {
                 contractors = from cc in db.Contractors
+                              join cq in db.v__ContractorsForProject on cc.contractorUid equals cq.contractorUid
+                              where cq.projectUid == sessionProject
                               orderby cc.contractorName
-                              select cc;
+                              select cc;                
             }
 
             previousValues p;

@@ -530,9 +530,8 @@
 
 
 
-    //$("#filter").kendoComboBox();
+    
 
-    //$("#gridFilter").kendoComboBox();
 
     //var $table = $('#GridTable');
     //$table.floatThead();

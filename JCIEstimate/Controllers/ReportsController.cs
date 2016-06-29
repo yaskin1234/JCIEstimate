@@ -29,6 +29,13 @@ namespace JCIEstimate.Controllers
             }
         }
 
+        public ActionResult GetTasksByEquipmentType()
+        {
+            
+            return View("rptTasksByEquipmentType");
+            
+        }
+
         public ActionResult GetEstimateComparison()
         {
             if (Session["projectUid"] == null)

@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Bernservices</title>
     <link href="~/Content/jquery-ui.css" rel="stylesheet" />
-    @Scripts.Render("~/bundles/jquery")    
-    @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/bundles/jquery")        
     @Scripts.Render("~/bundles/JCIEstimate")    
     @Scripts.Render("~/bundles/bootstrap")
     @Styles.Render("~/Content/css")        
-    @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Content/kendo/css")    
+    @Scripts.Render("~/bundles/modernizr")    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-form">
@@ -25,56 +23,83 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Admin</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Roles Admin", "Index", "RolesAdmin")</li>
+                                <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>
+                                <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>
+                                <li>@Html.ActionLink("Project Users", "Index", "ProjectUsers")</li>      
+                                  
+                            </ul>
+                        </li>
+                    }    
+
                     @if (Request.IsAuthenticated && User.IsInRole("Admin") ) {
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">System Admin</a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Roles Admin", "Index", "RolesAdmin")</li>
-                            <li>@Html.ActionLink("Users Admin", "Index", "UsersAdmin")</li>
-                            <li>@Html.ActionLink("To Do Status", "Index", "ToDoStatus")</li>
                             <li>@Html.ActionLink("To Do List", "Index", "ProjectToDoes")</li>                            
-                            <li>@Html.ActionLink("Mass Email", "MassEmail", "UsersAdmin")</li>
-                            <li class="divider"></li>                            
-                            <li>@Html.ActionLink("App Data Types", "Index", "AppDataTypes")</li>
-                            <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
+                            <li>@Html.ActionLink("Mass Email", "MassEmail", "UsersAdmin")</li>                            
                             <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
-                            <li>@Html.ActionLink("Misc Expenses", "Index", "ExpenseMiscellaneous")</li>
-                            <li>@Html.ActionLink("Cost Codes", "Index", "CostCodes")</li>
-                            <li class="divider"></li>
-                            <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
-                            <li>@Html.ActionLink("Estimate Option", "Index", "EstimateOptions")</li>
-                            <li>@Html.ActionLink("Commission Status", "Index", "CommissionStatus")</li>
-                            <li>@Html.ActionLink("Warranty Status", "Index", "WarrantyStatus")</li>
-                            <li>@Html.ActionLink("Equipment Tasks", "Index", "EquipmentTasks")</li>
-                            <li>@Html.ActionLink("Equipment Task Details", "Index", "EquipmentTaskDetails")</li>
-                            <li>@Html.ActionLink("Expense Types", "Index", "ExpenseTypes")</li>
-                            <li>@Html.ActionLink("Project Attachment Types", "Index", "ProjectAttachmentTypes")</li>
-                            <li>@Html.ActionLink("Equipment Types", "Index", "EquipmentTypes")</li>
-                            <li>@Html.ActionLink("Equipment Attribute Type", "Index", "EquipmentAttributeTypes")</li>
-                            <li>@Html.ActionLink("Equipment Attribute Type Tasks", "Index", "EquipmentAttributeTypeTasks")</li>
-                            <li>@Html.ActionLink("Equipment Note Types", "Index", "EquipmentNoteTypes")</li>
-                            <li>@Html.ActionLink("RFI Types", "Index", "RFITypes")</li>
-                            <li>@Html.ActionLink("RFI Satus", "Index", "RFIStatus")</li>
-                            <li>@Html.ActionLink("Intervals", "Index", "Intervals")</li>
-                            <li>@Html.ActionLink("Shifts", "Index", "Shifts")</li>
-                            <li>@Html.ActionLink("Heat Types", "Index", "HeatTypes")</li>
-                            <li>@Html.ActionLink("Control Types", "Index", "ControlTypes")</li>
-                            <li>@Html.ActionLink("Equipment Condition", "Index", "EquipmentConditions")</li>
-                            <li>@Html.ActionLink("Completion Categories", "Index", "CompletionCategories")</li>
-                            <li>@Html.ActionLink("Weeks", "Index", "Weeks")</li>
-                            <li>@Html.ActionLink("PEC Tasks", "Index", "PECTasks")</li>
-                            <li>@Html.ActionLink("PEC Expense Types", "Index", "PECExpenseTypes")</li>                            
-                            <li>@Html.ActionLink("Contractor Note Types", "Index", "ContractorNoteTypes")</li>
-                            <li>@Html.ActionLink("Contractor Note Status", "Index", "ContractorNoteStatus")</li>
-                            <li>@Html.ActionLink("Project Task Categories", "Index", "ProjectTaskCategories")</li>
-                            <li>@Html.ActionLink("Project Tasks", "Index", "ProjectTaskPrototypes")</li>
-                            <li class="divider"></li>
                             <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
-                            <li>@Html.ActionLink("Contractor Classifications", "Index", "ContractorClassifications")</li>
-                            <li>@Html.ActionLink("Contractor Users", "Index", "ContractorUsers")</li>
-                            <li>@Html.ActionLink("Project Users", "Index", "ProjectUsers")</li>
-                            <li>@Html.ActionLink("Warranty Notes", "Index", "WarrantyNotes")</li>
+                            <li class="divider"></li>
+                            <li>@Html.ActionLink("Report -- Equipment Task Audit", "GetTasksByEquipmentType", "Reports")</li>    
                         </ul>
                     </li>
+                    }
+
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Prototypes</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("To Do Status", "Index", "ToDoStatus")</li>
+                                <li>@Html.ActionLink("App Data Types", "Index", "AppDataTypes")</li>
+                                <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
+                                <li>@Html.ActionLink("Misc Expenses", "Index", "ExpenseMiscellaneous")</li>
+                                <li>@Html.ActionLink("Cost Codes", "Index", "CostCodes")</li>                                
+                                <li>@Html.ActionLink("Estimate Status", "Index", "EstimateStatus")</li>
+                                <li>@Html.ActionLink("Estimate Option", "Index", "EstimateOptions")</li>
+                                <li>@Html.ActionLink("Commission Status", "Index", "CommissionStatus")</li>
+                                <li>@Html.ActionLink("Warranty Status", "Index", "WarrantyStatus")</li>
+                                <li>@Html.ActionLink("Expense Types", "Index", "ExpenseTypes")</li>
+                                <li>@Html.ActionLink("Project Attachment Types", "Index", "ProjectAttachmentTypes")</li>
+                                <li>@Html.ActionLink("Equipment Types", "Index", "EquipmentTypes")</li>
+                                <li>@Html.ActionLink("Equipment Note Types", "Index", "EquipmentNoteTypes")</li>
+                                <li>@Html.ActionLink("RFI Types", "Index", "RFITypes")</li>
+                                <li>@Html.ActionLink("RFI Satus", "Index", "RFIStatus")</li>
+                                <li>@Html.ActionLink("Intervals", "Index", "Intervals")</li>
+                                <li>@Html.ActionLink("Shifts", "Index", "Shifts")</li>
+                                <li>@Html.ActionLink("Heat Types", "Index", "HeatTypes")</li>
+                                <li>@Html.ActionLink("Control Types", "Index", "ControlTypes")</li>
+                                <li>@Html.ActionLink("Equipment Condition", "Index", "EquipmentConditions")</li>
+                                <li>@Html.ActionLink("Completion Categories", "Index", "CompletionCategories")</li>
+                                <li>@Html.ActionLink("Weeks", "Index", "Weeks")</li>
+                                <li>@Html.ActionLink("Contractor Note Types", "Index", "ContractorNoteTypes")</li>
+                                <li>@Html.ActionLink("Contractor Note Status", "Index", "ContractorNoteStatus")</li>                                
+                                <li>@Html.ActionLink("Contractor Classifications", "Index", "ContractorClassifications")</li>
+                            </ul>
+                        </li>
+                    }                       
+                    
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Equipment Attribute Type", "Index", "EquipmentAttributeTypes")</li>
+                                <li>@Html.ActionLink("Equipment Tasks", "Index", "EquipmentTasks")</li>
+                                <li>@Html.ActionLink("Equipment Task Details", "Index", "EquipmentTaskDetails")</li>
+                                <li>@Html.ActionLink("Equipment Attribute Type Tasks", "Index", "EquipmentAttributeTypeTasks")</li>
+                                <li>@Html.ActionLink("PEC Tasks", "Index", "PECTasks")</li>
+                                <li>@Html.ActionLink("PEC Expense Types", "Index", "PECExpenseTypes")</li>
+                                <li>@Html.ActionLink("Project Task Categories", "Index", "ProjectTaskCategories")</li>
+                                <li>@Html.ActionLink("Project Tasks", "Index", "ProjectTaskPrototypes")</li>
+                            </ul>
+                        </li>
                     }    
 
                     @if (Request.IsAuthenticated && User.IsInRole("Admin"))

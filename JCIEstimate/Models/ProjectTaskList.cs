@@ -31,11 +31,11 @@ namespace JCIEstimate.Models
         public string aspNetUserUidAsAssigned { get; set; }
         public bool isCompleted { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<ProjectTaskList> ProjectTaskList1 { get; set; }
         public virtual ProjectTaskList ProjectTaskList2 { get; set; }
         public virtual ICollection<ProjectTaskList> ProjectTaskList11 { get; set; }
         public virtual ProjectTaskList ProjectTaskList3 { get; set; }
         public virtual Project Project { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

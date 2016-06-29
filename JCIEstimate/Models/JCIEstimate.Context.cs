@@ -123,7 +123,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<ProjectTaskCategory> ProjectTaskCategories { get; set; }
         public virtual DbSet<ProjectCalendarDayTask> ProjectCalendarDayTasks { get; set; }
         public virtual DbSet<ProjectTaskPrototype> ProjectTaskPrototypes { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUsersExtension> AspNetUsersExtensions { get; set; }
         public virtual DbSet<ProjectTaskList> ProjectTaskLists { get; set; }
         public virtual DbSet<ReportDefinition> ReportDefinitions { get; set; }
@@ -140,5 +139,7 @@ namespace JCIEstimate.Models
         public virtual DbSet<ECM> ECMs { get; set; }
         public virtual DbSet<ProjectScope> ProjectScopes { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<v__ContractorsForProject> v__ContractorsForProject { get; set; }
     }
 }

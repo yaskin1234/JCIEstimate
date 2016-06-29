@@ -31,16 +31,8 @@ namespace IdentitySample
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Context/jquery-ui.css"));
-            bundles.Add(new StyleBundle("~/Context/JCIEstimate.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
-                 "~/Scripts/kendo/2014.1.318/kendo.web.min.js"
-                ));
-
-            bundles.Add(new StyleBundle("~/Content/kendo/css").Include(
-        "~/Content/kendo/2014.1.318/kendo.common-bootstrap.min.css",
-        "~/Content/kendo/2014.1.318/kendo.bootstrap.min.css"));            
+                      "~/Content/jquery-ui.css",
+                      "~/Content/simple-sidebar.css"));
         }
     }
 }

@@ -12,15 +12,10 @@ namespace JCIEstimate.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CommissionNote
+    public partial class v__ContractorsForProject
     {
-        public System.Guid commissionNoteUid { get; set; }
-        public System.Guid commissionIssueUid { get; set; }
-        public string commissionNote1 { get; set; }
-        public System.DateTime date { get; set; }
-        public string aspNetUserUidAsCreated { get; set; }
-    
-        public virtual CommissionIssue CommissionIssue { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
+        public System.Guid projectUid { get; set; }
+        public System.Guid contractorUid { get; set; }
+        public string contractorName { get; set; }
     }
 }

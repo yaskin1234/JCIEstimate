@@ -78,7 +78,7 @@ namespace JCIEstimate.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", contractorSignoffAttachment.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", contractorSignoffAttachment.aspNetUserUidAsCreated);
             ViewBag.contractorSignoffUid = new SelectList(db.ContractorSignoffs, "contractorSignoffUid", "aspNetUserUidAsCreated", contractorSignoffAttachment.contractorSignoffUid);
             return View(contractorSignoffAttachment);
         }
@@ -95,7 +95,7 @@ namespace JCIEstimate.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", contractorSignoffAttachment.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", contractorSignoffAttachment.aspNetUserUidAsCreated);
             ViewBag.contractorSignoffUid = new SelectList(db.ContractorSignoffs, "contractorSignoffUid", "aspNetUserUidAsCreated", contractorSignoffAttachment.contractorSignoffUid);
             return View(contractorSignoffAttachment);
         }
@@ -113,7 +113,7 @@ namespace JCIEstimate.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "AllowableContractors", contractorSignoffAttachment.aspNetUserUidAsCreated);
+            ViewBag.aspNetUserUidAsCreated = new SelectList(db.AspNetUsers, "Id", "Email", contractorSignoffAttachment.aspNetUserUidAsCreated);
             ViewBag.contractorSignoffUid = new SelectList(db.ContractorSignoffs, "contractorSignoffUid", "aspNetUserUidAsCreated", contractorSignoffAttachment.contractorSignoffUid);
             return View(contractorSignoffAttachment);
         }
