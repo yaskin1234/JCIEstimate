@@ -141,5 +141,8 @@ namespace JCIEstimate.Models
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<v__ContractorsForProject> v__ContractorsForProject { get; set; }
+        public virtual DbSet<UserExpense> UserExpenses { get; set; }
+        public virtual DbSet<UserExpenseStatu> UserExpenseStatus { get; set; }
+        public virtual DbSet<UserExpenseType> UserExpenseTypes { get; set; }
     }
 }

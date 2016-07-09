@@ -286,6 +286,12 @@
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectTaskList_AspNetUser" />
         <AssociationConnector Association="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser" />
         <EntityTypeShape EntityType="JCIEstimateModel.v__ContractorsForProject" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="JCIEstimateModel.UserExpense" Width="1.5" PointX="10.25" PointY="30.375" />
+        <EntityTypeShape EntityType="JCIEstimateModel.UserExpenseStatu" Width="1.5" PointX="8" PointY="44.25" />
+        <EntityTypeShape EntityType="JCIEstimateModel.UserExpenseType" Width="1.5" PointX="8" PointY="41.75" />
+        <AssociationConnector Association="JCIEstimateModel.fk_UserExpense_AspNetUser" />
+        <AssociationConnector Association="JCIEstimateModel.fk_UserExpense_userExpenseStatus" />
+        <AssociationConnector Association="JCIEstimateModel.fk_UserExpense_UserExpenseType" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

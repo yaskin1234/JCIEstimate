@@ -1,0 +1,66 @@
+﻿@model JCIEstimate.Models.UserExpense
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UserExpense</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.userExpense1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userExpense1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserExpenseStatu.userExpenseStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserExpenseStatu.userExpenseStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserExpenseType.UserExpenseType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserExpenseType.UserExpenseType1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.userExpenseUid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

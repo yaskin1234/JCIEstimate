@@ -794,6 +794,21 @@
     <Content Include="Views\Reports\rptEquipmentTaskExport.cshtml" />
     <Content Include="Views\Projects\GetScopeDocument.cshtml" />
     <Content Include="Views\Reports\rptTasksByEquipmentType.cshtml" />
+    <Content Include="Views\UserExpenseStatus\Create.cshtml" />
+    <Content Include="Views\UserExpenseStatus\Delete.cshtml" />
+    <Content Include="Views\UserExpenseStatus\Details.cshtml" />
+    <Content Include="Views\UserExpenseStatus\Edit.cshtml" />
+    <Content Include="Views\UserExpenseStatus\Index.cshtml" />
+    <Content Include="Views\UserExpenseTypes\Create.cshtml" />
+    <Content Include="Views\UserExpenseTypes\Delete.cshtml" />
+    <Content Include="Views\UserExpenseTypes\Details.cshtml" />
+    <Content Include="Views\UserExpenseTypes\Edit.cshtml" />
+    <Content Include="Views\UserExpenseTypes\Index.cshtml" />
+    <Content Include="Views\UserExpenses\Create.cshtml" />
+    <Content Include="Views\UserExpenses\Delete.cshtml" />
+    <Content Include="Views\UserExpenses\Details.cshtml" />
+    <Content Include="Views\UserExpenses\Edit.cshtml" />
+    <Content Include="Views\UserExpenses\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1008,6 +1023,9 @@
     <Compile Include="Controllers\ShiftsController.cs" />
     <Compile Include="Controllers\ToDoStatusController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
+    <Compile Include="Controllers\UserExpensesController.cs" />
+    <Compile Include="Controllers\UserExpenseStatusController.cs" />
+    <Compile Include="Controllers\UserExpenseTypesController.cs" />
     <Compile Include="Controllers\WarrantyAttachmentsController.cs" />
     <Compile Include="Controllers\WarrantyIssuesController.cs" />
     <Compile Include="Controllers\WarrantyNotesController.cs" />
@@ -1358,6 +1376,15 @@
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ToDoStatu.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserExpense.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserExpenseStatu.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserExpenseType.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\v__ContractorECMByCategory.cs">

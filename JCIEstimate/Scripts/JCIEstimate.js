@@ -1003,6 +1003,11 @@
     $(function () {
         $("#projectCalendarStartDate").datepicker();
     });
+
+    $(function () {
+        $("#userExpenseDate").datepicker();
+    });
+    
     
 
     $(".taskChangeDate").click(function () {

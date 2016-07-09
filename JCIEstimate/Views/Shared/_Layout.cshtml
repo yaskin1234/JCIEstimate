@@ -11,7 +11,7 @@
     @Styles.Render("~/Content/css")        
     @Scripts.Render("~/bundles/modernizr")    
 </head>
-<body>
+<body>    
     <div class="navbar navbar-inverse navbar-form">
         <div class="container">
             <div class="navbar-header">                
@@ -45,6 +45,7 @@
                             <li>@Html.ActionLink("Mass Email", "MassEmail", "UsersAdmin")</li>                            
                             <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
                             <li>@Html.ActionLink("Contractors", "Index", "Contractors")</li>
+                            <li>@Html.ActionLink("User Expenses", "Index", "UserExpenses")</li>
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Report -- Equipment Task Audit", "GetTasksByEquipmentType", "Reports")</li>    
                         </ul>
@@ -81,6 +82,8 @@
                                 <li>@Html.ActionLink("Contractor Note Types", "Index", "ContractorNoteTypes")</li>
                                 <li>@Html.ActionLink("Contractor Note Status", "Index", "ContractorNoteStatus")</li>                                
                                 <li>@Html.ActionLink("Contractor Classifications", "Index", "ContractorClassifications")</li>
+                                <li>@Html.ActionLink("User Expense Type", "Index", "UserExpenseTypes")</li>
+                                <li>@Html.ActionLink("User Expense Status", "Index", "UserExpenseStatus")</li>
                             </ul>
                         </li>
                     }                       

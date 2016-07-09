@@ -1782,4 +1782,66 @@ namespace JCIEstimate.Models
         public string contractorClassificationDescription { get; set; }
     }
 
+    /// <summary>
+    /// UserExpense
+    /// </summary>
+    [MetadataType(typeof(UserExpenseMetaData))]
+    public partial class UserExpense
+    {
+    }
+
+    public class UserExpenseMetaData
+    {
+        [Display(Name = "User Expense")]
+        public System.Guid userExpenseUid { get; set; }
+        [Display(Name = "Date")]
+        public Nullable<System.DateTime> date { get; set; }
+        [Display(Name = "User")]
+        public string aspNetUserUid { get; set; }
+        [Display(Name = "Expense Description")]
+        public string userExpense1 { get; set; }
+        [Display(Name = "Status")]
+        public System.Guid userExpenseStatusUid { get; set; }
+        [Display(Name = "Type")]
+        public System.Guid userExpenseTypeUid { get; set; }
+        [Display(Name = "Amount")]
+        public decimal amount { get; set; }
+    }
+
+    /// <summary>
+    /// UserExpenseType
+    /// </summary>
+    [MetadataType(typeof(UserExpenseTypeMetaData))]
+    public partial class UserExpenseType
+    {
+    }
+
+    public class UserExpenseTypeMetaData
+    {
+        [Display(Name = "User Expense Type")]
+        public System.Guid userExpenseTypeUid { get; set; }
+        [Display(Name = "User Expense Type")]
+        public string UserExpenseType1 { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
+    /// <summary>
+    /// UserExpenseStatus
+    /// </summary>
+    [MetadataType(typeof(UserExpenseStatuMetaData))]
+    public partial class UserExpenseStatu
+    {
+    }
+
+    public class UserExpenseStatuMetaData
+    {
+        [Display(Name = "User Expense Status")]
+        public System.Guid userExpenseStatusUid { get; set; }
+        [Display(Name = "User Expense Status")]
+        public string userExpenseStatus { get; set; }
+        [Display(Name = "Behavior Indicator")]
+        public string behaviorIndicator { get; set; }
+    }
+
 }

@@ -45,6 +45,7 @@ namespace JCIEstimate.Models
             this.ProjectRFIResponses = new HashSet<ProjectRFIResponse>();
             this.ProjectTaskLists = new HashSet<ProjectTaskList>();
             this.SalesTeamMembers = new HashSet<SalesTeamMember>();
+            this.UserExpenses = new HashSet<UserExpense>();
         }
     
         public string Id { get; set; }
@@ -90,5 +91,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ProjectRFIResponse> ProjectRFIResponses { get; set; }
         public virtual ICollection<ProjectTaskList> ProjectTaskLists { get; set; }
         public virtual ICollection<SalesTeamMember> SalesTeamMembers { get; set; }
+        public virtual ICollection<UserExpense> UserExpenses { get; set; }
     }
 }

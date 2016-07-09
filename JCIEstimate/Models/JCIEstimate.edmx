@@ -1147,6 +1147,34 @@
           <Property Name="toDoStatusDescription" Type="nvarchar" MaxLength="2000" />
           <Property Name="behaviorIndicator" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserExpense">
+          <Key>
+            <PropertyRef Name="userExpenseUid" />
+          </Key>
+          <Property Name="userExpenseUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="date" Type="date" />
+          <Property Name="aspNetUserUid" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="userExpense" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="userExpenseStatusUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="userExpenseTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="11" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserExpenseStatus">
+          <Key>
+            <PropertyRef Name="userExpenseStatusUid" />
+          </Key>
+          <Property Name="userExpenseStatusUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="userExpenseStatus" Type="nvarchar" MaxLength="200" />
+          <Property Name="behaviorIndicator" Type="nvarchar" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserExpenseType">
+          <Key>
+            <PropertyRef Name="userExpenseTypeUid" />
+          </Key>
+          <Property Name="userExpenseTypeUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserExpenseType" Type="nvarchar" MaxLength="200" />
+          <Property Name="behaviorIndicator" Type="nvarchar" MaxLength="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="WarrantyAttachment">
           <Key>
             <PropertyRef Name="warrantyAttachmentUid" />
@@ -3239,6 +3267,42 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_UserExpense_AspNetUser">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserExpense" Type="Self.UserExpense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserExpense">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserExpense_userExpenseStatus">
+          <End Role="UserExpenseStatus" Type="Self.UserExpenseStatus" Multiplicity="1" />
+          <End Role="UserExpense" Type="Self.UserExpense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserExpenseStatus">
+              <PropertyRef Name="userExpenseStatusUid" />
+            </Principal>
+            <Dependent Role="UserExpense">
+              <PropertyRef Name="userExpenseStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserExpense_UserExpenseType">
+          <End Role="UserExpenseType" Type="Self.UserExpenseType" Multiplicity="1" />
+          <End Role="UserExpense" Type="Self.UserExpense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserExpenseType">
+              <PropertyRef Name="userExpenseTypeUid" />
+            </Principal>
+            <Dependent Role="UserExpense">
+              <PropertyRef Name="userExpenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_WarrantyAttachment_warrantyissue">
           <End Role="WarrantyIssue" Type="Self.WarrantyIssue" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -3433,6 +3497,9 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="ScopeOfWork" EntityType="Self.ScopeOfWork" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shift" EntityType="Self.Shift" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ToDoStatus" EntityType="Self.ToDoStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserExpense" EntityType="Self.UserExpense" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserExpenseStatus" EntityType="Self.UserExpenseStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserExpenseType" EntityType="Self.UserExpenseType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyAttachment" EntityType="Self.WarrantyAttachment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyIssue" EntityType="Self.WarrantyIssue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyNote" EntityType="Self.WarrantyNote" Schema="dbo" store:Type="Tables" />
@@ -4121,6 +4188,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_ScopeOfWork_project" Association="Self.fk_ScopeOfWork_project">
             <End Role="Project" EntitySet="Project" />
             <End Role="ScopeOfWork" EntitySet="ScopeOfWork" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserExpense_AspNetUser" Association="Self.fk_UserExpense_AspNetUser">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserExpense" EntitySet="UserExpense" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserExpense_userExpenseStatus" Association="Self.fk_UserExpense_userExpenseStatus">
+            <End Role="UserExpenseStatus" EntitySet="UserExpenseStatus" />
+            <End Role="UserExpense" EntitySet="UserExpense" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserExpense_UserExpenseType" Association="Self.fk_UserExpense_UserExpenseType">
+            <End Role="UserExpenseType" EntitySet="UserExpenseType" />
+            <End Role="UserExpense" EntitySet="UserExpense" />
           </AssociationSet>
           <AssociationSet Name="fk_WarrantyAttachment_warrantyissue" Association="Self.fk_WarrantyAttachment_warrantyissue">
             <End Role="WarrantyIssue" EntitySet="WarrantyIssue" />
@@ -4932,6 +5011,21 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="SalesTeamMember" EntitySet="SalesTeamMembers" />
           </AssociationSet>
           <EntitySet Name="v__ContractorsForProject" EntityType="JCIEstimateModel.v__ContractorsForProject" />
+          <EntitySet Name="UserExpenses" EntityType="JCIEstimateModel.UserExpense" />
+          <EntitySet Name="UserExpenseStatus" EntityType="JCIEstimateModel.UserExpenseStatu" />
+          <EntitySet Name="UserExpenseTypes" EntityType="JCIEstimateModel.UserExpenseType" />
+          <AssociationSet Name="fk_UserExpense_AspNetUser" Association="JCIEstimateModel.fk_UserExpense_AspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UserExpense" EntitySet="UserExpenses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserExpense_userExpenseStatus" Association="JCIEstimateModel.fk_UserExpense_userExpenseStatus">
+            <End Role="UserExpenseStatu" EntitySet="UserExpenseStatus" />
+            <End Role="UserExpense" EntitySet="UserExpenses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_UserExpense_UserExpenseType" Association="JCIEstimateModel.fk_UserExpense_UserExpenseType">
+            <End Role="UserExpenseType" EntitySet="UserExpenseTypes" />
+            <End Role="UserExpense" EntitySet="UserExpenses" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -8226,6 +8320,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ProjectRFIResponses" Relationship="JCIEstimateModel.fk_ProjectRFI_userRresponded" FromRole="AspNetUser" ToRole="ProjectRFIResponse" />
           <NavigationProperty Name="ProjectTaskLists" Relationship="JCIEstimateModel.fk_ProjectTaskList_AspNetUser" FromRole="AspNetUser" ToRole="ProjectTaskList" />
           <NavigationProperty Name="SalesTeamMembers" Relationship="JCIEstimateModel.fk_SalesTeamMemberMember_AspNetUser" FromRole="AspNetUser" ToRole="SalesTeamMember" />
+          <NavigationProperty Name="UserExpenses" Relationship="JCIEstimateModel.fk_UserExpense_AspNetUser" FromRole="AspNetUser" ToRole="UserExpense" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -8589,6 +8684,75 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="contractorUid" Type="Guid" Nullable="false" />
           <Property Name="contractorName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="UserExpense">
+          <Key>
+            <PropertyRef Name="userExpenseUid" />
+          </Key>
+          <Property Name="userExpenseUid" Type="Guid" Nullable="false" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="aspNetUserUid" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="userExpense1" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="userExpenseStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="userExpenseTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="amount" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
+          <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_UserExpense_AspNetUser" FromRole="UserExpense" ToRole="AspNetUser" />
+          <NavigationProperty Name="UserExpenseStatu" Relationship="JCIEstimateModel.fk_UserExpense_userExpenseStatus" FromRole="UserExpense" ToRole="UserExpenseStatu" />
+          <NavigationProperty Name="UserExpenseType" Relationship="JCIEstimateModel.fk_UserExpense_UserExpenseType" FromRole="UserExpense" ToRole="UserExpenseType" />
+        </EntityType>
+        <EntityType Name="UserExpenseStatu">
+          <Key>
+            <PropertyRef Name="userExpenseStatusUid" />
+          </Key>
+          <Property Name="userExpenseStatusUid" Type="Guid" Nullable="false" />
+          <Property Name="userExpenseStatus" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserExpenses" Relationship="JCIEstimateModel.fk_UserExpense_userExpenseStatus" FromRole="UserExpenseStatu" ToRole="UserExpense" />
+        </EntityType>
+        <EntityType Name="UserExpenseType">
+          <Key>
+            <PropertyRef Name="userExpenseTypeUid" />
+          </Key>
+          <Property Name="userExpenseTypeUid" Type="Guid" Nullable="false" />
+          <Property Name="UserExpenseType1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="behaviorIndicator" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserExpenses" Relationship="JCIEstimateModel.fk_UserExpense_UserExpenseType" FromRole="UserExpenseType" ToRole="UserExpense" />
+        </EntityType>
+        <Association Name="fk_UserExpense_AspNetUser">
+          <End Type="JCIEstimateModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="JCIEstimateModel.UserExpense" Role="UserExpense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserExpense">
+              <PropertyRef Name="aspNetUserUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserExpense_userExpenseStatus">
+          <End Type="JCIEstimateModel.UserExpenseStatu" Role="UserExpenseStatu" Multiplicity="1" />
+          <End Type="JCIEstimateModel.UserExpense" Role="UserExpense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserExpenseStatu">
+              <PropertyRef Name="userExpenseStatusUid" />
+            </Principal>
+            <Dependent Role="UserExpense">
+              <PropertyRef Name="userExpenseStatusUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_UserExpense_UserExpenseType">
+          <End Type="JCIEstimateModel.UserExpenseType" Role="UserExpenseType" Multiplicity="1" />
+          <End Type="JCIEstimateModel.UserExpense" Role="UserExpense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserExpenseType">
+              <PropertyRef Name="userExpenseTypeUid" />
+            </Principal>
+            <Dependent Role="UserExpense">
+              <PropertyRef Name="userExpenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9974,6 +10138,37 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="contractorName" ColumnName="contractorName" />
                 <ScalarProperty Name="contractorUid" ColumnName="contractorUid" />
                 <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserExpenses">
+            <EntityTypeMapping TypeName="JCIEstimateModel.UserExpense">
+              <MappingFragment StoreEntitySet="UserExpense">
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="userExpenseTypeUid" ColumnName="userExpenseTypeUid" />
+                <ScalarProperty Name="userExpenseStatusUid" ColumnName="userExpenseStatusUid" />
+                <ScalarProperty Name="userExpense1" ColumnName="userExpense" />
+                <ScalarProperty Name="aspNetUserUid" ColumnName="aspNetUserUid" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="userExpenseUid" ColumnName="userExpenseUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserExpenseStatus">
+            <EntityTypeMapping TypeName="JCIEstimateModel.UserExpenseStatu">
+              <MappingFragment StoreEntitySet="UserExpenseStatus">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="userExpenseStatus" ColumnName="userExpenseStatus" />
+                <ScalarProperty Name="userExpenseStatusUid" ColumnName="userExpenseStatusUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserExpenseTypes">
+            <EntityTypeMapping TypeName="JCIEstimateModel.UserExpenseType">
+              <MappingFragment StoreEntitySet="UserExpenseType">
+                <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
+                <ScalarProperty Name="UserExpenseType1" ColumnName="UserExpenseType" />
+                <ScalarProperty Name="userExpenseTypeUid" ColumnName="userExpenseTypeUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
