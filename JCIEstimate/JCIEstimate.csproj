@@ -1136,6 +1136,9 @@
     <Compile Include="Models\ECM.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ECMPDFSnippet.cs">
+      <DependentUpon>JCIEstimate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Eddress.cs">
       <DependentUpon>JCIEstimate.tt</DependentUpon>
     </Compile>

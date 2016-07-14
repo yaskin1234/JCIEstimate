@@ -53,7 +53,7 @@
         <div class="form-group">
             <b><span class="control-label col-md-2">Current Scope PDF</span></b>
             <div class="col-md-10">
-                @((Model.pdfSnippetFileName == null) ? "No Document Uploaded" : Model.pdfSnippetFileName)
+                @((Model.ECMPDFSnippets.Count == 0) ? "No Document Uploaded" : Model.ECMPDFSnippets.First().pdfSnippetFileName)
             </div>
         </div>
 

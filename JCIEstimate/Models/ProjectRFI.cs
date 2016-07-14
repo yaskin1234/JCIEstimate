@@ -35,9 +35,9 @@ namespace JCIEstimate.Models
         public virtual RfiType RfiType { get; set; }
         public virtual ICollection<ProjectRFIResponse> ProjectRFIResponses { get; set; }
         public virtual RfiStatu RfiStatu { get; set; }
-        public virtual ECM ECM { get; set; }
         public virtual Project Project { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual AspNetUser AspNetUser1 { get; set; }
+        public virtual ECM ECM { get; set; }
     }
 }

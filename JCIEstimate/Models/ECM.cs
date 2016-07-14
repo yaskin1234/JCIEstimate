@@ -16,6 +16,7 @@ namespace JCIEstimate.Models
     {
         public ECM()
         {
+            this.ECMPDFSnippets = new HashSet<ECMPDFSnippet>();
             this.Equipments = new HashSet<Equipment>();
             this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
             this.Estimates = new HashSet<Estimate>();
@@ -43,13 +44,12 @@ namespace JCIEstimate.Models
         public string scopeOfWorkNote14 { get; set; }
         public string scopeOfWorkNote15 { get; set; }
         public bool showOnScopeReport { get; set; }
-        public byte[] pdfSnippet { get; set; }
-        public string pdfSnippetFileName { get; set; }
     
+        public virtual ICollection<ECMPDFSnippet> ECMPDFSnippets { get; set; }
+        public virtual Project Project { get; set; }
         public virtual ICollection<Equipment> Equipments { get; set; }
         public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual ICollection<ProjectRFI> ProjectRFIs { get; set; }
-        public virtual Project Project { get; set; }
     }
 }

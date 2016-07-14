@@ -39,7 +39,17 @@
             @Html.DisplayFor(modelItem => item.ecmDescription)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.pdfSnippetFileName)
+            @{
+    if (item.ECMPDFSnippets.Count > 0)
+    {
+        @Html.DisplayFor(modelItem => item.ECMPDFSnippets.First().pdfSnippetFileName)
+    }
+    else
+    {
+        @:No File Uploaded
+    }
+            }
+            
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ecmUid }) |

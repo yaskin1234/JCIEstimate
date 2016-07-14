@@ -21,7 +21,6 @@ namespace JCIEstimate.Models
             this.ContractorNotes = new HashSet<ContractorNote>();
             this.ContractorSignoffs = new HashSet<ContractorSignoff>();
             this.ContractorSignoffFinals = new HashSet<ContractorSignoffFinal>();
-            this.ECMs = new HashSet<ECM>();
             this.ExpenseConstructions = new HashSet<ExpenseConstruction>();
             this.ExpenseConstructionDraws = new HashSet<ExpenseConstructionDraw>();
             this.ExpenseMiscellaneousProjects = new HashSet<ExpenseMiscellaneousProject>();
@@ -41,6 +40,7 @@ namespace JCIEstimate.Models
             this.ProjectTaskLists = new HashSet<ProjectTaskList>();
             this.ReportDefinitions = new HashSet<ReportDefinition>();
             this.ScopeOfWorks = new HashSet<ScopeOfWork>();
+            this.ECMs = new HashSet<ECM>();
         }
     
         public System.Guid projectUid { get; set; }
@@ -58,7 +58,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ContractorNote> ContractorNotes { get; set; }
         public virtual ICollection<ContractorSignoff> ContractorSignoffs { get; set; }
         public virtual ICollection<ContractorSignoffFinal> ContractorSignoffFinals { get; set; }
-        public virtual ICollection<ECM> ECMs { get; set; }
         public virtual ICollection<ExpenseConstruction> ExpenseConstructions { get; set; }
         public virtual ICollection<ExpenseConstructionDraw> ExpenseConstructionDraws { get; set; }
         public virtual ICollection<ExpenseMiscellaneousProject> ExpenseMiscellaneousProjects { get; set; }
@@ -79,5 +78,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<ReportDefinition> ReportDefinitions { get; set; }
         public virtual ICollection<ScopeOfWork> ScopeOfWorks { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual ICollection<ECM> ECMs { get; set; }
     }
 }

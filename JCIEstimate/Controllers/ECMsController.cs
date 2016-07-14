@@ -146,15 +146,24 @@ namespace JCIEstimate.Controllers
                     {
                         int fileSize = file.ContentLength;                        
                         byte[] uploadedFile = new byte[file.InputStream.Length];
-                        file.InputStream.Read(uploadedFile, 0, uploadedFile.Length);                                                
-                        eCM.pdfSnippet = uploadedFile;
-                        eCM.pdfSnippetFileName = file.FileName;
-                    }
-                    else
-                    {
-                        eCM.pdfSnippet = currentFile;
-                        //eCM.pdfSnippetFileName = currentEcmFileName;
-                    }
+                        file.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
+                        if (eCM.ECMPDFSnippets.Count > 0)
+                        {
+                            var snippet = eCM.ECMPDFSnippets.FirstOrDefault();
+                            db.Entry(snippet).State = EntityState.Modified;
+                            snippet.pdfSnippet = uploadedFile;
+                            snippet.pdfSnippetFileName = file.FileName;
+                        }
+                        else
+                        {
+                            ECMPDFSnippet snippet = new ECMPDFSnippet();
+                            snippet.ecmUid = eCM.ecmUid;
+                            snippet.ecmPDFSnippetUid = Guid.NewGuid();
+                            snippet.pdfSnippet = uploadedFile;
+                            snippet.pdfSnippetFileName = file.FileName;
+                            db.ECMPDFSnippets.Add(snippet);                                
+                        }
+                    }                    
                 }
 
                 await db.SaveChangesAsync();
@@ -162,9 +171,9 @@ namespace JCIEstimate.Controllers
                 if (pics != null)
                 {
                     PdfDocument final = new PdfDocument();
-                    foreach (var oECM in db.ECMs.Where(c=>c.projectUid == eCM.projectUid).Where(c=>c.pdfSnippet != null).Where(c=>c.showOnScopeReport).OrderBy(c=>c.ecmNumber))
+                    foreach (var oECM in db.ECMs.Where(c=>c.projectUid == eCM.projectUid).Where(c=>c.ECMPDFSnippets.Count > 0).Where(c=>c.showOnScopeReport).OrderBy(c=>c.ecmNumber))
                     {
-                        MemoryStream ms = new MemoryStream(oECM.pdfSnippet);
+                        MemoryStream ms = new MemoryStream(oECM.ECMPDFSnippets.FirstOrDefault().pdfSnippet);
                         PdfDocument from = PdfReader.Open(ms, PdfDocumentOpenMode.Import);
                         ms.Close();
                         //PdfDocument from = new PdfDocument(@"F:\Dloads\!!HealthInsurance\DentalEOB_5.2012.pdf");

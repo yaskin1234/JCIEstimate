@@ -1007,6 +1007,37 @@
     $(function () {
         $("#userExpenseDate").datepicker();
     });
+
+    $(function () {
+        $("[name='startDate']").datepicker();
+    });
+
+    $(function () {
+        $("[name='endDate']").datepicker();
+    });
+
+    
+
+    $(".equipmentTaskDetailItemGrid").change(function () {
+        var type = this.id.split("_")[0];
+        var id = this.id.split("_")[1];
+        var val = $(this).val();       
+        
+        $.ajax({
+            url: "/EquipmentTaskDetailItems/SaveItem",
+            type: "POST",
+            data: {
+                type: type,
+                id: id,
+                value: val
+            },
+            dataType: "json",
+            success: function (data) {
+            }
+        }).done(function () {
+        })
+        
+    });
     
     
 

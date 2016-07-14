@@ -18,6 +18,8 @@ namespace JCIEstimate.Models
         public System.Guid equipmentTaskDetailUid { get; set; }
         public System.Guid equipmentToDoUid { get; set; }
         public Nullable<System.Guid> contractorUidAsAssigned { get; set; }
+        public Nullable<System.DateTime> startDate { get; set; }
+        public Nullable<System.DateTime> endDate { get; set; }
     
         public virtual Contractor Contractor { get; set; }
         public virtual EquipmentTaskDetail EquipmentTaskDetail { get; set; }

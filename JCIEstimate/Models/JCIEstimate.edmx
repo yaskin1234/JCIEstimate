@@ -345,6 +345,13 @@
           <Property Name="scopeOfWorkNote14" Type="nvarchar(max)" />
           <Property Name="scopeOfWorkNote15" Type="nvarchar(max)" />
           <Property Name="showOnScopeReport" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ECMPDFSnippet">
+          <Key>
+            <PropertyRef Name="ecmPDFSnippetUid" />
+          </Key>
+          <Property Name="ecmPDFSnippetUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ecmUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="pdfSnippet" Type="varbinary(max)" />
           <Property Name="pdfSnippetFileName" Type="varchar" MaxLength="1000" />
         </EntityType>
@@ -490,6 +497,8 @@
           <Property Name="equipmentTaskDetailUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="equipmentToDoUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="contractorUidAsAssigned" Type="uniqueidentifier" />
+          <Property Name="startDate" Type="date" />
+          <Property Name="endDate" Type="date" />
         </EntityType>
         <EntityType Name="EquipmentToDo">
           <Key>
@@ -1936,6 +1945,18 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="AspNetUserLogins">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ecm_ecmSnippet">
+          <End Role="ECM" Type="Self.ECM" Multiplicity="1" />
+          <End Role="ECMPDFSnippet" Type="Self.ECMPDFSnippet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="ECMPDFSnippet">
+              <PropertyRef Name="ecmUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3424,6 +3445,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="ControlType" EntityType="Self.ControlType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CostCode" EntityType="Self.CostCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ECM" EntityType="Self.ECM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ECMPDFSnippet" EntityType="Self.ECMPDFSnippet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Eddress" EntityType="Self.Eddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EquipmentAttachment" EntityType="Self.EquipmentAttachment" Schema="dbo" store:Type="Tables" />
@@ -3760,6 +3782,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ecm_ecmSnippet" Association="Self.fk_ecm_ecmSnippet">
+            <End Role="ECM" EntitySet="ECM" />
+            <End Role="ECMPDFSnippet" EntitySet="ECMPDFSnippet" />
           </AssociationSet>
           <AssociationSet Name="fk_ecm_project" Association="Self.fk_ecm_project">
             <End Role="Project" EntitySet="Project" />
@@ -4774,23 +4800,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="EquipmentToDo" EntitySet="EquipmentToDoes" />
             <End Role="EquipmentTaskDetailItem" EntitySet="EquipmentTaskDetailItems" />
           </AssociationSet>
-          <EntitySet Name="ECMs" EntityType="JCIEstimateModel.ECM" />
-          <AssociationSet Name="fk_equipment_ecm" Association="JCIEstimateModel.fk_equipment_ecm">
-            <End Role="ECM" EntitySet="ECMs" />
-            <End Role="Equipment" EntitySet="Equipments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_ECM" Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM">
-            <End Role="ECM" EntitySet="ECMs" />
-            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignments" />
-          </AssociationSet>
-          <AssociationSet Name="fk_estimate_ecm" Association="JCIEstimateModel.fk_estimate_ecm">
-            <End Role="ECM" EntitySet="ECMs" />
-            <End Role="Estimate" EntitySet="Estimates" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ProjectRFI_ECM" Association="JCIEstimateModel.fk_ProjectRFI_ECM">
-            <End Role="ECM" EntitySet="ECMs" />
-            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
-          </AssociationSet>
           <EntitySet Name="ProjectScopes" EntityType="JCIEstimateModel.ProjectScope" />
           <EntitySet Name="Projects" EntityType="JCIEstimateModel.Project" />
           <AssociationSet Name="fk_CalendarDayTask_Project" Association="JCIEstimateModel.fk_CalendarDayTask_Project">
@@ -4812,10 +4821,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_ContractorSignoffFinal_Project" Association="JCIEstimateModel.fk_ContractorSignoffFinal_Project">
             <End Role="Project" EntitySet="Projects" />
             <End Role="ContractorSignoffFinal" EntitySet="ContractorSignoffFinals" />
-          </AssociationSet>
-          <AssociationSet Name="fk_ecm_project" Association="JCIEstimateModel.fk_ecm_project">
-            <End Role="Project" EntitySet="Projects" />
-            <End Role="ECM" EntitySet="ECMs" />
           </AssociationSet>
           <AssociationSet Name="fk_expenseConstruction_project" Association="JCIEstimateModel.fk_expenseConstruction_project">
             <End Role="Project" EntitySet="Projects" />
@@ -5025,6 +5030,32 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <AssociationSet Name="fk_UserExpense_UserExpenseType" Association="JCIEstimateModel.fk_UserExpense_UserExpenseType">
             <End Role="UserExpenseType" EntitySet="UserExpenseTypes" />
             <End Role="UserExpense" EntitySet="UserExpenses" />
+          </AssociationSet>
+          <EntitySet Name="ECMs" EntityType="JCIEstimateModel.ECM" />
+          <EntitySet Name="ECMPDFSnippets" EntityType="JCIEstimateModel.ECMPDFSnippet" />
+          <AssociationSet Name="fk_ecm_ecmSnippet" Association="JCIEstimateModel.fk_ecm_ecmSnippet">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="ECMPDFSnippet" EntitySet="ECMPDFSnippets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ecm_project" Association="JCIEstimateModel.fk_ecm_project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="ECM" EntitySet="ECMs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_equipment_ecm" Association="JCIEstimateModel.fk_equipment_ecm">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="Equipment" EntitySet="Equipments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EquipmentTypeTaskAssignment_ECM" Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="EquipmentTypeTaskAssignment" EntitySet="EquipmentTypeTaskAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_estimate_ecm" Association="JCIEstimateModel.fk_estimate_ecm">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ProjectRFI_ECM" Association="JCIEstimateModel.fk_ProjectRFI_ECM">
+            <End Role="ECM" EntitySet="ECMs" />
+            <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
@@ -5877,10 +5908,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ProjectRFIResponses" Relationship="JCIEstimateModel.fk_ProjectRFIResponse_ProjectRFI" FromRole="ProjectRFI" ToRole="ProjectRFIResponse" />
           <NavigationProperty Name="RfiStatu" Relationship="JCIEstimateModel.fk_ProjectRFI_RfiStatus" FromRole="ProjectRFI" ToRole="RfiStatu" />
           <Property Name="projectRFIID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_ProjectRFI_ECM" FromRole="ProjectRFI" ToRole="ECM" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ProjectRFI_Project" FromRole="ProjectRFI" ToRole="Project" />
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_ProjectRFI_userAssigned" FromRole="ProjectRFI" ToRole="AspNetUser" />
           <NavigationProperty Name="AspNetUser1" Relationship="JCIEstimateModel.fk_ProjectRFI_userCreated" FromRole="ProjectRFI" ToRole="AspNetUser" />
+          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_ProjectRFI_ECM" FromRole="ProjectRFI" ToRole="ECM" />
         </EntityType>
         <Association Name="fk_ProjectRFI_Contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="1" />
@@ -7783,6 +7814,8 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="Contractor" Relationship="JCIEstimateModel.fk_EquipmentTaskDetailItem_Contractor" FromRole="EquipmentTaskDetailItem" ToRole="Contractor" />
           <NavigationProperty Name="EquipmentTaskDetail" Relationship="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentTaskDetail" FromRole="EquipmentTaskDetailItem" ToRole="EquipmentTaskDetail" />
           <NavigationProperty Name="EquipmentToDo" Relationship="JCIEstimateModel.fk_EquipmentTaskDetailItem_equipmentToDo" FromRole="EquipmentTaskDetailItem" ToRole="EquipmentToDo" />
+          <Property Name="startDate" Type="DateTime" Precision="0" />
+          <Property Name="endDate" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="fk_EquipmentTaskDetailItem_Contractor">
           <End Type="JCIEstimateModel.Contractor" Role="Contractor" Multiplicity="0..1">
@@ -7840,87 +7873,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ECM">
-          <Key>
-            <PropertyRef Name="ecmUid" />
-          </Key>
-          <Property Name="ecmUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmNumber" Type="Decimal" Nullable="false" Precision="11" Scale="3" />
-          <Property Name="ecmDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="projectUid" Type="Guid" Nullable="false" />
-          <Property Name="ecmString" Type="String" MaxLength="218" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="scopeOfWorkNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote5" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote6" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote7" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote8" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote9" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote10" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote11" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote12" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote13" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote14" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="scopeOfWorkNote15" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="showOnScopeReport" Type="Boolean" Nullable="false" />
-          <Property Name="pdfSnippet" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="pdfSnippetFileName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="ECM" ToRole="Equipment" />
-          <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" FromRole="ECM" ToRole="EquipmentTypeTaskAssignment" />
-          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
-          <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_ECM" FromRole="ECM" ToRole="ProjectRFI" />
-          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="ECM" ToRole="Project" />
-        </EntityType>
-        <Association Name="fk_equipment_ecm">
-          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
-            </Principal>
-            <Dependent Role="Equipment">
-              <PropertyRef Name="ecmUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_EquipmentTypeTaskAssignment_ECM">
-          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
-          <End Type="JCIEstimateModel.EquipmentTypeTaskAssignment" Role="EquipmentTypeTaskAssignment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
-            </Principal>
-            <Dependent Role="EquipmentTypeTaskAssignment">
-              <PropertyRef Name="ecmUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_estimate_ecm">
-          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
-          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
-            </Principal>
-            <Dependent Role="Estimate">
-              <PropertyRef Name="ecmUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ProjectRFI_ECM">
-          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ECM">
-              <PropertyRef Name="ecmUid" />
-            </Principal>
-            <Dependent Role="ProjectRFI">
-              <PropertyRef Name="ecmUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ProjectScope">
           <Key>
             <PropertyRef Name="projectScopeUid" />
@@ -7948,7 +7900,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ContractorNotes" Relationship="JCIEstimateModel.fk_ContractorNote_Project" FromRole="Project" ToRole="ContractorNote" />
           <NavigationProperty Name="ContractorSignoffs" Relationship="JCIEstimateModel.fk_ContractorSignoff_Project" FromRole="Project" ToRole="ContractorSignoff" />
           <NavigationProperty Name="ContractorSignoffFinals" Relationship="JCIEstimateModel.fk_ContractorSignoffFinal_Project" FromRole="Project" ToRole="ContractorSignoffFinal" />
-          <NavigationProperty Name="ECMs" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="Project" ToRole="ECM" />
           <NavigationProperty Name="ExpenseConstructions" Relationship="JCIEstimateModel.fk_expenseConstruction_project" FromRole="Project" ToRole="ExpenseConstruction" />
           <NavigationProperty Name="ExpenseConstructionDraws" Relationship="JCIEstimateModel.fk_ExpenseConstructionDraw_Project" FromRole="Project" ToRole="ExpenseConstructionDraw" />
           <NavigationProperty Name="ExpenseMiscellaneousProjects" Relationship="JCIEstimateModel.fk_expensemiscellaneousproject_project" FromRole="Project" ToRole="ExpenseMiscellaneousProject" />
@@ -7969,6 +7920,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="ReportDefinitions" Relationship="JCIEstimateModel.fk_ReportDefinition_Project" FromRole="Project" ToRole="ReportDefinition" />
           <NavigationProperty Name="ScopeOfWorks" Relationship="JCIEstimateModel.fk_ScopeOfWork_project" FromRole="Project" ToRole="ScopeOfWork" />
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_project_PM" FromRole="Project" ToRole="AspNetUser" />
+          <NavigationProperty Name="ECMs" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="Project" ToRole="ECM" />
         </EntityType>
         <Association Name="fk_CalendarDayTask_Project">
           <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="0..1" />
@@ -8026,18 +7978,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               <PropertyRef Name="projectUid" />
             </Principal>
             <Dependent Role="ContractorSignoffFinal">
-              <PropertyRef Name="projectUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_ecm_project">
-          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
-          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Project">
-              <PropertyRef Name="projectUid" />
-            </Principal>
-            <Dependent Role="ECM">
               <PropertyRef Name="projectUid" />
             </Dependent>
           </ReferentialConstraint>
@@ -8750,6 +8690,120 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="UserExpense">
               <PropertyRef Name="userExpenseTypeUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ECM">
+          <Key>
+            <PropertyRef Name="ecmUid" />
+          </Key>
+          <Property Name="ecmUid" Type="Guid" Nullable="false" />
+          <Property Name="ecmNumber" Type="Decimal" Nullable="false" Precision="11" Scale="3" />
+          <Property Name="ecmDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="projectUid" Type="Guid" Nullable="false" />
+          <Property Name="ecmString" Type="String" MaxLength="218" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="scopeOfWorkNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote5" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote6" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote7" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote8" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote9" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote10" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote11" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote12" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote13" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote14" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="scopeOfWorkNote15" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="showOnScopeReport" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ECMPDFSnippets" Relationship="JCIEstimateModel.fk_ecm_ecmSnippet" FromRole="ECM" ToRole="ECMPDFSnippet" />
+          <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_ecm_project" FromRole="ECM" ToRole="Project" />
+          <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_ecm" FromRole="ECM" ToRole="Equipment" />
+          <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" FromRole="ECM" ToRole="EquipmentTypeTaskAssignment" />
+          <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_ecm" FromRole="ECM" ToRole="Estimate" />
+          <NavigationProperty Name="ProjectRFIs" Relationship="JCIEstimateModel.fk_ProjectRFI_ECM" FromRole="ECM" ToRole="ProjectRFI" />
+        </EntityType>
+        <EntityType Name="ECMPDFSnippet">
+          <Key>
+            <PropertyRef Name="ecmPDFSnippetUid" />
+          </Key>
+          <Property Name="ecmPDFSnippetUid" Type="Guid" Nullable="false" />
+          <Property Name="ecmUid" Type="Guid" Nullable="false" />
+          <Property Name="pdfSnippet" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="pdfSnippetFileName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ECM" Relationship="JCIEstimateModel.fk_ecm_ecmSnippet" FromRole="ECMPDFSnippet" ToRole="ECM" />
+        </EntityType>
+        <Association Name="fk_ecm_ecmSnippet">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ECMPDFSnippet" Role="ECMPDFSnippet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="ECMPDFSnippet">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ecm_project">
+          <End Type="JCIEstimateModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="projectUid" />
+            </Principal>
+            <Dependent Role="ECM">
+              <PropertyRef Name="projectUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_equipment_ecm">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.Equipment" Role="Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EquipmentTypeTaskAssignment_ECM">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
+          <End Type="JCIEstimateModel.EquipmentTypeTaskAssignment" Role="EquipmentTypeTaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="EquipmentTypeTaskAssignment">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_estimate_ecm">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
+          <End Type="JCIEstimateModel.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="ecmUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ProjectRFI_ECM">
+          <End Type="JCIEstimateModel.ECM" Role="ECM" Multiplicity="1" />
+          <End Type="JCIEstimateModel.ProjectRFI" Role="ProjectRFI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ECM">
+              <PropertyRef Name="ecmUid" />
+            </Principal>
+            <Dependent Role="ProjectRFI">
+              <PropertyRef Name="ecmUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10053,39 +10107,12 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySetMapping Name="EquipmentTaskDetailItems">
             <EntityTypeMapping TypeName="JCIEstimateModel.EquipmentTaskDetailItem">
               <MappingFragment StoreEntitySet="EquipmentTaskDetailItem">
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
                 <ScalarProperty Name="contractorUidAsAssigned" ColumnName="contractorUidAsAssigned" />
                 <ScalarProperty Name="equipmentToDoUid" ColumnName="equipmentToDoUid" />
                 <ScalarProperty Name="equipmentTaskDetailUid" ColumnName="equipmentTaskDetailUid" />
                 <ScalarProperty Name="equipmentTaskDetailItemUid" ColumnName="equipmentTaskDetailItemUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ECMs">
-            <EntityTypeMapping TypeName="JCIEstimateModel.ECM">
-              <MappingFragment StoreEntitySet="ECM">
-                <ScalarProperty Name="pdfSnippetFileName" ColumnName="pdfSnippetFileName" />
-                <ScalarProperty Name="pdfSnippet" ColumnName="pdfSnippet" />
-                <ScalarProperty Name="showOnScopeReport" ColumnName="showOnScopeReport" />
-                <ScalarProperty Name="scopeOfWorkNote15" ColumnName="scopeOfWorkNote15" />
-                <ScalarProperty Name="scopeOfWorkNote14" ColumnName="scopeOfWorkNote14" />
-                <ScalarProperty Name="scopeOfWorkNote13" ColumnName="scopeOfWorkNote13" />
-                <ScalarProperty Name="scopeOfWorkNote12" ColumnName="scopeOfWorkNote12" />
-                <ScalarProperty Name="scopeOfWorkNote11" ColumnName="scopeOfWorkNote11" />
-                <ScalarProperty Name="scopeOfWorkNote10" ColumnName="scopeOfWorkNote10" />
-                <ScalarProperty Name="scopeOfWorkNote9" ColumnName="scopeOfWorkNote9" />
-                <ScalarProperty Name="scopeOfWorkNote8" ColumnName="scopeOfWorkNote8" />
-                <ScalarProperty Name="scopeOfWorkNote7" ColumnName="scopeOfWorkNote7" />
-                <ScalarProperty Name="scopeOfWorkNote6" ColumnName="scopeOfWorkNote6" />
-                <ScalarProperty Name="scopeOfWorkNote5" ColumnName="scopeOfWorkNote5" />
-                <ScalarProperty Name="scopeOfWorkNote4" ColumnName="scopeOfWorkNote4" />
-                <ScalarProperty Name="scopeOfWorkNote3" ColumnName="scopeOfWorkNote3" />
-                <ScalarProperty Name="scopeOfWorkNote2" ColumnName="scopeOfWorkNote2" />
-                <ScalarProperty Name="scopeOfWorkNote" ColumnName="scopeOfWorkNote" />
-                <ScalarProperty Name="ecmString" ColumnName="ecmString" />
-                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
-                <ScalarProperty Name="ecmDescription" ColumnName="ecmDescription" />
-                <ScalarProperty Name="ecmNumber" ColumnName="ecmNumber" />
-                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -10169,6 +10196,43 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="behaviorIndicator" ColumnName="behaviorIndicator" />
                 <ScalarProperty Name="UserExpenseType1" ColumnName="UserExpenseType" />
                 <ScalarProperty Name="userExpenseTypeUid" ColumnName="userExpenseTypeUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ECMs">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ECM">
+              <MappingFragment StoreEntitySet="ECM">
+                <ScalarProperty Name="showOnScopeReport" ColumnName="showOnScopeReport" />
+                <ScalarProperty Name="scopeOfWorkNote15" ColumnName="scopeOfWorkNote15" />
+                <ScalarProperty Name="scopeOfWorkNote14" ColumnName="scopeOfWorkNote14" />
+                <ScalarProperty Name="scopeOfWorkNote13" ColumnName="scopeOfWorkNote13" />
+                <ScalarProperty Name="scopeOfWorkNote12" ColumnName="scopeOfWorkNote12" />
+                <ScalarProperty Name="scopeOfWorkNote11" ColumnName="scopeOfWorkNote11" />
+                <ScalarProperty Name="scopeOfWorkNote10" ColumnName="scopeOfWorkNote10" />
+                <ScalarProperty Name="scopeOfWorkNote9" ColumnName="scopeOfWorkNote9" />
+                <ScalarProperty Name="scopeOfWorkNote8" ColumnName="scopeOfWorkNote8" />
+                <ScalarProperty Name="scopeOfWorkNote7" ColumnName="scopeOfWorkNote7" />
+                <ScalarProperty Name="scopeOfWorkNote6" ColumnName="scopeOfWorkNote6" />
+                <ScalarProperty Name="scopeOfWorkNote5" ColumnName="scopeOfWorkNote5" />
+                <ScalarProperty Name="scopeOfWorkNote4" ColumnName="scopeOfWorkNote4" />
+                <ScalarProperty Name="scopeOfWorkNote3" ColumnName="scopeOfWorkNote3" />
+                <ScalarProperty Name="scopeOfWorkNote2" ColumnName="scopeOfWorkNote2" />
+                <ScalarProperty Name="scopeOfWorkNote" ColumnName="scopeOfWorkNote" />
+                <ScalarProperty Name="ecmString" ColumnName="ecmString" />
+                <ScalarProperty Name="projectUid" ColumnName="projectUid" />
+                <ScalarProperty Name="ecmDescription" ColumnName="ecmDescription" />
+                <ScalarProperty Name="ecmNumber" ColumnName="ecmNumber" />
+                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ECMPDFSnippets">
+            <EntityTypeMapping TypeName="JCIEstimateModel.ECMPDFSnippet">
+              <MappingFragment StoreEntitySet="ECMPDFSnippet">
+                <ScalarProperty Name="pdfSnippetFileName" ColumnName="pdfSnippetFileName" />
+                <ScalarProperty Name="pdfSnippet" ColumnName="pdfSnippet" />
+                <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
+                <ScalarProperty Name="ecmPDFSnippetUid" ColumnName="ecmPDFSnippetUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

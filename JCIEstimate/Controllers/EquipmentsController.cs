@@ -1336,9 +1336,9 @@ namespace JCIEstimate.Controllers
             }
 
             PdfDocument final = new PdfDocument();
-            foreach (var oECM in db.ECMs.Where(c => c.projectUid == ecm.projectUid).Where(c => c.pdfSnippet != null).Where(c => c.showOnScopeReport).OrderBy(c => c.ecmNumber))
+            foreach (var oECM in db.ECMs.Where(c => c.projectUid == ecm.projectUid).Where(c => c.ECMPDFSnippets != null).Where(c => c.showOnScopeReport).OrderBy(c => c.ecmNumber))
             {
-                MemoryStream ms = new MemoryStream(oECM.pdfSnippet);
+                MemoryStream ms = new MemoryStream(oECM.ECMPDFSnippets.FirstOrDefault().pdfSnippet);
                 PdfDocument from = PdfReader.Open(ms, PdfDocumentOpenMode.Import);
                 ms.Close();
                 //PdfDocument from = new PdfDocument(@"F:\Dloads\!!HealthInsurance\DentalEOB_5.2012.pdf");

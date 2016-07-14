@@ -16,6 +16,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Contractor.contractorName)
         </th>      
+        <th>
+            @Html.DisplayNameFor(model => model.startDate)
+        </th>      
+        <th>
+            @Html.DisplayNameFor(model => model.endDate)
+        </th>      
     </tr>
 
 @foreach (var item in Model) {
@@ -27,7 +33,24 @@
             @Html.DisplayFor(modelItem => item.EquipmentTaskDetail.equipmentTaskDetail1)
         </td>
         <td>            
-            @Html.DropDownList("contractorUidAsAssigned", null, htmlAttributes: new { @class = "form-control" })            
+            @{
+    var assignedID = "contractor_" + item.equipmentTaskDetailItemUid;
+    var assignedStartDateID = "startDate_" + item.equipmentTaskDetailItemUid;
+    var assignedEndDateID = "endDate_" + item.equipmentTaskDetailItemUid;
+            }
+            
+            <select id="@assignedID" class="equipmentTaskDetailItemGrid">
+                @foreach (var cItem in ViewBag.contractorUidAsAssigned)
+                {
+                    <option @(cItem.Value == item.contractorUidAsAssigned.ToString() ? "selected" : "") value="@cItem.Value">@cItem.Text</option>
+                }
+            </select>
+        </td>
+        <td>
+            <input type="text" name="startDate" id="@assignedStartDateID" value="@String.Format("{0:MM/dd/yyyy}", item.startDate)" class="equipmentTaskDetailItemGrid" />
+        </td>
+        <td>
+            <input type="text" name="endDate" id="@assignedEndDateID" value="@String.Format("{0:MM/dd/yyyy}", item.endDate)" class="equipmentTaskDetailItemGrid" />
         </td>
     </tr>
 }

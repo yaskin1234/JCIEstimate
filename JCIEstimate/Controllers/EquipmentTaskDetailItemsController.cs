@@ -53,7 +53,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include="equipmentTaskDetailItemUid,equipmentTaskDetailUid,equipmentToDoUid,contractorUidAsAssigned")] EquipmentTaskDetailItem equipmenttaskdetailitem)
+        public async Task<ActionResult> Create([Bind(Include="equipmentTaskDetailItemUid,equipmentTaskDetailUid,equipmentToDoUid,contractorUidAsAssigned,startDate,endDate")] EquipmentTaskDetailItem equipmenttaskdetailitem)
         {
             if (ModelState.IsValid)
             {
@@ -87,6 +87,29 @@ namespace JCIEstimate.Controllers
             return View(equipmenttaskdetailitem);
         }
 
+        public async Task<ActionResult> SaveItem(string type, string id, string value)
+        {
+            EquipmentTaskDetailItem equipmenttaskdetailitem = await db.EquipmentTaskDetailItems.FindAsync(Guid.Parse(id));
+            db.Entry(equipmenttaskdetailitem).State = EntityState.Modified;
+            if (type == "contractor")
+            {
+                equipmenttaskdetailitem.contractorUidAsAssigned = Guid.Parse(value);
+            }
+            else if (type == "startDate")
+            {
+                equipmenttaskdetailitem.startDate = DateTime.Parse(value);
+            }
+            else if (type == "endDate")
+            {
+                equipmenttaskdetailitem.endDate = DateTime.Parse(value);
+            }
+
+            db.SaveChanges();
+            
+            return View();
+        }
+
+
         // GET: /EquipmentTaskDetailItems/Edit/5
         public async Task<ActionResult> EditList(string id)
         {
@@ -117,7 +140,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include="equipmentTaskDetailItemUid,equipmentTaskDetailUid,equipmentToDoUid,contractorUidAsAssigned")] EquipmentTaskDetailItem equipmenttaskdetailitem)
+        public async Task<ActionResult> Edit([Bind(Include = "equipmentTaskDetailItemUid,equipmentTaskDetailUid,equipmentToDoUid,contractorUidAsAssigned,startDate,endDate")] EquipmentTaskDetailItem equipmenttaskdetailitem)
         {
             if (ModelState.IsValid)
             {
