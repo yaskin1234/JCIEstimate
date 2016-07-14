@@ -89,7 +89,7 @@ namespace JCIEstimate.Controllers
                 catch (Exception ex)
                 {
 
-                    throw ex;
+                    return Json("error: " + ex.Message);
                 }
             }
             else
@@ -108,11 +108,11 @@ namespace JCIEstimate.Controllers
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    return Json("error: " + ex.Message);
                 }
 
             }
-            return View();
+            return Json("success");
         }
 
         // GET: LocationCompletionCategories/Edit/5

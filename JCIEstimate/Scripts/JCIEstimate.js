@@ -165,6 +165,9 @@
             }
         }).done(function () {
         })
+        .fail(function (data) {
+            alert(data);
+        })
     })
 
     $(".showOnScopeForECM").change(function () {
@@ -181,6 +184,9 @@
             success: function (data) {
             }
         }).done(function () {
+        })
+        .fail(function (data) {
+            alert(data);
         })
     })
 
@@ -208,6 +214,8 @@
                     success: function (data) {
                     }
                 }).done(function () {
+                }).fail(function (data) {
+                    alert(data);
                 })
 
             });
@@ -554,7 +562,9 @@
             success: function (data) {
                 alert("check " + data);
             }
-        })     
+        }).fail(function (data) {
+            alert(data);
+        })
     });
 
     $(".completionCheckBox").click(function () {
@@ -566,9 +576,10 @@
                 value: this.checked
             },
             dataType: "json",
-            success: function (data) {
-                alert("check " + data);
+            success: function (data) {              
             }
+        }).fail(function (data) {
+            alert(data);
         })
     });
 
@@ -582,6 +593,9 @@
                 value: $(this).val()
             },
             dataType: "json"
+        })
+        .fail(function (data) {
+            alert(data);
         })
         .always(function (data) {            
             var txtArea = document.getElementById(id + "_task");
@@ -604,7 +618,10 @@
                 taskDuration: $(document.getElementById(id + "_taskDuration")).val()
             },
             dataType: "json"
-        })        
+        })
+        .fail(function (data) {
+            alert(data);
+        })
     });
 
 
@@ -660,6 +677,9 @@
             },
             dataType: "json"
         })
+        .fail(function (data) {
+            alert(data);
+        })
         .always(function (data) {
             var ele = document.getElementById("runningTotal");
             $(ele).text(data);
@@ -675,6 +695,9 @@
                 value: $(this).val()
             },
             dataType: "json"
+        })
+        .fail(function (data) {
+            alert(data);
         })
         .always(function (data) {            
             var aryData = data.split('|');
@@ -709,6 +732,8 @@
             success: function (data) {
                 alert("check " + data);
             }
+        }).fail(function (data) {
+            alert(data);
         })
         
         var estimateUid = $(this).attr("name");
@@ -745,9 +770,10 @@
                 value: this.checked
             },
             dataType: "json",
-            success: function (data) {
-                alert("check " + data);
+            success: function (data) {                
             }
+        }).fail(function (data) {
+            alert(data);
         })
     });
 
@@ -777,9 +803,10 @@
                 value: this.checked
             },
             dataType: "json",
-            success: function (data) {
-                alert("check " + data);
+            success: function (data) {                
             }
+        }).fail(function (data) {
+            alert(data);
         })
     });
 
@@ -792,9 +819,10 @@
                 value: this.checked
             },
             dataType: "json",
-            success: function (data) {
-                alert("check " + data);
+            success: function (data) {                
             }
+        }).fail(function (data) {
+            alert(data);
         })
     });
 
@@ -808,9 +836,10 @@
                 value: $(this).val()
             },
             dataType: "json",
-            success: function (data) {
-                alert("check " + data);
+            success: function (data) {                
             }
+        }).fail(function (data) {
+            alert(data);
         })
     });
 
@@ -834,8 +863,7 @@
                 value: ($(this).attr("type") == "text") ? $(this).val() : this.checked
             },
             dataType: "json",
-            success: function (data) {
-                alert("check " + data);
+            success: function (data) {                
             }
         }).done(function () {            
         })
@@ -849,10 +877,11 @@
                 startDate: $("#startDate").val()
             },
             dataType: "json",
-            success: function (data) {
-                alert("check " + data);
+            success: function (data) {                
             }
         }).done(function () {
+        }).fail(function (data) {
+            alert(data);
         })
         location.reload();
     });
@@ -901,10 +930,11 @@
                 startDate: startDate
             },
             dataType: "json",
-            success: function (data) {
-                alert("check " + data);
+            success: function (data) {                
             }
         }).done(function () {
+        }).fail(function (data) {
+            alert(data);
         })
         location.reload();
     });    
@@ -1032,9 +1062,12 @@
                 value: val
             },
             dataType: "json",
-            success: function (data) {
+            success: function (value) {                
             }
         }).done(function () {
+        })
+        .fail(function (value) {
+            alert(value);
         })
         
     });

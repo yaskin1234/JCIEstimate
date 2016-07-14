@@ -1234,7 +1234,7 @@ namespace JCIEstimate.Controllers
                 catch (Exception ex)
                 {
 
-                    throw ex;
+                    return Json("error: " + ex.Message);
                 }
             }
             else
@@ -1247,11 +1247,11 @@ namespace JCIEstimate.Controllers
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    return Json("error: " + ex.Message);
                 }
 
             }
-            return View();
+            return Json("success");
         }
 
         // GET: EquipmentToDoes/SetShowOnScope/5
@@ -1271,7 +1271,7 @@ namespace JCIEstimate.Controllers
                 catch (Exception ex)
                 {
 
-                    throw ex;
+                    return Json("error: " + ex.Message);
                 }
             }
             else
@@ -1284,11 +1284,11 @@ namespace JCIEstimate.Controllers
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    return Json("error: " + ex.Message);
                 }
 
             }
-            return View();
+            return Json("Success");
         }
 
         public async Task<ActionResult> SetShowOnScopeForECM(string id, string value)
@@ -1312,7 +1312,7 @@ namespace JCIEstimate.Controllers
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    return Json("error: " + ex.Message);
                 }
             }
             else
@@ -1331,7 +1331,7 @@ namespace JCIEstimate.Controllers
                 catch (Exception ex)
                 {
 
-                    throw ex;
+                    return Json("error: " + ex.Message);
                 }
             }
 
@@ -1367,10 +1367,18 @@ namespace JCIEstimate.Controllers
                     db.Entry(p).State = EntityState.Modified;
                     p.projectScopePDF = finalPDF;
                 }
-                await db.SaveChangesAsync();
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+
+                    return Json("error: " + ex.Message);
+                }
             }
-            
-            return View();
+
+            return Json("success");
         }
 
 

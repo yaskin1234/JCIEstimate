@@ -64,8 +64,17 @@ namespace JCIEstimate.Controllers
                                  select cc.calendarDayUid;
 
             cds.calendarDayUid = calendarDayUid.FirstOrDefault();
-            await db.SaveChangesAsync();
-            return View();
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                return Json("error: " + ex.Message);
+            }
+            
+            return Json("success");
         }
 
 

@@ -105,8 +105,8 @@ namespace JCIEstimate.Controllers
             }
 
             db.SaveChanges();
-            
-            return View();
+
+            return Json("success");
         }
 
 

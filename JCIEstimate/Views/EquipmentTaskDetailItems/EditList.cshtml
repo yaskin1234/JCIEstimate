@@ -34,12 +34,12 @@
         </td>
         <td>            
             @{
-    var assignedID = "contractor_" + item.equipmentTaskDetailItemUid;
+    var assignedContractorID = "contractor_" + item.equipmentTaskDetailItemUid;
     var assignedStartDateID = "startDate_" + item.equipmentTaskDetailItemUid;
     var assignedEndDateID = "endDate_" + item.equipmentTaskDetailItemUid;
             }
             
-            <select id="@assignedID" class="equipmentTaskDetailItemGrid">
+            <select id="@assignedContractorID" class="equipmentTaskDetailItemGrid">
                 @foreach (var cItem in ViewBag.contractorUidAsAssigned)
                 {
                     <option @(cItem.Value == item.contractorUidAsAssigned.ToString() ? "selected" : "") value="@cItem.Value">@cItem.Text</option>

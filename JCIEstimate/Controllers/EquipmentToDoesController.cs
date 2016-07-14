@@ -62,8 +62,8 @@ namespace JCIEstimate.Controllers
                 }
                 catch (Exception ex)
                 {
-                    
-                    throw ex;
+
+                    return Json("error: " + ex.Message);
                 }                
             }
             else
@@ -81,12 +81,12 @@ namespace JCIEstimate.Controllers
                     await db.SaveChangesAsync();
                 }
                 catch (Exception ex)
-                {                    
-                    throw ex;
+                {
+                    return Json("error: " + ex.Message);
                 }
                 
             }
-            return View();
+            return Json("success");
         }
 
         // GET: EquipmentToDoes/Details/5

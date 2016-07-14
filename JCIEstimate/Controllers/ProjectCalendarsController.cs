@@ -112,9 +112,17 @@ namespace JCIEstimate.Controllers
 
                 lookupDate = lookupDate.AddDays(1);
             }
-            db.SaveChanges();
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
 
-            return View();
+                return Json("error: " + ex.Message);
+            }
+
+            return Json("success");
         }
 
         // GET: ProjectCalendars/Edit/5
@@ -170,8 +178,17 @@ namespace JCIEstimate.Controllers
             ProjectCalendarDayTask cds = db.ProjectCalendarDayTasks.Find(Guid.Parse(id));
             db.Entry(cds).State = EntityState.Modified;
             cds.task = value;
-            await db.SaveChangesAsync();
-            return View();
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                return Json("error: " + ex.Message);
+            }
+
+            return Json("success");
         }
 
 

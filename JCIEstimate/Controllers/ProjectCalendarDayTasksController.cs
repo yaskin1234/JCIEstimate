@@ -53,8 +53,17 @@ namespace JCIEstimate.Controllers
                                         select cc.projectCalendarDayUid;
 
             cds.projectCalendarDayUid = projectCalendarDayUid.FirstOrDefault();
-            await db.SaveChangesAsync();
-            return View();
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                return Json("error: " + ex.Message);
+            }
+
+            return Json("success");
         }
 
         // GET: ProjectCalendarDayTasks/Create
@@ -112,8 +121,17 @@ namespace JCIEstimate.Controllers
             cds.task = task;
             cds.taskStartDate = taskStartDate;
             cds.taskDuration = taskDuration;
-            await db.SaveChangesAsync();
-            return View();
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                return Json("error: " + ex.Message);
+            }
+
+            return Json("success");
         }
 
         // GET: ProjectCalendarDayTasks/Edit/5

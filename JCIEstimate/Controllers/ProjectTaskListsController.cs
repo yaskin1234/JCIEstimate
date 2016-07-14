@@ -35,10 +35,18 @@ namespace JCIEstimate.Controllers
             else
             {
                 ptl.aspNetUserUidAsAssigned = value;
-            }            
+            }
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
 
-            await db.SaveChangesAsync();
-            return View();
+                return Json("error: " + ex.Message);
+            }
+            
+            return Json("success");
         }
 
         public async Task<ActionResult> SaveTask(Guid projectTaskListUid, DateTime startDate, int duration, int predecessor, bool isCompleted)
@@ -60,8 +68,17 @@ namespace JCIEstimate.Controllers
                 ptl.projectTaskListUidAsPredecessor = null;
             }
 
-            await db.SaveChangesAsync();
-            return View();
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                return Json("error: " + ex.Message);
+            }
+
+            return Json("success");
         }
         // GET: Projects/AddTasksForProject
         public ActionResult GetAssignmentList(Guid projectTaskListUid)
@@ -113,8 +130,17 @@ namespace JCIEstimate.Controllers
                 db.ProjectTaskLists.Add(ptl1);
                 taskSequence += 100;
             }
-            db.SaveChanges();            
-            return View();
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                return Json("error: " + ex.Message);
+            }
+
+            return Json("success");            
         }        
 
         // GET: ProjectTaskLists/Details/5

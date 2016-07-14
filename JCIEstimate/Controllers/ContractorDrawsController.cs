@@ -127,7 +127,15 @@ namespace JCIEstimate.Controllers
                     
                 }
             }
-            await db.SaveChangesAsync();            
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                return Json("error: " + ex.Message);
+            }    
 
             return Json(String.Format("{0:C0}", cds.ContractorDraw.ContractorDrawSchedules.Sum(c => c.amount)));
         }
