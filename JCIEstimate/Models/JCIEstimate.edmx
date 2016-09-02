@@ -36,6 +36,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AllowableContractors" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar" MaxLength="256" />
           <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
           <Property Name="PasswordHash" Type="nvarchar(max)" />
@@ -47,7 +48,6 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="AllowableContractors" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="AspNetUsersExtension">
           <Key>
@@ -1237,6 +1237,7 @@
           <Property Name="locationUid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="warrantyUnit" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="warrantyUnitDescription" Type="nvarchar" MaxLength="2000" />
+          <Property Name="metasysNumber" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Week">
           <Key>
@@ -4325,7 +4326,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <EntitySet Name="WarrantyStatus" EntityType="JCIEstimateModel.WarrantyStatu" />
           <EntitySet Name="WarrantyNotes" EntityType="JCIEstimateModel.WarrantyNote" />
           <EntitySet Name="WarrantyAttachments" EntityType="JCIEstimateModel.WarrantyAttachment" />
-          <EntitySet Name="WarrantyUnits" EntityType="JCIEstimateModel.WarrantyUnit" />
           <EntitySet Name="EquipmentTasks" EntityType="JCIEstimateModel.EquipmentTask" />
           <EntitySet Name="EquipmentToDoes" EntityType="JCIEstimateModel.EquipmentToDo" />
           <AssociationSet Name="fk_equipmenttodo_equipmenttask" Association="JCIEstimateModel.fk_equipmenttodo_equipmenttask">
@@ -4362,10 +4362,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="Location" EntitySet="Locations" />
             <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
           </AssociationSet>
-          <AssociationSet Name="fk_WarrantyUnit_location" Association="JCIEstimateModel.fk_WarrantyUnit_location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="WarrantyUnit" EntitySet="WarrantyUnits" />
-          </AssociationSet>
           <AssociationSet Name="fk_LocationIssue_warrantystatus" Association="JCIEstimateModel.fk_LocationIssue_warrantystatus">
             <End Role="WarrantyStatu" EntitySet="WarrantyStatus" />
             <End Role="LocationIssue" EntitySet="LocationIssues" />
@@ -4380,10 +4376,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           </AssociationSet>
           <AssociationSet Name="fk_warrantyissue_warrantystatus" Association="JCIEstimateModel.fk_warrantyissue_warrantystatus">
             <End Role="WarrantyStatu" EntitySet="WarrantyStatus" />
-            <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
-          </AssociationSet>
-          <AssociationSet Name="fk_WarrantyIssue_warrantyunit" Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit">
-            <End Role="WarrantyUnit" EntitySet="WarrantyUnits" />
             <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
           </AssociationSet>
           <AssociationSet Name="fk_warrantynote_warrantyissue" Association="JCIEstimateModel.fk_warrantynote_warrantyissue">
@@ -5057,6 +5049,15 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             <End Role="ECM" EntitySet="ECMs" />
             <End Role="ProjectRFI" EntitySet="ProjectRFIs" />
           </AssociationSet>
+          <EntitySet Name="WarrantyUnits" EntityType="JCIEstimateModel.WarrantyUnit" />
+          <AssociationSet Name="fk_WarrantyUnit_location" Association="JCIEstimateModel.fk_WarrantyUnit_location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="WarrantyUnit" EntitySet="WarrantyUnits" />
+          </AssociationSet>
+          <AssociationSet Name="fk_WarrantyIssue_warrantyunit" Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit">
+            <End Role="WarrantyUnit" EntitySet="WarrantyUnits" />
+            <End Role="WarrantyIssue" EntitySet="WarrantyIssues" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -5474,17 +5475,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="documentName" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="WarrantyIssue" Relationship="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" FromRole="WarrantyAttachment" ToRole="WarrantyIssue" />
         </EntityType>
-        <EntityType Name="WarrantyUnit">
-          <Key>
-            <PropertyRef Name="warrantyUnitUid" />
-          </Key>
-          <Property Name="warrantyUnitUid" Type="Guid" Nullable="false" />
-          <Property Name="locationUid" Type="Guid" Nullable="false" />
-          <Property Name="warrantyUnit1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="warrantyUnitDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_WarrantyUnit_location" FromRole="WarrantyUnit" ToRole="Location" />
-          <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" FromRole="WarrantyUnit" ToRole="WarrantyIssue" />
-        </EntityType>
         <EntityType Name="EquipmentTask">
           <Key>
             <PropertyRef Name="equipmentTaskUid" />
@@ -5636,7 +5626,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <Property Name="projectUid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="LocationIssues" Relationship="JCIEstimateModel.fk_LocationIssue_location" FromRole="Location" ToRole="LocationIssue" />
           <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_location" FromRole="Location" ToRole="WarrantyIssue" />
-          <NavigationProperty Name="WarrantyUnits" Relationship="JCIEstimateModel.fk_WarrantyUnit_location" FromRole="Location" ToRole="WarrantyUnit" />
           <NavigationProperty Name="LocationCompletionCategories" Relationship="JCIEstimateModel.fk_LocationCompletionCategory_Location" FromRole="Location" ToRole="LocationCompletionCategory" />
           <NavigationProperty Name="EquipmentTypeTaskAssignments" Relationship="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_Location" FromRole="Location" ToRole="EquipmentTypeTaskAssignment" />
           <NavigationProperty Name="MasterSchedules" Relationship="JCIEstimateModel.fk_MasterSchedule_Location" FromRole="Location" ToRole="MasterSchedule" />
@@ -5645,6 +5634,7 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="Equipments" Relationship="JCIEstimateModel.fk_equipment_location" FromRole="Location" ToRole="Equipment" />
           <NavigationProperty Name="Estimates" Relationship="JCIEstimateModel.fk_estimate_location" FromRole="Location" ToRole="Estimate" />
           <NavigationProperty Name="Project" Relationship="JCIEstimateModel.fk_location_project" FromRole="Location" ToRole="Project" />
+          <NavigationProperty Name="WarrantyUnits" Relationship="JCIEstimateModel.fk_WarrantyUnit_location" FromRole="Location" ToRole="WarrantyUnit" />
         </EntityType>
         <EntityType Name="LocationIssue">
           <Key>
@@ -5691,10 +5681,10 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
           <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_WarrantyIssue_location" FromRole="WarrantyIssue" ToRole="Location" />
           <NavigationProperty Name="WarrantyAttachments" Relationship="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" FromRole="WarrantyIssue" ToRole="WarrantyAttachment" />
           <NavigationProperty Name="WarrantyStatu" Relationship="JCIEstimateModel.fk_warrantyissue_warrantystatus" FromRole="WarrantyIssue" ToRole="WarrantyStatu" />
-          <NavigationProperty Name="WarrantyUnit" Relationship="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" FromRole="WarrantyIssue" ToRole="WarrantyUnit" />
           <NavigationProperty Name="WarrantyNotes" Relationship="JCIEstimateModel.fk_warrantynote_warrantyissue" FromRole="WarrantyIssue" ToRole="WarrantyNote" />
           <NavigationProperty Name="ProjectUser" Relationship="JCIEstimateModel.fk_WarrantyIssue_ProjectUser" FromRole="WarrantyIssue" ToRole="ProjectUser" />
           <NavigationProperty Name="AspNetUser" Relationship="JCIEstimateModel.fk_AspNetUser_created" FromRole="WarrantyIssue" ToRole="AspNetUser" />
+          <NavigationProperty Name="WarrantyUnit" Relationship="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" FromRole="WarrantyIssue" ToRole="WarrantyUnit" />
         </EntityType>
         <Association Name="fk_LocationIssue_location">
           <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1">
@@ -5718,18 +5708,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
               <PropertyRef Name="locationUid" />
             </Principal>
             <Dependent Role="WarrantyIssue">
-              <PropertyRef Name="locationUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_WarrantyUnit_location">
-          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="JCIEstimateModel.WarrantyUnit" Role="WarrantyUnit" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="locationUid" />
-            </Principal>
-            <Dependent Role="WarrantyUnit">
               <PropertyRef Name="locationUid" />
             </Dependent>
           </ReferentialConstraint>
@@ -5783,18 +5761,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Principal>
             <Dependent Role="WarrantyIssue">
               <PropertyRef Name="warrantyStatusUid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_WarrantyIssue_warrantyunit">
-          <End Type="JCIEstimateModel.WarrantyUnit" Role="WarrantyUnit" Multiplicity="0..1" />
-          <End Type="JCIEstimateModel.WarrantyIssue" Role="WarrantyIssue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WarrantyUnit">
-              <PropertyRef Name="warrantyUnitUid" />
-            </Principal>
-            <Dependent Role="WarrantyIssue">
-              <PropertyRef Name="warrantyUnitUid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -8807,6 +8773,42 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WarrantyUnit">
+          <Key>
+            <PropertyRef Name="warrantyUnitUid" />
+          </Key>
+          <Property Name="warrantyUnitUid" Type="Guid" Nullable="false" />
+          <Property Name="locationUid" Type="Guid" Nullable="false" />
+          <Property Name="warrantyUnit1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="warrantyUnitDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="metasysNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Location" Relationship="JCIEstimateModel.fk_WarrantyUnit_location" FromRole="WarrantyUnit" ToRole="Location" />
+          <NavigationProperty Name="WarrantyIssues" Relationship="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" FromRole="WarrantyUnit" ToRole="WarrantyIssue" />
+        </EntityType>
+        <Association Name="fk_WarrantyUnit_location">
+          <End Type="JCIEstimateModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="JCIEstimateModel.WarrantyUnit" Role="WarrantyUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="locationUid" />
+            </Principal>
+            <Dependent Role="WarrantyUnit">
+              <PropertyRef Name="locationUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_WarrantyIssue_warrantyunit">
+          <End Type="JCIEstimateModel.WarrantyUnit" Role="WarrantyUnit" Multiplicity="0..1" />
+          <End Type="JCIEstimateModel.WarrantyIssue" Role="WarrantyIssue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WarrantyUnit">
+              <PropertyRef Name="warrantyUnitUid" />
+            </Principal>
+            <Dependent Role="WarrantyIssue">
+              <PropertyRef Name="warrantyUnitUid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9079,16 +9081,6 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="warrantyAttachment1" ColumnName="warrantyAttachment" />
                 <ScalarProperty Name="warrantyIssueUid" ColumnName="warrantyIssueUid" />
                 <ScalarProperty Name="warrantyAttachmentUid" ColumnName="warrantyAttachmentUid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WarrantyUnits">
-            <EntityTypeMapping TypeName="JCIEstimateModel.WarrantyUnit">
-              <MappingFragment StoreEntitySet="WarrantyUnit">
-                <ScalarProperty Name="warrantyUnitDescription" ColumnName="warrantyUnitDescription" />
-                <ScalarProperty Name="warrantyUnit1" ColumnName="warrantyUnit" />
-                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
-                <ScalarProperty Name="warrantyUnitUid" ColumnName="warrantyUnitUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -10233,6 +10225,17 @@ warning 6002: The table/view 'JCIEstimate.dbo.v__ExpensePercentage' does not hav
                 <ScalarProperty Name="pdfSnippet" ColumnName="pdfSnippet" />
                 <ScalarProperty Name="ecmUid" ColumnName="ecmUid" />
                 <ScalarProperty Name="ecmPDFSnippetUid" ColumnName="ecmPDFSnippetUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WarrantyUnits">
+            <EntityTypeMapping TypeName="JCIEstimateModel.WarrantyUnit">
+              <MappingFragment StoreEntitySet="WarrantyUnit">
+                <ScalarProperty Name="metasysNumber" ColumnName="metasysNumber" />
+                <ScalarProperty Name="warrantyUnitDescription" ColumnName="warrantyUnitDescription" />
+                <ScalarProperty Name="warrantyUnit1" ColumnName="warrantyUnit" />
+                <ScalarProperty Name="locationUid" ColumnName="locationUid" />
+                <ScalarProperty Name="warrantyUnitUid" ColumnName="warrantyUnitUid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

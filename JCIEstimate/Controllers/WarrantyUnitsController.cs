@@ -54,7 +54,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "warrantyUnitUid,locationUid,warrantyUnit1,warrantyUnitDescription")] WarrantyUnit warrantyUnit)
+        public async Task<ActionResult> Create([Bind(Include = "warrantyUnitUid,locationUid,warrantyUnit1,warrantyUnitDescription,metasysNumber")] WarrantyUnit warrantyUnit)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace JCIEstimate.Controllers
             Guid sessionProject = JCIExtensions.MCVExtensions.getSessionProject();
 
             var locations = db.Locations.Where(c => c.projectUid == sessionProject);
-            ViewBag.locationUid = new SelectList(locations, "locationUid", "location1");
+            ViewBag.locationUid = new SelectList(locations, "locationUid", "location1", warrantyUnit.locationUid);
 
             return View(warrantyUnit);
         }
@@ -93,7 +93,7 @@ namespace JCIEstimate.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "warrantyUnitUid,locationUid,warrantyUnit1,warrantyUnitDescription")] WarrantyUnit warrantyUnit)
+        public async Task<ActionResult> Edit([Bind(Include = "warrantyUnitUid,locationUid,warrantyUnit1,warrantyUnitDescription,metasysNumber")] WarrantyUnit warrantyUnit)
         {
             if (ModelState.IsValid)
             {

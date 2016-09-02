@@ -20,6 +20,9 @@
         <th>
             @Html.DisplayNameFor(model => model.warrantyUnitDescription)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.metasysNumber)
+        </th>
         <th></th>
     </tr>
 
@@ -33,6 +36,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.warrantyUnitDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.metasysNumber)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.warrantyUnitUid }) |

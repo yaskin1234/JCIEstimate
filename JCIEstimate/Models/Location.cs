@@ -18,7 +18,6 @@ namespace JCIEstimate.Models
         {
             this.LocationIssues = new HashSet<LocationIssue>();
             this.WarrantyIssues = new HashSet<WarrantyIssue>();
-            this.WarrantyUnits = new HashSet<WarrantyUnit>();
             this.LocationCompletionCategories = new HashSet<LocationCompletionCategory>();
             this.EquipmentTypeTaskAssignments = new HashSet<EquipmentTypeTaskAssignment>();
             this.MasterSchedules = new HashSet<MasterSchedule>();
@@ -26,6 +25,7 @@ namespace JCIEstimate.Models
             this.ProjectCalendarDayTasks = new HashSet<ProjectCalendarDayTask>();
             this.Equipments = new HashSet<Equipment>();
             this.Estimates = new HashSet<Estimate>();
+            this.WarrantyUnits = new HashSet<WarrantyUnit>();
         }
     
         public System.Guid locationUid { get; set; }
@@ -35,7 +35,6 @@ namespace JCIEstimate.Models
     
         public virtual ICollection<LocationIssue> LocationIssues { get; set; }
         public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }
-        public virtual ICollection<WarrantyUnit> WarrantyUnits { get; set; }
         public virtual ICollection<LocationCompletionCategory> LocationCompletionCategories { get; set; }
         public virtual ICollection<EquipmentTypeTaskAssignment> EquipmentTypeTaskAssignments { get; set; }
         public virtual ICollection<MasterSchedule> MasterSchedules { get; set; }
@@ -44,5 +43,6 @@ namespace JCIEstimate.Models
         public virtual ICollection<Equipment> Equipments { get; set; }
         public virtual ICollection<Estimate> Estimates { get; set; }
         public virtual Project Project { get; set; }
+        public virtual ICollection<WarrantyUnit> WarrantyUnits { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace JCIEstimate.Models
         public System.Guid locationUid { get; set; }
         public string warrantyUnit1 { get; set; }
         public string warrantyUnitDescription { get; set; }
+        public string metasysNumber { get; set; }
     
         public virtual Location Location { get; set; }
         public virtual ICollection<WarrantyIssue> WarrantyIssues { get; set; }

@@ -49,7 +49,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<WarrantyStatu> WarrantyStatus { get; set; }
         public virtual DbSet<WarrantyNote> WarrantyNotes { get; set; }
         public virtual DbSet<WarrantyAttachment> WarrantyAttachments { get; set; }
-        public virtual DbSet<WarrantyUnit> WarrantyUnits { get; set; }
         public virtual DbSet<EquipmentTask> EquipmentTasks { get; set; }
         public virtual DbSet<EquipmentToDo> EquipmentToDoes { get; set; }
         public virtual DbSet<EstimateStatu> EstimateStatus { get; set; }
@@ -145,5 +144,6 @@ namespace JCIEstimate.Models
         public virtual DbSet<UserExpenseType> UserExpenseTypes { get; set; }
         public virtual DbSet<ECM> ECMs { get; set; }
         public virtual DbSet<ECMPDFSnippet> ECMPDFSnippets { get; set; }
+        public virtual DbSet<WarrantyUnit> WarrantyUnits { get; set; }
     }
 }

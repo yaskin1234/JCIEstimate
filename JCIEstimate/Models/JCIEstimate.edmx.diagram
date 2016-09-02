@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="65">
+      <Diagram DiagramId="12f4c5061838451bb877292f551881a9" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="JCIEstimateModel.Category" Width="1.5" PointX="11.875" PointY="10.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.Contractor" Width="1.5" PointX="8.625" PointY="3.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.ContractorContact" Width="2.875" PointX="13.375" PointY="3.625" />
@@ -39,7 +39,6 @@
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyStatu" Width="1.5" PointX="5.375" PointY="0.875" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyNote" Width="1.5" PointX="10.25" PointY="14.125" />
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyAttachment" Width="1.5" PointX="27.875" PointY="6.75" />
-        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyUnit" Width="1.5" PointX="9.625" PointY="10.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentTask" Width="1.5" PointX="21.375" PointY="20.75" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentToDo" Width="1.5" PointX="23.625" PointY="22" />
         <AssociationConnector Association="JCIEstimateModel.fk_equipmenttodo_equipmenttask" />
@@ -58,12 +57,10 @@
         <EntityTypeShape EntityType="JCIEstimateModel.WarrantyIssue" Width="1.5" PointX="23.625" PointY="16.25" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_location" />
-        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyUnit_location" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationIssue_warrantystatus" />
         <AssociationConnector Association="JCIEstimateModel.fk_LocationNote_locationIssue" />
         <AssociationConnector Association="JCIEstimateModel.fk_WarrantyAttachment_warrantyissue" />
         <AssociationConnector Association="JCIEstimateModel.fk_warrantyissue_warrantystatus" />
-        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
         <AssociationConnector Association="JCIEstimateModel.fk_warrantynote_warrantyissue" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentNoteType" Width="1.5" PointX="23.625" PointY="35.625" />
         <EntityTypeShape EntityType="JCIEstimateModel.EquipmentNote" Width="1.5" PointX="25.875" PointY="17.875" />
@@ -294,6 +291,9 @@
         <AssociationConnector Association="JCIEstimateModel.fk_EquipmentTypeTaskAssignment_ECM" />
         <AssociationConnector Association="JCIEstimateModel.fk_estimate_ecm" />
         <AssociationConnector Association="JCIEstimateModel.fk_ProjectRFI_ECM" />
+        <EntityTypeShape EntityType="JCIEstimateModel.WarrantyUnit" Width="1.5" PointX="20.625" PointY="48.5" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyUnit_location" />
+        <AssociationConnector Association="JCIEstimateModel.fk_WarrantyIssue_warrantyunit" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

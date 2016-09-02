@@ -33,9 +33,9 @@ namespace JCIEstimate.Models
         public virtual Location Location { get; set; }
         public virtual ICollection<WarrantyAttachment> WarrantyAttachments { get; set; }
         public virtual WarrantyStatu WarrantyStatu { get; set; }
-        public virtual WarrantyUnit WarrantyUnit { get; set; }
         public virtual ICollection<WarrantyNote> WarrantyNotes { get; set; }
         public virtual ProjectUser ProjectUser { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual WarrantyUnit WarrantyUnit { get; set; }
     }
 }
